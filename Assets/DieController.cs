@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DieController : MonoBehaviour
 {
-    public GameObject manager;
+    public GameObject manager, cameraObj;
     private ManageGame gm;
     public int[] position;
     int width, length;
@@ -43,27 +43,33 @@ public class DieController : MonoBehaviour
     {
         int x = position[0];
         int y = position[1];
-        
-        if (Input.GetKeyDown("a") && !gm.levelData[x -1, y])
+
+        string[] keys = new string[] { "w", "a", "s", "d" };
+
+        CameraScript cs = cameraObj.GetComponent<CameraScript>();
+
+        //Debug.Log(1 + cs.side);
+
+        if (Input.GetKeyDown(keys[(1 + cs.side)%4]) && !gm.levelData[x -1, y])
         {
             x--;
             MoveLeft();
             transform.Rotate(0, 0, 90, Space.World);
 
         }
-        if (Input.GetKeyDown("d") && !gm.levelData[x + 1, y])
+        if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
         {
             x++;
             MoveRight();
             transform.Rotate(0, 0, -90, Space.World);
         }
-        if (Input.GetKeyDown("w") && !gm.levelData[x, y + 1])
+        if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
         {
             y++;
             MoveForward();
             transform.Rotate(90, 0, 0, Space.World);
         }
-        if (Input.GetKeyDown("s") && !gm.levelData[x, y - 1])
+        if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
         {
             y--;
             MoveBack();

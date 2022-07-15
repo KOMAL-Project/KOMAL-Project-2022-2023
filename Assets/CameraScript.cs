@@ -17,6 +17,8 @@ public class CameraScript : MonoBehaviour
 
     private float targetYRotation;
 
+    public int side = 0;
+
     void Start()
     {
         targetYRotation = transform.eulerAngles.y;
@@ -28,6 +30,7 @@ public class CameraScript : MonoBehaviour
         if (Input.GetKeyDown(leftKey) && Time.time >= timeDiff) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
+            side--;
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
@@ -38,12 +41,16 @@ public class CameraScript : MonoBehaviour
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
+            side++;
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;
             }
             //transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y + 90) % 360, transform.eulerAngles.z);
         }
+
+        if (side < 0) side = 3;
+        if (side > 3) side = 0;
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.LerpAngle(transform.eulerAngles.y, targetYRotation, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);
     }

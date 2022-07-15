@@ -256,6 +256,7 @@ MonoBehaviour:
   rightKey: 101
   rotationSpeed: 25
   delayTime: 0.25
+  side: 0
 --- !u!1 &738287495
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,4 +621,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 743416498}
+  cameraObj: {fileID: 564872133}
   position: 

@@ -10,6 +10,25 @@ public class ManageGame : MonoBehaviour
     public GameObject[,] levelData;
     public int[] playerStart;
     
+    enum Tile
+    {
+        mpt, // Nothing
+        chp, // Chip -- nonremovable wall
+        fg1, // Face gates
+        fg2,
+        fg3,
+        fg4,
+        fg5,
+        fg6,
+        cgv, // Charge Giver
+        crc, // Charge Reciever
+
+    }
+    
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
