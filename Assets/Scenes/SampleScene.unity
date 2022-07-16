@@ -476,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Die
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d9de4a004c87d134b8319dfa60f36c64, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9de4a004c87d134b8319dfa60f36c64, type: 3}
 --- !u!1 &1439344573
@@ -622,4 +626,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 743416498}
   cameraObj: {fileID: 564872133}
-  position: 
+  position: {x: 0, y: 0}
+  chargeDirection: {x: 0, y: 0, z: 0}
