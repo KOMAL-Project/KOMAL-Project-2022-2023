@@ -14,7 +14,7 @@ public class DieController : MonoBehaviour
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
 
- 
+    bool canControl = true;
 
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
@@ -45,7 +45,7 @@ public class DieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetInput();
+        if(canControl) GetInput();
         //Debug.Log(gm.levelData);
         
     }
@@ -213,6 +213,7 @@ public class DieController : MonoBehaviour
     {
         if(position == winPos)
         {
+            canControl = false;
             manager.GetComponent<ManageGame>().LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
