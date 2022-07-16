@@ -6,10 +6,10 @@ public class DieController : MonoBehaviour
 {
     public GameObject manager, cameraObj;
     private ManageGame gm;
-    public int[] position;
+    public Vector2Int position = new Vector2Int();
     int width, length;
 
-    Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
+    public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
 
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3.back, 6);
         sides.Add(Vector3.forward, 1);
 
-
+        
         gm = manager.GetComponent<ManageGame>();
         width = gm.width;
         length = gm.length;
@@ -41,9 +41,9 @@ public class DieController : MonoBehaviour
 
     void GetInput()
     {
-        int x = position[0];
-        int y = position[1];
-
+        int x = position.x;
+        int y = position.y;
+;
         string[] keys = new string[] { "w", "a", "s", "d" };
 
         CameraScript cs = cameraObj.GetComponent<CameraScript>();
@@ -55,7 +55,7 @@ public class DieController : MonoBehaviour
             x--;
             MoveLeft();
             transform.Rotate(0, 0, 90, Space.World);
-
+            
         }
         if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
         {
@@ -76,7 +76,8 @@ public class DieController : MonoBehaviour
             transform.Rotate(-90, 0, 0, Space.World);
         }
 
-        position = new int[] { x, y };
+        position = new Vector2Int(x, y);
+        Debug.Log(position);
         transform.position = new Vector3(x - width / 2, 1, y - length / 2);
     }
 
