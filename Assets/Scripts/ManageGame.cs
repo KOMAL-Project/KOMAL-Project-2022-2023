@@ -188,7 +188,7 @@ public class ManageGame : MonoBehaviour
             {
                 for (int k = 0; k < chargeSwitches[j].Count; k++)
                 {
-                    chargeSwitches[j][k].GetComponent<ChargeController>().gatePos = chargeWallPositions[j][k];
+                    chargeSwitches[j][k].GetComponent<ChargeController>().gatePos = chargeWallPositions[j];
                     chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
                 }
             }

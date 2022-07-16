@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChargeController : MonoBehaviour
 {
     public Vector2Int pos;
-    public Vector2Int gatePos;
+    public List<Vector2Int> gatePos;
     public Vector3 gateDirection;
 
     public List<GameObject> doors;
@@ -39,12 +39,19 @@ public class ChargeController : MonoBehaviour
             {
                 pickedUp = false;
             }
-            else if (new Vector2Int(pScript.position.x + (int)pScript.chargeDirection.x, pScript.position.y + (int)pScript.chargeDirection.z) == gatePos)
+            else 
             {
-                gateOpen = true;
-                pickedUp = false;
-                foreach (GameObject door in doors) {
-                    Destroy(door);
+                for (int i = 0; i < gatePos.Count - 1; i++)
+                {
+                    if (new Vector2Int(pScript.position.x + (int)pScript.chargeDirection.x, pScript.position.y + (int)pScript.chargeDirection.z) == gatePos[i])
+                    {
+                        gateOpen = true;
+                        pickedUp = false;
+                        foreach (GameObject door in doors)
+                        {
+                            Destroy(door);
+                        }
+                    }
                 }
             }
         }
