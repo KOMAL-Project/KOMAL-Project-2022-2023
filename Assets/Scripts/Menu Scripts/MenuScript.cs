@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuScript : MonoBehaviour
+public class MenuScript : MonoBehaviour
 {
     
     
@@ -12,7 +12,7 @@ public class MainMenuScript : MonoBehaviour
         
     }
 
-    public void toLevelSelector() {
-
+    public void changeLevel(int level) {
+        return;
     }
 }

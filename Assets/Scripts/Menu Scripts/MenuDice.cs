@@ -34,17 +34,20 @@ public class MenuDice : MonoBehaviour
         while(true) {
             yield return new WaitForSeconds(rate);
             float randX = Random.Range(1, 3) == 1 ? spawnDistance : -spawnDistance;
+            if (!close) {
+                randX = 0;
+            }
             
-            randX += + Random.Range(-spawnWidth, spawnWidth);
+            randX += Random.Range(-spawnWidth, spawnWidth);
             Instantiate(prefab, new Vector3(pos.x + randX, pos.y + height, pos.z + 5), Random.rotation, trans);
         }
     }
 
     public void toggleDiceDistance() {
         if (close) {
-            spawnWidth = 10;
+            spawnWidth = 30;
             close = false;
-            height = 12;
+            height = 15;
         }
         else {
             spawnWidth = initialSpawnWidth;

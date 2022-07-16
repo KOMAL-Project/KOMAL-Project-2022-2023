@@ -16,24 +16,31 @@ public class DiceCameraScript : MonoBehaviour
     void Start()
     {
         trans = GetComponent<Transform>();
-        pos = trans.position;
-        closePos = pos;
-        farPos = new Vector3(pos.x, pos.y, pos.z + farDistance);
+        closePos = trans.position;
+        farPos = new Vector3(trans.position.x, trans.position.y, trans.position.z - farDistance);
     }
 
     public void pullAway() {
         StartCoroutine(pullA());
     }
-   // public void pullToward() {
-        //StartCoroutine();
-    //}
+    public void pullToward() {
+        StartCoroutine(pullT());
+    }
 
-    public IEnumerator pullA() {
+    private IEnumerator pullA() {
         float currentDuration = 0f;
-        Debug.Log(trans.gameObject);
-        while (currentDuration < animationDuration) {
+        while (currentDuration < animationDuration * 1.05) {
             yield return null;
-            pos = Vector3.SmoothDamp(pos, farPos, ref velocity, animationDuration);
+            trans.position = Vector3.SmoothDamp(trans.position, farPos, ref velocity, animationDuration - currentDuration);
+            currentDuration += Time.deltaTime;
+        }
+    }
+
+    private IEnumerator pullT() {
+        float currentDuration = 0f;
+        while (currentDuration < animationDuration * 1.05) {
+            yield return null;
+            trans.position = Vector3.SmoothDamp(trans.position, closePos, ref velocity, animationDuration - currentDuration);
             currentDuration += Time.deltaTime;
         }
     }
