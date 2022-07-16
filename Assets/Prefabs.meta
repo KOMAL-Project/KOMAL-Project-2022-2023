@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 31d2e557a37f1be4c91e1b93c4d76ab5
+=======
+guid: bcfa854c1762ff44887bae97ca2178e3
+>>>>>>> Background
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
