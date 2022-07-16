@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735b1b83912fffb4b9a0c114d07d592c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardTile: {fileID: 738287495}
+  floorTile: {fileID: 9186678779994403599, guid: 82692e79a4b02544c839f778c919ad22, type: 3}
   pipSwitch: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
   pipsWall: {fileID: 6536002394385249457, guid: a1d1d12f813043e438daa2ff1ff74af0, type: 3}
   chargeSwitch: {fileID: 2343222859217045014, guid: 9885cd8cabafba444909f3d42d952c4d, type: 3}
@@ -585,6 +585,21 @@ MonoBehaviour:
   levelID: 2
   level: {fileID: 2800000, guid: 69d953796bebeed4ba40caedda3ca476, type: 3}
   playerStart: 
+  wallTiles:
+  - {fileID: 7397634488168781683, guid: 7ffcc0bf1ffa13e469ce91dcfc8a3408, type: 3}
+  - {fileID: 6952580327067269029, guid: 890e0fae019b9de49901bafc07d57abc, type: 3}
+  - {fileID: 1602238464301116182, guid: 3be2a9305256ea841b4518e75aa3de05, type: 3}
+  - {fileID: 6620889829188957042, guid: 4cc18020de907c847837b8f37dff4e0b, type: 3}
+  - {fileID: 2759826931693988176, guid: 97ca946a0f84e514db7d8479d5c02988, type: 3}
+  - {fileID: 2188759983536146374, guid: 50431db0c37541646888b4627910603a, type: 3}
+  - {fileID: 6080910901779282253, guid: 9addc8a6e1f2df34fb270e46b3798000, type: 3}
+  - {fileID: 6026790050478549325, guid: a320b4052585cfa4b9253175446677be, type: 3}
+  - {fileID: 7889032903895561800, guid: 65ca9fc68d288524c923bebf6d6f68e1, type: 3}
+  - {fileID: 7223607579098585938, guid: a9458d45451210143a3616681c6f46bd, type: 3}
+  - {fileID: 5179227454704997163, guid: 5232722fff4fbcf4f80b65a76e8c86e8, type: 3}
+  - {fileID: 2912838237211240233, guid: 36c59ed40e4c79c4492e8cbf336dba1d, type: 3}
+  - {fileID: 7701972410460827817, guid: 59cb490b898e7464bafad0d1625e42be, type: 3}
+  - {fileID: 2327935894835814373, guid: 72c9dbf6cb8987a4ab405580c4a187b5, type: 3}
 --- !u!4 &743416500
 Transform:
   m_ObjectHideFlags: 0
