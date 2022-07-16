@@ -175,8 +175,8 @@ public class ManageGame : MonoBehaviour
             }
 
 
-            Debug.Log(pipSwitches.Length);
-            Debug.Log(pipWalls.Length);
+            // Debug.Log(pipSwitches.Length);
+            // Debug.Log(pipWalls.Length);
             for (int j = 0; j < 6; j++)
             {
                 for (int k = 0; k < pipSwitches[j].Count; k++)
