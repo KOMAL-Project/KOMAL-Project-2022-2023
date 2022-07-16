@@ -11,6 +11,11 @@ public class CameraScript : MonoBehaviour
     [SerializeField]
     private KeyCode overheadKey = KeyCode.Space;
 
+    public Material wallMat;
+
+    private GameObject cam;
+    private GameObject player;
+
     [SerializeField]
     private float rotationSpeed;
     [SerializeField]
@@ -25,6 +30,8 @@ public class CameraScript : MonoBehaviour
     {
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
+        cam = Camera.main.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
