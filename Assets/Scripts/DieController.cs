@@ -176,7 +176,7 @@ public class DieController : MonoBehaviour
       
 
         position = new Vector2Int(x, y);
-        Debug.Log(position);
+        //Debug.Log(position);
 
         transform.position = new Vector3(x - width / 2, 1, y - length / 2);
     }

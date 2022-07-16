@@ -512,8 +512,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardTile: {fileID: 738287495}
-  faceSwitch: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
+  pipSwitch: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
   pipsWall: {fileID: 6536002394385249457, guid: a1d1d12f813043e438daa2ff1ff74af0, type: 3}
+  chargeSwitch: {fileID: 2343222859217045014, guid: 9885cd8cabafba444909f3d42d952c4d, type: 3}
+  chargeWall: {fileID: 6536002394385249457, guid: a1d1d12f813043e438daa2ff1ff74af0, type: 3}
   board: {fileID: 1439344573}
   die: {fileID: 2078954993}
   width: 0

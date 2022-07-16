@@ -6,7 +6,7 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
-    public GameObject boardTile, faceSwitch, pipsWall, board, die;
+    public GameObject boardTile, pipSwitch, pipsWall, chargeSwitch, chargeWall, board, die;
     public int width, length;
     public Texture2D level;
     public GameObject[,] levelData;
@@ -44,15 +44,20 @@ public class ManageGame : MonoBehaviour
         List<GameObject> pipSwitches = new List<GameObject>();
         List<GameObject> pipsWalls = new List<GameObject>();
 
+        List<GameObject> chargeSwitches = new List<GameObject>();
+        List<GameObject> chargeWalls = new List<GameObject>();
+        List<Vector2Int> chargeWallPositions = new List<Vector2Int>();
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
-
+                // Basic Walls
                 if (level.GetPixel(i, j) == Color.black) levelData[i,j] = Instantiate(boardTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                // Pips Switches
                 if (level.GetPixel(i, j) == Color.cyan)
                 {
-                    GameObject temp = Instantiate(faceSwitch, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    GameObject temp = Instantiate(pipSwitch, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     temp.GetComponent<FaceSwitchController>().thisPos = new Vector2Int(i, j);
                     pipSwitches.Add(temp);
                 }
@@ -61,8 +66,21 @@ public class ManageGame : MonoBehaviour
                     levelData[i, j] = Instantiate(boardTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     pipsWalls.Add(levelData[i, j]);
                 }
-                //Debug.Log(levelData[i, j]);
+                // Charge Switches
+                if (level.GetPixel(i, j) == Color.magenta)
+                {
+                    GameObject temp = Instantiate(chargeSwitch, new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
+                    chargeSwitches.Add(temp);
+                }
                 if (level.GetPixel(i, j) == Color.red)
+                {
+                    levelData[i, j] = Instantiate(chargeWall, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    chargeWalls.Add(levelData[i, j]);
+                    chargeWallPositions.Add(new Vector2Int(i, j));
+                }
+                // Player
+                if (level.GetPixel(i, j) == Color.green)
                 {
                     Debug.Log(i + " " + j);
                     die.GetComponent<DieController>().position = new Vector2Int(i,j);
@@ -70,13 +88,17 @@ public class ManageGame : MonoBehaviour
                     die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
             }
+            
 
             foreach(GameObject g in pipSwitches)
             {
-                foreach(GameObject w in pipsWalls)
-                {
-                    g.GetComponent<FaceSwitchController>().walls.Add(w);
-                }
+                g.GetComponent<FaceSwitchController>().walls = pipsWalls;
+            }
+
+            foreach (GameObject g in chargeSwitches)
+            {
+                g.GetComponent<ChargeController>().gatePos = chargeWallPositions[0];
+                g.GetComponent<ChargeController>().doors = chargeWalls;
             }
         }
 
