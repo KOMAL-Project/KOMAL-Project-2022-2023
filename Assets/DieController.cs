@@ -6,10 +6,12 @@ public class DieController : MonoBehaviour
 {
     public GameObject manager, cameraObj;
     private ManageGame gm;
-    public int[] position;
+    public Vector2Int position;
     int width, length;
 
-    Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
+    public Vector3 chargeDirection;
+
+    public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
 
     // Start is called before the first frame update
@@ -22,7 +24,6 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3.right, 3);
         sides.Add(Vector3.back, 6);
         sides.Add(Vector3.forward, 1);
-
 
         gm = manager.GetComponent<ManageGame>();
         width = gm.width;
@@ -41,8 +42,8 @@ public class DieController : MonoBehaviour
 
     void GetInput()
     {
-        int x = position[0];
-        int y = position[1];
+        int x = position.x;
+        int y = position.y;
 
         string[] keys = new string[] { "w", "a", "s", "d" };
 
@@ -76,7 +77,7 @@ public class DieController : MonoBehaviour
             transform.Rotate(-90, 0, 0, Space.World);
         }
 
-        position = new int[] { x, y };
+        position = new Vector2Int ( x, y );
         transform.position = new Vector3(x - width / 2, 1, y - length / 2);
     }
 
@@ -89,9 +90,19 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.down];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
+
+        if (chargeDirection != Vector3.zero) {
+            if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
+        }
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
-        
+
+
     }
 
     void MoveForward()
@@ -103,6 +114,16 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.up];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.back) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.back;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.forward;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
+        }
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
     }
@@ -116,6 +137,16 @@ public class DieController : MonoBehaviour
         newSides[Vector3.right] = sides[Vector3.down];
         newSides[Vector3.forward] = sides[Vector3.forward];
         newSides[Vector3.back] = sides[Vector3.back];
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.right) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.left;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.right;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
+        }
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
@@ -130,8 +161,17 @@ public class DieController : MonoBehaviour
         newSides[Vector3.right] = sides[Vector3.up];
         newSides[Vector3.forward] = sides[Vector3.forward];
         newSides[Vector3.back] = sides[Vector3.back];
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.left) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.right;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.left;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
+        }
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
     }
-
 }

@@ -57,7 +57,7 @@ public class ManageGame : MonoBehaviour
                 //Debug.Log(levelData[i, j]);
                 if (level.GetPixel(i, j) == Color.red)
                 {
-                    die.GetComponent<DieController>().position = new int[] { i, j };
+                    die.GetComponent<DieController>().position = new Vector2Int(i, j);
                     die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
             }
