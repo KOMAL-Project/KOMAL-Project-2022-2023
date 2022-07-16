@@ -5,7 +5,6 @@ using UnityEngine;
 public class MenuScript : MonoBehaviour
 {
     
-    
     public void Quit() {
         Debug.Log("Game Quit");
         Application.Quit();
@@ -13,6 +12,8 @@ public class MenuScript : MonoBehaviour
     }
 
     public void changeLevel(int level) {
-        return;
+        if (true) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(level, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        }
     }
 }
