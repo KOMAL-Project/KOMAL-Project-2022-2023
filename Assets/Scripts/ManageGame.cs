@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
-    public GameObject boardTile, pipSwitch, pipsWall, chargeSwitch, chargeWall, board, die;
-    public int width, length;
+    public GameObject boardTile, 
+        pipSwitch, pipsWall,
+        chargeSwitch, chargeWall, 
+        winTile, board, die;
+
+    GameObject winSwitchInstance;
+
+    public int width, length, levelID;
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
@@ -61,7 +68,7 @@ public class ManageGame : MonoBehaviour
                     temp.GetComponent<FaceSwitchController>().thisPos = new Vector2Int(i, j);
                     pipSwitches.Add(temp);
                 }
-                if(level.GetPixel(i,j) == Color.blue)
+                if (level.GetPixel(i,j) == Color.blue)
                 {
                     levelData[i, j] = Instantiate(boardTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     pipsWalls.Add(levelData[i, j]);
@@ -78,6 +85,11 @@ public class ManageGame : MonoBehaviour
                     levelData[i, j] = Instantiate(chargeWall, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     chargeWalls.Add(levelData[i, j]);
                     chargeWallPositions.Add(new Vector2Int(i, j));
+                }
+                if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Yellow for Win Switch
+                {
+                    die.GetComponent<DieController>().winPos = new Vector2Int(i, j);
+                    winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
                 if (level.GetPixel(i, j) == Color.green)
@@ -109,6 +121,17 @@ public class ManageGame : MonoBehaviour
         //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
     }
 
+    public void LevelComplete()
+    {
+        winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
+        StartCoroutine(NextLevel());
+    }
 
-    
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+    }
+
+
 }
