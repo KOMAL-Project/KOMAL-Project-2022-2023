@@ -9,12 +9,15 @@ public class DieController : MonoBehaviour
     public Vector2Int position = new Vector2Int();
     int width, length;
 
+    AudioSource move;
+
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
 
     // Start is called before the first frame update
     void Start()
     {
+        move = GetComponentInChildren<AudioSource>();
         // Set up sides
         sides.Add(Vector3.up, 2);
         sides.Add(Vector3.down, 5);
@@ -55,6 +58,7 @@ public class DieController : MonoBehaviour
             x--;
             MoveLeft();
             transform.Rotate(0, 0, 90, Space.World);
+            move.Play();
             
         }
         if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
@@ -62,18 +66,21 @@ public class DieController : MonoBehaviour
             x++;
             MoveRight();
             transform.Rotate(0, 0, -90, Space.World);
+            move.Play();
         }
         if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
         {
             y++;
             MoveForward();
             transform.Rotate(90, 0, 0, Space.World);
+            move.Play();
         }
         if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
         {
             y--;
             MoveBack();
             transform.Rotate(-90, 0, 0, Space.World);
+            move.Play();
         }
 
         position = new Vector2Int(x, y);
