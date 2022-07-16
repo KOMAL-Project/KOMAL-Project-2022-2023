@@ -184,14 +184,14 @@ public class ManageGame : MonoBehaviour
                     pipSwitches[j][k].GetComponent<FaceSwitchController>().walls = pipWalls[j];
                 }
             }
-            for (int j = 0; j < 4; j++)
-            {
-                for (int k = 0; k < chargeSwitches[j].Count; k++)
-                {
-                    chargeSwitches[j][k].GetComponent<ChargeController>().gatePos = chargeWallPositions[j][k];
-                    chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
-                }
-            }
+            //for (int j = 0; j < 4; j++)
+            //{
+            //    for (int k = 0; k < chargeSwitches[j].Count; k++)
+            //    {
+            //        chargeSwitches[j][k].GetComponent<ChargeController>().gatePos = chargeWallPositions[j][k];
+            //        chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
+            //    }
+            //}
         }
 
         for (int i = 0; i < width; i++) 
