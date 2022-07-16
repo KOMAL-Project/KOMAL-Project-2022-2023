@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
@@ -13,7 +14,7 @@ public class ManageGame : MonoBehaviour
 
     GameObject winSwitchInstance;
 
-    public int width, length;
+    public int width, length, levelID;
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
@@ -123,7 +124,14 @@ public class ManageGame : MonoBehaviour
     public void LevelComplete()
     {
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
+        StartCoroutine(NextLevel());
     }
 
-    
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+    }
+
+
 }

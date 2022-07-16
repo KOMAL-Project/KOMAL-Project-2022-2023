@@ -582,6 +582,7 @@ MonoBehaviour:
   die: {fileID: 919132148207692307}
   width: 0
   length: 0
+  levelID: 1
   level: {fileID: 2800000, guid: ed9eb80a80642f045afdf643664c98fa, type: 3}
   playerStart: 
 --- !u!4 &743416500
