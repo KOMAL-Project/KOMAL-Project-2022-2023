@@ -29,10 +29,10 @@ public class DieController : MonoBehaviour
         // Set up sides
         sides.Add(Vector3.up, 1);
         sides.Add(Vector3.down, 6);
-        sides.Add(Vector3.left, 3);
-        sides.Add(Vector3.right, 4);
-        sides.Add(Vector3.back, 2);
-        sides.Add(Vector3.forward, 5);
+        sides.Add(Vector3.left, 2);
+        sides.Add(Vector3.right, 5);
+        sides.Add(Vector3.back, 3);
+        sides.Add(Vector3.forward, 4);
 
 
         gm = manager.GetComponent<ManageGame>();
