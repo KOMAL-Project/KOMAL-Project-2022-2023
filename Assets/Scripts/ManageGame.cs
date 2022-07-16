@@ -305,7 +305,7 @@ public class ManageGame : MonoBehaviour
                             up = 1;
                         }
                     }
-                    else if (j == width - 1)
+                    else if (j == length - 1)
                     {
                         up = 0;
                         if (tempWallData[i - 1, j])
