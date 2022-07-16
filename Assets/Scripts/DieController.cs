@@ -12,15 +12,20 @@ public class DieController : MonoBehaviour
     public Vector3 chargeDirection;
 
     public Vector2Int position = new Vector2Int();
-    public Vector2Int winPos;
+    public Vector2 winPos;
+
+ 
+
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
-    bool control = true;
 
     // Start is called before the first frame update
     void Start()
     {
+
+       
+        
         // Set up sides
         sides.Add(Vector3.up, 2);
         sides.Add(Vector3.down, 5);
@@ -34,12 +39,15 @@ public class DieController : MonoBehaviour
         width = gm.width;
         length = gm.length;
     }
-    
+
+
+
     // Update is called once per frame
     void Update()
     {
-        if(control) GetInput();
+        GetInput();
         //Debug.Log(gm.levelData);
+        
     }
 
     void MoveBack()
@@ -51,7 +59,8 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.down];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
-        
+
+
         if (chargeDirection != Vector3.zero) {
             if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
             else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
@@ -62,6 +71,8 @@ public class DieController : MonoBehaviour
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+
+
     }
 
     void MoveForward()
@@ -73,7 +84,8 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.up];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
-        
+
+
         if (chargeDirection != Vector3.zero)
         {
             if (chargeDirection == Vector3.back) chargeDirection = Vector3.up;
@@ -97,7 +109,8 @@ public class DieController : MonoBehaviour
         newSides[Vector3.right] = sides[Vector3.down];
         newSides[Vector3.forward] = sides[Vector3.forward];
         newSides[Vector3.back] = sides[Vector3.back];
-        
+
+
         if (chargeDirection != Vector3.zero)
         {
             if (chargeDirection == Vector3.right) chargeDirection = Vector3.up;
@@ -106,10 +119,71 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
         }
-        
+
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+
     }
+
+    void GetInput()
+    {
+        int x = position.x;
+        int y = position.y;
+
+        string[] keys = new string[] { "s", "d", "w", "a" };
+
+        CameraScript cs = cameraObj.GetComponent<CameraScript>();
+
+        //Debug.Log(1 + cs.side);
+
+        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
+        {
+            x--;
+            MoveLeft();
+            transform.Rotate(0, 0, 90, Space.World);
+
+        
+
+
+        }
+        if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
+        {
+            x++;
+            MoveRight();
+            transform.Rotate(0, 0, -90, Space.World);
+
+           
+
+        }
+        if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
+        {
+            y++;
+            MoveForward();
+            transform.Rotate(90, 0, 0, Space.World);
+
+           
+        }
+        if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
+        {
+            y--;
+            MoveBack();
+            transform.Rotate(-90, 0, 0, Space.World);
+
+        }
+
+        position = new Vector2Int(x, y);
+
+      
+
+        position = new Vector2Int(x, y);
+        //Debug.Log(position);
+        WinCheck();
+        transform.position = new Vector3(x - width / 2, 1, y - length / 2);
+    }
+    
+
+    
 
     void MoveRight()
     {
@@ -135,62 +209,13 @@ public class DieController : MonoBehaviour
         sides = newSides;
     }
 
-    void GetInput()
-    {
-        int x = position.x;
-        int y = position.y;
-
-        string[] keys = new string[] { "w", "a", "s", "d" };
-
-        CameraScript cs = cameraObj.GetComponent<CameraScript>();
-
-        //Debug.Log(1 + cs.side);
-
-        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
-        {
-            x--;
-            MoveLeft();
-            transform.Rotate(0, 0, 90, Space.World);
-        }
-        if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
-        {
-            x++;
-            MoveRight();
-            transform.Rotate(0, 0, -90, Space.World);
-        }
-        if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
-        {
-            y++;
-            MoveForward();
-            transform.Rotate(90, 0, 0, Space.World);
-        }
-        if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
-        {
-            y--;
-            MoveBack();
-            transform.Rotate(-90, 0, 0, Space.World);
-        }
-        position = new Vector2Int(x, y);
-        //Debug.Log(position);
-
-        transform.position = new Vector3(x - width / 2, 1, y - length / 2);
-        WinCheck();
-
-    }
-    
     void WinCheck()
     {
-        if (position == winPos)
+        if(position == winPos)
         {
-            Debug.Log("WIN");
             manager.GetComponent<ManageGame>().LevelComplete();
-            GetComponentInChildren<Animator>().SetTrigger("Go");
-            control = false;
             transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-        else
-        {
-            Debug.Log("d: " + position.ToString() + " w: " + winPos.ToString());
+            GetComponentInChildren<Animator>().SetTrigger("Go");
         }
     }
 

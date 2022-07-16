@@ -340,7 +340,7 @@ public class ManageGame : MonoBehaviour
                             up = 1;
                         }
                     }
-                    Debug.Log("added tile: " + left + right + up + down);
+                    // Debug.Log("added tile: " + left + right + up + down);
                     levelData[i, j] = Instantiate(wallDirections[left.ToString() + right.ToString() + up.ToString() + down.ToString()], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
             }
