@@ -12,8 +12,9 @@ public class MenuScript : MonoBehaviour
     }
 
     public void changeLevel(int level) {
-        if (true) {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(level, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        if (ManageGame.furthestLevel + 1 >= level) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Level " + (level));
         }
     }
+    
 }

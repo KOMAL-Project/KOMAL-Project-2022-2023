@@ -18,8 +18,7 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
-    
-
+    public static int furthestLevel;
 
     Color[] pipSwitchColors = new Color[]
     {
@@ -353,8 +352,10 @@ public class ManageGame : MonoBehaviour
 
     public void LevelComplete()
     {
+        levelID = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
+
     }
 
     IEnumerator NextLevel()
