@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pips: 2
   walls: []
-  thisPos: {x: 0, y: 0}
+  thisPos: {x: 8, y: 1}
   playerPos: {x: 0, y: 0}
   player: {fileID: 0}
 --- !u!1 &2506385081820613790

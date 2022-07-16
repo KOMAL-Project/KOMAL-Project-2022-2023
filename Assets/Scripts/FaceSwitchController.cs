@@ -14,6 +14,7 @@ public class FaceSwitchController : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         GetComponentInChildren<TextMeshPro>().text = pips.ToString();
     }
 
