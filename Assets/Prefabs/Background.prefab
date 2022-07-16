@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rate: 1
-  prefab: {fileID: 1177130079277256760, guid: 076c1cf89cec9d14ea6453e75b114816, type: 3}
+  prefab: {fileID: 5786963589963495786, guid: 627d8117ba9aba34da1185ec0054de80, type: 3}
   magnitude: 25
   height: 9
 --- !u!1 &6031497843008499032
