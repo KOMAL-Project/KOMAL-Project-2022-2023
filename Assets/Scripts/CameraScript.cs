@@ -9,6 +9,11 @@ public class CameraScript : MonoBehaviour
     [SerializeField]
     private KeyCode rightKey = KeyCode.E;
 
+    public Material wallMat;
+
+    private GameObject cam;
+    private GameObject player;
+
     [SerializeField]
     private float rotationSpeed;
     [SerializeField]
@@ -23,6 +28,8 @@ public class CameraScript : MonoBehaviour
     {
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
+        cam = Camera.main.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
@@ -53,5 +60,7 @@ public class CameraScript : MonoBehaviour
         if (side > 3) side = 0;
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.LerpAngle(transform.eulerAngles.y, targetYRotation, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);
+
+
     }
 }
