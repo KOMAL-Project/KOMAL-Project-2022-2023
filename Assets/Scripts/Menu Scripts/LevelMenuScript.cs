@@ -21,6 +21,9 @@ public class LevelMenuScript : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing) || (ManageGame.levelFinishing && menuType > 0)) {
             changeActiveMenu();
         } 
+        if (Input.GetKeyDown(KeyCode.R) && !ManageGame.levelFinishing) {
+            restartLevel();
+        }
     }
 
     public void restartLevel() {
