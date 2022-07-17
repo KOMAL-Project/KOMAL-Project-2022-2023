@@ -22,7 +22,7 @@ public class ChargeController : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        pScript = player.GetComponent<DieController>();
+        pScript = player.GetComponentInChildren<DieController>();
         mg = FindObjectOfType<ManageGame>();
     }
 

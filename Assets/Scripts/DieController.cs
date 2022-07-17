@@ -14,6 +14,11 @@ public class DieController : MonoBehaviour
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
 
+    public Texture2D[] ghostTextures = new Texture2D[6];
+    public Sprite[] ghosts = new Sprite[6];
+
+    public GameObject frontFace, backFace, leftFace, rightFace;
+
     bool canControl = true;
 
 
@@ -21,10 +26,20 @@ public class DieController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        // set up ghosts
+        for (int i = 0; i < 6; i++)
+        {
+            Rect rect = new Rect(0, 0, 10, 10);
+            ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
+        }
 
-       
+
+        manager = GameObject.FindGameObjectWithTag("GameController");
+        Debug.Log(manager);
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        Debug.Log(cameraObj);
         
         // Set up sides
         sides.Add(Vector3.up, 1);
@@ -47,7 +62,16 @@ public class DieController : MonoBehaviour
     {
         if(canControl) GetInput();
         //Debug.Log(gm.levelData);
+        updateFaces();
         
+    }
+
+    void updateFaces()
+    {
+        frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
+        backFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.back] - 1];
+        rightFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.right] - 1];
+        leftFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.left] - 1];
     }
 
     void MoveBack()
@@ -137,39 +161,31 @@ public class DieController : MonoBehaviour
 
         //Debug.Log(1 + cs.side);
 
+        
+
         if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
         {
             x--;
             MoveLeft();
             transform.Rotate(0, 0, 90, Space.World);
-
-        
-
-
         }
         if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
         {
             x++;
             MoveRight();
             transform.Rotate(0, 0, -90, Space.World);
-
-           
-
         }
         if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
         {
             y++;
             MoveForward();
             transform.Rotate(90, 0, 0, Space.World);
-
-           
         }
         if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
         {
             y--;
             MoveBack();
             transform.Rotate(-90, 0, 0, Space.World);
-
         }
 
         position = new Vector2Int(x, y);
@@ -179,7 +195,7 @@ public class DieController : MonoBehaviour
         position = new Vector2Int(x, y);
         //Debug.Log(position);
         WinCheck();
-        transform.position = new Vector3(x - width / 2, 1, y - length / 2);
+        transform.parent.position = new Vector3(x - width / 2, 1, y - length / 2);
     }
     
 
