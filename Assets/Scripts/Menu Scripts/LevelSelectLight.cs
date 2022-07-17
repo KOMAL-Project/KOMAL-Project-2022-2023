@@ -17,8 +17,8 @@ public class LevelSelectLight : MonoBehaviour
             image.color = new Color(0.818f, 0.818f, 0.818f, 1);
         }
         else {
-            button.enabled = false;
-            image.color = new Color(0.2f, 0.2f, 0.2f, 1);
+            //button.enabled = false;
+            //image.color = new Color(0.2f, 0.2f, 0.2f, 1);
         }
 
     }

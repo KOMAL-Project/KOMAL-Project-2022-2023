@@ -28,6 +28,8 @@ public class DieController : MonoBehaviour
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
+    public static int totalDiceMoves = 0;
+
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
 
@@ -246,6 +248,8 @@ public class DieController : MonoBehaviour
         }
         source.clip = diceHit;
         source.Play();
+
+        totalDiceMoves++;
 
         position += moveVec;
         WinCheck();

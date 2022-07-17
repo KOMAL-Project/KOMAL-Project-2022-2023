@@ -23,7 +23,7 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
-    public static int furthestLevel;
+    public static int furthestLevel = 18;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
 
@@ -390,7 +390,12 @@ public class ManageGame : MonoBehaviour
     {
 
         yield return new WaitForSecondsRealtime(5);
-        SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+        if (levelID != 18) {
+            SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+        }
+        else {
+            SceneManager.LoadSceneAsync("End Screen");
+        }
     }
 
 
