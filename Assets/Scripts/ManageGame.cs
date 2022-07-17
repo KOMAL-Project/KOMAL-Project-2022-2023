@@ -11,6 +11,7 @@ public class ManageGame : MonoBehaviour
         pipSwitch, pipsWall,
         chargeSwitch, chargeWall, 
         winTile, board, die;
+    public static int totalMoves = 0;
 
     GameObject winSwitchInstance;
 
