@@ -11,7 +11,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField]
     private KeyCode overheadKey = KeyCode.Space;
 
-    public int xAngle;
+    public int xAngle = 60;
 
     public Material wallMat;
 
@@ -24,7 +24,7 @@ public class CameraScript : MonoBehaviour
     private float delayTime = 0.25f;
     private float timeDiff;
 
-    private float targetYRotation, targetXRotation = -30;
+    private float targetYRotation, targetXRotation = -60;
 
     public int side = 0;
 
