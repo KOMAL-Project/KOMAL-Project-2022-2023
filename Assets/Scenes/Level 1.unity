@@ -363,6 +363,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Menus
       objectReference: {fileID: 0}
+    - target: {fileID: 6999336591337557244, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
 --- !u!1 &1552421035

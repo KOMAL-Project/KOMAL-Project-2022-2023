@@ -12,7 +12,6 @@ public class LevelSelectLight : MonoBehaviour
     {
         button = GetComponent<UnityEngine.UI.Button>();
         image = GetComponent<UnityEngine.UI.Image>();
-        Debug.Log(image.gameObject);
         if (ManageGame.furthestLevel + 1 >= level) {
             button.enabled = true;
             image.color = new Color(0.818f, 0.818f, 0.818f, 1);

@@ -7,6 +7,7 @@ public class LevelMenuScript : MonoBehaviour
 {
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject options;
+    [SerializeField] private GameObject cam;
     private int menuType = 0;
     private DieController die;
 
@@ -35,11 +36,13 @@ public class LevelMenuScript : MonoBehaviour
 
         if (menuType == 0) {
             menuType++;
+            cam.SetActive(true);
             pause.SetActive(true);
             die.canControl = false;
         }
         else if (menuType == 1) {
             menuType--;
+            cam.SetActive(false);
             pause.SetActive(false);
             die.canControl = true;
             

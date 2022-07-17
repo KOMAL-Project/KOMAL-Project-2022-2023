@@ -4,26 +4,38 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip start;
     [SerializeField] private AudioClip loop;
     
     private AudioSource source;
+    private static MusicManager instance = null;
+    public static MusicManager Instance { 
+        get {return instance;} 
+        }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        
+        } else {
+            instance = this;
+        }
+
         source = GetComponent<AudioSource>();
-        source.clip = start;
+        source.clip = loop;
+
+        playMusic();
+        DontDestroyOnLoad(transform.gameObject);
+    }
+
+    void playMusic() {
+        if (source.isPlaying) {
+            return;
+        }
         source.Play();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (!source.isPlaying) {
-            source.clip = loop;
-            source.loop = true;
-            source.Play();
-        }
-    }
+    
 }

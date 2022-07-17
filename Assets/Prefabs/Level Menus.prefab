@@ -685,6 +685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pause: {fileID: 6384016288137156194}
   options: {fileID: 6384016287089255147}
+  cam: {fileID: 6999336591337557244}
 --- !u!1 &6384016287089255147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,7 +1382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5390414587874314234
 Transform:
   m_ObjectHideFlags: 0

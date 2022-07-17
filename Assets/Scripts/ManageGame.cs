@@ -370,7 +370,7 @@ public class ManageGame : MonoBehaviour
 
     public void LevelComplete()
     {
-        levelID = Mathf.Max(levelID, furthestLevel);
+        furthestLevel = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
 
