@@ -365,7 +365,7 @@ public class ManageGame : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(levelData);
+        
     }
 
     public void LevelComplete()

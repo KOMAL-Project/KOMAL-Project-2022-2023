@@ -54,6 +54,7 @@ MonoBehaviour:
   rotationSpeed: 25
   delayTime: 0.25
   side: 0
+
 --- !u!95 &6743214991744941457
 Animator:
   serializedVersion: 4
@@ -74,6 +75,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+
 --- !u!1 &2043654806468811949
 GameObject:
   m_ObjectHideFlags: 0

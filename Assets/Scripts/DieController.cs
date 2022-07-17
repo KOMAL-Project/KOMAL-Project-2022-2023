@@ -20,7 +20,7 @@ public class DieController : MonoBehaviour
 
     public GameObject frontFace, backFace, leftFace, rightFace;
 
-    bool canControl = true;
+    public bool canControl = true;
     private bool isMoving;
 
     [SerializeField]
