@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423061935622639730}
-  m_Mesh: {fileID: -2432090755550338912, guid: d5b37dd3e4c544940ac1be99235cceed, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 11a2acace67de66419f47bebe6439a39, type: 3}
 --- !u!23 &7105482388269555351
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
   pos: {x: 0, y: 0}
   gatePos: []
   gateDirection: {x: 0, y: 0, z: 0}
+  type: 0
   mats:
   - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
   - {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}

@@ -218,7 +218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"X" Tiles will become unusable once you step off them.'
+  m_text: '"X" Tiles will become blocked once you step off them.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a11bda3399ebe7b4b861df4a1eec6270, type: 2}
   m_sharedMaterial: {fileID: -3387925514434199789, guid: a11bda3399ebe7b4b861df4a1eec6270, type: 2}
