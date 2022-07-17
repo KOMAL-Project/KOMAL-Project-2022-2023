@@ -23,7 +23,11 @@ public class DieController : MonoBehaviour
     public bool canControl = true;
     private bool isMoving;
 
-    [SerializeField]
+    
+    [SerializeField] List<Material> spades, hearts, clubs, diamonds;
+    [SerializeField] List<Material>[] mt; 
+    [SerializeField] Material baseMT;
+    
     private float rollSpeed = 6.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
@@ -32,6 +36,7 @@ public class DieController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        mt = new List<Material>[]{spades, hearts, clubs, diamonds };
         // set up ghosts
         for (int i = 0; i < 6; i++)
         {
@@ -258,6 +263,16 @@ public class DieController : MonoBehaviour
             GetComponentInChildren<Animator>().SetTrigger("Go");
             cameraObj.GetComponent<Animator>().SetTrigger("Go");
         }
+    }
+    
+    public void PowerUp(int type)
+    {
+        GetComponentInChildren<MeshRenderer>().material = mt[type][sides[Vector3.down] - 1];
+    }
+
+    public void PowerDown()
+    {
+        GetComponentInChildren<MeshRenderer>().material = baseMT;
     }
 
 }
