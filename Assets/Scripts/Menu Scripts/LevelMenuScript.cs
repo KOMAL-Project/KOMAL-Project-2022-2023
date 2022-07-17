@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
 
 public class LevelMenuScript : MonoBehaviour
 {
@@ -33,16 +34,18 @@ public class LevelMenuScript : MonoBehaviour
     public void changeActiveMenu() {
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
+        UniversalAdditionalCameraData camData = cam.GetComponent<Camera>().GetComponent<UniversalAdditionalCameraData>();
+        
 
         if (menuType == 0) {
             menuType++;
-            cam.SetActive(true);
+            camData.renderPostProcessing = true;
             pause.SetActive(true);
             die.canControl = false;
         }
         else if (menuType == 1) {
             menuType--;
-            cam.SetActive(false);
+            camData.renderPostProcessing = true;
             pause.SetActive(false);
             die.canControl = true;
             
