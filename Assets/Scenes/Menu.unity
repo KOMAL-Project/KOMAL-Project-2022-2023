@@ -8836,6 +8836,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Start
       objectReference: {fileID: 0}
+    - target: {fileID: 2909307812121172747, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: m_text
+      value: Start
+      objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 4

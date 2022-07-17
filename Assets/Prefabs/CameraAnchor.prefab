@@ -52,6 +52,7 @@ MonoBehaviour:
   rotationSpeed: 25
   delayTime: 0.25
   side: 0
+  cameraOverlay: {fileID: 5176855313258734315, guid: ea321ded51b8591499e68f85c9056b7a, type: 3}
 --- !u!1 &2043654806468811949
 GameObject:
   m_ObjectHideFlags: 0

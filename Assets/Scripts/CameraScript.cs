@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CameraScript : MonoBehaviour
 {
@@ -26,12 +27,16 @@ public class CameraScript : MonoBehaviour
 
     public int side = 0;
 
+
     void Start()
     {
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
         cam = Camera.main.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
+
+        UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
+        camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
     }
 
     private void Update()
