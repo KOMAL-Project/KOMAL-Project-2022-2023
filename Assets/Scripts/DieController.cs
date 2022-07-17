@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class DieController : MonoBehaviour
 {
@@ -14,18 +15,36 @@ public class DieController : MonoBehaviour
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
 
-    bool canControl = true;
+    public Texture2D[] ghostTextures = new Texture2D[6];
+    public Sprite[] ghosts = new Sprite[6];
 
+    public GameObject frontFace, backFace, leftFace, rightFace;
+
+    bool canControl = true;
+    private bool isMoving;
+
+    [SerializeField]
+    private float rollSpeed = 3.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        // set up ghosts
+        for (int i = 0; i < 6; i++)
+        {
+            Rect rect = new Rect(0, 0, 10, 10);
+            ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
+        }
 
-       
-        
+
+        manager = GameObject.FindGameObjectWithTag("GameController");
+        Debug.Log(manager);
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        Debug.Log(cameraObj);
+
         // Set up sides
         sides.Add(Vector3.up, 1);
         sides.Add(Vector3.down, 6);
@@ -45,9 +64,22 @@ public class DieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canControl) GetInput();
+        if(canControl && !isMoving) GetInput();
         //Debug.Log(gm.levelData);
+        updateFaces();
         
+    }
+
+    void updateFaces()
+    {
+        frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
+        frontFace.transform.position = new Vector3(transform.position.x, .55f, transform.position.z + 1.05f);
+        backFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.back] - 1];
+        backFace.transform.position = new Vector3(transform.position.x, .55f, transform.position.z - 1.05f);
+        rightFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.right] - 1];
+        rightFace.transform.position = new Vector3(transform.position.x + 1.05f, .55f, transform.position.z);
+        leftFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.left] - 1];
+        leftFace.transform.position = new Vector3(transform.position.x - 1.05f, .55f, transform.position.z);
     }
 
     void MoveBack()
@@ -137,49 +169,38 @@ public class DieController : MonoBehaviour
 
         //Debug.Log(1 + cs.side);
 
-        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
-        {
-            x--;
-            MoveLeft();
-            transform.Rotate(0, 0, 90, Space.World);
-
         
 
+        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
+        {
+            var anchor = transform.position + new Vector3(-0.5f, -0.5f, 0.0f);
+            var axis = Vector3.Cross(Vector3.up, Vector3.left);
 
+            StartCoroutine(Roll(anchor, axis, MoveLeft, new Vector2Int(-1, 0)));
         }
         if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
         {
-            x++;
-            MoveRight();
-            transform.Rotate(0, 0, -90, Space.World);
+            var anchor = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
+            var axis = Vector3.Cross(Vector3.up, Vector3.right);
 
-           
-
+            StartCoroutine(Roll(anchor, axis, MoveRight, new Vector2Int(1, 0)));
         }
         if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
         {
-            y++;
-            MoveForward();
-            transform.Rotate(90, 0, 0, Space.World);
+            var anchor = transform.position + new Vector3(0.0f, -0.5f, 0.5f);
+            var axis = Vector3.Cross(Vector3.up, Vector3.forward);
 
-           
+            StartCoroutine(Roll(anchor, axis, MoveForward, new Vector2Int(0, 1)));
         }
         if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
         {
-            y--;
-            MoveBack();
-            transform.Rotate(-90, 0, 0, Space.World);
+            var anchor = transform.position + new Vector3(0.0f, -0.5f, -0.5f);
+            var axis = Vector3.Cross(Vector3.up, Vector3.back);
 
+            StartCoroutine(Roll(anchor, axis, MoveBack, new Vector2Int(0, -1)));
         }
 
-        position = new Vector2Int(x, y);
-
-      
-
-        position = new Vector2Int(x, y);
         //Debug.Log(position);
-        WinCheck();
-        transform.position = new Vector3(x - width / 2, 1, y - length / 2);
     }
     
 
@@ -207,6 +228,24 @@ public class DieController : MonoBehaviour
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+    }
+
+    IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
+        isMoving = true;
+
+        for (int i = 0; i < (90 / rollSpeed); i++) 
+        {
+            transform.RotateAround(anchor, axis, rollSpeed);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        position += moveVec;
+        WinCheck();
+        frontFace.transform.position = transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
+
+        func();
+
+        isMoving = false;
     }
 
     void WinCheck()
