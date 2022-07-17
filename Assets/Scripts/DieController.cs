@@ -256,6 +256,7 @@ public class DieController : MonoBehaviour
             manager.GetComponent<ManageGame>().LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
+            cameraObj.GetComponent<Animator>().SetTrigger("Go");
         }
     }
 
