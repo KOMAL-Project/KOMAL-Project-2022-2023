@@ -258,34 +258,14 @@ MonoBehaviour:
   rightFace: {fileID: 1111317615576484905}
   canControl: 1
   spades:
-  - {fileID: 2100000, guid: e505e6b0a0fb7504094c62dd4750733c, type: 2}
-  - {fileID: 2100000, guid: c0e5662c50b20824189e7325f54e06fe, type: 2}
-  - {fileID: 2100000, guid: 9d5343990d210a44b884d1ebd679a71b, type: 2}
-  - {fileID: 2100000, guid: 048f494065c6fef448fae6d4efd1cf1f, type: 2}
-  - {fileID: 2100000, guid: b52d9547e28888544a8e007eb0dc8219, type: 2}
-  - {fileID: 2100000, guid: 0fdd484b146cb054d8935426af8f9f0e, type: 2}
+  - {fileID: 0}
   hearts:
-  - {fileID: 2100000, guid: 8f88032a90abce94fa05e0904274efba, type: 2}
-  - {fileID: 2100000, guid: bd20a9c7046f285449d1e36be5959612, type: 2}
-  - {fileID: 2100000, guid: 9f9e27ad1b5b4294aa446393e01bc9c3, type: 2}
-  - {fileID: 2100000, guid: c6dbf50010bceca478c699ebb052d165, type: 2}
-  - {fileID: 2100000, guid: 6a5e360fd4f3acd459fb3fc908a2c259, type: 2}
-  - {fileID: 2100000, guid: 4d23135116b611a4ab0fd2441e56a4c8, type: 2}
+  - {fileID: 0}
   clubs:
-  - {fileID: 2100000, guid: 8121184971fe9ae469c5521fb876e7d3, type: 2}
-  - {fileID: 2100000, guid: 017aaa5c6db0ec94a870f17156defb14, type: 2}
-  - {fileID: 2100000, guid: 3baeb06f91736fd449a1af11933605df, type: 2}
-  - {fileID: 2100000, guid: 71b4461e6e4937f489fa6805f7afc6f1, type: 2}
-  - {fileID: 2100000, guid: ad25741bb5832bc498504502e34fc392, type: 2}
-  - {fileID: 2100000, guid: 33495509ff674874dad98f7c501ae27e, type: 2}
+  - {fileID: 0}
   diamonds:
-  - {fileID: 2100000, guid: 774f4ee01bc63f3449363329518be5fc, type: 2}
-  - {fileID: 2100000, guid: d874658ecb6084d4b95a290e7505f6ee, type: 2}
-  - {fileID: 2100000, guid: 10e49ef368a18914e82c6e480f6001b2, type: 2}
-  - {fileID: 2100000, guid: c8e5083fecb4a374b8ba7932040d64c9, type: 2}
-  - {fileID: 2100000, guid: b49b2183f9c62cf458525571e3291359, type: 2}
-  - {fileID: 2100000, guid: c03c3445c0cbdae4d82d29946dc1eb9f, type: 2}
-  baseMT: {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
+  - {fileID: 0}
+  baseMT: {fileID: 0}
   diceHit: {fileID: 0}
 --- !u!1 &4723431862766478839
 GameObject:
