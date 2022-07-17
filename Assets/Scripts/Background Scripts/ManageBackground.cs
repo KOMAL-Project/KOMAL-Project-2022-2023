@@ -6,12 +6,13 @@ public class ManageBackground : MonoBehaviour
 {
     [SerializeField] private float rate = 1f;
     [SerializeField] private GameObject prefab;
-    [SerializeField] private float magnitude;
-    [SerializeField] private float height = 10;
+    
+    private Transform trans;
 
     // Start is called before the first frame update
     void Start()
     {
+        trans = GetComponent<Transform>();
         StartCoroutine(chipClock());
     }
 
@@ -24,9 +25,7 @@ public class ManageBackground : MonoBehaviour
     private IEnumerator chipClock() {
         while (true) {
             yield return new WaitForSeconds(rate);
-            float magnitudeRand = magnitude + Random.Range(0, 15);
-            float angle = Random.Range(0, 2 * Mathf.PI);
-            Instantiate(prefab, new Vector3(magnitudeRand * Mathf.Sin(angle), height, magnitudeRand * Mathf.Cos(angle)), prefab.transform.rotation, GetComponent<Transform>());
+            Instantiate(prefab, new Vector3(Random.Range(-10, 10), Random.Range(-3, 7), Random.Range(5, 8)), Random.rotation, trans);
         }
     }
 }
