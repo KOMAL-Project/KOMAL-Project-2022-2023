@@ -131,6 +131,7 @@ MonoBehaviour:
   pos: {x: 0, y: 0}
   gatePos: []
   gateDirection: {x: 0, y: 0, z: 0}
+  type: 0
   mats:
   - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
   - {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
