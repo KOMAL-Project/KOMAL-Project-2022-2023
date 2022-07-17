@@ -24,6 +24,7 @@ public class ManageGame : MonoBehaviour
     public GameObject[,] levelData;
     public int[] playerStart;
     public static int furthestLevel = 0;
+    public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
 
@@ -79,6 +80,8 @@ public class ManageGame : MonoBehaviour
         }
 
         die = GameObject.FindGameObjectWithTag("Player");
+
+        levelFinishing = false;
 
         wallDirections = new Dictionary<string, GameObject>
         {
@@ -380,6 +383,7 @@ public class ManageGame : MonoBehaviour
 
     public void LevelComplete()
     {
+        levelFinishing = true;
         furthestLevel = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
