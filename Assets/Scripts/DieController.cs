@@ -28,6 +28,9 @@ public class DieController : MonoBehaviour
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
+    [SerializeField] private AudioClip diceHit;
+    private AudioSource source;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -45,6 +48,8 @@ public class DieController : MonoBehaviour
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
         Debug.Log(cameraObj);
 
+        source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
+
         // Set up sides
         sides.Add(Vector3.up, 1);
         sides.Add(Vector3.down, 6);
@@ -58,6 +63,7 @@ public class DieController : MonoBehaviour
         width = gm.width;
         length = gm.length;
     }
+
 
 
 
@@ -238,6 +244,8 @@ public class DieController : MonoBehaviour
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
         }
+        source.clip = diceHit;
+        source.Play();
 
         position += moveVec;
         WinCheck();

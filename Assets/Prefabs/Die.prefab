@@ -256,7 +256,9 @@ MonoBehaviour:
   backFace: {fileID: 6832069935840380237}
   leftFace: {fileID: 5437983938488200971}
   rightFace: {fileID: 1111317615576484905}
+  canControl: 1
   rollSpeed: 3
+  diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
 --- !u!1 &4723431862766478839
 GameObject:
   m_ObjectHideFlags: 0
