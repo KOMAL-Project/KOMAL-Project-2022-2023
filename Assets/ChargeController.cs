@@ -8,6 +8,8 @@ public class ChargeController : MonoBehaviour
     public List<Vector2Int> gatePos;
     public Vector3 gateDirection;
 
+    public int type;
+
     public Material[] mats = new Material[2];
 
     public List<GameObject> doors;
@@ -38,12 +40,14 @@ public class ChargeController : MonoBehaviour
             if (pScript.position == pos)
             {
                 pickedUp = true;
+                player.GetComponentInChildren<DieController>().PowerUp(type);
                 pScript.chargeDirection = Vector3.down;
                 rend.material = mats[1];
             }
             if (pScript.chargeDirection == Vector3.zero)
             {
                 pickedUp = false;
+                player.GetComponentInChildren<DieController>().PowerDown();
                 rend.material = mats[0];
             }
             else 
@@ -54,6 +58,7 @@ public class ChargeController : MonoBehaviour
                     {
                         gateOpen = true;
                         pickedUp = false;
+                        player.GetComponentInChildren<DieController>().PowerDown();
                         rend.material = mats[1];
 
                         foreach (var door in doors) {
