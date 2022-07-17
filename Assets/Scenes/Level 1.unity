@@ -308,6 +308,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &449713559 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8029556152910324362, guid: 3faca8634b3b0ea45832c736f9e5c42c, type: 3}
+  m_PrefabInstance: {fileID: 7183205220519381145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1552421035
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +490,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: die
+      value: 
+      objectReference: {fileID: 449713559}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: level
       value: 
       objectReference: {fileID: 2800000, guid: ed9eb80a80642f045afdf643664c98fa, type: 3}
@@ -492,6 +501,26 @@ PrefabInstance:
       propertyPath: levelID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: chargeWalls.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: chargeWalls.Array.data[0]
+      value: 
+      objectReference: {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: chargeWalls.Array.data[1]
+      value: 
+      objectReference: {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: chargeWalls.Array.data[2]
+      value: 
+      objectReference: {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: chargeWalls.Array.data[3]
+      value: 
+      objectReference: {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
     - target: {fileID: 2201775946093453423, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_Name
       value: GameManager

@@ -5,7 +5,7 @@ using System;
 
 public class DieController : MonoBehaviour
 {
-    public GameObject manager, cameraObj;
+    public GameObject cameraObj;
     private ManageGame gm;
 
     int width, length;
@@ -20,7 +20,7 @@ public class DieController : MonoBehaviour
 
     public GameObject frontFace, backFace, leftFace, rightFace;
 
-    bool canControl = true;
+    public bool canControl = true;
     private bool isMoving;
 
     [SerializeField]
@@ -39,9 +39,6 @@ public class DieController : MonoBehaviour
             ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
         }
 
-
-        manager = GameObject.FindGameObjectWithTag("GameController");
-        Debug.Log(manager);
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
         Debug.Log(cameraObj);
 
@@ -54,7 +51,7 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3.forward, 4);
 
 
-        gm = manager.GetComponent<ManageGame>();
+        gm = FindObjectOfType<ManageGame>();
         width = gm.width;
         length = gm.length;
     }
@@ -171,28 +168,28 @@ public class DieController : MonoBehaviour
 
         
 
-        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
+        if (Input.GetKey(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
         {
             var anchor = transform.position + new Vector3(-0.5f, -0.5f, 0.0f);
             var axis = Vector3.Cross(Vector3.up, Vector3.left);
 
             StartCoroutine(Roll(anchor, axis, MoveLeft, new Vector2Int(-1, 0)));
         }
-        if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
+        else if (Input.GetKey(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
         {
             var anchor = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
             var axis = Vector3.Cross(Vector3.up, Vector3.right);
 
             StartCoroutine(Roll(anchor, axis, MoveRight, new Vector2Int(1, 0)));
         }
-        if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
+        else if (Input.GetKey(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
         {
             var anchor = transform.position + new Vector3(0.0f, -0.5f, 0.5f);
             var axis = Vector3.Cross(Vector3.up, Vector3.forward);
 
             StartCoroutine(Roll(anchor, axis, MoveForward, new Vector2Int(0, 1)));
         }
-        if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
+        else if (Input.GetKey(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
         {
             var anchor = transform.position + new Vector3(0.0f, -0.5f, -0.5f);
             var axis = Vector3.Cross(Vector3.up, Vector3.back);
@@ -253,7 +250,7 @@ public class DieController : MonoBehaviour
         if(position == winPos)
         {
             canControl = false;
-            manager.GetComponent<ManageGame>().LevelComplete();
+            gm.LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
         }
