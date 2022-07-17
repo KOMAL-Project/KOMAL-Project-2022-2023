@@ -11,6 +11,7 @@ public class ManageGame : MonoBehaviour
         pipSwitch, pipsWall,
         chargeSwitch, chargeWall, 
         winTile, board, die;
+    public static int totalMoves = 0;
 
     GameObject winSwitchInstance;
 
@@ -378,7 +379,8 @@ public class ManageGame : MonoBehaviour
 
     IEnumerator NextLevel()
     {
-        yield return new WaitForSecondsRealtime(3);
+
+        yield return new WaitForSecondsRealtime(5);
         SceneManager.LoadSceneAsync("Level " + (levelID + 1));
     }
 

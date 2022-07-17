@@ -24,7 +24,7 @@ public class DieController : MonoBehaviour
     private bool isMoving;
 
     [SerializeField]
-    private float rollSpeed = 3.0f;
+    private float rollSpeed = 6.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -171,28 +171,28 @@ public class DieController : MonoBehaviour
 
         
 
-        if (Input.GetKeyDown(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y])
+        if (Input.GetKey(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y] && !isMoving)
         {
             var anchor = transform.position + new Vector3(-0.5f, -0.5f, 0.0f);
             var axis = Vector3.Cross(Vector3.up, Vector3.left);
 
             StartCoroutine(Roll(anchor, axis, MoveLeft, new Vector2Int(-1, 0)));
         }
-        if (Input.GetKeyDown(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y])
+        if (Input.GetKey(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y] && !isMoving)
         {
             var anchor = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
             var axis = Vector3.Cross(Vector3.up, Vector3.right);
 
             StartCoroutine(Roll(anchor, axis, MoveRight, new Vector2Int(1, 0)));
         }
-        if (Input.GetKeyDown(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1])
+        if (Input.GetKey(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1] && !isMoving)
         {
             var anchor = transform.position + new Vector3(0.0f, -0.5f, 0.5f);
             var axis = Vector3.Cross(Vector3.up, Vector3.forward);
 
             StartCoroutine(Roll(anchor, axis, MoveForward, new Vector2Int(0, 1)));
         }
-        if (Input.GetKeyDown(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1])
+        if (Input.GetKey(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1] && !isMoving)
         {
             var anchor = transform.position + new Vector3(0.0f, -0.5f, -0.5f);
             var axis = Vector3.Cross(Vector3.up, Vector3.back);
@@ -256,6 +256,7 @@ public class DieController : MonoBehaviour
             manager.GetComponent<ManageGame>().LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
+            cameraObj.GetComponent<Animator>().SetTrigger("Go");
         }
     }
 
