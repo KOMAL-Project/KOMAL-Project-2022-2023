@@ -18,9 +18,9 @@ public class LevelMenuScript : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing) || (ManageGame.levelFinishing && menuType > 0)) {
             changeActiveMenu();
-        }
+        } 
     }
 
     public void restartLevel() {
