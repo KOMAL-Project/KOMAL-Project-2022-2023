@@ -73,9 +73,13 @@ public class DieController : MonoBehaviour
     void updateFaces()
     {
         frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
+        frontFace.transform.position = new Vector3(transform.position.x, .55f, transform.position.z + 1.05f);
         backFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.back] - 1];
+        backFace.transform.position = new Vector3(transform.position.x, .55f, transform.position.z - 1.05f);
         rightFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.right] - 1];
+        rightFace.transform.position = new Vector3(transform.position.x + 1.05f, .55f, transform.position.z);
         leftFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.left] - 1];
+        leftFace.transform.position = new Vector3(transform.position.x - 1.05f, .55f, transform.position.z);
     }
 
     void MoveBack()
@@ -237,7 +241,7 @@ public class DieController : MonoBehaviour
 
         position += moveVec;
         WinCheck();
-        transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
+        frontFace.transform.position = transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
 
         func();
 
