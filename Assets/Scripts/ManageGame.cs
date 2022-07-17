@@ -71,6 +71,8 @@ public class ManageGame : MonoBehaviour
             }
         }
 
+        die = GameObject.FindGameObjectWithTag("Player");
+
         wallDirections = new Dictionary<string, GameObject>
         {
             // left, right, up, down
@@ -160,14 +162,14 @@ public class ManageGame : MonoBehaviour
                 }
                 if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Yellow for Win Switch
                 {
-                    die.GetComponent<DieController>().winPos = new Vector2Int(i, j);
+                    die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
                 if (level.GetPixel(i, j) == Color.green)
                 {
                     Debug.Log(i + " " + j);
-                    die.GetComponent<DieController>().position = new Vector2Int(i,j);
+                    die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
                     
                     die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
@@ -348,6 +350,11 @@ public class ManageGame : MonoBehaviour
         //Debug.Log("ReadLevel " + levelData);
         //die.GetComponent<DieController>().position = new int[] { 4, 4 };
         //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
+    }
+
+    private void Update()
+    {
+        //Debug.Log(levelData);
     }
 
     public void LevelComplete()
