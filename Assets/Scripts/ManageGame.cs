@@ -170,6 +170,7 @@ public class ManageGame : MonoBehaviour
                         GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
                         chargeSwitches[k].Add(temp);
+                        temp.GetComponent<ChargeController>().type = k;
                     }
                 }
                 for (int k = 0; k < chargeDoorColors.Length; k++)
