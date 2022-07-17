@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 646315309400947814, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
+      propertyPath: m_Cameras.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 646315309400947814, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
+      propertyPath: m_Cameras.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2043654805415077652, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
       propertyPath: m_Name
       value: CameraAnchor
