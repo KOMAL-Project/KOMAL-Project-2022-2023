@@ -11,6 +11,8 @@ public class CameraScript : MonoBehaviour
     [SerializeField]
     private KeyCode overheadKey = KeyCode.Space;
 
+    public int xAngle;
+
     public Material wallMat;
 
     private GameObject cam;
@@ -31,6 +33,7 @@ public class CameraScript : MonoBehaviour
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
         cam = Camera.main.gameObject;
+        targetXRotation = -xAngle;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -71,7 +74,7 @@ public class CameraScript : MonoBehaviour
         if (Input.GetKeyUp(overheadKey))
         {
             targetYRotation += 30;
-            targetXRotation = -30;
+            targetXRotation = -xAngle;
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;

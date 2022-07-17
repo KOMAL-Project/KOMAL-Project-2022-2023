@@ -21,7 +21,6 @@ public class FaceSwitchController : MonoBehaviour
     private void Update()
     {
         playerPos = player.GetComponentInChildren<DieController>().position;
-        Debug.Log(playerPos + " // "  + thisPos );
         if (thisPos == playerPos && player.GetComponentInChildren<DieController>().sides[Vector3.down] == pips)
         {
             Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
