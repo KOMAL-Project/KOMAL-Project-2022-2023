@@ -48,6 +48,7 @@ MonoBehaviour:
   leftKey: 113
   rightKey: 101
   overheadKey: 32
+  xAngle: 50
   wallMat: {fileID: 0}
   rotationSpeed: 25
   delayTime: 0.25

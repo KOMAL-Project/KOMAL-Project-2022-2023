@@ -7,7 +7,7 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
-    public GameObject floorTile, 
+    public GameObject floorTile, singleUseTile, 
         pipSwitch, pipsWall,
         chargeSwitch, chargeWall, 
         winTile, board, die;
@@ -19,6 +19,8 @@ public class ManageGame : MonoBehaviour
     public GameObject[,] levelData;
     public int[] playerStart;
     public static int furthestLevel;
+
+    Color singleUseColor = new Color32(128, 128, 128, 255);
 
     Color[] pipSwitchColors = new Color[]
     {
@@ -121,6 +123,15 @@ public class ManageGame : MonoBehaviour
             {
                 // Basic Walls
                 if (level.GetPixel(i, j) == Color.black) tempWallData[i, j] = true; //levelData[i,j] = Instantiate(floorTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                // Single Use Tiles
+                if (level.GetPixel(i,j) == singleUseColor)
+                {
+                    GameObject temp = Instantiate(singleUseTile, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp.GetComponent<SingleUseController>().position = new Vector2Int(i, j);
+                    temp.GetComponent<SingleUseController>().player = die;
+                    temp.GetComponent<SingleUseController>().manager = gameObject;
+
+                }
                 // Pips Switches
                 for (int k = 0; k < pipSwitchColors.Length; k++)
                 {
