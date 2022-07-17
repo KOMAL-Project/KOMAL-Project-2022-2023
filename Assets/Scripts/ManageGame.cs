@@ -23,7 +23,7 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
-    public static int furthestLevel = 18;
+    public static int furthestLevel = 0;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
 
