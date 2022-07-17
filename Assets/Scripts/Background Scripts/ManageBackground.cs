@@ -25,7 +25,7 @@ public class ManageBackground : MonoBehaviour
     private IEnumerator chipClock() {
         while (true) {
             yield return new WaitForSeconds(rate);
-            Instantiate(prefab, new Vector3(Random.Range(-10, 10), Random.Range(-3, 7), Random.Range(5, 8)), Random.rotation, trans);
+            Instantiate(prefab, new Vector3(Random.Range(-10, 10), Random.Range(8f, 9f), Random.Range(5, 9)), Random.rotation, trans);
         }
     }
 }
