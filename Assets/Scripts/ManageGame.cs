@@ -18,8 +18,7 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData;
     public int[] playerStart;
-    
-
+    public static int furthestLevel;
 
     Color[] pipSwitchColors = new Color[]
     {
@@ -71,6 +70,8 @@ public class ManageGame : MonoBehaviour
                 Instantiate(floorTile, new Vector3(i-width/2, 0, j-length/2), new Quaternion(0, 0, 0, 0), board.transform);
             }
         }
+
+        die = GameObject.FindGameObjectWithTag("Player");
 
         wallDirections = new Dictionary<string, GameObject>
         {
@@ -161,14 +162,14 @@ public class ManageGame : MonoBehaviour
                 }
                 if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Yellow for Win Switch
                 {
-                    die.GetComponent<DieController>().winPos = new Vector2Int(i, j);
+                    die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
                 if (level.GetPixel(i, j) == Color.green)
                 {
                     Debug.Log(i + " " + j);
-                    die.GetComponent<DieController>().position = new Vector2Int(i,j);
+                    die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
                     
                     die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
@@ -351,10 +352,17 @@ public class ManageGame : MonoBehaviour
         //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
     }
 
+    private void Update()
+    {
+        //Debug.Log(levelData);
+    }
+
     public void LevelComplete()
     {
+        levelID = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
+
     }
 
     IEnumerator NextLevel()
