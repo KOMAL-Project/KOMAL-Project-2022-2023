@@ -7,11 +7,15 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
-    public GameObject floorTile, singleUseTile, 
-        pipSwitch, pipsWall,
-        chargeSwitch, chargeWall, 
-        winTile, board, die;
-    public static int totalMoves = 0;
+
+    public GameObject floorTile, 
+        pipSwitch, winTile, board, die, singleUseTile;
+
+    public GameObject[] pipsWallsPrefabs = new GameObject[6];
+
+    public GameObject[] chargeWalls = new GameObject[4];
+    public GameObject[] chargeSwitchPrefabs = new GameObject[4];
+
 
     GameObject winSwitchInstance;
 
@@ -108,6 +112,8 @@ public class ManageGame : MonoBehaviour
         for (int i = 0; i < pipSwitches.Length; i++) pipSwitches[i] = new List<GameObject>();
         List<GameObject>[] pipWalls = new List<GameObject>[6];
         for (int i = 0; i < pipWalls.Length; i++) pipWalls[i] = new List<GameObject>();
+        List<Vector2Int>[] pipWallsPositions = new List<Vector2Int>[6];
+        for (int i = 0; i < pipWallsPositions.Length; i++) pipWallsPositions[i] = new List<Vector2Int>();
 
         List<GameObject>[] chargeSwitches = new List<GameObject>[4];
         for (int i = 0; i < chargeSwitches.Length; i++) chargeSwitches[i] = new List<GameObject>();
@@ -148,8 +154,9 @@ public class ManageGame : MonoBehaviour
                 {
                     if (level.GetPixel(i, j) == pipDoorColors[k])
                     {
-                        levelData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        levelData[i, j] = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         pipWalls[k].Add(levelData[i, j]);
+                        pipWallsPositions[k].Add(new Vector2Int(i, j));
                     }
                 }
                 // Charge Switches
@@ -157,7 +164,7 @@ public class ManageGame : MonoBehaviour
                 {
                     if (level.GetPixel(i, j) == chargeGiveColors[k])
                     {
-                        GameObject temp = Instantiate(chargeSwitch, new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
                         chargeSwitches[k].Add(temp);
                     }
@@ -166,7 +173,8 @@ public class ManageGame : MonoBehaviour
                 {
                     if (level.GetPixel(i, j) == chargeDoorColors[k])
                     {
-                        levelData[i, j] = Instantiate(chargeWall, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        Debug.Log(chargeWalls[k]);
+                        levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         Debug.Log(chargeDoors[k]);
                         chargeDoors[k].Add(levelData[i, j]);
                         chargeWallPositions[k].Add(new Vector2Int(i, j));
@@ -194,6 +202,7 @@ public class ManageGame : MonoBehaviour
             {
                 for (int k = 0; k < pipSwitches[j].Count; k++)
                 {
+                    pipSwitches[j][k].GetComponent<FaceSwitchController>().wallsPos = pipWallsPositions[j];
                     pipSwitches[j][k].GetComponent<FaceSwitchController>().walls = pipWalls[j];
                 }
             }
