@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: -3974477623398212}
   m_Layer: 0
   m_Name: Empty Die
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -176,6 +176,7 @@ MonoBehaviour:
   backFace: {fileID: 0}
   leftFace: {fileID: 0}
   rightFace: {fileID: 0}
+  canControl: 1
   rollSpeed: 3
 --- !u!1 &6354344520830243971
 GameObject:
