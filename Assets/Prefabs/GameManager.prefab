@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorTile: {fileID: 9186678779994403599, guid: 82692e79a4b02544c839f778c919ad22, type: 3}
+  singleUseTile: {fileID: 3669176422411836730, guid: 135380890e35efd449052a2bb267c961, type: 3}
   pipSwitch: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
   winTile: {fileID: 51070051948085511, guid: b03f8431baec1994289d9555cc13a699, type: 3}
   board: {fileID: 2201775946470745440}

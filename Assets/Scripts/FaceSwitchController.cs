@@ -13,13 +13,30 @@ public class FaceSwitchController : MonoBehaviour
     public Vector2Int playerPos;
     public GameObject player;
 
+
     private ManageGame mg;
+
+    public Texture2D[] topTextures = new Texture2D[7];
+    private Sprite[] topSprites = new Sprite[7];
+
 
     private void Start()
     {
+
+        // set up sprites
+        for (int i = 0; i < 6; i++)
+        {
+            Rect rect = new Rect(0, 0, 10, 10);
+            topSprites[i] = Sprite.Create(topTextures[i], rect, new Vector2(.5f, .5f));
+        }
+        
+
         player = GameObject.FindGameObjectWithTag("Player");
-        GetComponentInChildren<TextMeshPro>().text = pips.ToString();
+
         mg = FindObjectOfType<ManageGame>();
+
+        GetComponentInChildren<SpriteRenderer>().sprite = topSprites[pips-1];
+
     }
 
     private void Update()
@@ -39,13 +56,8 @@ public class FaceSwitchController : MonoBehaviour
             {
                 mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
             }
-            
+            GetComponentInChildren<SpriteRenderer>().sprite = topSprites[6];
+   
         }
-
-
     }
-
-
-
-
 }
