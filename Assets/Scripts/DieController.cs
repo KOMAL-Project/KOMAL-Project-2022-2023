@@ -11,6 +11,7 @@ public class DieController : MonoBehaviour
     int width, length;
 
     public Vector3 chargeDirection;
+    public ChargeController currentCharge;
 
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;

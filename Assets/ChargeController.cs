@@ -39,16 +39,27 @@ public class ChargeController : MonoBehaviour
         {
             if (pScript.position == pos)
             {
+                if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
+                {
+                    pScript.currentCharge.pickedUp = false;
+                    pScript.currentCharge.rend.material = mats[0];
+                    pScript.currentCharge = null;
+                    pScript.PowerDown();
+                }
+                Debug.Log("went over charge tile");
+
                 pickedUp = true;
-                player.GetComponentInChildren<DieController>().PowerUp(type);
+                pScript.PowerUp(type);
                 pScript.chargeDirection = Vector3.down;
                 rend.material = mats[1];
+                pScript.currentCharge = this;
             }
             if (pScript.chargeDirection == Vector3.zero)
             {
                 pickedUp = false;
-                player.GetComponentInChildren<DieController>().PowerDown();
+                pScript.PowerDown();
                 rend.material = mats[0];
+                pScript.currentCharge = null;
             }
             else 
             {
@@ -58,8 +69,9 @@ public class ChargeController : MonoBehaviour
                     {
                         gateOpen = true;
                         pickedUp = false;
-                        player.GetComponentInChildren<DieController>().PowerDown();
+                        pScript.PowerDown();
                         rend.material = mats[1];
+                        pScript.currentCharge = null;
 
                         foreach (var door in doors) {
                             door.GetComponent<Animator>().SetBool("Active", false);
