@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2043654805415077652}
   m_LocalRotation: {x: -0.24999997, y: 0.25000006, z: 0.066987306, w: 0.9330127}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54,7 +54,6 @@ MonoBehaviour:
   rotationSpeed: 25
   delayTime: 0.25
   side: 0
-
 --- !u!95 &6743214991744941457
 Animator:
   serializedVersion: 4
@@ -75,7 +74,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
-
 --- !u!1 &2043654806468811949
 GameObject:
   m_ObjectHideFlags: 0
