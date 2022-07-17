@@ -606,6 +606,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6253046223106284352, guid: 3faca8634b3b0ea45832c736f9e5c42c, type: 3}
+      propertyPath: diceHit
+      value: 
+      objectReference: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
     - target: {fileID: 7183205218511773034, guid: 3faca8634b3b0ea45832c736f9e5c42c, type: 3}
       propertyPath: manager
       value: 
