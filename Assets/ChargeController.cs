@@ -41,9 +41,12 @@ public class ChargeController : MonoBehaviour
             {
                 if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
                 {
-                    pScript.currentCharge.pickedUp = false;
-                    pScript.currentCharge.rend.material = mats[0];
-                    pScript.currentCharge = null;
+                    if (pScript.currentCharge != null) 
+                    {
+                        pScript.currentCharge.pickedUp = false;
+                        pScript.currentCharge.rend.material = mats[0];
+                        pScript.currentCharge = null;
+                    }
                     pScript.PowerDown();
                 }
                 Debug.Log("went over charge tile");

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DiceCameraScript : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class DiceCameraScript : MonoBehaviour
     private Vector3 farPos;
     private Vector3 velocity = Vector3.zero;
     // Start is called before the first frame update
+
+    void Awake() 
+    {
+        DebugManager.instance.enableRuntimeUI = false;
+    }
+
     void Start()
     {
         trans = GetComponent<Transform>();

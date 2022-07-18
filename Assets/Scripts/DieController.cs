@@ -29,7 +29,7 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
-    private float rollSpeed = 6.0f;
+    private float rollSpeed = 3.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -37,6 +37,8 @@ public class DieController : MonoBehaviour
 
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
+
+    private CameraScript cs;
 
 
     // Start is called before the first frame update
@@ -50,7 +52,8 @@ public class DieController : MonoBehaviour
             ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
         }
 
-        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        cameraObj = Camera.main.gameObject;
+        cs = cameraObj.GetComponentInParent<CameraScript>();
         Debug.Log(cameraObj);
 
         source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
@@ -176,12 +179,12 @@ public class DieController : MonoBehaviour
 
         string[] keys = new string[] { "s", "d", "w", "a" };
 
-        CameraScript cs = cameraObj.GetComponent<CameraScript>();
+        
 
         //Debug.Log(1 + cs.side);
 
-        
 
+        //Debug.Log(keys + " " + cameraObj + " " + gm + " " + gm.levelData[x - 1, y]);
 
         if (Input.GetKey(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y] && !isMoving)
         {
@@ -274,7 +277,7 @@ public class DieController : MonoBehaviour
             gm.LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
-            cameraObj.GetComponent<Animator>().SetTrigger("Go");
+            cameraObj.GetComponentInParent<Animator>().SetTrigger("Go");
         }
     }
     
