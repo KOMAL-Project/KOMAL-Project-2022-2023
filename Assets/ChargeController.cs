@@ -66,25 +66,29 @@ public class ChargeController : MonoBehaviour
             }
             else 
             {
-                for (int i = 0; i < gatePos.Count; i++)
+                if (pScript.currentCharge == this)
                 {
-                    if (new Vector2Int(pScript.position.x + (int)pScript.chargeDirection.x, pScript.position.y + (int)pScript.chargeDirection.z) == gatePos[i])
+                    for (int i = 0; i < gatePos.Count; i++)
                     {
-                        gateOpen = true;
-                        pickedUp = false;
-                        pScript.PowerDown();
-                        rend.material = mats[1];
-                        pScript.currentCharge = null;
-
-                        foreach (var door in doors) {
-                            door.GetComponent<Animator>().SetBool("Active", false);
-                        }
-
-                        Debug.Log(doors.Count);
-
-                        for (int j = 0; j < doors.Count; j++) 
+                        if (new Vector2Int(pScript.position.x + (int)pScript.chargeDirection.x, pScript.position.y + (int)pScript.chargeDirection.z) == gatePos[i])
                         {
-                            mg.levelData[gatePos[j].x, gatePos[j].y] = null;
+                            gateOpen = true;
+                            pickedUp = false;
+                            pScript.PowerDown();
+                            rend.material = mats[1];
+                            pScript.currentCharge = null;
+
+                            foreach (var door in doors)
+                            {
+                                door.GetComponent<Animator>().SetBool("Active", false);
+                            }
+
+                            Debug.Log(doors.Count);
+
+                            for (int j = 0; j < doors.Count; j++)
+                            {
+                                mg.levelData[gatePos[j].x, gatePos[j].y] = null;
+                            }
                         }
                     }
                 }
