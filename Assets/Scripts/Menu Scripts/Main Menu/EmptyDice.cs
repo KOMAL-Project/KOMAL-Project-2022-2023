@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class EmptyDice : MonoBehaviour
 {
+    [SerializeField] float minAppliedTorque;
+    [SerializeField] float maxAppliedTorque;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(Random.Range(0, 4), Random.Range(0, 4), Random.Range(0, 4)));
+        GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(Random.Range(minAppliedTorque, maxAppliedTorque), Random.Range(minAppliedTorque, maxAppliedTorque), Random.Range(minAppliedTorque, maxAppliedTorque)));
     }
 
     // Update is called once per frame

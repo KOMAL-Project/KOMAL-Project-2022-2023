@@ -5,11 +5,10 @@ using UnityEngine.Rendering;
 
 public class DiceCameraScript : MonoBehaviour
 {
-    [SerializeField] private float animationDuration = 2;
     [SerializeField] private float farDistance = 20;
+    [SerializeField] private float smoothDampTimeChange = 0.0005f;
     private Transform trans;
     private Vector3 pos;
-
     private Vector3 closePos;
     private Vector3 farPos;
     private Vector3 velocity = Vector3.zero;
@@ -27,28 +26,24 @@ public class DiceCameraScript : MonoBehaviour
         farPos = new Vector3(trans.position.x, trans.position.y, trans.position.z - farDistance);
     }
 
-    public void pullAway() {
-        StartCoroutine(pullA());
+    public void pullDirection(float animationDuration, bool towards) {
+        StartCoroutine(pull(animationDuration, towards));
     }
-    public void pullToward() {
-        StartCoroutine(pullT());
-    }
+    
 
-    private IEnumerator pullA() {
+    private IEnumerator pull(float animationDuration, bool towards) {
+
+        Vector3 target = towards ? closePos : farPos;
         float currentDuration = 0f;
-        while (currentDuration < animationDuration * 1.05) {
+        float animationTime = 0.2f;
+
+        while (currentDuration < animationDuration) {
             yield return null;
-            trans.position = Vector3.SmoothDamp(trans.position, farPos, ref velocity, animationDuration - currentDuration);
+            trans.position = Vector3.SmoothDamp(trans.position, target, ref velocity, animationTime);
+            animationTime -= smoothDampTimeChange;
             currentDuration += Time.deltaTime;
         }
+        trans.position = target;
     }
 
-    private IEnumerator pullT() {
-        float currentDuration = 0f;
-        while (currentDuration < animationDuration * 1.05) {
-            yield return null;
-            trans.position = Vector3.SmoothDamp(trans.position, closePos, ref velocity, animationDuration - currentDuration);
-            currentDuration += Time.deltaTime;
-        }
-    }
 }

@@ -48,7 +48,7 @@ public class LevelMenuScript : MonoBehaviour
         }
         else if (menuType == 1) {
             menuType--;
-            camData.renderPostProcessing = true;
+            camData.renderPostProcessing = false;
             pause.SetActive(false);
             die.canControl = true;
             
