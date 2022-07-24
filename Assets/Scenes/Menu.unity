@@ -2073,6 +2073,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: mainMenuButton
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
 --- !u!1001 &464913201
