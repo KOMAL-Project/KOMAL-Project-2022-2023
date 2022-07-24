@@ -179,7 +179,7 @@ RectTransform:
   m_GameObject: {fileID: 2464135380625655448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.000064, y: 1.000064, z: 1.000064}
+  m_LocalScale: {x: 1, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6384016287089255144}
@@ -686,6 +686,10 @@ MonoBehaviour:
   pause: {fileID: 6384016288137156194}
   options: {fileID: 6384016287089255147}
   cam: {fileID: 6999336591337557244}
+  animationLength: 0.7
+  animationSpeed: 0.2
+  smoothDampTimeChange: 0.0012
+  menuSpace: 10
 --- !u!1 &6384016287089255147
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +969,7 @@ RectTransform:
   m_GameObject: {fileID: 6384016287701983696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6384016288137156195}
@@ -1392,7 +1396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6999336591337557244}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1000, z: 1.5}
+  m_LocalPosition: {x: 0, y: 1000, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1738,7 +1742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1797,8 +1801,16 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: menuStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: mainMenuButton
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: menuDestination
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
@@ -1916,7 +1928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1971,8 +1983,16 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: menuStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: mainMenuButton
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: menuDestination
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
@@ -2244,7 +2264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2293,6 +2313,10 @@ PrefabInstance:
     - target: {fileID: 3945237845163942913, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
+      propertyPath: menuStart
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8061807754279750026, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: mainMenuButton

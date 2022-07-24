@@ -29,6 +29,9 @@ public class ButtonScript : MonoBehaviour
         if (mainMenuButton) {
             GetComponentInParent<MainMenuScript>().changeMenu(menuStart, menuDestination);
         }
+        else if (menuDestination != menuStart){
+            GetComponentInParent<LevelMenuScript>().changeActiveMenu(menuDestination > menuStart);
+        }
     }
 
 

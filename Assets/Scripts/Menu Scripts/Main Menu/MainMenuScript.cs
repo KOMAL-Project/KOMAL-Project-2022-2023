@@ -36,7 +36,7 @@ public class MainMenuScript : MonoBehaviour
         lower = new Vector2(canvasPosition.x, canvasPosition.y - menuSpace);
         camScript = diceCamera.GetComponent<DiceCameraScript>();
 
-        StartCoroutine(menuEnter(mainMenu, true));
+        StartCoroutine(menuMove(mainMenu, true, false));
     }
 
    
@@ -53,8 +53,9 @@ public class MainMenuScript : MonoBehaviour
     }
 
     public void changeMenu(int from, int to) {
-        StartCoroutine(menuExit(determineMenu(from), from > to));
-        StartCoroutine(menuEnter(determineMenu(to), to > from));
+        StartCoroutine(menuMove(determineMenu(from), from > to, true));
+        StartCoroutine(menuMove(determineMenu(to), to > from, false));
+
         if (from == 0 && to == 1) {
             camScript.pullDirection(animationLength, false);
         }
@@ -74,65 +75,45 @@ public class MainMenuScript : MonoBehaviour
     }
 
 
-    private IEnumerator menuExit(GameObject menu, bool toTop) {
+    private IEnumerator menuMove(GameObject menu, bool top, bool exit) {
+
+        menu.SetActive(true);
 
         Transform transform = menu.GetComponent<RectTransform>();
         Button[] buttons = GetComponentsInChildren<Button>();
-        Vector2 target = toTop ? higher : lower;
-        float animationTime = animationSpeed;
+        //sets the location target to be the center piece if entering, otherwise above or below
+        Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
 
+        //sets starting position to higher or lower if entering
+        if (!exit) {transform.position = (top) ? higher : lower;}
+
+        //disables all buttons
         foreach (var button in buttons) {
             button.enabled = false;
         }
 
         Vector2 velocity = Vector2.zero;
         float currentDuration = 0f;
+        float animationTime = animationSpeed;
 
         while (currentDuration <= animationLength) {
             transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, animationTime);
+            //speeds up animation time slightly to ensure menu reaches it's destination
             animationTime -= smoothDampTimeChange;
             currentDuration += Time.deltaTime;
             yield return null;
         }
 
         transform.position = target;
+
+        //enables all buttons
         foreach (var button in buttons) {
             button.enabled = true;
         }
-        menu.SetActive(false);
 
-        
-    }
+        //sets menu to inactive if it is now off screen
+        if (exit) {menu.SetActive(false);}
 
-
-    private IEnumerator menuEnter(GameObject menu, bool fromTop) {
-
-        menu.SetActive(true);
-        Transform transform = menu.GetComponent<RectTransform>();
-        Button[] buttons = GetComponentsInChildren<Button>();
-        float animationTime = animationSpeed;
-        transform.position = fromTop ? higher : lower;
-        
-
-        foreach (var button in buttons) {
-            button.enabled = false;
-        }
-
-        Vector2 velocity = Vector2.zero;
-        float currentDuration = 0f;
-
-        while (currentDuration <= animationLength) {
-            transform.position = Vector2.SmoothDamp(transform.position, canvasPosition, ref velocity, animationTime);
-            animationTime -= smoothDampTimeChange;
-            currentDuration += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = canvasPosition;
-        foreach (var button in buttons) {
-            button.enabled = true;
-        }
-        
     }
 
     
