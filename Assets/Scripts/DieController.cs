@@ -29,7 +29,7 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
-    private float rollSpeed = 3.0f;
+    private float rollSpeed = 6.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -67,6 +67,7 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3.forward, 4);
 
 
+
         gm = FindObjectOfType<ManageGame>();
         width = gm.width;
         length = gm.length;
@@ -96,6 +97,8 @@ public class DieController : MonoBehaviour
         leftFace.transform.position = new Vector3(transform.position.x - 1.05f, .6f, transform.position.z);
     }
 
+   
+
     void MoveBack()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -105,22 +108,11 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.down];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
-
-
-        if (chargeDirection != Vector3.zero) {
-            if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
-            //charge side faces down, resets
-            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
-        }
-
+        
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
-
-
     }
-
+   
     void MoveForward()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -130,17 +122,6 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.up];
         newSides[Vector3.left] = sides[Vector3.left];
         newSides[Vector3.right] = sides[Vector3.right];
-
-
-        if (chargeDirection != Vector3.zero)
-        {
-            if (chargeDirection == Vector3.back) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.back;
-            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.forward;
-            //charge side faces down, resets
-            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
-        }
-
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
@@ -155,74 +136,12 @@ public class DieController : MonoBehaviour
         newSides[Vector3.right] = sides[Vector3.down];
         newSides[Vector3.forward] = sides[Vector3.forward];
         newSides[Vector3.back] = sides[Vector3.back];
-
-
-        if (chargeDirection != Vector3.zero)
-        {
-            if (chargeDirection == Vector3.right) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.left;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.right;
-            //charge side faces down, resets
-            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
-        }
-
-
+        
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
     }
-
-    void GetInput()
-    {
-        int x = position.x;
-        int y = position.y;
-
-        string[] keys = new string[] { "s", "d", "w", "a" };
-
-        
-
-        //Debug.Log(1 + cs.side);
-
-
-        //Debug.Log(keys + " " + cameraObj + " " + gm + " " + gm.levelData[x - 1, y]);
-
-        if (Input.GetKey(keys[(1 + cs.side) % 4]) && !gm.levelData[x - 1, y] && !isMoving)
-        {
-            var anchor = transform.position + new Vector3(-0.5f, -0.5f, 0.0f);
-            var axis = Vector3.Cross(Vector3.up, Vector3.left);
-
-            StartCoroutine(Roll(anchor, axis, MoveLeft, new Vector2Int(-1, 0)));
-        }
-
-        if (Input.GetKey(keys[(3 + cs.side) % 4]) && !gm.levelData[x + 1, y] && !isMoving)
-        {
-            var anchor = transform.position + new Vector3(0.5f, -0.5f, 0.0f);
-            var axis = Vector3.Cross(Vector3.up, Vector3.right);
-
-            StartCoroutine(Roll(anchor, axis, MoveRight, new Vector2Int(1, 0)));
-        }
-
-        if (Input.GetKey(keys[(0 + cs.side) % 4]) && !gm.levelData[x, y + 1] && !isMoving)
-        {
-            var anchor = transform.position + new Vector3(0.0f, -0.5f, 0.5f);
-            var axis = Vector3.Cross(Vector3.up, Vector3.forward);
-
-            StartCoroutine(Roll(anchor, axis, MoveForward, new Vector2Int(0, 1)));
-        }
-        if (Input.GetKey(keys[(2 + cs.side) % 4]) && !gm.levelData[x, y - 1] && !isMoving)
-        {
-            var anchor = transform.position + new Vector3(0.0f, -0.5f, -0.5f);
-            var axis = Vector3.Cross(Vector3.up, Vector3.back);
-
-            StartCoroutine(Roll(anchor, axis, MoveBack, new Vector2Int(0, -1)));
-        }
-
-        //Debug.Log(position);
-    }
     
-
-    
-
     void MoveRight()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -233,19 +152,43 @@ public class DieController : MonoBehaviour
         newSides[Vector3.forward] = sides[Vector3.forward];
         newSides[Vector3.back] = sides[Vector3.back];
 
-
-        if (chargeDirection != Vector3.zero)
-        {
-            if (chargeDirection == Vector3.left) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.right;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.left;
-            //charge side faces down, resets
-            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
-        }
-
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
     }
+
+    void GetInput()
+    {
+        int x = position.x;
+        int y = position.y;
+
+        string[] keys = new string[]   { "w", "a", "s", "d" };
+        Vector3[] directions = new Vector3[] { Vector3.back, Vector3.right, Vector3.forward, Vector3.left };
+        Action[] moves = new Action[] { MoveBack, MoveRight, MoveForward, MoveLeft };
+        
+        for(int i = 0; i < 4; i++)
+        {
+            int index = (i + 2+ cs.side) % 4;
+            if (Input.GetKey(keys[index]) && !gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z] && !isMoving)
+            {
+
+                Debug.Log(keys[index] + " " + directions[index]);
+                var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
+                var axis = Vector3.Cross(Vector3.up, directions[index]);
+
+                StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
+                if (chargeDirection != Vector3.zero)
+                {
+                    if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
+                    else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
+                    else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
+                    //charge side faces down, resets
+                    else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
+                }
+            }
+        }
+        
+    }
+    
 
     IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
         isMoving = true;
