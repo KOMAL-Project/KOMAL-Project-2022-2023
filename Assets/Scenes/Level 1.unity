@@ -489,6 +489,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6338770314471035597, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6384016286227644462, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -536,6 +540,14 @@ PrefabInstance:
     - target: {fileID: 6384016286227644625, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_Name
       value: Level Menus
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384016288137156194, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7951342737827353577, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}

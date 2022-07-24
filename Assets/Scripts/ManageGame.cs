@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {

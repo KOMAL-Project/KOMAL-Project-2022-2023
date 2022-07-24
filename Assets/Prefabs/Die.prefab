@@ -286,7 +286,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b49b2183f9c62cf458525571e3291359, type: 2}
   - {fileID: 2100000, guid: c03c3445c0cbdae4d82d29946dc1eb9f, type: 2}
   baseMT: {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
-  diceHit: {fileID: 0}
+  diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
 --- !u!1 &4723431862766478839
 GameObject:
   m_ObjectHideFlags: 0
