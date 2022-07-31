@@ -111,6 +111,15 @@ public class DieController : MonoBehaviour
         
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
+        }
     }
    
     void MoveForward()
@@ -125,6 +134,15 @@ public class DieController : MonoBehaviour
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3.forward;
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.back;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
+        }
     }
 
     void MoveLeft()
@@ -140,6 +158,15 @@ public class DieController : MonoBehaviour
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3.left;
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.right;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
+        }
+
     }
     
     void MoveRight()
@@ -154,6 +181,15 @@ public class DieController : MonoBehaviour
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
+
+        if (chargeDirection != Vector3.zero)
+        {
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3.right;
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.left;
+            //charge side faces down, resets
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
+        }
     }
 
     void GetInput()
@@ -176,14 +212,7 @@ public class DieController : MonoBehaviour
                 var axis = Vector3.Cross(Vector3.up, directions[index]);
 
                 StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
-                if (chargeDirection != Vector3.zero)
-                {
-                    if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
-                    else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
-                    else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
-                    //charge side faces down, resets
-                    else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
-                }
+                
             }
         }
         
