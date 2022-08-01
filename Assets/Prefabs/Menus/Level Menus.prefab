@@ -686,7 +686,7 @@ MonoBehaviour:
   pause: {fileID: 6384016288137156194}
   options: {fileID: 6384016287089255147}
   cam: {fileID: 6999336591337557244}
-  animationLength: 0.7
+  animationLength: 0.5
   animationSpeed: 0.2
   smoothDampTimeChange: 0.0012
   menuSpace: 10
