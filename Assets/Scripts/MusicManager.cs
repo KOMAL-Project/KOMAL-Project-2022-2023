@@ -26,7 +26,7 @@ public class MusicManager : MonoBehaviour
         source.clip = loop;
 
         playMusic();
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(instance);
     }
 
     void playMusic() {

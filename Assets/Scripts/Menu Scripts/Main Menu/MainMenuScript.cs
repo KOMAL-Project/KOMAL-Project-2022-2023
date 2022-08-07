@@ -26,6 +26,7 @@ public class MainMenuScript : MonoBehaviour
     private Vector3 canvasPosition;
     private Vector2 higher;
     private Vector2 lower;
+    private Animator animator;
     
 
     
@@ -81,6 +82,7 @@ public class MainMenuScript : MonoBehaviour
 
         Transform transform = menu.GetComponent<RectTransform>();
         Button[] buttons = GetComponentsInChildren<Button>();
+
         //sets the location target to be the center piece if entering, otherwise above or below
         Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
 
