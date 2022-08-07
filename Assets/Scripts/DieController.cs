@@ -197,27 +197,31 @@ public class DieController : MonoBehaviour
         int x = position.x;
         int y = position.y;
 
-        string[] keys = new string[]   { "w", "a", "s", "d" };
-        Vector3[] directions = new Vector3[] { Vector3.back, Vector3.right, Vector3.forward, Vector3.left };
-        Action[] moves = new Action[] { MoveBack, MoveRight, MoveForward, MoveLeft };
+        string[] keys = new string[] { "w", "a", "s", "d" };
+        Vector3[] directions = new Vector3[] { Vector3.forward, Vector3.left, Vector3.back, Vector3.right };
+        Action[] moves = new Action[] { MoveForward, MoveLeft, MoveBack, MoveRight };
         
-        for(int i = 0; i < 4; i++)
-        {
-            int index = (i + 2+ cs.side) % 4;
-            if (Input.GetKey(keys[index]) && !gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z] && !isMoving)
-            {
 
-                Debug.Log(keys[index] + " " + directions[index]);
-                var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
-                var axis = Vector3.Cross(Vector3.up, directions[index]);
+        int index = InputToIndex();
+        if (index < 0 || isMoving) return;
+        Debug.Log("Index: " + index);
+        index = (index + cs.side) % 4;
+        //if (index < 0) index += 4;
+        if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;
+        
+        var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
+        var axis = Vector3.Cross(Vector3.up, directions[index]);
 
-                StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
+        StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
                 
-            }
-        }
-        
     }
     
+    int InputToIndex()
+    {
+        string[] keys = new string[] { "w", "a", "s", "d" };
+        foreach(string k in keys) if (Input.GetKey(k)) return Array.IndexOf(keys, k);
+        return -1;
+    }
 
     IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
         isMoving = true;
