@@ -27,11 +27,12 @@ public class CameraScript : MonoBehaviour
 
     private float targetYRotation, targetXRotation = -60;
 
-    public int side = 0;
+    public int side = 2;
 
 
     void Start()
     {
+        side = 2;
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
         cam = Camera.main.gameObject;
@@ -44,10 +45,12 @@ public class CameraScript : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("c.side: " + side);
         if (Input.GetKeyDown(leftKey) && Time.time >= timeDiff) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
-            side--;
+            side++;
+            Debug.Log("SIDE: " + side);
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
@@ -58,7 +61,8 @@ public class CameraScript : MonoBehaviour
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
-            side++;
+            side--;
+            Debug.Log("SIDE: " + side);
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;
