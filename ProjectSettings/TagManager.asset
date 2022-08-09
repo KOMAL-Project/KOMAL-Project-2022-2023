@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Audio
   - OverlayCamera
+  - D-Pad
   layers:
   - Default
   - TransparentFX

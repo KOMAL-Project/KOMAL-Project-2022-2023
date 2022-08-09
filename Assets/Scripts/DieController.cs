@@ -5,7 +5,8 @@ using System;
 
 public class DieController : MonoBehaviour
 {
-    public GameObject cameraObj;
+    public GameObject cameraObj, dPadObj;
+    private DirectionalButtonController dPad;
     private ManageGame gm;
 
     int width, length;
@@ -29,7 +30,7 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
-    private float rollSpeed = 6.0f;
+    private float rollSpeed = 4.0f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -54,7 +55,8 @@ public class DieController : MonoBehaviour
 
         cameraObj = Camera.main.gameObject;
         cs = cameraObj.GetComponentInParent<CameraScript>();
-        Debug.Log(cameraObj);
+        dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
+        dPad = dPadObj.GetComponent<DirectionalButtonController>();
 
         source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
 
@@ -198,6 +200,7 @@ public class DieController : MonoBehaviour
         int y = position.y;
 
         string[] keys = new string[] { "w", "a", "s", "d" };
+        
         Vector3[] directions = new Vector3[] { Vector3.forward, Vector3.left, Vector3.back, Vector3.right };
         Action[] moves = new Action[] { MoveForward, MoveLeft, MoveBack, MoveRight };
         
@@ -218,8 +221,14 @@ public class DieController : MonoBehaviour
     
     int InputToIndex()
     {
+        int i = 0;
         string[] keys = new string[] { "w", "a", "s", "d" };
-        foreach(string k in keys) if (Input.GetKey(k)) return Array.IndexOf(keys, k);
+        bool[] btns = new bool[] { dPad.up, dPad.left, dPad.down, dPad.right };
+        foreach (string k in keys)
+        {
+            if (Input.GetKey(k) || btns[i]) return i;
+            i++;
+        }
         return -1;
     }
 

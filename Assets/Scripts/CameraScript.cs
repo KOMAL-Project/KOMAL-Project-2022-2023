@@ -5,6 +5,9 @@ using UnityEngine.Rendering.Universal;
 
 public class CameraScript : MonoBehaviour
 {
+
+    public GameObject inputObj;
+    private DirectionalButtonController input;
     [SerializeField]
     private KeyCode leftKey = KeyCode.Q;
     [SerializeField]
@@ -32,6 +35,8 @@ public class CameraScript : MonoBehaviour
 
     void Start()
     {
+        inputObj = GameObject.FindGameObjectWithTag("D-Pad");
+        input = inputObj.GetComponent<DirectionalButtonController>();
         side = 2;
         targetYRotation = transform.eulerAngles.y;
         timeDiff = 0.0f;
@@ -46,7 +51,7 @@ public class CameraScript : MonoBehaviour
     private void Update()
     {
         //Debug.Log("c.side: " + side);
-        if (Input.GetKeyDown(leftKey) && Time.time >= timeDiff) {
+        if ((Input.GetKeyDown(leftKey) || input.counterclockwise) && Time.time >= timeDiff) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
             side++;
@@ -57,7 +62,7 @@ public class CameraScript : MonoBehaviour
             //transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y - 90) % 360, transform.eulerAngles.z);
         }
 
-        if (Input.GetKeyDown(rightKey) && Time.time >= timeDiff)
+        if ((Input.GetKeyDown(rightKey) || input.clockwise ) && Time.time >= timeDiff)
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
