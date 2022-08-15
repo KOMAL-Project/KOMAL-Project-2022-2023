@@ -395,6 +395,7 @@ MonoBehaviour:
   right: 0
   counterclockwise: 0
   clockwise: 0
+  showUI: 0
 --- !u!1 &1967392156783530212
 GameObject:
   m_ObjectHideFlags: 0

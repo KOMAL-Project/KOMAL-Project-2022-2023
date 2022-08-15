@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4b2572acb30364aa66c95261c8b747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputObj: {fileID: 0}
   leftKey: 113
   rightKey: 101
   overheadKey: 32
@@ -185,7 +186,7 @@ MonoBehaviour:
   m_RenderPostProcessing: 1
   m_Antialiasing: 2
   m_AntialiasingQuality: 2
-  m_StopNaN: 0
+  m_StopNaN: 1
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1

@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class DirectionalButtonController : MonoBehaviour
 {
     public bool up, down, left, right, counterclockwise, clockwise;
-    
+
+    [SerializeField] bool showUI;
+
+    private void Start()
+    {
+        if(showUI == false) foreach (Image i in GetComponentsInChildren<Image>()) i.enabled = false; 
+    }
+
     public void Press(string direction)
     {
         if (direction == "up") up = true;

@@ -133,7 +133,7 @@ MonoBehaviour:
     m_Value: 0.9
   intensity:
     m_OverrideState: 1
-    m_Value: 6
+    m_Value: 0.001
   scatter:
     m_OverrideState: 0
     m_Value: 0.7
@@ -152,6 +152,7 @@ MonoBehaviour:
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
