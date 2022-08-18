@@ -5,6 +5,10 @@ using UnityEngine;
 public class DirectionalButtonController : MonoBehaviour
 {
     public bool up, down, left, right, counterclockwise, clockwise;
+
+    private void Start() {
+        GetComponent<UnityEngine.UI.Image>().alphaHitTestMinimumThreshold = 0.1f;
+    }
     
     public void Press(string direction)
     {
