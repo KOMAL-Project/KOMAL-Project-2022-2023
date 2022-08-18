@@ -74,7 +74,7 @@ public class CameraScript : MonoBehaviour
             }
             //transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y + 90) % 360, transform.eulerAngles.z);
         }
-        if (Input.GetKeyDown(overheadKey))
+        if (Input.GetKeyDown(overheadKey) || input.overhead)
         {
             targetYRotation -= 30;
             targetXRotation = -90;
@@ -85,7 +85,7 @@ public class CameraScript : MonoBehaviour
             //transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y + 90) % 360, transform.eulerAngles.z);
         }
 
-        if (Input.GetKeyUp(overheadKey))
+        if (Input.GetKeyUp(overheadKey) || input.iso)
         {
             targetYRotation += 30;
             targetXRotation = -xAngle;

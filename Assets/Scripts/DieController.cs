@@ -30,7 +30,7 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
-    private float rollSpeed = 4.0f;
+    private float rollSpeed = 4.5f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 

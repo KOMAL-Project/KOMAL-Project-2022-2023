@@ -808,6 +808,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1967392156397904000, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1967392156397904000, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1967392156397904000, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1967392156440341590, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: showUI
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1967392156783530208, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0

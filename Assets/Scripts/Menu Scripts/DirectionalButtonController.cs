@@ -5,13 +5,25 @@ using UnityEngine;
 
 public class DirectionalButtonController : MonoBehaviour
 {
-    public bool up, down, left, right, counterclockwise, clockwise;
+    public bool up, down, left, right, counterclockwise, clockwise, pause, doIso;
+
+    public bool overhead, iso;
 
     [SerializeField] bool showUI;
-
+    
     private void Start()
     {
+        doIso = true;
+        iso = false;
+        overhead = false;
         if(showUI == false) foreach (Image i in GetComponentsInChildren<Image>()) i.enabled = false; 
+    }
+
+    private void LateUpdate()
+    {
+        Debug.Log(iso + " " + overhead + " " + doIso);
+        iso = false;
+        overhead = false;
     }
 
     public void Press(string direction)
@@ -22,6 +34,13 @@ public class DirectionalButtonController : MonoBehaviour
         if (direction == "right") right = true;
         if (direction == "clockwise") clockwise = true;
         if (direction == "counterclockwise") counterclockwise = true;
+        if (direction == "camera")
+        {
+            doIso = !doIso;
+            if (doIso) iso = true;
+            else overhead = true;
+        }
+
 
     }
     public void Release(string direction)
