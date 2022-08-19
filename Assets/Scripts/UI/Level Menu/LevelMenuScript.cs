@@ -96,7 +96,7 @@ public class LevelMenuScript : MonoBehaviour
         Transform transform = menu.GetComponent<RectTransform>();
         Button[] buttons = GetComponentsInChildren<Button>();
         //sets the location target to be the center piece if entering, otherwise above or below
-        Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
+        Vector3 target = !exit ? canvasPosition : (top ? higher : lower);
 
         //sets starting position to higher or lower if entering
         if (!exit) {transform.position = (top) ? higher : lower;}
