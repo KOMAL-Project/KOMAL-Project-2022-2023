@@ -223,7 +223,7 @@ public class DieController : MonoBehaviour
     {
         int i = 0;
         string[] keys = new string[] { "w", "a", "s", "d" };
-        bool[] btns = new bool[] { dPad.up, dPad.left, dPad.down, dPad.right };
+        bool[] btns = new bool[] { dPad.keys["up"], dPad.keys["left"], dPad.keys["down"], dPad.keys["right"] };
         foreach (string k in keys)
         {
             if (Input.GetKey(k) || btns[i]) return i;

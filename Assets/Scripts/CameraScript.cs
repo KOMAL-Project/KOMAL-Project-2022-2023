@@ -51,7 +51,7 @@ public class CameraScript : MonoBehaviour
     private void Update()
     {
         //Debug.Log("c.side: " + side);
-        if ((Input.GetKeyDown(leftKey) || input.counterclockwise) && Time.time >= timeDiff) {
+        if ((Input.GetKeyDown(leftKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
             side++;
@@ -62,7 +62,7 @@ public class CameraScript : MonoBehaviour
             //transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y - 90) % 360, transform.eulerAngles.z);
         }
 
-        if ((Input.GetKeyDown(rightKey) || input.clockwise ) && Time.time >= timeDiff)
+        if ((Input.GetKeyDown(rightKey) || input.keys["clockwise"] ) && Time.time >= timeDiff)
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
