@@ -28,7 +28,7 @@ public class MenuDice : MonoBehaviour
             yield return new WaitForSeconds(rate);
             
             randX = 0 +  Random.Range(-spawnWidth, spawnWidth);
-            Instantiate(prefab, new Vector3(pos.x + randX, pos.y + Random.Range(16.5f, 17.5f), pos.z + Random.Range(5, 11)), Random.rotation, trans);
+            Instantiate(prefab, new Vector3(pos.x + randX, pos.y + Random.Range(17.5f, 18.5f), pos.z + Random.Range(5, 11)), Random.rotation, trans);
         }
     }
 

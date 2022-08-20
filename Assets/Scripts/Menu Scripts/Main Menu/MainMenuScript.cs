@@ -17,8 +17,6 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject levelMenu;
-    [SerializeField] private GameObject diceCamera;
-    private DiceCameraScript camScript;
     [SerializeField] private float animationLength;
     [SerializeField] private float animationSpeed;
     [SerializeField] private float smoothDampTimeChange;
@@ -35,9 +33,11 @@ public class MainMenuScript : MonoBehaviour
         canvasPosition = GetComponent<Transform>().position;
         higher = new Vector2(canvasPosition.x, canvasPosition.y + menuSpace);
         lower = new Vector2(canvasPosition.x, canvasPosition.y - menuSpace);
-        camScript = diceCamera.GetComponent<DiceCameraScript>();
+        animator = GetComponent<Animator>();
 
-        StartCoroutine(menuMove(mainMenu, true, false));
+        animator.SetTrigger("Start Menu Entry");
+
+        //StartCoroutine(menuMove(mainMenu, true, false));
     }
 
    
@@ -47,22 +47,11 @@ public class MainMenuScript : MonoBehaviour
         
     }
 
-    public void changeLevel(int level) {
-        if (ManageGame.furthestLevel + 1 >= level) {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level " + (level));
-        }
-    }
 
     public void changeMenu(int from, int to) {
-        StartCoroutine(menuMove(determineMenu(from), from > to, true));
-        StartCoroutine(menuMove(determineMenu(to), to > from, false));
+        //StartCoroutine(menuMove(determineMenu(from), from > to, true));
+        //StartCoroutine(menuMove(determineMenu(to), to > from, false));
 
-        if (from == 0 && to == 1) {
-            camScript.pullDirection(animationLength, false);
-        }
-        else if (from == 1 && to == 0) {
-            camScript.pullDirection(animationLength, true);
-        }
         
     }
 

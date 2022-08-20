@@ -5,14 +5,18 @@ using UnityEngine;
 public class ButtonScript : MonoBehaviour
 {
     [SerializeReference] private bool mainMenuButton = true;
-    [SerializeField] private int menuStart = 0;
     [SerializeField] private int menuDestination = 0;
     [SerializeField] private AudioClip sound;
+    [SerializeField] private string animationTrigger;
     private AudioSource source;
+    private Animator animator;
+    private MainMenuScript mmm;
     // Start is called before the first frame update
     void Start()
     {
         source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
+        animator = GetComponentInParent<Animator>();
+        mmm = GetComponentInParent<MainMenuScript>();
         GetComponent<UnityEngine.UI.Button>().onClick.AddListener(click);
 
     }
@@ -25,13 +29,22 @@ public class ButtonScript : MonoBehaviour
 
     public void click() {
         playSound();
-        
+        animator.SetTrigger(animationTrigger);
+        StartCoroutine(changeCurrentMenu());
+
+        /*
         if (mainMenuButton) {
-            GetComponentInParent<MainMenuScript>().changeMenu(menuStart, menuDestination);
+            mmm.changeMenu(menuStart, menuDestination);
         }
         else if (menuDestination != menuStart){
             GetComponentInParent<LevelMenuScript>().changeActiveMenu(menuDestination > menuStart);
         }
+        */
+    }
+
+    private IEnumerator changeCurrentMenu() {
+         yield return new WaitForSeconds(0.05f);
+         animator.SetInteger("Current Menu", menuDestination);
     }
 
 
