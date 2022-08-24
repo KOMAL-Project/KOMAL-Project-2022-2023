@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour
 {
-    [SerializeReference] private bool mainMenuButton = true;
+    [SerializeField] private string buttonType;
     [SerializeField] private int menuDestination = 0;
     [SerializeField] private AudioClip sound;
     [SerializeField] private string animationTrigger;
@@ -21,7 +21,6 @@ public class ButtonScript : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     public void playSound() {
         source.clip = sound;
         source.Play();
@@ -30,16 +29,9 @@ public class ButtonScript : MonoBehaviour
     public void click() {
         playSound();
         animator.SetTrigger(animationTrigger);
+        //Change int after trigger is activated
         StartCoroutine(changeCurrentMenu());
 
-        /*
-        if (mainMenuButton) {
-            mmm.changeMenu(menuStart, menuDestination);
-        }
-        else if (menuDestination != menuStart){
-            GetComponentInParent<LevelMenuScript>().changeActiveMenu(menuDestination > menuStart);
-        }
-        */
     }
 
     private IEnumerator changeCurrentMenu() {
