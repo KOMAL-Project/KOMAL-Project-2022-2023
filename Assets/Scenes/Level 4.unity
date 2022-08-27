@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967392156783530208, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1967392156783530208, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -220,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
---- !u!1001 &283528691
+--- !u!1001 &780010461
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2043654805415077655, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2043654805415077655, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -877,6 +877,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6253046223106284352, guid: 3faca8634b3b0ea45832c736f9e5c42c, type: 3}
+      propertyPath: rollSpeed
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 7183205218511773034, guid: 3faca8634b3b0ea45832c736f9e5c42c, type: 3}
       propertyPath: manager
       value: 

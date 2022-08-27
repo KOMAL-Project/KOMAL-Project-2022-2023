@@ -6,6 +6,8 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
+    
+
 
     public GameObject floorTile, 
         pipSwitch, winTile, board, die, singleUseTile;
@@ -66,6 +68,8 @@ public class ManageGame : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Application.targetFrameRate = 45;
+
         width = level.width;
         length = level.height;
         levelData = new GameObject[width, length];
@@ -194,7 +198,7 @@ public class ManageGame : MonoBehaviour
                     Debug.Log(i + " " + j);
                     die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
                     
-                    die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
+                    die.GetComponentInChildren<DieController>().gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
             }
 

@@ -35,7 +35,7 @@ public class DirectionalButtonController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log(iso + " " + overhead + " " + doIso);
+        //Debug.Log(iso + " " + overhead + " " + doIso);
         iso = false;
         overhead = false;
     }

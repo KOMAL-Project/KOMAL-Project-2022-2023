@@ -29,8 +29,8 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
-    
-    private float rollSpeed = 4.5f;
+
+    private float rollSpeed = 9f;
 
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -235,7 +235,7 @@ public class DieController : MonoBehaviour
     IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
         isMoving = true;
 
-        for (int i = 0; i < (90 / rollSpeed); i++) 
+        for (int i = 0; i < (90 /rollSpeed); i++) 
         {
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
