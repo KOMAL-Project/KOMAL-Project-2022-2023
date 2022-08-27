@@ -51,6 +51,7 @@ MonoBehaviour:
   board: {fileID: 2201775946470745440}
   die: {fileID: 0}
   singleUseTile: {fileID: 3669176422411836730, guid: 135380890e35efd449052a2bb267c961, type: 3}
+  wallObj: {fileID: 7805049832142475294, guid: 8a4402010dfba5047bd6005d173fc1f5, type: 3}
   pipsWallsPrefabs:
   - {fileID: 40837477867942811, guid: e49712b40e9eb36449ea7c6057d14a79, type: 3}
   - {fileID: 2407649580167160660, guid: f1983673e4951354db5088582462f228, type: 3}
