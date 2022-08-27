@@ -11,6 +11,7 @@ public class LevelMenuScript : MonoBehaviour
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject cam;
     private DieController die;
+    private DirectionalButtonController input;
     [SerializeField] private float animationLength;
     [SerializeField] private float animationSpeed;
     [SerializeField] private float smoothDampTimeChange;
@@ -29,10 +30,11 @@ public class LevelMenuScript : MonoBehaviour
         lower = new Vector2(canvasPosition.x, canvasPosition.y - menuSpace);
         menuType = 0;
         menuMoving = false;
+        input = GameObject.FindGameObjectWithTag("D-Pad").GetComponent<DirectionalButtonController>();
     }
 
     void Update() {
-        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing) || (ManageGame.levelFinishing && (pause.activeInHierarchy || options.activeInHierarchy))) {
+        if (((Input.GetKeyDown(KeyCode.Escape) || input.keys["pause"]) && !ManageGame.levelFinishing) || (ManageGame.levelFinishing && (pause.activeInHierarchy || options.activeInHierarchy))) {
             if (!menuMoving) {
                 changeActiveMenu(menuType == 0);
             }
@@ -94,7 +96,7 @@ public class LevelMenuScript : MonoBehaviour
         Transform transform = menu.GetComponent<RectTransform>();
         Button[] buttons = GetComponentsInChildren<Button>();
         //sets the location target to be the center piece if entering, otherwise above or below
-        Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
+        Vector3 target = !exit ? canvasPosition : (top ? higher : lower);
 
         //sets starting position to higher or lower if entering
         if (!exit) {transform.position = (top) ? higher : lower;}

@@ -6,9 +6,11 @@ using UnityEngine;
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
+    
+
 
     public GameObject floorTile, 
-        pipSwitch, winTile, board, die, singleUseTile;
+        pipSwitch, winTile, board, die, singleUseTile, wallObj;
 
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
 
@@ -20,7 +22,7 @@ public class ManageGame : MonoBehaviour
 
     public int width, length, levelID;
     public Texture2D level;
-    public GameObject[,] levelData;
+    public GameObject[,] levelData, floorData;
     public int[] playerStart;
     public static int furthestLevel = 0;
     public static bool levelFinishing = false;
@@ -66,15 +68,18 @@ public class ManageGame : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Application.targetFrameRate = 45;
+
         width = level.width;
         length = level.height;
         levelData = new GameObject[width, length];
-        
+        floorData = new GameObject[width, length];
+
         for (int i = 0; i < width; i++)
         {
             for(int j = 0; j < length; j++)
             {
-                Instantiate(floorTile, new Vector3(i-width/2, 0, j-length/2), new Quaternion(0, 0, 0, 0), board.transform);
+                floorData[i,j] = Instantiate(floorTile, new Vector3(i-width/2, 0, j-length/2), new Quaternion(0, 0, 0, 0), board.transform);
             }
         }
 
@@ -194,7 +199,7 @@ public class ManageGame : MonoBehaviour
                     Debug.Log(i + " " + j);
                     die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
                     
-                    die.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
+                    die.GetComponentInChildren<DieController>().gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
             }
 
@@ -225,148 +230,153 @@ public class ManageGame : MonoBehaviour
             {
                 if (tempWallData[i, j])
                 {
-                    int up = 0;
-                    int right = 0;
-                    int down = 0;
-                    int left = 0;
+                    levelData[i, j] = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
 
-                    if (i == 0 && j == 0)
-                    {
-                        left = 0;
-                        down = 0;
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                    }
-                    else if (i == 0 && j == length - 1)
-                    {
-                        left = 0;
-                        up = 0;
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                    }
-                    else if (i == width - 1 && j == 0)
-                    {
-                        right = 0;
-                        down = 0;
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                    }
-                    else if (i == width - 1 && j == length - 1)
-                    {
-                        right = 0;
-                        up = 0;
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                    }
-                    else if (i == 0) 
-                    {
-                        left = 0;
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                    }
-                    else if (i == width - 1)
-                    {
-                        right = 0;
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                    }
-                    else if (j == 0)
-                    {
-                        down = 0;
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                    }
-                    else if (j == length - 1)
-                    {
-                        up = 0;
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                    }
-                    else
-                    {
-                        if (tempWallData[i - 1, j])
-                        {
-                            left = 1;
-                        }
-                        if (tempWallData[i, j - 1])
-                        {
-                            down = 1;
-                        }
-                        if (tempWallData[i + 1, j])
-                        {
-                            right = 1;
-                        }
-                        if (tempWallData[i, j + 1])
-                        {
-                            up = 1;
-                        }
-                    }
-                    // Debug.Log("added tile: " + left + right + up + down);
-                    levelData[i, j] = Instantiate(wallDirections[left.ToString() + right.ToString() + up.ToString() + down.ToString()], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    Destroy(floorData[i, j]);
+
+
+                    //int up = 0;
+                    //int right = 0;
+                    //int down = 0;
+                    //int left = 0;
+
+                    //if (i == 0 && j == 0)
+                    //{
+                    //    left = 0;
+                    //    down = 0;
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //}
+                    //else if (i == 0 && j == length - 1)
+                    //{
+                    //    left = 0;
+                    //    up = 0;
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //}
+                    //else if (i == width - 1 && j == 0)
+                    //{
+                    //    right = 0;
+                    //    down = 0;
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //}
+                    //else if (i == width - 1 && j == length - 1)
+                    //{
+                    //    right = 0;
+                    //    up = 0;
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //}
+                    //else if (i == 0) 
+                    //{
+                    //    left = 0;
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //}
+                    //else if (i == width - 1)
+                    //{
+                    //    right = 0;
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //}
+                    //else if (j == 0)
+                    //{
+                    //    down = 0;
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //}
+                    //else if (j == length - 1)
+                    //{
+                    //    up = 0;
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (tempWallData[i - 1, j])
+                    //    {
+                    //        left = 1;
+                    //    }
+                    //    if (tempWallData[i, j - 1])
+                    //    {
+                    //        down = 1;
+                    //    }
+                    //    if (tempWallData[i + 1, j])
+                    //    {
+                    //        right = 1;
+                    //    }
+                    //    if (tempWallData[i, j + 1])
+                    //    {
+                    //        up = 1;
+                    //    }
+                    //}
+                    //// Debug.Log("added tile: " + left + right + up + down);
+
                 }
             }
         }

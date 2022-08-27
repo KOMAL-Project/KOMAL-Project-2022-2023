@@ -24,14 +24,13 @@ public class DieController : MonoBehaviour
 
     public bool canControl = true;
     private bool isMoving;
-
     
     [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
     private float rollSpeed = 4.5f;
-
+    
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
     public static int totalDiceMoves = 0;
@@ -40,8 +39,7 @@ public class DieController : MonoBehaviour
     private AudioSource source;
 
     private CameraScript cs;
-
-
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -223,7 +221,7 @@ public class DieController : MonoBehaviour
     {
         int i = 0;
         string[] keys = new string[] { "w", "a", "s", "d" };
-        bool[] btns = new bool[] { dPad.up, dPad.left, dPad.down, dPad.right };
+        bool[] btns = new bool[] { dPad.keys["up"], dPad.keys["left"], dPad.keys["down"], dPad.keys["right"] };
         foreach (string k in keys)
         {
             if (Input.GetKey(k) || btns[i]) return i;
@@ -235,7 +233,7 @@ public class DieController : MonoBehaviour
     IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
         isMoving = true;
 
-        for (int i = 0; i < (90 / rollSpeed); i++) 
+        for (int i = 0; i < (90 /rollSpeed); i++) 
         {
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
