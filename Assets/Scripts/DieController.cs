@@ -24,14 +24,13 @@ public class DieController : MonoBehaviour
 
     public bool canControl = true;
     private bool isMoving;
-
     
     [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
-
-    private float rollSpeed = 9f;
-
+    
+    private float rollSpeed = 4.5f;
+    
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
     public static int totalDiceMoves = 0;
@@ -40,8 +39,7 @@ public class DieController : MonoBehaviour
     private AudioSource source;
 
     private CameraScript cs;
-
-
+    
     // Start is called before the first frame update
     void Awake()
     {
