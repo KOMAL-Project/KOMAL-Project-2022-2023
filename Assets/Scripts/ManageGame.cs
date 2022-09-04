@@ -12,11 +12,14 @@ public class ManageGame : MonoBehaviour
     public GameObject floorTile, 
         pipSwitch, winTile, board, die, singleUseTile, wallObj;
 
+    public GameObject[] floorTiles = new GameObject[4];
+
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
 
     public GameObject[] chargeWalls = new GameObject[4];
     public GameObject[] chargeSwitchPrefabs = new GameObject[4];
 
+    [SerializeField] private bool alternatingFloorTiles;
 
     GameObject winSwitchInstance;
 
@@ -79,7 +82,20 @@ public class ManageGame : MonoBehaviour
         {
             for(int j = 0; j < length; j++)
             {
-                floorData[i,j] = Instantiate(floorTile, new Vector3(i-width/2, 0, j-length/2), new Quaternion(0, 0, 0, 0), board.transform);
+                if (!alternatingFloorTiles) { 
+                    floorData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                }
+                else 
+                {
+                    GameObject temp;
+
+                    if (i % 2 == 0 && j % 2 == 0) temp = floorTiles[0];
+                    else if (i % 2 == 1 && j % 2 == 0) temp = floorTiles[1];
+                    else if (i % 2 == 0 && j % 2 == 1) temp = floorTiles[2];
+                    else temp = floorTiles[3];
+
+                    floorData[i, j] = Instantiate(temp, new Vector3(i - width / 2, 0.4f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                }
             }
         }
 
