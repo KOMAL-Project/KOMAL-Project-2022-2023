@@ -11,30 +11,25 @@ public class LevelMenuScript : MonoBehaviour
     [SerializeField] private GameObject options;
     [SerializeField] private GameObject cam;
     private DieController die;
-    [SerializeField] private float animationLength;
-    [SerializeField] private float animationSpeed;
-    [SerializeField] private float smoothDampTimeChange;
-    [SerializeField] private float menuSpace;
-    private bool menuMoving;
-    private Vector3 canvasPosition;
-    private Vector2 higher;
-    private Vector2 lower;
-    private int menuType;
+    [SerializeField] private float animationTime;
+    [SerializeField] private LeanTweenType easeType;
+    private float Yoffset;
+    private int currentMenu;
 
     // Start is called before the first frame update
     void Start()
-    {
-        canvasPosition = GetComponent<Transform>().position;
-        higher = new Vector2(canvasPosition.x, canvasPosition.y + menuSpace);
-        lower = new Vector2(canvasPosition.x, canvasPosition.y - menuSpace);
-        menuType = 0;
-        menuMoving = false;
+    {  
+        currentMenu = 0;
+        Yoffset = GetComponent<CanvasScaler>().referenceResolution.y;
     }
 
     void Update() {
-        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing) || (ManageGame.levelFinishing && (pause.activeInHierarchy || options.activeInHierarchy))) {
-            if (!menuMoving) {
-                changeActiveMenu(menuType == 0);
+        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing)) {
+            if (currentMenu == 1) {
+                changeMenu(0);
+            }
+            else {
+                changeMenu(1);
             }
         } 
         if (Input.GetKeyDown(KeyCode.R) && !ManageGame.levelFinishing) {
@@ -50,83 +45,40 @@ public class LevelMenuScript : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    //up if menu is moving "up" a menu, like none to pause or pause to options/settings
-    public void changeActiveMenu(bool up) {
+    //menu animations
+    public void changeMenu(int to) {
+        
+        //Debug.Log(currentMenu + "  " + to);
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
         UniversalAdditionalCameraData camData = cam.GetComponent<Camera>().GetComponent<UniversalAdditionalCameraData>();
-        
 
-        if (menuType == 0) {
-            menuType++;
-            camData.renderPostProcessing = true;
-            die.canControl = false;
-            StartCoroutine(menuMove(pause, false, false));
+        float target = (to > currentMenu) ? Yoffset : -Yoffset;
+
+        if (to == 0) { //moving back to gameplay
+            camData.renderPostProcessing = false;
+            die.canControl = true;
+            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
         }
-        else if (menuType == 1) {
+        else if (to == 1) { //moving to pause
 
-            if (up) {
-                menuType++;
-                StartCoroutine(menuMove(pause, true, true));
-                StartCoroutine(menuMove(options, false, false));
-            }
-            else {
-                StartCoroutine(menuMove(pause, false, true));
-                menuType--;
+            LeanTween.moveY(pause.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
+
+            if (currentMenu == 0) { //moving from gameplay
                 camData.renderPostProcessing = false;
                 die.canControl = true;
             }
+            else { //moving from options
+                LeanTween.moveY(options.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
+            }
             
         }
-        else {
-            menuType--;
-            StartCoroutine(menuMove(pause, true, false));
-            StartCoroutine(menuMove(options, false, true));
+        else { //moving to options
+            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
+            LeanTween.moveY(options.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
             
         }
-    }
-
-    private IEnumerator menuMove(GameObject menu, bool top, bool exit) {
-
-        menu.SetActive(true);
-        menuMoving = true;
-
-        Transform transform = menu.GetComponent<RectTransform>();
-        Button[] buttons = GetComponentsInChildren<Button>();
-        //sets the location target to be the center piece if entering, otherwise above or below
-        Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
-
-        //sets starting position to higher or lower if entering
-        if (!exit) {transform.position = (top) ? higher : lower;}
-
-        //disables all buttons
-        foreach (var button in buttons) {
-            button.enabled = false;
-        }
-
-        Vector2 velocity = Vector2.zero;
-        float currentDuration = 0f;
-        float animationTime = animationSpeed;
-
-        while (currentDuration <= animationLength) {
-            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, animationTime);
-            //speeds up animation time slightly to ensure menu reaches it's destination
-            animationTime -= smoothDampTimeChange;
-            currentDuration += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = target;
-        menuMoving = false;
-
-        //enables all buttons
-        foreach (var button in buttons) {
-            button.enabled = true;
-        }
-
-        //sets menu to inactive if it is now off screen
-        if (exit) {menu.SetActive(false);}
-
+        currentMenu = to;
     }
 
     

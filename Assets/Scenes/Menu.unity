@@ -420,6 +420,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1564439112}
     m_Modifications:
+    - target: {fileID: 886751173067530043, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3237929799030689952, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_Name
       value: Chapter 1
@@ -523,6 +527,10 @@ PrefabInstance:
     - target: {fileID: 4831839648165882163, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: animationTrigger
       value: To Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182341447098487868, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -550
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
