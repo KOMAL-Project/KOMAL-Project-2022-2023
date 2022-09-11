@@ -6,17 +6,16 @@ using UnityEngine.UI;
 public class MainMenuLevelButtons : MonoBehaviour
 {
     private int level;
-    private int furthest;
-
-    private Button button;
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<Image>().alphaHitTestMinimumThreshold = 0.1f;
 
-        button = GetComponent<Button>();
+        Button button = GetComponent<Button>();
+        
         level = int.Parse(gameObject.name);
-        furthest = ManageGame.furthestLevel;
+        int furthest = ManageGame.furthestLevel;
+        int chapter = ManageGame.furthestChapter;
 
         if (furthest + 1 >= level) {
             button.interactable = true;

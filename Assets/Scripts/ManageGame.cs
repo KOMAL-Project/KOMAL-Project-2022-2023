@@ -23,6 +23,7 @@ public class ManageGame : MonoBehaviour
     public GameObject[,] levelData;
     public int[] playerStart;
     public static int furthestLevel = 0;
+    public static int furthestChapter = 1;
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
