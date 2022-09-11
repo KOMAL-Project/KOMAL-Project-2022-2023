@@ -425,6 +425,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 106830433507926138, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1600
+      objectReference: {fileID: 0}
+    - target: {fileID: 106830433507926138, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316025219982852280, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316025219982852280, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4121884149191858297, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4121884149191858297, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4121884149191858297, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289595293765643719, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 8192
+      objectReference: {fileID: 0}
     - target: {fileID: 6338770314471035597, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -479,7 +511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6384016288137156194, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7951342737827353577, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
