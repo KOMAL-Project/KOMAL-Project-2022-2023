@@ -396,9 +396,10 @@ public class ManageGame : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(5);
         if (levelID != 18) {
-            SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+            SceneManager.LoadSceneAsync("Scenes/Chapter " + furthestChapter + "/Level " + (levelID + 1));
         }
-        else {
+        else { //change later to go to next chapter
+            furthestChapter++;
             SceneManager.LoadSceneAsync("End Screen");
         }
     }
