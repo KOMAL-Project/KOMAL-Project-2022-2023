@@ -23,11 +23,11 @@ public class ManageGame : MonoBehaviour
 
     GameObject winSwitchInstance;
 
-    public int width, length, levelID;
+    public int width, length, levelID, chapterID;
     public Texture2D level;
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
-    public static int furthestLevel = 0;
+    public static int furthestLevel = 12; //change this to skip levels
     public static int furthestChapter = 1;
     public static bool levelFinishing = false;
 
@@ -78,6 +78,10 @@ public class ManageGame : MonoBehaviour
         length = level.height;
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
+
+        string path = SceneManager.GetActiveScene().path;
+        levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
+        chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
 
         for (int i = 0; i < width; i++)
         {
@@ -411,7 +415,6 @@ public class ManageGame : MonoBehaviour
     public void LevelComplete()
     {
         levelFinishing = true;
-        furthestLevel = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
 
@@ -421,12 +424,14 @@ public class ManageGame : MonoBehaviour
     {
 
         yield return new WaitForSecondsRealtime(5);
-        if (levelID != 18) {
-            SceneManager.LoadSceneAsync("Scenes/Chapter " + furthestChapter + "/Level " + (levelID + 1));
+        if (levelID != 12) {
+            furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
+            SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + (levelID + 1));
         }
-        else { //change later to go to next chapter
+        else {
             furthestChapter++;
-            SceneManager.LoadSceneAsync("End Screen");
+            furthestLevel = 0;
+            SceneManager.LoadSceneAsync("Menu");
         }
     }
 

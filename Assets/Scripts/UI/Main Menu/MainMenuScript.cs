@@ -15,6 +15,7 @@ public class MainMenuScript : MonoBehaviour
     private float Xoffset;
     private int currentMenu;
     private int selectedChapter;
+    private int selectedOptions;
     
 
     
@@ -38,7 +39,7 @@ public class MainMenuScript : MonoBehaviour
 
     /*
     For menus:
-    options is -1
+    options is -1 to -inf
     start is 0
     level is 1 to inf
     */
@@ -68,6 +69,10 @@ public class MainMenuScript : MonoBehaviour
             LeanTween.moveX(leveltransform, leveltransform.localPosition.x + target, animationTime).setEase(easeType);
 
         }
+        else if (currentMenu <= -1 && to <= -1) { //for moving between options
+            
+        }
+        
         else { //for moving between menus
 
             float target = (to > currentMenu) ? -Yoffset : Yoffset;

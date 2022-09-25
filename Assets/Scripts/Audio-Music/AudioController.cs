@@ -8,6 +8,7 @@ public class AudioController : MonoBehaviour
     public static float volume = 0.5f;
     [SerializeField] private AudioMixer mixer;
     // Start is called before the first frame update
+    
     void Start() {
         GetComponent<UnityEngine.UI.Slider>().value = volume;
     }
