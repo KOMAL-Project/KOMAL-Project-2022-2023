@@ -29,7 +29,7 @@ public class MainMenuLevelButtons : MonoBehaviour
     }
 
     private void changeLevel() {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Scenes/Chapter " + chapter + "/Level " + level);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Chapter " + chapter + "/Level " + level);
     }
 
 }

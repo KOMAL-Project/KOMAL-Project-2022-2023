@@ -5,16 +5,17 @@ using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
-    public static float volume = 0.5f;
+    public static Dictionary<string, float> volume = new Dictionary<string, float>(){{"Music", 1f}, {"SFX", 1f}};
+    [SerializeField] private string audioName;
     [SerializeField] private AudioMixer mixer;
-    // Start is called before the first frame update
     
     void Start() {
-        GetComponent<UnityEngine.UI.Slider>().value = volume;
+        GetComponent<UnityEngine.UI.Slider>().value = volume[audioName];
     }
+
     public void setVolume(float sliderValue) {
-        mixer.SetFloat("Master Volume", Mathf.Log10(sliderValue) * 20);
-        volume = sliderValue;
+        mixer.SetFloat(audioName + " Volume", Mathf.Log10(sliderValue) * 30);
+        volume[audioName] = sliderValue;
     }
 
 

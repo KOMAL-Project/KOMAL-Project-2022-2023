@@ -27,7 +27,7 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
-    public static int furthestLevel = 12; //change this to skip levels
+    public static int furthestLevel = 0; //change this to skip levels
     public static int furthestChapter = 1;
     public static bool levelFinishing = false;
 

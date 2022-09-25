@@ -289,7 +289,7 @@ RectTransform:
   - {fileID: 37325400}
   - {fileID: 121883468}
   m_Father: {fileID: 1651743426}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -327,7 +327,7 @@ RectTransform:
   - {fileID: 534714476}
   - {fileID: 542605964}
   m_Father: {fileID: 1651743426}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1561c8506cb7c1144991ebce05be41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioName: SFX
   mixer: {fileID: 24100000, guid: ee171027d8a404a4186aec00287dd201, type: 2}
 --- !u!114 &121883470
 MonoBehaviour:
@@ -432,10 +433,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 999772887}
   m_HandleRect: {fileID: 1339988477}
   m_Direction: 0
-  m_MinValue: 0.001
-  m_MaxValue: 1
+  m_MinValue: 0
+  m_MaxValue: 3
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -900,6 +901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1561c8506cb7c1144991ebce05be41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioName: 
   mixer: {fileID: 24100000, guid: ee171027d8a404a4186aec00287dd201, type: 2}
 --- !u!114 &270792479
 MonoBehaviour:
@@ -1568,8 +1570,8 @@ RectTransform:
   m_Father: {fileID: 1703905045}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1799,6 +1801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1561c8506cb7c1144991ebce05be41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioName: Music
   mixer: {fileID: 24100000, guid: ee171027d8a404a4186aec00287dd201, type: 2}
 --- !u!114 &542605966
 MonoBehaviour:
@@ -1844,10 +1847,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1388163396}
   m_HandleRect: {fileID: 1312863159}
   m_Direction: 0
-  m_MinValue: 0.001
-  m_MaxValue: 1
+  m_MinValue: 0
+  m_MaxValue: 3
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2179,7 +2182,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2489,7 +2492,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2695,6 +2698,10 @@ PrefabInstance:
     - target: {fileID: 3237929799030689952, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_Name
       value: Chapter 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929799030689952, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799030689953, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_Pivot.x
@@ -3075,7 +3082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1104422792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3328,11 +3335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417637243443514169, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 750
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 417637243443514169, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 400
+      value: -600
       objectReference: {fileID: 0}
     - target: {fileID: 417637243443514169, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3405,8 +3412,8 @@ RectTransform:
   m_Father: {fileID: 434970237}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.4994995, y: 0}
+  m_AnchorMax: {x: 0.4994995, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3637,7 +3644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -1620}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1388163395
@@ -3774,6 +3781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1561c8506cb7c1144991ebce05be41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioName: 
   mixer: {fileID: 24100000, guid: ee171027d8a404a4186aec00287dd201, type: 2}
 --- !u!114 &1468375757
 MonoBehaviour:
@@ -4118,8 +4126,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 105068696}
   - {fileID: 118912561}
+  - {fileID: 105068696}
   m_Father: {fileID: 1372192936}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5158,6 +5166,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1564439112}
     m_Modifications:
+    - target: {fileID: 886751171780000133, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2964724403334179712, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_SizeDelta.x
       value: 450
