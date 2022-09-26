@@ -11,6 +11,7 @@ public class AudioController : MonoBehaviour
     
     void Start() {
         GetComponent<UnityEngine.UI.Slider>().value = volume[audioName];
+        setVolume(volume[audioName]);
     }
 
     public void setVolume(float sliderValue) {

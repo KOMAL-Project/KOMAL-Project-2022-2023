@@ -57,7 +57,7 @@ public class CameraScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject; 
 
         UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
-        camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
+        //camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
     }
 
     private void Update()

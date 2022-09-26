@@ -20,6 +20,7 @@ public class LevelMenuScript : MonoBehaviour
     void Start()
     {  
         currentMenu = 0;
+        Debug.Log(Yoffset);
         Yoffset = GetComponent<CanvasScaler>().referenceResolution.y;
     }
 
@@ -51,30 +52,33 @@ public class LevelMenuScript : MonoBehaviour
         //Debug.Log(currentMenu + "  " + to);
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        UniversalAdditionalCameraData camData = cam.GetComponent<Camera>().GetComponent<UniversalAdditionalCameraData>();
+        //UniversalAdditionalCameraData camData = cam.GetComponent<Camera>().GetComponent<UniversalAdditionalCameraData>();
 
         float target = (to > currentMenu) ? Yoffset : -Yoffset;
+        //Debug.Log(pause.GetComponent<RectTransform>().localPosition.y);
 
         if (to == 0) { //moving back to gameplay
-            camData.renderPostProcessing = false;
+
+            //camData.renderPostProcessing = false;
             die.canControl = true;
-            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
+            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
         }
         else if (to == 1) { //moving to pause
 
             LeanTween.moveY(pause.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
             if (currentMenu == 0) { //moving from gameplay
-                camData.renderPostProcessing = false;
+
+                //camData.renderPostProcessing = false;
                 die.canControl = true;
             }
             else { //moving from options
-                LeanTween.moveY(options.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
+                LeanTween.moveY(options.GetComponent<RectTransform>(), options.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
             }
             
         }
         else { //moving to options
-            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().position.x + target, animationTime).setEase(easeType);
+            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
             LeanTween.moveY(options.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
             
         }
