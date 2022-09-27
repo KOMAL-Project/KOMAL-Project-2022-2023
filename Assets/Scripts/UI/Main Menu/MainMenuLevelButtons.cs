@@ -18,7 +18,7 @@ public class MainMenuLevelButtons : MonoBehaviour
         int furthestLevel = ManageGame.furthestLevel;
         int furthestChapter = ManageGame.furthestChapter;
 
-        if (furthestLevel + 1 >= level && furthestChapter >= chapter) {
+        if ((furthestLevel + 1 >= level && furthestChapter == chapter) || furthestChapter > chapter) {
             button.interactable = true;
         }
         else {
@@ -29,7 +29,7 @@ public class MainMenuLevelButtons : MonoBehaviour
     }
 
     private void changeLevel() {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Scenes/Chapter " + chapter + "/Level " + level);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Chapter " + chapter + "/Level " + level);
     }
 
 }

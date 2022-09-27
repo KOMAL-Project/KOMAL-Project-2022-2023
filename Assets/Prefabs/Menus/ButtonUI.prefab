@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8396226, g: 0.14653791, b: 0.1809768, a: 1}
+  m_Color: {r: 0.98039216, g: 0.42352942, b: 0.44313726, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -138,7 +138,6 @@ MonoBehaviour:
   buttonType: 
   menuDestination: 0
   sound: {fileID: 8300000, guid: f6b10f5f9b82c704390fc758ab6103da, type: 3}
-  animationTrigger: 
 --- !u!1 &5002866303791165361
 GameObject:
   m_ObjectHideFlags: 0

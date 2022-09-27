@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MenuDice : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject[] prefabs;
     [SerializeField] private float rate = 0.3f;
     [SerializeField] private float spawnDistance;
     [SerializeField] private float spawnWidth = 30;
@@ -28,7 +28,7 @@ public class MenuDice : MonoBehaviour
             yield return new WaitForSeconds(rate);
             
             randX = 0 +  Random.Range(-spawnWidth, spawnWidth);
-            Instantiate(prefab, new Vector3(pos.x + randX, pos.y + Random.Range(17.5f, 18.5f), pos.z + Random.Range(5, 11)), Random.rotation, trans);
+            Instantiate(prefabs[Random.Range(0,prefabs.Length)], new Vector3(pos.x + randX, pos.y + Random.Range(17.5f, 18.5f), pos.z + Random.Range(5, 11)), Random.rotation, trans);
         }
     }
 
