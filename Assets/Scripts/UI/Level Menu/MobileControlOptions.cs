@@ -18,12 +18,12 @@ public class MobileControlOptions : MonoBehaviour
         controllerTransform = controller.GetComponent<RectTransform>();
         imgs = controller.GetComponentsInChildren<Image>();
 
-        GetComponent<UnityEngine.UI.Slider>().value = controls[controlName];
         changeProperty(controls[controlName]);
-        controllerTransform.position = new Vector2(0,0);
+        GetComponent<UnityEngine.UI.Slider>().value = controls[controlName];
     }
 
     public void changeProperty(float sliderValue) {
+        controls[controlName] = sliderValue;
         if (controlName == "Transparency") {
 
             imgs = controller.GetComponentsInChildren<Image>();

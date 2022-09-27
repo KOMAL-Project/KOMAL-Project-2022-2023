@@ -9,7 +9,7 @@ public class LevelMenuScript : MonoBehaviour
 {
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject options;
-    [SerializeField] private GameObject cam;
+    //[SerializeField] private GameObject cam;
     private DieController die;
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;

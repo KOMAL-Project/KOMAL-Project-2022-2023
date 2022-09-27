@@ -28,7 +28,6 @@ public class DirectionalButtonController : MonoBehaviour
             { "right", false },
             { "counterclockwise", false },
             { "clockwise", false },
-            { "pause", false }
         };
         
     }
@@ -50,6 +49,10 @@ public class DirectionalButtonController : MonoBehaviour
             doIso = !doIso;
             if (doIso) iso = true;
             else overhead = true;
+        }
+        else if (input == "pause")
+        {
+            GameObject.FindWithTag("Menu").GetComponentInChildren<LevelMenuScript>().changeMenu(1);
         }
 
 
