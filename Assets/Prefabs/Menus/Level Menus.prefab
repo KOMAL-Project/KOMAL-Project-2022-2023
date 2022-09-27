@@ -1729,6 +1729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlName: Side
+  pivotLeft: {x: -4.5, y: -4.5}
+  pivotRight: {x: 4.4375, y: -4.4375}
 --- !u!1 &5602873599177388675
 GameObject:
   m_ObjectHideFlags: 0
@@ -3056,6 +3058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlName: Transparency
+  pivotLeft: {x: 0, y: 0}
+  pivotRight: {x: 0, y: 0}
 --- !u!1 &6948212749252933003
 GameObject:
   m_ObjectHideFlags: 0
@@ -3785,6 +3789,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlName: Scale
+  pivotLeft: {x: 0, y: 0}
+  pivotRight: {x: 0, y: 0}
 --- !u!1 &8935145606121292165
 GameObject:
   m_ObjectHideFlags: 0

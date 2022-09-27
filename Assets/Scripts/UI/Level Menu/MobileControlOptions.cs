@@ -10,14 +10,13 @@ public class MobileControlOptions : MonoBehaviour
     private GameObject controller;
     private RectTransform controllerTransform;
     private Image[] imgs;
-    private Vector2 pivot; 
+    [SerializeField] private Vector2 pivotLeft, pivotRight;
 
     void Start()
     {
         controller = GameObject.FindGameObjectWithTag("D-Pad");
         controllerTransform = controller.GetComponent<RectTransform>();
         imgs = controller.GetComponentsInChildren<Image>();
-        pivot = controller.GetComponent<RectTransform>().pivot;
 
         GetComponent<UnityEngine.UI.Slider>().value = controls[controlName];
         changeProperty(controls[controlName]);
@@ -43,19 +42,21 @@ public class MobileControlOptions : MonoBehaviour
 
         else if (controlName == "Side") {
 
-            if (sliderValue == 1f) {
-                controllerTransform.pivot = pivot * new Vector2(-1, 1);
-                controllerTransform.position = new Vector2(-300, 0); //hard-coded +300 distance from right side
+            if (sliderValue == 1f) { //right side
                 controllerTransform.anchorMin = Vector2.right;
                 controllerTransform.anchorMax = Vector2.right;
+                controllerTransform.pivot = pivotRight;
+                //some reason this code below moves it -2160 for some reason???? so -2160 + 1860 to compensate???? 
+                controllerTransform.position = new Vector2(1860, 0); //hard-coded +300 distance from right side
+                
             }
-            else {
-                controllerTransform.position = new Vector2(2160,0);
-                controllerTransform.pivot = pivot;
-                //controllerTransform.position = Vector3.zero;
+            else { //left side
                 controllerTransform.anchorMin = Vector2.zero;
                 controllerTransform.anchorMax = Vector2.zero;
+                controllerTransform.pivot = pivotLeft;
+                controllerTransform.position = Vector3.zero;
             }
         }
     }
+
 }
