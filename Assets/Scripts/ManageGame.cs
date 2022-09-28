@@ -8,16 +8,17 @@ public class ManageGame : MonoBehaviour
 {
     
 
-
+    // Prefabs for mechanics
     public GameObject floorTile, 
         pipSwitch, winTile, board, die, singleUseTile, wallObj;
 
+    // Data that will be filled in during level generation:
     public GameObject[] floorTiles = new GameObject[4];
-
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
-
     public GameObject[] chargeWalls = new GameObject[4];
     public GameObject[] chargeSwitchPrefabs = new GameObject[4];
+
+    
 
     [SerializeField] private bool alternatingFloorTiles;
 
@@ -27,8 +28,8 @@ public class ManageGame : MonoBehaviour
     public Texture2D level;
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
-    public static int furthestLevel = 0; //change this to skip levels
-    public static int furthestChapter = 1;
+    public static int furthestLevel = 255; //change this to skip levels
+    public static int furthestChapter = 255;
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
