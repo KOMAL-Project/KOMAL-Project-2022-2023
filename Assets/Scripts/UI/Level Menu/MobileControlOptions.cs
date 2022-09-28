@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MobileControlOptions : MonoBehaviour
 {
-    public static Dictionary<string, float> controls = new Dictionary<string, float>(){{"Transparency", 0.7f}, {"Scale", 0.6f}, {"Side", 0f}};
+    public static Dictionary<string, float> controls = new Dictionary<string, float>(){{"Transparency", 0.7f}, {"Scale", 0.3f}, {"Side", 0f}};
     [SerializeField] private string controlName;
     private GameObject controller;
     private RectTransform controllerTransform;
@@ -47,14 +47,14 @@ public class MobileControlOptions : MonoBehaviour
                 controllerTransform.anchorMax = Vector2.right;
                 controllerTransform.pivot = pivotRight;
                 //some reason this code below moves it -2160 for some reason???? so -2160 + 1860 to compensate???? 
-                controllerTransform.position = new Vector2(1860, 0); //hard-coded +300 distance from right side
+                controllerTransform.position = new Vector2(Screen.width - (900*controllerTransform.localScale.x), 0); //hard-coded +300 distance from right side
                 
             }
             else { //left side
                 controllerTransform.anchorMin = Vector2.zero;
                 controllerTransform.anchorMax = Vector2.zero;
                 controllerTransform.pivot = pivotLeft;
-                controllerTransform.position = Vector3.zero;
+                controllerTransform.position = Vector2.zero;
             }
         }
     }
