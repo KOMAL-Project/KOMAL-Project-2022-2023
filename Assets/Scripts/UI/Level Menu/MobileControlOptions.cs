@@ -11,21 +11,26 @@ public class MobileControlOptions : MonoBehaviour
     private RectTransform controllerTransform;
     private Image[] imgs;
     [SerializeField] private Vector2 pivotLeft, pivotRight;
+    CameraScript cs;
 
     void Start()
     {
+        
         controller = GameObject.FindGameObjectWithTag("D-Pad");
+        cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();
         controllerTransform = controller.GetComponent<RectTransform>();
         imgs = controller.GetComponentsInChildren<Image>();
 
         changeProperty(controls[controlName]);
         GetComponent<UnityEngine.UI.Slider>().value = controls[controlName];
+        cs.SetOffset(controls["Side"] == 1f ? Vector3.left : Vector3.right);
+        controllerTransform.position = controls["Side"] == 1 ? controllerTransform.position = Vector2.zero : new Vector2(Screen.width - (900 * controllerTransform.localScale.x), 0);
     }
 
     public void changeProperty(float sliderValue) {
         controls[controlName] = sliderValue;
         if (controlName == "Transparency") {
-
+            controls["Transparency"] = sliderValue;
             imgs = controller.GetComponentsInChildren<Image>();
             Color tempColor = imgs[0].color;
             tempColor.a = sliderValue;
@@ -38,23 +43,27 @@ public class MobileControlOptions : MonoBehaviour
 
         else if (controlName == "Scale") {
             controllerTransform.localScale = new Vector3(sliderValue, sliderValue, 1);
+            controls["Scale"] = sliderValue;
         }
 
         else if (controlName == "Side") {
-
+            
             if (sliderValue == 1f) { //right side
                 controllerTransform.anchorMin = Vector2.right;
                 controllerTransform.anchorMax = Vector2.right;
                 controllerTransform.pivot = pivotRight;
-                //some reason this code below moves it -2160 for some reason???? so -2160 + 1860 to compensate???? 
-                controllerTransform.position = new Vector2(Screen.width - (900*controllerTransform.localScale.x), 0); //hard-coded +300 distance from right side
-                
+                controllerTransform.position = new Vector2(Screen.width - (900*controllerTransform.localScale.x), 0); 
+                controls["Side"] = sliderValue;
+                cs.SetOffset(Vector3.left);
             }
             else { //left side
                 controllerTransform.anchorMin = Vector2.zero;
                 controllerTransform.anchorMax = Vector2.zero;
                 controllerTransform.pivot = pivotLeft;
                 controllerTransform.position = Vector2.zero;
+                controls["Side"] = sliderValue;
+                cs.SetOffset(Vector3.right);
+
             }
         }
     }

@@ -53,9 +53,10 @@ MonoBehaviour:
   wallMat: {fileID: 0}
   rotationSpeed: 25
   moveSpeed: 25
-  zoomInSize: 7
-  zoomOutSize: 10
+  zoomInSize: 5.5
+  zoomOutSize: 7
   delayTime: 0.25
+  cameraOffsetMultiplier: 3
   side: 0
 --- !u!1 &2043654806468811949
 GameObject:
