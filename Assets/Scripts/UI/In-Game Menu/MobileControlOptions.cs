@@ -13,19 +13,24 @@ public class MobileControlOptions : MonoBehaviour
     [SerializeField] private Vector2 pivotLeft, pivotRight;
     CameraScript cs;
 
-    void Start()
+    
+
+    void Awake()
     {
         
         controller = GameObject.FindGameObjectWithTag("D-Pad");
         cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();
         controllerTransform = controller.GetComponent<RectTransform>();
         imgs = controller.GetComponentsInChildren<Image>();
-
+        
         changeProperty(controls[controlName]);
         GetComponent<UnityEngine.UI.Slider>().value = controls[controlName];
-        cs.SetOffset(controls["Side"] == 1f ? Vector3.left : Vector3.right);
-        controllerTransform.position = controls["Side"] == 1 ? controllerTransform.position = Vector2.zero : new Vector2(Screen.width - (900 * controllerTransform.localScale.x), 0);
+
+       
+        
+        
     }
+
 
     public void changeProperty(float sliderValue) {
         controls[controlName] = sliderValue;
@@ -67,5 +72,7 @@ public class MobileControlOptions : MonoBehaviour
             }
         }
     }
+
+   
 
 }
