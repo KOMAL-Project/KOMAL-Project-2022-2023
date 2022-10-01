@@ -50,7 +50,7 @@ public class FaceSwitchController : MonoBehaviour
 
             foreach (GameObject w in walls) 
             {
-                w.GetComponent<Animator>().SetBool("Active", false);
+                w.GetComponentInChildren<Animator>().SetBool("Active", false);
             }
 
             for (int i = 0; i < walls.Count; i++) 
