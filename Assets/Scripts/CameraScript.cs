@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 public class CameraScript : MonoBehaviour
 {
 
+    // Inputs
     public GameObject inputObj;
     private DirectionalButtonController input;
     [SerializeField]
@@ -14,6 +15,7 @@ public class CameraScript : MonoBehaviour
     private KeyCode rightKey = KeyCode.E;
     [SerializeField]
     private KeyCode overheadKey = KeyCode.Space;
+    
 
     private GameObject player;
 
@@ -26,6 +28,7 @@ public class CameraScript : MonoBehaviour
     private GameObject cam;
     private Camera viewCam;
 
+    // Movement
     [SerializeField]
     private float rotationSpeed, moveSpeed, zoomInSize, zoomOutSize;
     [SerializeField]
@@ -35,6 +38,9 @@ public class CameraScript : MonoBehaviour
     private float targetZoom, targetYRotation, targetXRotation = -60;
 
     private Vector3 targetPosition, defaultPosition;
+    private Vector3 cameraOffset = Vector3.zero;
+    [SerializeField]
+    private float cameraOffsetMultiplier;
 
     public int side = 2;
     
@@ -57,7 +63,8 @@ public class CameraScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject; 
 
         UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
-        camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
+        //camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
+        
     }
 
     private void Update()
@@ -113,10 +120,17 @@ public class CameraScript : MonoBehaviour
         targetZoom = followPlayer ? zoomInSize : zoomOutSize;
         //Debug.Log(targetPosition);
 
-
+        // move things
         transform.eulerAngles = new Vector3(Mathf.LerpAngle(transform.eulerAngles.x, targetXRotation, Time.deltaTime * rotationSpeed), Mathf.LerpAngle(transform.eulerAngles.y, targetYRotation, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);
         transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPosition.x, Time.deltaTime * rotationSpeed), 0, Mathf.Lerp(transform.position.z, targetPosition.z, Time.deltaTime * rotationSpeed));
         viewCam.orthographicSize = Mathf.Lerp(viewCam.orthographicSize, targetZoom, Time.deltaTime * rotationSpeed);
+        cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
 
+
+    }
+
+    public void SetOffset(Vector3 newSide)
+    {
+        cameraOffset = newSide * cameraOffsetMultiplier;
     }
 }

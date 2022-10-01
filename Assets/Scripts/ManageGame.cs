@@ -8,26 +8,28 @@ public class ManageGame : MonoBehaviour
 {
     
 
-
+    // Prefabs for mechanics
     public GameObject floorTile, 
         pipSwitch, winTile, board, die, singleUseTile, wallObj;
 
+    // Data that will be filled in during level generation:
     public GameObject[] floorTiles = new GameObject[4];
-
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
-
     public GameObject[] chargeWalls = new GameObject[4];
     public GameObject[] chargeSwitchPrefabs = new GameObject[4];
+
+    
 
     [SerializeField] private bool alternatingFloorTiles;
 
     GameObject winSwitchInstance;
 
-    public int width, length, levelID;
+    public int width, length, levelID, chapterID;
     public Texture2D level;
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
-    public static int furthestLevel = 0;
+    public static int furthestLevel = 255; //change this to skip levels
+    public static int furthestChapter = 255;
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
@@ -77,6 +79,10 @@ public class ManageGame : MonoBehaviour
         length = level.height;
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
+
+        string path = SceneManager.GetActiveScene().path;
+        levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
+        chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
 
         for (int i = 0; i < width; i++)
         {
@@ -410,7 +416,6 @@ public class ManageGame : MonoBehaviour
     public void LevelComplete()
     {
         levelFinishing = true;
-        furthestLevel = Mathf.Max(levelID, furthestLevel);
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
 
@@ -420,11 +425,14 @@ public class ManageGame : MonoBehaviour
     {
 
         yield return new WaitForSecondsRealtime(5);
-        if (levelID != 18) {
-            SceneManager.LoadSceneAsync("Level " + (levelID + 1));
+        if (levelID != 12) {
+            furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
+            SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + (levelID + 1));
         }
         else {
-            SceneManager.LoadSceneAsync("End Screen");
+            furthestChapter++;
+            furthestLevel = 0;
+            SceneManager.LoadSceneAsync("Menu");
         }
     }
 

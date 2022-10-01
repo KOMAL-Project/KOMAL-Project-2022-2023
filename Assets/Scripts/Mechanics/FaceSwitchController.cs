@@ -22,20 +22,21 @@ public class FaceSwitchController : MonoBehaviour
 
     private void Start()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
         // set up sprites
-        for (int i = 0; i < 6; i++)
-        {
-            Rect rect = new Rect(0, 0, 10, 10);
-            topSprites[i] = Sprite.Create(topTextures[i], rect, new Vector2(.5f, .5f));
-        }
+        
+         Rect rect = new Rect(0, 0, 10, 10);    
+         topSprites[pips-1] = Sprite.Create(topTextures[pips-1], rect, new Vector2(.5f, .5f));
+        
         
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        
 
         mg = FindObjectOfType<ManageGame>();
 
-        GetComponentInChildren<SpriteRenderer>().sprite = topSprites[pips-1];
+        SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
+        spr.sprite = topSprites[pips - 1];
+        spr.gameObject.transform.localScale *= 10;
 
     }
 
@@ -45,7 +46,7 @@ public class FaceSwitchController : MonoBehaviour
         //Debug.Log(playerPos + " // "  + thisPos );
         if (thisPos == playerPos && player.GetComponentInChildren<DieController>().sides[Vector3.down] == pips)
         {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAA");
+            Debug.Log("Face switch triggered!");
 
             foreach (GameObject w in walls) 
             {

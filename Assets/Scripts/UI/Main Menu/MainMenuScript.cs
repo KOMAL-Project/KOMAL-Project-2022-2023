@@ -5,39 +5,29 @@ using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour
 {
-    /*
-    Menu -1: Options
-    Menu 0: Main Menu
-    Menu 1: Level Selector
-    ORDER DETERMINES DIRECTION THE MENU SCROLLS
-    determineMenu method converts int to gameobject (may be a more efficent way to do this)
-    */
 
-
-    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject startMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject levelMenu;
-    [SerializeField] private GameObject diceCamera;
-    private DiceCameraScript camScript;
-    [SerializeField] private float animationLength;
-    [SerializeField] private float animationSpeed;
-    [SerializeField] private float smoothDampTimeChange;
-    [SerializeField] private float menuSpace;
-    private Vector3 canvasPosition;
-    private Vector2 higher;
-    private Vector2 lower;
-    private Animator animator;
+    [SerializeField] private float animationTime;
+    [SerializeField] private LeanTweenType easeType;
+    private float Yoffset;
+    private float Xoffset;
+    private int currentMenu;
+    private int selectedChapter;
+    private int selectedOptions;
     
 
     
     private void Start() {
+        currentMenu = 0;
+        selectedChapter = 1;
 
-        canvasPosition = GetComponent<Transform>().position;
-        higher = new Vector2(canvasPosition.x, canvasPosition.y + menuSpace);
-        lower = new Vector2(canvasPosition.x, canvasPosition.y - menuSpace);
-        camScript = diceCamera.GetComponent<DiceCameraScript>();
+        CanvasScaler cs = GetComponentInParent<CanvasScaler>();
+        Yoffset = cs.referenceResolution.y;
+        Xoffset = cs.referenceResolution.x;
 
-        StartCoroutine(menuMove(mainMenu, true, false));
+        LeanTween.moveY(startMenu,0,1.1f).setEase(LeanTweenType.easeOutBack);
     }
 
    
@@ -47,75 +37,66 @@ public class MainMenuScript : MonoBehaviour
         
     }
 
-    public void changeLevel(int level) {
-        if (ManageGame.furthestLevel + 1 >= level) {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level " + (level));
+    /*
+    For menus:
+    options is -1 to -inf
+    start is 0
+    level is 1 to inf
+    */
+
+    private GameObject menuLookup(int num) {
+        switch (num) {
+            case -1: return optionsMenu;
+            case 0: return startMenu;
+            case 1: return levelMenu;
+
+            default: Debug.Log("this should never appear (menuLookup returns incorrect obj)"); 
+            return new GameObject();
+    
         }
     }
 
-    public void changeMenu(int from, int to) {
-        StartCoroutine(menuMove(determineMenu(from), from > to, true));
-        StartCoroutine(menuMove(determineMenu(to), to > from, false));
 
-        if (from == 0 && to == 1) {
-            camScript.pullDirection(animationLength, false);
+    public void changeMenu(int to) {
+
+        if (currentMenu >= 1 && to >= 1) { //for moving between chapters
+
+            selectedChapter = to;
+            
+            float target = (to > currentMenu) ? -Xoffset : Xoffset;
+
+            RectTransform leveltransform = levelMenu.GetComponent<RectTransform>();
+            LeanTween.moveX(leveltransform, leveltransform.localPosition.x + target, animationTime).setEase(easeType);
+
         }
-        else if (from == 1 && to == 0) {
-            camScript.pullDirection(animationLength, true);
+        else if (currentMenu <= -1 && to <= -1) { //for moving between options
+            
         }
         
-    }
+        else { //for moving between menus
 
-    private GameObject determineMenu(int identifier) {
-        switch (identifier) {
-            case 0: return mainMenu;
-            case -1: return optionsMenu;
-            case 1: return levelMenu;
-            default: Debug.Log("THIS SHOULD NOT APPEAR EVER"); return new GameObject();
-        }
-    }
+            float target = (to > currentMenu) ? -Yoffset : Yoffset;
 
+            if (currentMenu > 1) {
+                currentMenu = 1;
+            }
 
-    private IEnumerator menuMove(GameObject menu, bool top, bool exit) {
+            LeanTween.moveY(menuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
+            LeanTween.moveY(menuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
-        menu.SetActive(true);
-
-        Transform transform = menu.GetComponent<RectTransform>();
-        Button[] buttons = GetComponentsInChildren<Button>();
-
-        //sets the location target to be the center piece if entering, otherwise above or below
-        Vector2 target = !exit ? canvasPosition : (top ? higher : lower);
-
-        //sets starting position to higher or lower if entering
-        if (!exit) {transform.position = (top) ? higher : lower;}
-
-        //disables all buttons
-        foreach (var button in buttons) {
-            button.enabled = false;
         }
 
-        Vector2 velocity = Vector2.zero;
-        float currentDuration = 0f;
-        float animationTime = animationSpeed;
+        //Debug.Log(currentMenu + "  " + to + "  " + selectedChapter);
 
-        while (currentDuration <= animationLength) {
-            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, animationTime);
-            //speeds up animation time slightly to ensure menu reaches it's destination
-            animationTime -= smoothDampTimeChange;
-            currentDuration += Time.deltaTime;
-            yield return null;
+        if (to == 1) { //changes menu to chapter if moving to level menu
+            currentMenu = selectedChapter;
         }
-
-        transform.position = target;
-
-        //enables all buttons
-        foreach (var button in buttons) {
-            button.enabled = true;
+        else { //changes current menu to actual menu
+            currentMenu = to;
         }
+        //Debug.Log(currentMenu);
 
-        //sets menu to inactive if it is now off screen
-        if (exit) {menu.SetActive(false);}
-
+        return;
     }
 
     
