@@ -33,13 +33,15 @@ public class MobileControlOptions : MonoBehaviour
 
 
     public void changeProperty(float sliderValue) {
+        //sets the static value to slider value
         controls[controlName] = sliderValue;
+
         if (controlName == "Transparency") {
-            controls["Transparency"] = sliderValue;
+            //gets each image of the controls
             imgs = controller.GetComponentsInChildren<Image>();
             Color tempColor = imgs[0].color;
             tempColor.a = sliderValue;
-
+            //changes it's transparency to that slider vlaue
             for (int i = 0; i < imgs.Length; i++) {
                 imgs[i].color = tempColor;
 
@@ -47,8 +49,9 @@ public class MobileControlOptions : MonoBehaviour
         }
 
         else if (controlName == "Scale") {
+            //sets scale to slider value
             controllerTransform.localScale = new Vector3(sliderValue, sliderValue, 1);
-            controls["Scale"] = sliderValue;
+
         }
 
         else if (controlName == "Side") {
@@ -58,7 +61,6 @@ public class MobileControlOptions : MonoBehaviour
                 controllerTransform.anchorMax = Vector2.right;
                 controllerTransform.pivot = pivotRight;
                 controllerTransform.position = new Vector2(Screen.width - (900*controllerTransform.localScale.x), 0); 
-                controls["Side"] = sliderValue;
                 cs.SetOffset(Vector3.left);
             }
             else { //left side
@@ -66,7 +68,6 @@ public class MobileControlOptions : MonoBehaviour
                 controllerTransform.anchorMax = Vector2.zero;
                 controllerTransform.pivot = pivotLeft;
                 controllerTransform.position = Vector2.zero;
-                controls["Side"] = sliderValue;
                 cs.SetOffset(Vector3.right);
 
             }
