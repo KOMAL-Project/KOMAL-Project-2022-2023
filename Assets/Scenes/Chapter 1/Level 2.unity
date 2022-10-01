@@ -130,8 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD:Assets/Scenes/Level 2.unity
-=======
     - target: {fileID: 1386282697648406411, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -192,7 +190,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
->>>>>>> master:Assets/Scenes/Chapter 1/Level 2.unity
     - target: {fileID: 6384016286227644462, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_RootOrder
       value: 5
