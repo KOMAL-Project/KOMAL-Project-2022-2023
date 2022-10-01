@@ -48,6 +48,10 @@ public class LevelMenuScript : MonoBehaviour
 
     //menu animations
     public void changeMenu(int to) {
+
+        if (ManageGame.levelFinishing) {
+            return;
+        }
         
         //Debug.Log(currentMenu + "  " + to);
 
