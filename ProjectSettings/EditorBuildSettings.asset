@@ -72,6 +72,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Chapter 2/Level 9.unity
     guid: 239e0553a89cf244db5916fc74830977
   - enabled: 1
+    path: Assets/Scenes/Chapter 2/Level 10.unity
+    guid: 01177eb02bd62458291d8a1d4b10fe9c
+  - enabled: 1
+    path: Assets/Scenes/Chapter 2/Level 11.unity
+    guid: 959d02431116a456e8f49f502771fb72
+  - enabled: 1
+    path: Assets/Scenes/Chapter 2/Level 12.unity
+    guid: 7213af46968d040f692f010654708230
+  - enabled: 1
     path: Assets/Scenes/End Screen.unity
     guid: 8d83cf23c4e02c649b7367db150ca79a
   - enabled: 0
