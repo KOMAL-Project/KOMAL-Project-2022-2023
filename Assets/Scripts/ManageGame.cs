@@ -70,10 +70,11 @@ public class ManageGame : MonoBehaviour
     public List<GameObject> wallTiles;
 
     public Dictionary<string, GameObject> wallDirections;
-    // Start is called before the first frame update
+    
+
     void Awake()
     {
-        Application.targetFrameRate = 45;
+        Application.targetFrameRate = 60;
 
         width = level.width;
         length = level.height;
@@ -84,6 +85,7 @@ public class ManageGame : MonoBehaviour
         levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
         chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
 
+        /// Set up basic floor plan (movable and empty spaces)
         for (int i = 0; i < width; i++)
         {
             for(int j = 0; j < length; j++)
@@ -133,10 +135,14 @@ public class ManageGame : MonoBehaviour
         //Debug.Log("norm" + levelData);
     }
 
+    /// <summary>
+    /// Scan through the level image and instantiate the necessary objects based on the color of each pixel.
+    /// </summary>
     public void ReadLevel()
     {
         bool[,] tempWallData = new bool[width, length];
 
+        // Define lists in which we will reference generated objects
         List<GameObject>[] pipSwitches = new List<GameObject>[6];
         for (int i = 0; i < pipSwitches.Length; i++) pipSwitches[i] = new List<GameObject>();
         List<GameObject>[] pipWalls = new List<GameObject>[6];
@@ -151,7 +157,7 @@ public class ManageGame : MonoBehaviour
         List<Vector2Int>[] chargeWallPositions = new List<Vector2Int>[4];
         for (int i = 0; i < chargeWallPositions.Length; i++) chargeWallPositions[i] = new List<Vector2Int>();
 
-        Debug.Log(chargeDoors[0]);
+        //Debug.Log(chargeDoors[0]);
 
         for (int i = 0; i < width; i++)
         {
@@ -168,7 +174,7 @@ public class ManageGame : MonoBehaviour
                     temp.GetComponent<SingleUseController>().manager = gameObject;
 
                 }
-                // Pips Switches
+                // Pip Switches
                 for (int k = 0; k < pipSwitchColors.Length; k++)
                 {
                     if (level.GetPixel(i, j) == pipSwitchColors[k])
@@ -179,6 +185,7 @@ public class ManageGame : MonoBehaviour
                         pipSwitches[k].Add(temp);
                     }
                 }
+                // Legos
                 for (int k = 0; k < pipDoorColors.Length; k++)
                 {
                     if (level.GetPixel(i, j) == pipDoorColors[k])
@@ -188,7 +195,7 @@ public class ManageGame : MonoBehaviour
                         pipWallsPositions[k].Add(new Vector2Int(i, j));
                     }
                 }
-                // Charge Switches
+                // Charge Givers
                 for (int k = 0; k < chargeGiveColors.Length; k++)
                 {
                     if (level.GetPixel(i, j) == chargeGiveColors[k])
@@ -199,6 +206,7 @@ public class ManageGame : MonoBehaviour
                         temp.GetComponent<ChargeController>().type = k;
                     }
                 }
+                // Cards
                 for (int k = 0; k < chargeDoorColors.Length; k++)
                 {
                     if (level.GetPixel(i, j) == chargeDoorColors[k])
@@ -210,7 +218,8 @@ public class ManageGame : MonoBehaviour
                         chargeWallPositions[k].Add(new Vector2Int(i, j));
                     }
                 }
-                if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Yellow for Win Switch
+                // Win Switch
+                if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Color is yellow
                 {
                     die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
@@ -225,9 +234,8 @@ public class ManageGame : MonoBehaviour
                 }
             }
 
-
-            // Debug.Log(pipSwitches.Length);
-            // Debug.Log(pipWalls.Length);
+            
+            // Attach Legos to their switches
             for (int j = 0; j < 6; j++)
             {
                 for (int k = 0; k < pipSwitches[j].Count; k++)
@@ -236,6 +244,7 @@ public class ManageGame : MonoBehaviour
                     pipSwitches[j][k].GetComponent<FaceSwitchController>().walls = pipWalls[j];
                 }
             }
+            // Attach Cards to their charges
             for (int j = 0; j < 4; j++)
             {
                 for (int k = 0; k < chargeSwitches[j].Count; k++)
@@ -408,10 +417,7 @@ public class ManageGame : MonoBehaviour
         //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
     }
 
-    private void Update()
-    {
-        
-    }
+    
 
     public void LevelComplete()
     {

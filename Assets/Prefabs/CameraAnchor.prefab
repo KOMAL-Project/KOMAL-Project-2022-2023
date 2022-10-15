@@ -49,7 +49,7 @@ MonoBehaviour:
   leftKey: 113
   rightKey: 101
   overheadKey: 32
-  xAngle: 50
+  xAngle: 45
   wallMat: {fileID: 0}
   rotationSpeed: 25
   moveSpeed: 25

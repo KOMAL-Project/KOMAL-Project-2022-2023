@@ -29,7 +29,7 @@ public class DieController : MonoBehaviour
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
-    private float rollSpeed = 9f;
+    private float rollSpeed = 4.5f;
     
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
 
@@ -85,6 +85,9 @@ public class DieController : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Updates the position of the ghost faces around the die
+    /// </summary>
     void updateFaces()
     {
         frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
@@ -98,7 +101,9 @@ public class DieController : MonoBehaviour
     }
 
    
-
+    /// <summary>
+    /// Moves die faces when die goes in the negative z direction
+    /// </summary>
     void MoveBack()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -121,7 +126,10 @@ public class DieController : MonoBehaviour
             else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
         }
     }
-   
+
+    /// <summary>
+    /// Moves die faces when die goes in the positive z direction
+    /// </summary>
     void MoveForward()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -145,6 +153,9 @@ public class DieController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Moves die faces when die goes in the negative x direction
+    /// </summary>
     void MoveLeft()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -168,7 +179,10 @@ public class DieController : MonoBehaviour
         }
 
     }
-    
+
+    /// <summary>
+    /// Moves die faces when die goes in the positive x direction
+    /// </summary>
     void MoveRight()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
@@ -192,23 +206,31 @@ public class DieController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// We use an array of input characters to map an input to a direction.
+    /// The order of the elements are offset by an amount based on the camera angle.
+    /// This makes it so that the die always moves relative to the camera (left arrow always makes die go left)
+    /// </summary>
     void GetInput()
     {
         int x = position.x;
         int y = position.y;
 
         string[] keys = new string[] { "w", "a", "s", "d" };
-        
+
         Vector3[] directions = new Vector3[] { Vector3.forward, Vector3.left, Vector3.back, Vector3.right };
         Action[] moves = new Action[] { MoveForward, MoveLeft, MoveBack, MoveRight };
-        
+
 
         int index = InputToIndex();
         if (index < 0 || isMoving) return;
         Debug.Log("Index: " + index);
         index = (index + cs.side) % 4;
         //if (index < 0) index += 4;
-        if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;
+        int newX = (int)directions[index].x + x;
+        int newY = (int)directions[index].y + y;
+        //if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
+        if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;// checking if new move spot is occupied
         
         var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
         var axis = Vector3.Cross(Vector3.up, directions[index]);
@@ -230,6 +252,14 @@ public class DieController : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Handles the position and rotation of the die while it is moving between spaces.
+    /// </summary>
+    /// <param name="anchor"></param>
+    /// <param name="axis"></param>
+    /// <param name="func"></param>
+    /// <param name="moveVec"></param>
+    /// <returns></returns>
     IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
         isMoving = true;
 
@@ -252,6 +282,10 @@ public class DieController : MonoBehaviour
         isMoving = false;
     }
 
+    /// <summary>
+    /// Checks to see if the die is on the win panel.
+    /// If so, sends die flying up and ends the level.
+    /// </summary>
     void WinCheck()
     {
         if(position == winPos)
@@ -264,11 +298,18 @@ public class DieController : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Applies Charge of type "type" to the face currently facing down.
+    /// </summary>
+    /// <param name="type"></param>
     public void PowerUp(int type)
     {
         GetComponentInChildren<MeshRenderer>().material = mt[type][sides[Vector3.down] - 1];
     }
 
+    /// <summary>
+    /// Removes active Charge from the die.
+    /// </summary>
     public void PowerDown()
     {
         GetComponentInChildren<MeshRenderer>().material = baseMT;

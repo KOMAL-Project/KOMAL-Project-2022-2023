@@ -35,7 +35,7 @@ public class CameraScript : MonoBehaviour
     private float delayTime = 0.25f;
     private float timeDiff;
 
-    private float targetZoom, targetYRotation, targetXRotation = -60;
+    private float targetZoom, targetYRotation, targetXRotation;
 
     private Vector3 targetPosition, defaultPosition;
     private Vector3 cameraOffset = Vector3.zero;
@@ -43,7 +43,7 @@ public class CameraScript : MonoBehaviour
     private float cameraOffsetMultiplier;
 
     public int side = 2;
-    
+    public float xOffsetRotation = 60;
 
 
     void Start()

@@ -32,4 +32,5 @@ public class SingleUseController : MonoBehaviour
             GetComponentInChildren<Animator>().SetTrigger("Go");
         }
     }
+   
 }

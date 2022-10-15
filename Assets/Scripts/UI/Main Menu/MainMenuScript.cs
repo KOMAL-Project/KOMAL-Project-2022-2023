@@ -16,9 +16,13 @@ public class MainMenuScript : MonoBehaviour
     private int currentMenu;
     private int selectedChapter;
     private int selectedOptions;
-    
 
-    
+
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     private void Start() {
         currentMenu = 0;
         selectedChapter = 1;
