@@ -25,7 +25,7 @@ public class ManageGame : MonoBehaviour
     GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
-    public Texture2D level;
+    public Texture2D levelImage, filtersImage;
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
     public static int furthestLevel = 255; //change this to skip levels
@@ -34,7 +34,17 @@ public class ManageGame : MonoBehaviour
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
 
-    Color[] pipSwitchColors = new Color[]
+    Color[] pipFilterColors = new Color[]
+    {
+        new Color32(250, 72, 81, 255), // 1 Pip
+        new Color32(250, 135, 72, 255), // 2 Pips
+        new Color32(219, 237, 24, 255), // 3 Pips
+        new Color32(72, 250, 108, 255), // 4 Pips
+        new Color32(72, 178, 250, 255), // 5 Pips
+        new Color32(185, 72, 250, 255)  // 6 Pips
+    };
+
+    Color[] legoSwitchColors = new Color[]
     {
         new Color32(255, 100, 255, 255), // 1 Pip
         new Color32(230, 100, 255, 255), // 2 Pips
@@ -43,7 +53,7 @@ public class ManageGame : MonoBehaviour
         new Color32(155, 100, 255, 255), // 5 Pips
         new Color32(130, 100, 255, 255)  // 6 Pips
     };
-    Color[] pipDoorColors = new Color[]
+    Color[] legoBlockColors = new Color[]
     {
         new Color32(255, 0, 255, 255), // 1 Pip
         new Color32(230, 0, 255, 255), // 2 Pips
@@ -59,7 +69,7 @@ public class ManageGame : MonoBehaviour
         new Color32(255, 137, 77, 255), // Clubs
         new Color32(255, 167, 77, 255)  // Diamonds
     };
-    Color[] chargeDoorColors = new Color[]
+    Color[] chargeCardColors = new Color[]
     {
         new Color32(255, 77,  0, 255), // Spades
         new Color32(255, 107, 0, 255), // Hearts
@@ -76,8 +86,8 @@ public class ManageGame : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        width = level.width;
-        length = level.height;
+        width = levelImage.width;
+        length = levelImage.height;
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
 
@@ -164,9 +174,9 @@ public class ManageGame : MonoBehaviour
             for (int j = 0; j < length; j++)
             {
                 // Basic Walls
-                if (level.GetPixel(i, j) == Color.black) tempWallData[i, j] = true; //levelData[i,j] = Instantiate(floorTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                if (levelImage.GetPixel(i, j) == Color.black) tempWallData[i, j] = true; //levelData[i,j] = Instantiate(floorTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 // Single Use Tiles
-                if (level.GetPixel(i,j) == singleUseColor)
+                if (levelImage.GetPixel(i,j) == singleUseColor)
                 {
                     GameObject temp = Instantiate(singleUseTile, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     temp.GetComponent<SingleUseController>().position = new Vector2Int(i, j);
@@ -175,20 +185,21 @@ public class ManageGame : MonoBehaviour
 
                 }
                 // Pip Switches
-                for (int k = 0; k < pipSwitchColors.Length; k++)
+                for (int k = 0; k < legoSwitchColors.Length; k++)
                 {
-                    if (level.GetPixel(i, j) == pipSwitchColors[k])
+                    if (levelImage.GetPixel(i, j) == legoSwitchColors[k])
                     {
                         GameObject temp = Instantiate(pipSwitch, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         temp.GetComponent<LegoSwitchController>().thisPos = new Vector2Int(i, j);
-                        temp.GetComponent<LegoSwitchController>().pips = k + 1;
+                        temp.GetComponent<LegoSwitchController>().type = k + 1;
+                        temp.GetComponent<LegoSwitchController>().pips = GetPipFilter(i, j);
                         pipSwitches[k].Add(temp);
                     }
                 }
                 // Legos
-                for (int k = 0; k < pipDoorColors.Length; k++)
+                for (int k = 0; k < legoBlockColors.Length; k++)
                 {
-                    if (level.GetPixel(i, j) == pipDoorColors[k])
+                    if (levelImage.GetPixel(i, j) == legoBlockColors[k])
                     {
                         levelData[i, j] = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         pipWalls[k].Add(levelData[i, j]);
@@ -198,18 +209,19 @@ public class ManageGame : MonoBehaviour
                 // Charge Givers
                 for (int k = 0; k < chargeGiveColors.Length; k++)
                 {
-                    if (level.GetPixel(i, j) == chargeGiveColors[k])
+                    if (levelImage.GetPixel(i, j) == chargeGiveColors[k])
                     {
                         GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
                         chargeSwitches[k].Add(temp);
                         temp.GetComponent<ChargeController>().type = k;
+                        temp.GetComponentInChildren<PipFilterController>().pips = GetPipFilter(i, j);
                     }
                 }
                 // Cards
-                for (int k = 0; k < chargeDoorColors.Length; k++)
+                for (int k = 0; k < chargeCardColors.Length; k++)
                 {
-                    if (level.GetPixel(i, j) == chargeDoorColors[k])
+                    if (levelImage.GetPixel(i, j) == chargeCardColors[k])
                     {
                         Debug.Log(chargeWalls[k]);
                         levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
@@ -219,13 +231,13 @@ public class ManageGame : MonoBehaviour
                     }
                 }
                 // Win Switch
-                if (level.GetPixel(i, j) == new Color(1, 1, 0)) // Color is yellow
+                if (levelImage.GetPixel(i, j) == new Color(1, 1, 0)) // Color is yellow
                 {
                     die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
-                if (level.GetPixel(i, j) == Color.green)
+                if (levelImage.GetPixel(i, j) == Color.green)
                 {
                     Debug.Log(i + " " + j);
                     die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
@@ -417,7 +429,21 @@ public class ManageGame : MonoBehaviour
         //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
     }
 
-    
+    /// <summary>
+    /// Looks at pixel i,j on Texture2D "filters",
+    /// and returns 0-6 based on the pixel color. 
+    /// a 0 is returned if the color of the object is not one of the 6 colors
+    /// defined in pipFilterColors.
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <returns></returns>
+    public int GetPipFilter(int i, int j)
+    {
+        for (int p = 0; p < 6; p++)
+            if (filtersImage.GetPixel(i, j) == pipFilterColors[p]) return p + 1;
+        return 0;
+    }
 
     public void LevelComplete()
     {

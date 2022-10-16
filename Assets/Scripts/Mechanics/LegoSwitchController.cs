@@ -6,7 +6,7 @@ using TMPro;
 public class LegoSwitchController : MonoBehaviour
 {
 
-    public int pips;
+    public int pips, type;
     public List<GameObject> walls;
     public List<Vector2Int> wallsPos;
     public Vector2Int thisPos;
@@ -17,7 +17,7 @@ public class LegoSwitchController : MonoBehaviour
     private ManageGame mg;
 
     public Texture2D[] topTextures = new Texture2D[7];
-    private Sprite[] topSprites = new Sprite[7];
+    private readonly Sprite[] topSprites = new Sprite[7];
 
 
     private void Start()
@@ -26,10 +26,11 @@ public class LegoSwitchController : MonoBehaviour
         // set up sprites
         
         Rect rect = new Rect(0, 0, 10, 10);    
-        topSprites[pips-1] = Sprite.Create(topTextures[pips-1], rect, new Vector2(.5f, .5f));
+        topSprites[type-1] = Sprite.Create(topTextures[type-1], rect, new Vector2(.5f, .5f));
         
         mg = FindObjectOfType<ManageGame>();
         pip = GetComponentInChildren<PipFilterController>();
+        // Debug.Log(pips + " " + type);
         pip.pips = pips;
         pip.thisPos = thisPos;
         pip.player = player;
@@ -37,16 +38,16 @@ public class LegoSwitchController : MonoBehaviour
         
 
         SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
-        spr.sprite = topSprites[pips - 1];
+        spr.sprite = topSprites[type - 1];
         spr.gameObject.transform.localScale *= 10;
 
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         playerPos = player.GetComponentInChildren<DieController>().position;
         //Debug.Log(playerPos + " // "  + thisPos );
-        if (pip.activated)
+        if (pip.MeetsPipRequirement(player) && thisPos == playerPos)
         {
             Debug.Log("Face switch triggered!");
 
