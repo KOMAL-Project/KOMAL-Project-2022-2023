@@ -48,7 +48,7 @@ public class MainMenuScript : MonoBehaviour
     level is 1 to inf
     */
 
-    private GameObject menuLookup(int num) {
+    private GameObject MenuLookup(int num) {
         switch (num) {
             case -1: return optionsMenu;
             case 0: return startMenu;
@@ -61,7 +61,7 @@ public class MainMenuScript : MonoBehaviour
     }
 
 
-    public void changeMenu(int to) {
+    public void ChangeMenu(int to) {
 
         if (currentMenu >= 1 && to >= 1) { //for moving between chapters
 
@@ -85,8 +85,8 @@ public class MainMenuScript : MonoBehaviour
                 currentMenu = 1;
             }
 
-            LeanTween.moveY(menuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
-            LeanTween.moveY(menuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
+            LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
+            LeanTween.moveY(MenuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
         }
 

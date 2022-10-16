@@ -32,7 +32,7 @@ public class ButtonScript : MonoBehaviour
             lms.changeMenu(menuDestination);
         }
         else { //main menu
-            mms.changeMenu(menuDestination);
+            mms.ChangeMenu(menuDestination);
         }
         
 

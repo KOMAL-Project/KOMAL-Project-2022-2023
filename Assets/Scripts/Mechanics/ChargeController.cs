@@ -8,7 +8,9 @@ public class ChargeController : MonoBehaviour
     public List<Vector2Int> gatePos;
     public Vector3 gateDirection;
 
-    public int type;
+    PipFilterController pip;
+
+    public int type, pips;
 
     public Material[] mats = new Material[2];
 
@@ -29,15 +31,21 @@ public class ChargeController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pScript = player.GetComponentInChildren<DieController>();
         mg = FindObjectOfType<ManageGame>();
+        pip = GetComponentInChildren<PipFilterController>();
         rend = GetComponentInChildren<MeshRenderer>();
         rend.material = mats[0];
+
+        pip.pips = pips;
+        pip.thisPos = pos;
+        pip.player = player;
+        pip.playerPos = pScript.position;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!gateOpen)
         {
-            if (pScript.position == pos)
+            if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
                 if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
                 {

@@ -84,7 +84,7 @@ public class CameraScript : MonoBehaviour
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
             side--;
-            Debug.Log("SIDE: " + side);
+            //Debug.Log("SIDE: " + side);
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;

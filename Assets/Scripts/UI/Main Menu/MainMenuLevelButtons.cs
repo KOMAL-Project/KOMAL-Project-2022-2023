@@ -25,10 +25,10 @@ public class MainMenuLevelButtons : MonoBehaviour
             button.interactable = false;
         }
 
-        button.onClick.AddListener(changeLevel);
+        button.onClick.AddListener(ChangeLevel);
     }
 
-    private void changeLevel() {
+    private void ChangeLevel() {
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Chapter " + chapter + "/Level " + level);
     }
 

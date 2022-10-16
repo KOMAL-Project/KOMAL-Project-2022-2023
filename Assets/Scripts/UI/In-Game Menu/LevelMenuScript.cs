@@ -20,7 +20,7 @@ public class LevelMenuScript : MonoBehaviour
     void Start()
     {  
         currentMenu = 0;
-        Debug.Log(Yoffset);
+        //Debug.Log(Yoffset);
         Yoffset = GetComponent<CanvasScaler>().referenceResolution.y;
     }
 

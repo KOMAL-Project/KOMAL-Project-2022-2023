@@ -81,14 +81,14 @@ public class DieController : MonoBehaviour
     {
         if(canControl && !isMoving) GetInput();
         //Debug.Log(gm.levelData);
-        updateFaces();
+        UpdateFaces();
         
     }
 
     /// <summary>
     /// Updates the position of the ghost faces around the die
     /// </summary>
-    void updateFaces()
+    void UpdateFaces()
     {
         frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
         frontFace.transform.position = new Vector3(transform.position.x, .6f, transform.position.z + 1.05f);
@@ -106,14 +106,16 @@ public class DieController : MonoBehaviour
     /// </summary>
     void MoveBack()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
-        newSides[Vector3.up] = sides[Vector3.forward];
-        newSides[Vector3.back] = sides[Vector3.up];
-        newSides[Vector3.down] = sides[Vector3.back];
-        newSides[Vector3.forward] = sides[Vector3.down];
-        newSides[Vector3.left] = sides[Vector3.left];
-        newSides[Vector3.right] = sides[Vector3.right];
-        
+        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        {
+            [Vector3.up] = sides[Vector3.forward],
+            [Vector3.back] = sides[Vector3.up],
+            [Vector3.down] = sides[Vector3.back],
+            [Vector3.forward] = sides[Vector3.down],
+            [Vector3.left] = sides[Vector3.left],
+            [Vector3.right] = sides[Vector3.right]
+        };
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
@@ -132,13 +134,15 @@ public class DieController : MonoBehaviour
     /// </summary>
     void MoveForward()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
-        newSides[Vector3.up] = sides[Vector3.back];
-        newSides[Vector3.back] = sides[Vector3.down];
-        newSides[Vector3.down] = sides[Vector3.forward];
-        newSides[Vector3.forward] = sides[Vector3.up];
-        newSides[Vector3.left] = sides[Vector3.left];
-        newSides[Vector3.right] = sides[Vector3.right];
+        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        {
+            [Vector3.up] = sides[Vector3.back],
+            [Vector3.back] = sides[Vector3.down],
+            [Vector3.down] = sides[Vector3.forward],
+            [Vector3.forward] = sides[Vector3.up],
+            [Vector3.left] = sides[Vector3.left],
+            [Vector3.right] = sides[Vector3.right]
+        };
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
@@ -158,14 +162,16 @@ public class DieController : MonoBehaviour
     /// </summary>
     void MoveLeft()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
-        newSides[Vector3.up] = sides[Vector3.right];
-        newSides[Vector3.left] = sides[Vector3.up];
-        newSides[Vector3.down] = sides[Vector3.left];
-        newSides[Vector3.right] = sides[Vector3.down];
-        newSides[Vector3.forward] = sides[Vector3.forward];
-        newSides[Vector3.back] = sides[Vector3.back];
-        
+        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        {
+            [Vector3.up] = sides[Vector3.right],
+            [Vector3.left] = sides[Vector3.up],
+            [Vector3.down] = sides[Vector3.left],
+            [Vector3.right] = sides[Vector3.down],
+            [Vector3.forward] = sides[Vector3.forward],
+            [Vector3.back] = sides[Vector3.back]
+        };
+
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
@@ -185,13 +191,15 @@ public class DieController : MonoBehaviour
     /// </summary>
     void MoveRight()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides);
-        newSides[Vector3.up] = sides[Vector3.left];
-        newSides[Vector3.left] = sides[Vector3.down];
-        newSides[Vector3.down] = sides[Vector3.right];
-        newSides[Vector3.right] = sides[Vector3.up];
-        newSides[Vector3.forward] = sides[Vector3.forward];
-        newSides[Vector3.back] = sides[Vector3.back];
+        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        {
+            [Vector3.up] = sides[Vector3.left],
+            [Vector3.left] = sides[Vector3.down],
+            [Vector3.down] = sides[Vector3.right],
+            [Vector3.right] = sides[Vector3.up],
+            [Vector3.forward] = sides[Vector3.forward],
+            [Vector3.back] = sides[Vector3.back]
+        };
 
         Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
