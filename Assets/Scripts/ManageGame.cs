@@ -180,8 +180,8 @@ public class ManageGame : MonoBehaviour
                     if (level.GetPixel(i, j) == pipSwitchColors[k])
                     {
                         GameObject temp = Instantiate(pipSwitch, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        temp.GetComponent<FaceSwitchController>().thisPos = new Vector2Int(i, j);
-                        temp.GetComponent<FaceSwitchController>().pips = k + 1;
+                        temp.GetComponent<LegoSwitchController>().thisPos = new Vector2Int(i, j);
+                        temp.GetComponent<LegoSwitchController>().pips = k + 1;
                         pipSwitches[k].Add(temp);
                     }
                 }
@@ -240,8 +240,8 @@ public class ManageGame : MonoBehaviour
             {
                 for (int k = 0; k < pipSwitches[j].Count; k++)
                 {
-                    pipSwitches[j][k].GetComponent<FaceSwitchController>().wallsPos = pipWallsPositions[j];
-                    pipSwitches[j][k].GetComponent<FaceSwitchController>().walls = pipWalls[j];
+                    pipSwitches[j][k].GetComponent<LegoSwitchController>().wallsPos = pipWallsPositions[j];
+                    pipSwitches[j][k].GetComponent<LegoSwitchController>().walls = pipWalls[j];
                 }
             }
             // Attach Cards to their charges
