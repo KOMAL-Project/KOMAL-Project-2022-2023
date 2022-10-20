@@ -13,6 +13,7 @@ public class DieController : MonoBehaviour
 
     public Vector3 chargeDirection;
     public ChargeController currentCharge;
+    public ActionRecorder actionRec;
 
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
@@ -104,7 +105,7 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Moves die faces when die goes in the negative z direction
     /// </summary>
-    void MoveBack()
+    public void MoveBack()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
         {
@@ -132,7 +133,7 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Moves die faces when die goes in the positive z direction
     /// </summary>
-    void MoveForward()
+    public void MoveForward()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
         {
@@ -160,7 +161,7 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Moves die faces when die goes in the negative x direction
     /// </summary>
-    void MoveLeft()
+    public void MoveLeft()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
         {
@@ -189,7 +190,7 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Moves die faces when die goes in the positive x direction
     /// </summary>
-    void MoveRight()
+    public void MoveRight()
     {
         Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
         {
@@ -242,6 +243,8 @@ public class DieController : MonoBehaviour
         
         var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
         var axis = Vector3.Cross(Vector3.up, directions[index]);
+
+        actionRec.Record(moves[index]);
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
                 

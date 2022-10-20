@@ -198,6 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2429546876790258861}
   - component: {fileID: 6253046223106284352}
+  - component: {fileID: 5760006467806241220}
   m_Layer: 0
   m_Name: Code
   m_TagString: Player
@@ -237,6 +238,7 @@ MonoBehaviour:
   dPadObj: {fileID: 0}
   chargeDirection: {x: 0, y: 0, z: 0}
   currentCharge: {fileID: 0}
+  actionRec: {fileID: 5760006467806241220}
   position: {x: 0, y: 0}
   winPos: {x: 0, y: 0}
   ghostTextures:
@@ -288,6 +290,20 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c03c3445c0cbdae4d82d29946dc1eb9f, type: 2}
   baseMT: {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
+--- !u!114 &5760006467806241220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2199291453945186597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270c2f4f152d6f945872b987231af5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  die: {fileID: 0}
+  dieScript: {fileID: 0}
 --- !u!1 &4723431862766478839
 GameObject:
   m_ObjectHideFlags: 0
