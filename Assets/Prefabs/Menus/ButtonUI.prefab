@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonType: 
   menuDestination: 0
-  sound: {fileID: 0}
+  sound: {fileID: 8300000, guid: f6b10f5f9b82c704390fc758ab6103da, type: 3}
 --- !u!1 &5002866303791165361
 GameObject:
   m_ObjectHideFlags: 0

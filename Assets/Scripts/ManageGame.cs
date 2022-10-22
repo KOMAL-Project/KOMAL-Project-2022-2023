@@ -102,8 +102,8 @@ public class ManageGame : MonoBehaviour
         if (path.Contains("Chapter ") && path.Contains("Level ")) {
             levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
             chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
-            levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ levelID + "-" + levelID + ".png");
-            filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ levelID + "-" + levelID + "p.png");
+            levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + ".png");
+            filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p.png");
         }
 
 
