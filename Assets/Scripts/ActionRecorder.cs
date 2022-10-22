@@ -4,29 +4,47 @@ using UnityEngine;
 using System;
 
 
-//struct that contains all the necessary states info needed to revert move
-public struct states {
+//record that contains all the necessary states info needed to revert move
+public record states {
+    //states of the die
     public Action ghostRotation;
-    public Vector2Int mappedDieLocation;
+        public Vector2Int mappedDieLocation;
     public Quaternion rotation;
+    //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
+    public List<bool?> useTileState; //what is this going to be called now
+    public bool? toggleState;
+    public List<byte?> chargeStates; 
 
 }
 
 public class ActionRecorder : MonoBehaviour
 {
+    //big stacc
+    Stack<states> stateStack;
+
+    //dice stuff
     public GameObject die;
     public DieController dieController;
-    Stack<states> stateStack;
     private Vector3 change = Vector3.zero;
+    
+    //mechanics stuff
+    public Dictionary<string, List<GameObject>> mechanicObjects;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        stateStack = new Stack<states>();
+
         dieController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
         die = dieController.transform.gameObject;
 
-        stateStack = new Stack<states>();
+        ManageGame gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<ManageGame>();
+        mechanicObjects = new Dictionary<string, List<GameObject>>() {
+            {"toggleSwitches", gameManager.toggleSwitchesInLevel},
+
+            };
+
 
     }
 
@@ -37,13 +55,17 @@ public class ActionRecorder : MonoBehaviour
         }
     }
 
-    //stores the last state and puts it in the stack
+    //stores the last state and puts it in the stack    
     public void Record() {
-
+        
+        //gets the last state to compare (For changes)
+        states oldStack = stateStack.Count > 0 ? stateStack.Peek() : new states{};
+        
         stateStack.Push(new states {
-            ghostRotation = dieController.lastAction
-            ,mappedDieLocation = dieController.position
-            ,rotation = die.transform.rotation
+            ghostRotation = dieController.lastAction,
+            mappedDieLocation = dieController.position,
+            rotation = die.transform.rotation,
+            toggleState = null
         });
 
     }
@@ -58,14 +80,17 @@ public class ActionRecorder : MonoBehaviour
         states undoState = stateStack.Pop();
 
         // does stuff with it
+        //dice
         ReverseTurn(undoState.ghostRotation)();
         dieController.position = undoState.mappedDieLocation;
         die.transform.position = MapToActualPosition(undoState.mappedDieLocation);
         die.transform.rotation = undoState.rotation;
+
+        //charges
     
     }
 
-    //takes a turn direction (ghosts) and does the opposite
+    //takes a turn direction (ghosts, charge) and does the opposite
     public Action ReverseTurn(Action input) {
 
         List<Action> moves = new List<Action> { dieController.MoveForward, dieController.MoveLeft, dieController.MoveBack, dieController.MoveRight };
@@ -85,8 +110,6 @@ public class ActionRecorder : MonoBehaviour
 
         //converted vector
         return new Vector3(change.x + mapped.x, change.y, change.z + mapped.y);
-
-
     }
 
 

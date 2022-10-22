@@ -608,22 +608,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2800000, guid: 3a35948211db5234e839522b8a193235, type: 3}
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: levelID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: chapterID
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: levelImage
-      value: 
-      objectReference: {fileID: 2800000, guid: ed9eb80a80642f045afdf643664c98fa, type: 3}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: filtersImage
-      value: 
-      objectReference: {fileID: 2800000, guid: 3a35948211db5234e839522b8a193235, type: 3}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: chargeWalls.Array.size
       value: 4
       objectReference: {fileID: 0}

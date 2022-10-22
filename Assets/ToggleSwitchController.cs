@@ -37,13 +37,12 @@ public class ToggleSwitchController : MonoBehaviour
         transform.rotation.Set(-90, 0, 0, 0);
     }
 
-    // Update is called once per frame
     public void CheckForActivation()
     {
         //Debug.Log(position +"   "  + die.position);
         if(die.position == position)
         {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
+            //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
             state = state == "x" ? "o" : "x"; // swap active block
             List<GameObject> toActivate = state == "x" ? xBlocks : oBlocks;
             List<GameObject> toDeactivate = state == "x" ? oBlocks : xBlocks;
@@ -69,5 +68,9 @@ public class ToggleSwitchController : MonoBehaviour
             spr.sprite = newSwitchSprite;
             //foreach (GameObject s in switches) s.GetComponent<SpriteRenderer>().sprite = newSwitchSprite;
         }
+    }
+
+    public bool stateToBool() {
+        return state == "x"? false : true;
     }
 }

@@ -25,7 +25,7 @@ public class ManageGame : MonoBehaviour
 
     GameObject winSwitchInstance;
 
-    public int width, length, levelID, chapterID;
+    public int width, length, levelID = 0, chapterID = 0;
     public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
@@ -88,22 +88,29 @@ public class ManageGame : MonoBehaviour
     };
 
     // Lists of mechanics in the level at a time
-    List<GameObject> wallTiles, toggleSwitchesInLevel;
+    public List<GameObject> wallTiles, toggleSwitchesInLevel;
     public Dictionary<string, GameObject> wallDirections;
     
 
     void Awake()
     {
+        
         Application.targetFrameRate = 60;
+
+        string path = SceneManager.GetActiveScene().path;
+        //sets IDs and Level Data if scene is named correctly
+        if (path.Contains("Chapter ") && path.Contains("Level ")) {
+            levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
+            chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
+            levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ levelID + "-" + levelID + ".png");
+            filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ levelID + "-" + levelID + "p.png");
+        }
+
 
         width = levelImage.width;
         length = levelImage.height;
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
-
-        string path = SceneManager.GetActiveScene().path;
-        levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
-        chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
 
         /// Set up basic floor plan (movable and empty spaces)
         for (int i = 0; i < width; i++)
