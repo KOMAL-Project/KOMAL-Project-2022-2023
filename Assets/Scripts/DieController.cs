@@ -127,6 +127,7 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
         }
+        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -155,6 +156,7 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
         }
+        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -183,7 +185,7 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
         }
-
+        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -212,6 +214,7 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
         }
+        gm.CheckMechanics();
     }
 
     /// <summary>

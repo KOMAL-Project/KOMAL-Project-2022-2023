@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6153882363551481638}
   - component: {fileID: 2441987478469452205}
   m_Layer: 0
-  m_Name: default
+  m_Name: Blue Lego
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
