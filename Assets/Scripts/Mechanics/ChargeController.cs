@@ -41,7 +41,7 @@ public class ChargeController : MonoBehaviour
         pip.playerPos = pScript.position;
     }
 
-    void LateUpdate()
+    public void CheckForActivation()
     {
         if (!gateOpen)
         {

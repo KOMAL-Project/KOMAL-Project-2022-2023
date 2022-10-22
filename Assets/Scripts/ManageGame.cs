@@ -88,7 +88,9 @@ public class ManageGame : MonoBehaviour
     };
 
     // Lists of mechanics in the level at a time
-    List<GameObject> wallTiles, toggleSwitchesInLevel;
+    List<GameObject> wallTiles, toggleSwitchesInLevel, 
+        chargeSwitchesInLevel, chargeCardsInLevel,
+        legoSwitchesInLevel, legoWallsInLevel;
     public Dictionary<string, GameObject> wallDirections;
     
 
@@ -249,7 +251,7 @@ public class ManageGame : MonoBehaviour
                         temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
                         chargeSwitches[k].Add(temp);
                         temp.GetComponent<ChargeController>().type = k;
-                        temp.GetComponentInChildren<PipFilterController>().pips = GetPipFilter(i, j);
+                        temp.GetComponent<ChargeController>().pips = GetPipFilter(i, j);
                     }
                 }
                 // Cards
@@ -322,6 +324,7 @@ public class ManageGame : MonoBehaviour
                     chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
                 }
             }
+            // chargeCardsInLevel = chargeDoors;
             // Attach toggle blocks to their switches (and switches to other switches)
             foreach(GameObject t in toggleSwitches)
             {
