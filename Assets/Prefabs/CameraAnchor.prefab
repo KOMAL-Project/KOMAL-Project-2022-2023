@@ -52,12 +52,13 @@ MonoBehaviour:
   xAngle: 45
   wallMat: {fileID: 0}
   rotationSpeed: 25
-  moveSpeed: 25
+  moveSpeed: 5
   zoomInSize: 5.5
   zoomOutSize: 7
   delayTime: 0.25
   cameraOffsetMultiplier: 3
   side: 0
+  xOffsetRotation: 60
 --- !u!1 &2043654806468811949
 GameObject:
   m_ObjectHideFlags: 0

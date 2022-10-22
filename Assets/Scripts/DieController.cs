@@ -14,7 +14,7 @@ public class DieController : MonoBehaviour
     public Vector3 chargeDirection;
     public ChargeController currentCharge;
     public ActionRecorder actionRec;
-
+    [HideInInspector] public Action lastAction;
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
 
@@ -33,13 +33,10 @@ public class DieController : MonoBehaviour
     private float rollSpeed = 4.5f;
     
     public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
-
-    public static int totalDiceMoves = 0;
-
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
-
     private CameraScript cs;
+    public static int totalDiceMoves = 0;
     
     // Start is called before the first frame update
     void Awake()
@@ -244,7 +241,8 @@ public class DieController : MonoBehaviour
         var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
         var axis = Vector3.Cross(Vector3.up, directions[index]);
 
-        actionRec.Record(moves[index]);
+        lastAction = moves[index];
+        actionRec.Record();
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
                 
