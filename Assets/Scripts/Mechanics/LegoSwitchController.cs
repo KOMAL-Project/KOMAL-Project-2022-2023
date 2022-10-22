@@ -23,8 +23,8 @@ public class LegoSwitchController : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        // set up sprites
         
+        // set up sprites
         Rect rect = new Rect(0, 0, 10, 10);    
         topSprites[type-1] = Sprite.Create(topTextures[type-1], rect, new Vector2(.5f, .5f));
         
@@ -43,7 +43,7 @@ public class LegoSwitchController : MonoBehaviour
 
     }
 
-    private void LateUpdate()
+    public void CheckForActivation()
     {
         playerPos = player.GetComponentInChildren<DieController>().position;
         //Debug.Log(playerPos + " // "  + thisPos );

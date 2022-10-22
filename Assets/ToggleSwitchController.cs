@@ -35,6 +35,14 @@ public class ToggleSwitchController : MonoBehaviour
         spr.sprite = state == "x" ? xSprite : oSprite;
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
+
+        // Activate X Blocks
+        for (int i = 0; i < xBlocks.Count; i++)
+        {
+            Vector2Int coords = xBlockPositions[i];
+            gameManager.levelData[coords.x, coords.y] = xBlocks[i];
+            xBlocks[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
+        }
     }
 
     public void CheckForActivation()
