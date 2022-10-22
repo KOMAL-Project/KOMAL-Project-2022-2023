@@ -10,9 +10,10 @@ public class ManageGame : MonoBehaviour
 
     // Prefabs for mechanics
     public GameObject floorTile, 
-        pipSwitch, winTile, board, die, singleUseTile, wallObj;
+        pipSwitchPrefab, winTile, board, die, singleUseTilePrefab, wallObj, 
+        toggleSwitchPrefab, oBlockPrefab, xBlockPrefab;
 
-    // Data that will be filled in during level generation:
+    // Prefab variant things
     public GameObject[] floorTiles = new GameObject[4];
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
     public GameObject[] chargeWalls = new GameObject[4];
@@ -26,6 +27,10 @@ public class ManageGame : MonoBehaviour
 
     public int width, length, levelID, chapterID;
     public Texture2D levelImage, filtersImage;
+    // FloorData holds floor tile GameObjects.
+    // levelData holds data for whether each tile is obstructed.
+    // Unobstructed tiles are a null value.
+    // Obstructed tiles are references to the gameObject occupying the tile.
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
     public static int furthestLevel = 255; //change this to skip levels
@@ -33,6 +38,11 @@ public class ManageGame : MonoBehaviour
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
+
+    // Toggle Switch and Block Colors
+    Color toggleSwitchColor = new Color32(255, 207, 158, 255);
+    Color xBlockColor = new Color32(248, 114, 36, 255);
+    Color oBlockColor = new Color32(13, 21, 218, 255);
 
     Color[] pipFilterColors = new Color[]
     {
@@ -46,39 +56,39 @@ public class ManageGame : MonoBehaviour
 
     Color[] legoSwitchColors = new Color[]
     {
-        new Color32(255, 100, 255, 255), // 1 Pip
-        new Color32(230, 100, 255, 255), // 2 Pips
-        new Color32(205, 100, 255, 255), // 3 Pips
-        new Color32(180, 100, 255, 255), // 4 Pips
-        new Color32(155, 100, 255, 255), // 5 Pips
-        new Color32(130, 100, 255, 255)  // 6 Pips
+        new Color32(255, 100, 255, 255), // Red
+        new Color32(230, 100, 255, 255), // Green
+        new Color32(205, 100, 255, 255), // Blue
+        new Color32(180, 100, 255, 255), // Yellow
+        new Color32(155, 100, 255, 255), // Purple
+        new Color32(130, 100, 255, 255)  // Black
     };
     Color[] legoBlockColors = new Color[]
     {
-        new Color32(255, 0, 255, 255), // 1 Pip
-        new Color32(230, 0, 255, 255), // 2 Pips
-        new Color32(205, 0, 255, 255), // 3 Pips
-        new Color32(180, 0, 255, 255), // 4 Pips
-        new Color32(155, 0, 255, 255), // 5 Pips
-        new Color32(130, 0, 255, 255)  // 6 Pips
+        new Color32(255, 0, 255, 255), // Red
+        new Color32(230, 0, 255, 255), // Green
+        new Color32(205, 0, 255, 255), // Blue
+        new Color32(180, 0, 255, 255), // Yellow
+        new Color32(155, 0, 255, 255), // Purple
+        new Color32(130, 0, 255, 255)  // Black
     };
     Color[] chargeGiveColors = new Color[]
     {
-        new Color32(255, 77,  77, 255), // Spades
-        new Color32(255, 107, 77, 255), // Hearts
-        new Color32(255, 137, 77, 255), // Clubs
-        new Color32(255, 167, 77, 255)  // Diamonds
+        new Color32(255, 77,  77, 255), // Blue Triangle
+        new Color32(255, 107, 77, 255), // Red Square
+        new Color32(255, 137, 77, 255), // Yellow Cross
+        new Color32(255, 167, 77, 255)  // Green Circle
     };
     Color[] chargeCardColors = new Color[]
     {
-        new Color32(255, 77,  0, 255), // Spades
-        new Color32(255, 107, 0, 255), // Hearts
-        new Color32(255, 137, 0, 255), // Clubs
-        new Color32(255, 167, 0, 255)  // Diamonds
+        new Color32(255, 77,  0, 255), // Blue Triangle
+        new Color32(255, 107, 0, 255), // Red Square
+        new Color32(255, 137, 0, 255), // Yellow Cross
+        new Color32(255, 167, 0, 255)  // Green Circle
     };
 
-    public List<GameObject> wallTiles;
-
+    // Lists of mechanics in the level at a time
+    List<GameObject> wallTiles, toggleSwitchesInLevel;
     public Dictionary<string, GameObject> wallDirections;
     
 
@@ -121,29 +131,44 @@ public class ManageGame : MonoBehaviour
 
         levelFinishing = false;
 
-        wallDirections = new Dictionary<string, GameObject>
-        {
-            // left, right, up, down
-            { "0110", wallTiles[0] }, // corner_bottom_left
-            { "1010", wallTiles[1] }, // corner_bottom_right
-            { "0101", wallTiles[2] }, // corner_top_left
-            { "1001", wallTiles[3] }, // corner_top_right
-            { "0010", wallTiles[4] }, // end_bottom
-            { "0100", wallTiles[5] }, // end_left
-            { "1000", wallTiles[6] }, // end_right
-            { "0001", wallTiles[7] }, // end_top
-            { "1110", wallTiles[8] }, // t_bottom
-            { "0111", wallTiles[9] }, // t_left
-            { "1011", wallTiles[10] }, // t_right
-            { "1101", wallTiles[11] }, // t_up
-            { "0011", wallTiles[12] }, // u-d straight
-            { "1100", wallTiles[13] }, // l-r straight
-            { "0000", new GameObject() }
-        };
+        //wallDirections = new Dictionary<string, GameObject>
+        //{
+        //    // left, right, up, down
+        //    { "0110", wallTiles[0] }, // corner_bottom_left
+        //    { "1010", wallTiles[1] }, // corner_bottom_right
+        //    { "0101", wallTiles[2] }, // corner_top_left
+        //    { "1001", wallTiles[3] }, // corner_top_right
+        //    { "0010", wallTiles[4] }, // end_bottom
+        //    { "0100", wallTiles[5] }, // end_left
+        //    { "1000", wallTiles[6] }, // end_right
+        //    { "0001", wallTiles[7] }, // end_top
+        //    { "1110", wallTiles[8] }, // t_bottom
+        //    { "0111", wallTiles[9] }, // t_left
+        //    { "1011", wallTiles[10] }, // t_right
+        //    { "1101", wallTiles[11] }, // t_up
+        //    { "0011", wallTiles[12] }, // u-d straight
+        //    { "1100", wallTiles[13] }, // l-r straight
+        //    { "0000", new GameObject() }
+        //};
 
         ReadLevel();
         //Debug.Log("norm" + levelData);
     }
+
+
+    public void CheckMechanics()
+    {
+        foreach(GameObject t in toggleSwitchesInLevel)
+        {
+            ToggleSwitchController toggle = t.GetComponentInChildren<ToggleSwitchController>();
+            toggle.CheckForActivation();
+        }
+    }
+
+
+
+
+
 
     /// <summary>
     /// Scan through the level image and instantiate the necessary objects based on the color of each pixel.
@@ -153,6 +178,8 @@ public class ManageGame : MonoBehaviour
         bool[,] tempWallData = new bool[width, length];
 
         // Define lists in which we will reference generated objects
+        
+        // Lego Lists
         List<GameObject>[] pipSwitches = new List<GameObject>[6];
         for (int i = 0; i < pipSwitches.Length; i++) pipSwitches[i] = new List<GameObject>();
         List<GameObject>[] pipWalls = new List<GameObject>[6];
@@ -160,6 +187,7 @@ public class ManageGame : MonoBehaviour
         List<Vector2Int>[] pipWallsPositions = new List<Vector2Int>[6];
         for (int i = 0; i < pipWallsPositions.Length; i++) pipWallsPositions[i] = new List<Vector2Int>();
 
+        // Charge Lists
         List<GameObject>[] chargeSwitches = new List<GameObject>[4];
         for (int i = 0; i < chargeSwitches.Length; i++) chargeSwitches[i] = new List<GameObject>();
         List<GameObject>[] chargeDoors = new List<GameObject>[4];
@@ -167,6 +195,12 @@ public class ManageGame : MonoBehaviour
         List<Vector2Int>[] chargeWallPositions = new List<Vector2Int>[4];
         for (int i = 0; i < chargeWallPositions.Length; i++) chargeWallPositions[i] = new List<Vector2Int>();
 
+        // Toggle Block Lists
+        List<GameObject> oBlocks = new List<GameObject>();
+        List<Vector2Int> oBlockPositions = new List<Vector2Int>();
+        List<Vector2Int> xBlockPositions = new List<Vector2Int>();
+        List<GameObject> xBlocks = new List<GameObject>();
+        List<GameObject> toggleSwitches = new List<GameObject>(); 
         //Debug.Log(chargeDoors[0]);
 
         for (int i = 0; i < width; i++)
@@ -178,7 +212,7 @@ public class ManageGame : MonoBehaviour
                 // Single Use Tiles
                 if (levelImage.GetPixel(i,j) == singleUseColor)
                 {
-                    GameObject temp = Instantiate(singleUseTile, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    GameObject temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     temp.GetComponent<SingleUseController>().position = new Vector2Int(i, j);
                     temp.GetComponent<SingleUseController>().player = die;
                     temp.GetComponent<SingleUseController>().manager = gameObject;
@@ -189,7 +223,7 @@ public class ManageGame : MonoBehaviour
                 {
                     if (levelImage.GetPixel(i, j) == legoSwitchColors[k])
                     {
-                        GameObject temp = Instantiate(pipSwitch, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        GameObject temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         temp.GetComponent<LegoSwitchController>().thisPos = new Vector2Int(i, j);
                         temp.GetComponent<LegoSwitchController>().type = k + 1;
                         temp.GetComponent<LegoSwitchController>().pips = GetPipFilter(i, j);
@@ -223,12 +257,35 @@ public class ManageGame : MonoBehaviour
                 {
                     if (levelImage.GetPixel(i, j) == chargeCardColors[k])
                     {
-                        Debug.Log(chargeWalls[k]);
+                        //Debug.Log(chargeWalls[k]);
                         levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        Debug.Log(chargeDoors[k]);
+                        //Debug.Log(chargeDoors[k]);
                         chargeDoors[k].Add(levelData[i, j]);
                         chargeWallPositions[k].Add(new Vector2Int(i, j));
                     }
+                }
+                // Toggle Switch
+                if (levelImage.GetPixel(i, j) == toggleSwitchColor)
+                {
+                    GameObject temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp.GetComponentInChildren<ToggleSwitchController>().position = new Vector2Int(i, j);
+                    temp.GetComponentInChildren<ToggleSwitchController>().pips = GetPipFilter(i, j);
+                    toggleSwitches.Add(temp);
+                }
+                // "O" Toggle Block
+                if (levelImage.GetPixel(i, j) == oBlockColor)
+                {
+                    GameObject temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    oBlocks.Add(temp);
+                    oBlockPositions.Add(new Vector2Int(i, j));
+                }
+                // "X" Toggle Block
+                if (levelImage.GetPixel(i, j) == xBlockColor)
+                {
+                    GameObject temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    xBlocks.Add(temp);
+                    temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
+                    xBlockPositions.Add(new Vector2Int(i, j));
                 }
                 // Win Switch
                 if (levelImage.GetPixel(i, j) == new Color(1, 1, 0)) // Color is yellow
@@ -265,6 +322,17 @@ public class ManageGame : MonoBehaviour
                     chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
                 }
             }
+            // Attach toggle blocks to their switches (and switches to other switches)
+            foreach(GameObject t in toggleSwitches)
+            {
+                ToggleSwitchController tsc = t.GetComponentInChildren<ToggleSwitchController>();
+                tsc.oBlocks = oBlocks;
+                tsc.xBlocks = xBlocks;
+                tsc.switches = toggleSwitches;
+                tsc.oBlockPositions = oBlockPositions;
+                tsc.xBlockPositions = xBlockPositions;
+            }
+            toggleSwitchesInLevel = toggleSwitches;
         }
 
         for (int i = 0; i < width; i++) 

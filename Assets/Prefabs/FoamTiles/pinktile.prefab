@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9065198053233945160}
   - component: {fileID: 5542725769512439516}
   m_Layer: 0
-  m_Name: default
+  m_Name: pink tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

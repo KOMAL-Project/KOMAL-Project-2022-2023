@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5518156505150907128}
   - component: {fileID: 7224689999284132786}
   - component: {fileID: 6153882363551481638}
-  - component: {fileID: 2231941592416539972}
+  - component: {fileID: 229623816586807862}
   m_Layer: 0
-  m_Name: default
+  m_Name: Yellow Lego
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b374987e35017d241a43e635e395cd65, type: 2}
+  - {fileID: 2100000, guid: 34178c1302360a346adfdc90218b1a2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &2231941592416539972
+--- !u!95 &229623816586807862
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4964191818557871008}
   m_Layer: 0
-  m_Name: Lego 6
+  m_Name: Lego 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

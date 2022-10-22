@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6141619846959239927}
   - component: {fileID: 7214433000553821795}
   m_Layer: 0
-  m_Name: default
+  m_Name: Blue Triangle Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   gatePos: []
   gateDirection: {x: 0, y: 0, z: 0}
   type: 0
+  pips: 0
   mats:
   - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
   - {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}

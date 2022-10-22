@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 980763192323234874}
   - component: {fileID: 4375780078892054702}
   m_Layer: 0
-  m_Name: default
+  m_Name: yellow tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

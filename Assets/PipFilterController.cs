@@ -27,7 +27,7 @@ public class PipFilterController : MonoBehaviour
             Rect rect = new Rect(0, 0, 10, 10);
             topSprites[pips - 1] = Sprite.Create(topTextures[pips - 1], rect, new Vector2(.5f, .5f));
 
-            SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer spr = GetComponent<SpriteRenderer>();
             spr.sprite = topSprites[pips - 1];
             spr.gameObject.transform.localScale *= 10;
         }
