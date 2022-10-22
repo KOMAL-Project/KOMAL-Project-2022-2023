@@ -610,6 +610,14 @@ PrefabInstance:
       propertyPath: chapterID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: levelImage
+      value: 
+      objectReference: {fileID: 2800000, guid: 6bd4473f725dc234c98d9c66cd890db3, type: 3}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: filtersImage
+      value: 
+      objectReference: {fileID: 2800000, guid: ffbbd2c3bb5124f649147037fdc9e17a, type: 3}
     - target: {fileID: 2201775946093453423, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_Name
       value: GameManager
