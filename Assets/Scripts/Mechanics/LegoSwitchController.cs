@@ -43,7 +43,7 @@ public class LegoSwitchController : MonoBehaviour
 
     }
 
-    private void LateUpdate()
+    public void CheckForActivation()
     {
         playerPos = player.GetComponentInChildren<DieController>().position;
         //Debug.Log(playerPos + " // "  + thisPos );

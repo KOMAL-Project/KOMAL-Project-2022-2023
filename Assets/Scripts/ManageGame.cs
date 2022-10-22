@@ -92,6 +92,7 @@ public class ManageGame : MonoBehaviour
     List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
         legoSwitchesInLevel, legoWallsInLevel;
+
     public Dictionary<string, GameObject> wallDirections;
     
 
@@ -168,10 +169,11 @@ public class ManageGame : MonoBehaviour
         }
         foreach(List<GameObject> l in chargeSwitchesInLevel)
         {
-            foreach(GameObject g in l)
-            {
-                g.GetComponent<ChargeController>().CheckForActivation();
-            }
+            foreach(GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
+        }
+        foreach(List<GameObject> l in legoSwitchesInLevel)
+        {
+            foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
         }
     }
 
