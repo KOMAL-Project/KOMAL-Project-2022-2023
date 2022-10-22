@@ -38,13 +38,14 @@ public class ChargeController : MonoBehaviour
         pip.pips = pips;
         pip.thisPos = pos;
         pip.player = player;
-        pip.playerPos = pScript.position;
+        
     }
 
     public void CheckForActivation()
     {
         if (!gateOpen)
         {
+            pip.playerPos = pScript.position;
             if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
                 if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
