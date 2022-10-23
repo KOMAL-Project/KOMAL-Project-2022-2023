@@ -88,8 +88,8 @@ public class ManageGame : MonoBehaviour
     };
 
     // Lists of mechanics in the level at a time
-    List<GameObject> wallTiles, toggleSwitchesInLevel;
-    List<GameObject>[]
+    public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel;
+    public List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
         legoSwitchesInLevel, legoWallsInLevel;
 
@@ -182,6 +182,12 @@ public class ManageGame : MonoBehaviour
         {
             foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
         }
+        foreach(GameObject t in singleUseTilesInLevel)
+        {
+            SingleUseController single = t.GetComponentInChildren<SingleUseController>();
+            single.CheckForActivation();
+        }
+
     }
 
 
@@ -235,6 +241,7 @@ public class ManageGame : MonoBehaviour
                     temp.GetComponent<SingleUseController>().position = new Vector2Int(i, j);
                     temp.GetComponent<SingleUseController>().player = die;
                     temp.GetComponent<SingleUseController>().manager = gameObject;
+                    singleUseTilesInLevel.Add(temp);
 
                 }
                 // Pip Switches

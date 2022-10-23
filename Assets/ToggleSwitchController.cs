@@ -12,7 +12,7 @@ public class ToggleSwitchController : MonoBehaviour
     // switches: All toggle switches in the current level, including this one
     public List<GameObject> xBlocks, oBlocks, switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
-    string state = "x";
+    public string state = "x";
 
     // Physical Appearance
     SpriteRenderer spr;
@@ -78,7 +78,11 @@ public class ToggleSwitchController : MonoBehaviour
         }
     }
 
-    public bool stateToBool() {
-        return state == "x"? false : true;
+    public bool stateToGetBool() {
+        return state == "x"? true : false;
+    }
+
+    public void boolToSetState(bool setBool) {
+        state = setBool ? "x" : "o";
     }
 }

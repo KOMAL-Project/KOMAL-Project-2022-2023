@@ -114,7 +114,7 @@ public class DieController : MonoBehaviour
             [Vector3.right] = sides[Vector3.right]
         };
 
-        Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
+        //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
         if (chargeDirection != Vector3.zero)
@@ -125,7 +125,6 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
         }
-        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -143,7 +142,7 @@ public class DieController : MonoBehaviour
             [Vector3.right] = sides[Vector3.right]
         };
 
-        Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
+        //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
         if (chargeDirection != Vector3.zero)
@@ -154,7 +153,6 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
         }
-        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -172,7 +170,7 @@ public class DieController : MonoBehaviour
             [Vector3.back] = sides[Vector3.back]
         };
 
-        Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
+        //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
         if (chargeDirection != Vector3.zero)
@@ -183,7 +181,6 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
         }
-        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -201,7 +198,7 @@ public class DieController : MonoBehaviour
             [Vector3.back] = sides[Vector3.back]
         };
 
-        Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
+        //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
         if (chargeDirection != Vector3.zero)
@@ -212,7 +209,6 @@ public class DieController : MonoBehaviour
             //charge side faces down, resets
             else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
         }
-        gm.CheckMechanics();
     }
 
     /// <summary>
@@ -233,7 +229,7 @@ public class DieController : MonoBehaviour
 
         int index = InputToIndex();
         if (index < 0 || isMoving) return;
-        Debug.Log("Index: " + index);
+        //Debug.Log("Index: " + index);
         index = (index + cs.side) % 4;
         //if (index < 0) index += 4;
         int newX = (int)directions[index].x + x;
@@ -245,7 +241,6 @@ public class DieController : MonoBehaviour
         var axis = Vector3.Cross(Vector3.up, directions[index]);
 
         lastAction = moves[index];
-        actionRec.Record();
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
                 
@@ -290,7 +285,9 @@ public class DieController : MonoBehaviour
         frontFace.transform.position = transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
 
         func();
+        gm.CheckMechanics();
 
+        actionRec.Record();
         isMoving = false;
     }
 
