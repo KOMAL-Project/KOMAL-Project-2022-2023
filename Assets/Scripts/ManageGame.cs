@@ -88,11 +88,13 @@ public class ManageGame : MonoBehaviour
     };
 
     // Lists of mechanics in the level at a time
-    List<GameObject> wallTiles, toggleSwitchesInLevel;
+    List<GameObject> wallTiles, toggleSwitchesInLevel,
+        xBlocksInLevel, oBlocksInLevel;
     List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
         legoSwitchesInLevel, legoWallsInLevel;
-
+    List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
+    List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
     public Dictionary<string, GameObject> wallDirections;
     
 
@@ -108,6 +110,7 @@ public class ManageGame : MonoBehaviour
         string path = SceneManager.GetActiveScene().path;
         levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
         chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
+        
 
         /// Set up basic floor plan (movable and empty spaces)
         for (int i = 0; i < width; i++)
@@ -133,6 +136,29 @@ public class ManageGame : MonoBehaviour
 
         die = GameObject.FindGameObjectWithTag("Player");
 
+        // Set up lists of GameObjects:
+        legoSwitchesInLevel = new List<GameObject>[6];
+        for (int i = 0; i < legoSwitchesInLevel.Length; i++) legoSwitchesInLevel[i] = new List<GameObject>();
+        legoWallsInLevel = new List<GameObject>[6];
+        for (int i = 0; i < legoWallsInLevel.Length; i++) legoWallsInLevel[i] = new List<GameObject>();
+        legoWallPositionsInLevel = new List<Vector2Int>[6];
+        for (int i = 0; i < legoWallPositionsInLevel.Length; i++) legoWallPositionsInLevel[i] = new List<Vector2Int>();
+
+        // Charge Lists
+        chargeSwitchesInLevel = new List<GameObject>[4];
+        for (int i = 0; i < chargeSwitchesInLevel.Length; i++) chargeSwitchesInLevel[i] = new List<GameObject>();
+        chargeCardsInLevel = new List<GameObject>[4];
+        for (int i = 0; i < chargeCardsInLevel.Length; i++) chargeCardsInLevel[i] = new List<GameObject>();
+        chargeCardPositionsInLevel = new List<Vector2Int>[4];
+        for (int i = 0; i < chargeCardPositionsInLevel.Length; i++) chargeCardPositionsInLevel[i] = new List<Vector2Int>();
+
+        // Toggle Block Lists
+        oBlocksInLevel = new List<GameObject>();
+        oBlockPositionsInLevel = new List<Vector2Int>();
+        xBlockPositionsInLevel = new List<Vector2Int>();
+        xBlocksInLevel = new List<GameObject>();
+        toggleSwitchesInLevel = new List<GameObject>();
+
         levelFinishing = false;
 
         //wallDirections = new Dictionary<string, GameObject>
@@ -156,10 +182,13 @@ public class ManageGame : MonoBehaviour
         //};
 
         ReadLevel();
+        ConnectMechanics();
         //Debug.Log("norm" + levelData);
     }
 
-
+    /// <summary>
+    /// Runs whenever the die moves. Makes mechanics do their activation checks.
+    /// </summary>
     public void CheckMechanics()
     {
         foreach(GameObject t in toggleSwitchesInLevel)
@@ -177,136 +206,139 @@ public class ManageGame : MonoBehaviour
         }
     }
 
-
-
-
-
+    void ConnectMechanics()
+    {
+        // Attach Legos to their switches
+        for (int j = 0; j < 6; j++)
+        {
+            for (int k = 0; k < legoSwitchesInLevel[j].Count; k++)
+            {
+                legoSwitchesInLevel[j][k].GetComponent<LegoSwitchController>().wallsPos = legoWallPositionsInLevel[j];
+                legoSwitchesInLevel[j][k].GetComponent<LegoSwitchController>().walls = legoWallsInLevel[j];
+            }
+        }
+        // Attach Cards to their charges
+        for (int j = 0; j < 4; j++)
+        {
+            for (int k = 0; k < chargeSwitchesInLevel[j].Count; k++)
+            {
+                chargeSwitchesInLevel[j][k].GetComponent<ChargeController>().gatePos = chargeCardPositionsInLevel[j];
+                chargeSwitchesInLevel[j][k].GetComponent<ChargeController>().doors = chargeCardsInLevel[j];
+            }
+        }
+        // Attach toggle blocks to their switches (and switches to other switches)
+        foreach (GameObject t in toggleSwitchesInLevel)
+        {
+            ToggleSwitchController tsc = t.GetComponentInChildren<ToggleSwitchController>();
+            tsc.oBlocks = oBlocksInLevel;
+            tsc.xBlocks = xBlocksInLevel;
+            tsc.switches = toggleSwitchesInLevel;
+            tsc.oBlockPositions = oBlockPositionsInLevel;
+            tsc.xBlockPositions = xBlockPositionsInLevel;
+        }
+    }
 
     /// <summary>
     /// Scan through the level image and instantiate the necessary objects based on the color of each pixel.
     /// </summary>
     public void ReadLevel()
     {
-        bool[,] tempWallData = new bool[width, length];
-
-        // Define lists in which we will reference generated objects
-        
-        // Lego Lists
-        List<GameObject>[] pipSwitches = new List<GameObject>[6];
-        for (int i = 0; i < pipSwitches.Length; i++) pipSwitches[i] = new List<GameObject>();
-        List<GameObject>[] pipWalls = new List<GameObject>[6];
-        for (int i = 0; i < pipWalls.Length; i++) pipWalls[i] = new List<GameObject>();
-        List<Vector2Int>[] pipWallsPositions = new List<Vector2Int>[6];
-        for (int i = 0; i < pipWallsPositions.Length; i++) pipWallsPositions[i] = new List<Vector2Int>();
-
-        // Charge Lists
-        List<GameObject>[] chargeSwitches = new List<GameObject>[4];
-        for (int i = 0; i < chargeSwitches.Length; i++) chargeSwitches[i] = new List<GameObject>();
-        List<GameObject>[] chargeDoors = new List<GameObject>[4];
-        for (int i = 0; i < chargeDoors.Length; i++) chargeDoors[i] = new List<GameObject>();
-        List<Vector2Int>[] chargeWallPositions = new List<Vector2Int>[4];
-        for (int i = 0; i < chargeWallPositions.Length; i++) chargeWallPositions[i] = new List<Vector2Int>();
-
-        // Toggle Block Lists
-        List<GameObject> oBlocks = new List<GameObject>();
-        List<Vector2Int> oBlockPositions = new List<Vector2Int>();
-        List<Vector2Int> xBlockPositions = new List<Vector2Int>();
-        List<GameObject> xBlocks = new List<GameObject>();
-        List<GameObject> toggleSwitches = new List<GameObject>(); 
-        //Debug.Log(chargeDoors[0]);
-
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
+                // Get the color of the level Image pixel
+                Color pixel = levelImage.GetPixel(i, j);
                 // Basic Walls
-                if (levelImage.GetPixel(i, j) == Color.black) tempWallData[i, j] = true; //levelData[i,j] = Instantiate(floorTile, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                if (pixel == Color.black)
+                {
+                    levelData[i, j] = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    Destroy(floorData[i, j]);
+                }
                 // Single Use Tiles
-                if (levelImage.GetPixel(i,j) == singleUseColor)
+                if (pixel == singleUseColor)
                 {
                     GameObject temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    temp.GetComponent<SingleUseController>().position = new Vector2Int(i, j);
-                    temp.GetComponent<SingleUseController>().player = die;
-                    temp.GetComponent<SingleUseController>().manager = gameObject;
+                    SingleUseController suc = temp.GetComponent<SingleUseController>();
+                    suc.position = new Vector2Int(i, j);
+                    suc.player = die;
+                    suc.manager = gameObject;
 
                 }
-                // Pip Switches
+                
                 for (int k = 0; k < legoSwitchColors.Length; k++)
                 {
-                    if (levelImage.GetPixel(i, j) == legoSwitchColors[k])
+                    // Lego Switches
+                    if (pixel == legoSwitchColors[k])
                     {
                         GameObject temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        temp.GetComponent<LegoSwitchController>().thisPos = new Vector2Int(i, j);
-                        temp.GetComponent<LegoSwitchController>().type = k + 1;
-                        temp.GetComponent<LegoSwitchController>().pips = GetPipFilter(i, j);
-                        pipSwitches[k].Add(temp);
+                        LegoSwitchController lsc = temp.GetComponent<LegoSwitchController>();
+                        lsc.thisPos = new Vector2Int(i, j);
+                        lsc.type = k + 1;
+                        lsc.pips = GetPipFilter(i, j);
+                        legoSwitchesInLevel[k].Add(temp);
                     }
-                }
-                // Legos
-                for (int k = 0; k < legoBlockColors.Length; k++)
-                {
-                    if (levelImage.GetPixel(i, j) == legoBlockColors[k])
+                    // Legos
+                    if (pixel == legoBlockColors[k])
                     {
                         levelData[i, j] = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        pipWalls[k].Add(levelData[i, j]);
-                        pipWallsPositions[k].Add(new Vector2Int(i, j));
+                        legoWallsInLevel[k].Add(levelData[i, j]);
+                        legoWallPositionsInLevel[k].Add(new Vector2Int(i, j));
                     }
                 }
-                // Charge Givers
+                
                 for (int k = 0; k < chargeGiveColors.Length; k++)
                 {
-                    if (levelImage.GetPixel(i, j) == chargeGiveColors[k])
+                    // Charge Givers    
+                    if (pixel == chargeGiveColors[k])
                     {
-                        GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        temp.GetComponent<ChargeController>().pos = new Vector2Int(i, j);
-                        chargeSwitches[k].Add(temp);
-                        temp.GetComponent<ChargeController>().type = k;
-                        temp.GetComponent<ChargeController>().pips = GetPipFilter(i, j);
+                        GameObject temp = Instantiate( chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2 ), new Quaternion(0, 0, 0, 0), board.transform);
+                        ChargeController chc = temp.GetComponent<ChargeController>();
+                        chc.pos = new Vector2Int(i, j);
+                        chc.type = k;
+                        chc.pips = GetPipFilter(i, j);
+                        chargeSwitchesInLevel[k].Add(temp);
                     }
-                }
-                // Cards
-                for (int k = 0; k < chargeCardColors.Length; k++)
-                {
-                    if (levelImage.GetPixel(i, j) == chargeCardColors[k])
+                    // Cards
+                    if (pixel == chargeCardColors[k])
                     {
-                        //Debug.Log(chargeWalls[k]);
                         levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        //Debug.Log(chargeDoors[k]);
-                        chargeDoors[k].Add(levelData[i, j]);
-                        chargeWallPositions[k].Add(new Vector2Int(i, j));
+                        chargeCardsInLevel[k].Add(levelData[i, j]);
+                        chargeCardPositionsInLevel[k].Add(new Vector2Int(i, j));
                     }
                 }
                 // Toggle Switch
-                if (levelImage.GetPixel(i, j) == toggleSwitchColor)
+                if (pixel == toggleSwitchColor)
                 {
                     GameObject temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    temp.GetComponentInChildren<ToggleSwitchController>().position = new Vector2Int(i, j);
-                    temp.GetComponentInChildren<ToggleSwitchController>().pips = GetPipFilter(i, j);
-                    toggleSwitches.Add(temp);
+                    ToggleSwitchController tsc = temp.GetComponentInChildren<ToggleSwitchController>();
+                    tsc.position = new Vector2Int(i, j);
+                    tsc.pips = GetPipFilter(i, j);
+                    toggleSwitchesInLevel.Add(temp);
                 }
                 // "O" Toggle Block
-                if (levelImage.GetPixel(i, j) == oBlockColor)
+                if (pixel == oBlockColor)
                 {
                     GameObject temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    oBlocks.Add(temp);
-                    oBlockPositions.Add(new Vector2Int(i, j));
+                    oBlocksInLevel.Add(temp);
+                    oBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // "X" Toggle Block
-                if (levelImage.GetPixel(i, j) == xBlockColor)
+                if (pixel == xBlockColor)
                 {
                     GameObject temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    xBlocks.Add(temp);
+                    xBlocksInLevel.Add(temp);
                     temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
-                    xBlockPositions.Add(new Vector2Int(i, j));
+                    xBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // Win Switch
-                if (levelImage.GetPixel(i, j) == new Color(1, 1, 0)) // Color is yellow
+                if (pixel == new Color(1, 1, 0)) // Color is yellow
                 {
                     die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
-                if (levelImage.GetPixel(i, j) == Color.green)
+                if (pixel == Color.green)
                 {
                     Debug.Log(i + " " + j);
                     die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
@@ -314,203 +346,7 @@ public class ManageGame : MonoBehaviour
                     die.GetComponentInChildren<DieController>().gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
             }
-
-            
-            // Attach Legos to their switches
-            for (int j = 0; j < 6; j++)
-            {
-                for (int k = 0; k < pipSwitches[j].Count; k++)
-                {
-                    pipSwitches[j][k].GetComponent<LegoSwitchController>().wallsPos = pipWallsPositions[j];
-                    pipSwitches[j][k].GetComponent<LegoSwitchController>().walls = pipWalls[j];
-                }
-            }
-            legoSwitchesInLevel = pipSwitches;
-            legoWallsInLevel = pipWalls;
-            // Attach Cards to their charges
-            for (int j = 0; j < 4; j++)
-            {
-                for (int k = 0; k < chargeSwitches[j].Count; k++)
-                {
-                    chargeSwitches[j][k].GetComponent<ChargeController>().gatePos = chargeWallPositions[j];
-                    chargeSwitches[j][k].GetComponent<ChargeController>().doors = chargeDoors[j];
-                }
-            }
-            chargeSwitchesInLevel = chargeSwitches;
-            chargeCardsInLevel = chargeDoors;
-            // Attach toggle blocks to their switches (and switches to other switches)
-            foreach(GameObject t in toggleSwitches)
-            {
-                ToggleSwitchController tsc = t.GetComponentInChildren<ToggleSwitchController>();
-                tsc.oBlocks = oBlocks;
-                tsc.xBlocks = xBlocks;
-                tsc.switches = toggleSwitches;
-                tsc.oBlockPositions = oBlockPositions;
-                tsc.xBlockPositions = xBlockPositions;
-            }
-            toggleSwitchesInLevel = toggleSwitches;
         }
-
-        for (int i = 0; i < width; i++) 
-        {
-            for (int j = 0; j < length; j++)
-            {
-                if (tempWallData[i, j])
-                {
-                    levelData[i, j] = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-
-                    Destroy(floorData[i, j]);
-
-
-                    //int up = 0;
-                    //int right = 0;
-                    //int down = 0;
-                    //int left = 0;
-
-                    //if (i == 0 && j == 0)
-                    //{
-                    //    left = 0;
-                    //    down = 0;
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //}
-                    //else if (i == 0 && j == length - 1)
-                    //{
-                    //    left = 0;
-                    //    up = 0;
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //}
-                    //else if (i == width - 1 && j == 0)
-                    //{
-                    //    right = 0;
-                    //    down = 0;
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //}
-                    //else if (i == width - 1 && j == length - 1)
-                    //{
-                    //    right = 0;
-                    //    up = 0;
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //}
-                    //else if (i == 0) 
-                    //{
-                    //    left = 0;
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //}
-                    //else if (i == width - 1)
-                    //{
-                    //    right = 0;
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //}
-                    //else if (j == 0)
-                    //{
-                    //    down = 0;
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //}
-                    //else if (j == length - 1)
-                    //{
-                    //    up = 0;
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    if (tempWallData[i - 1, j])
-                    //    {
-                    //        left = 1;
-                    //    }
-                    //    if (tempWallData[i, j - 1])
-                    //    {
-                    //        down = 1;
-                    //    }
-                    //    if (tempWallData[i + 1, j])
-                    //    {
-                    //        right = 1;
-                    //    }
-                    //    if (tempWallData[i, j + 1])
-                    //    {
-                    //        up = 1;
-                    //    }
-                    //}
-                    //// Debug.Log("added tile: " + left + right + up + down);
-
-                }
-            }
-        }
-
-        //Debug.Log("ReadLevel " + levelData);
-        //die.GetComponent<DieController>().position = new int[] { 4, 4 };
-        //die.transform.position = new Vector3(4 - width / 2, 1, 4 - length / 2);
     }
 
     /// <summary>
