@@ -77,7 +77,10 @@ public class DieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(canControl && !isMoving) GetInput();
+        if(canControl && !isMoving) {
+            GetInput();
+            if (Input.GetKeyUp("k")) actionRec.Undo();
+        }
         //Debug.Log(gm.levelData);
         UpdateFaces();
         
@@ -275,8 +278,10 @@ public class DieController : MonoBehaviour
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-        source.clip = diceHit;
-        source.Play();
+        if (source is not null) {
+            source.clip = diceHit;
+            source.Play();
+        }
 
         totalDiceMoves++;
 
@@ -308,12 +313,14 @@ public class DieController : MonoBehaviour
     }
     
     /// <summary>
-    /// Applies Charge of type "type" to the face currently facing down.
+    /// Applies Charge of type "type" to the face in a direction.
     /// </summary>
     /// <param name="type"></param>
-    public void PowerUp(int type)
+    public void PowerUp(int type, Vector3 direction)
     {
-        GetComponentInChildren<MeshRenderer>().material = mt[type][sides[Vector3.down] - 1];
+        if (direction != Vector3.zero) {
+        GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
+        }
     }
 
     /// <summary>
