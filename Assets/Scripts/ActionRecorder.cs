@@ -43,7 +43,6 @@ public record states {
         }
         if (other.chargeDirection is not null && this.chargeDirection != other.chargeDirection) {
             this.chargeDirection = other.chargeDirection;
-            Debug.Log(this.chargeDirection);
         }
         else {
             //other.chargeDirection = null;
@@ -118,7 +117,7 @@ public class ActionRecorder : MonoBehaviour
         };
     }
 
-    //stores the last state and puts it in the stack    
+    //stores the last state and puts it in the stack   
     public void Record() {
         
         states newState = getState();
@@ -127,7 +126,6 @@ public class ActionRecorder : MonoBehaviour
         //Debug.Log(currentState);
 
     }
-
     public void Undo() {
 
         if (stateStack.Count <= 1) {

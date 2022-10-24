@@ -40,14 +40,13 @@ public class ChargeController : MonoBehaviour
         pip.player = player;
         
     }
-
     public void CheckForActivation()
     {
         if (!gateOpen)
         {
             if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
-                Debug.Log("went over charge tile");
+                Debug.Log("went over charge tile " + type);
                 if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
                 {
                     if (pScript.currentCharge != null) 
@@ -68,7 +67,7 @@ public class ChargeController : MonoBehaviour
                 pScript.chargeDirection = Vector3.down;
 
             }
-            if (pScript.chargeDirection == Vector3.zero)
+            if (pScript.chargeDirection == Vector3.zero && pScript.currentCharge != null)
             {
                 pickedUp = false;
                 pScript.PowerDown();
@@ -87,7 +86,7 @@ public class ChargeController : MonoBehaviour
                             gateOpen = true;
                             pickedUp = false;
                             pScript.PowerDown();
-                            rend.material = mats[0];
+                            rend.material = mats[1];
                             pScript.currentCharge = null;
 
                             foreach (var door in doors)
@@ -119,9 +118,11 @@ public class ChargeController : MonoBehaviour
         if (input == 2) {
             pickedUp = false;
             gateOpen = false;
-            pScript.PowerDown();
             rend.material = mats[0];
-            pScript.currentCharge = null;
+            if (pScript.currentCharge == this) {
+                pScript.PowerDown();
+                pScript.currentCharge = null;
+            }
 
         }
         else if (input == 1) { //reset doors if they were down
