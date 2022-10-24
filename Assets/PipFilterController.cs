@@ -44,4 +44,8 @@ public class PipFilterController : MonoBehaviour
     {
         return die.GetComponentInChildren<DieController>().sides[Vector3.down] == pips || pips == 0;
     }
+
+    public Sprite GetSprite(int type) {
+        return topSprites[type - 1];
+    }
 }
