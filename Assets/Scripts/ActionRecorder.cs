@@ -109,7 +109,10 @@ public class ActionRecorder : MonoBehaviour
 
     }
 
-//gets the most current state with all info
+/// <summary>
+/// Gets the current state when called
+/// </summary>
+/// <returns></returns>
     public states getState() {
 
         List<byte> SingleUseStates = new List<byte>();
@@ -132,7 +135,9 @@ public class ActionRecorder : MonoBehaviour
         };
     }
 
-    //stores the last state and puts it in the stack   
+    /// <summary>
+    /// Stores the last state and puts it in the stack 
+    /// </summary>
     public void Record() {
         
         states newState = getState();
@@ -141,6 +146,9 @@ public class ActionRecorder : MonoBehaviour
         //Debug.Log(currentState);
 
     }
+    /// <summary>
+    /// Returns to the last set of states
+    /// </summary>
     public void Undo() {
 
         if (stateStack.Count <= 1) {
@@ -178,7 +186,11 @@ public class ActionRecorder : MonoBehaviour
 
     }
 
-    //takes a turn direction (ghosts, charge) and does the opposite
+    /// <summary>
+    /// Takes a turn direction (ghosts and charge) and does the opposite
+    /// </summary>
+    /// <param name="input"</param> 
+    /// <returns></returns>
     public Action ReverseTurn(Action input) {
 
         List<Action> moves = new List<Action> { dieController.MoveForward, dieController.MoveLeft, dieController.MoveBack, dieController.MoveRight };
@@ -186,8 +198,11 @@ public class ActionRecorder : MonoBehaviour
         return moves[(index + 2) % 4];
 
     }
-
-    //converts a mapped vector2 to a actual position in space vector3
+/// <summary>
+/// Converts a mapped vector2 to a actual position in space vector3
+/// </summary>
+/// <param name="mapped"></param>
+/// <returns></returns>
     public Vector3 MapToActualPosition(Vector2Int mapped) {
         return new Vector3(change.x + mapped.x, change.y, change.z + mapped.y);
     }
