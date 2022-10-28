@@ -90,7 +90,8 @@ public class ActionRecorder : MonoBehaviour
         change = new Vector3(actual.x - mapped.x, actual.y, actual.z - mapped.y);
 
         ManageGame gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponentInChildren<ManageGame>();
-        
+
+        if (gameManager.toggleSwitchesInLevel.Count > 0)
         TSC = gameManager.toggleSwitchesInLevel[0].GetComponentInChildren<ToggleSwitchController>();
 
         SUC = new List<SingleUseController>(){};
