@@ -200,6 +200,10 @@ public class ManageGame : MonoBehaviour
     /// </summary>
     public void CheckMechanics()
     {
+        foreach(List<GameObject> l in legoSwitchesInLevel)
+        {
+            foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
+        }
         foreach(GameObject t in toggleSwitchesInLevel)
         {
             ToggleSwitchController toggle = t.GetComponentInChildren<ToggleSwitchController>();
@@ -209,16 +213,6 @@ public class ManageGame : MonoBehaviour
         {
             foreach(GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
         }
-        foreach(List<GameObject> l in legoSwitchesInLevel)
-        {
-            foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
-        }
-        foreach(GameObject t in singleUseTilesInLevel)
-        {
-            SingleUseController single = t.GetComponentInChildren<SingleUseController>();
-            single.CheckForActivation();
-        }
-
     }
 
     void ConnectMechanics()
