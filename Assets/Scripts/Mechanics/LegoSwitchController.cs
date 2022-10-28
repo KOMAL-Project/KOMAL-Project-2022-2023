@@ -12,7 +12,9 @@ public class LegoSwitchController : MonoBehaviour
     public Vector2Int thisPos;
     public Vector2Int playerPos;
     public GameObject player;
+    public DieController pScript;
     PipFilterController pip;
+    public bool active;
 
     private ManageGame mg;
 
@@ -30,11 +32,13 @@ public class LegoSwitchController : MonoBehaviour
         
         mg = FindObjectOfType<ManageGame>();
         pip = GetComponentInChildren<PipFilterController>();
+        pScript =  player.GetComponentInChildren<DieController>();
         // Debug.Log(pips + " " + type);
         pip.pips = pips;
         pip.thisPos = thisPos;
         pip.player = player;
         pip.playerPos = playerPos;
+        active = true;
         
 
         SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
@@ -45,11 +49,11 @@ public class LegoSwitchController : MonoBehaviour
 
     public void CheckForActivation()
     {
-        playerPos = player.GetComponentInChildren<DieController>().position;
         //Debug.Log(playerPos + " // "  + thisPos );
-        if (pip.MeetsPipRequirement(player) && thisPos == playerPos)
+        if (active != false && pip.MeetsPipRequirement(player) && thisPos == pScript.position)
         {
             Debug.Log("Face switch triggered!");
+            active = false;
 
             foreach (GameObject w in walls) 
             {
@@ -60,8 +64,35 @@ public class LegoSwitchController : MonoBehaviour
             {
                 mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
             }
-            foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) s.sprite = topSprites[6];
+            foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {s.sprite = topSprites[6];}
    
         }
+    }
+
+    public byte getStateByte() {
+        if (active) return 1;
+        if (!active) return 0;
+        else {Debug.Log("Something went wrong!"); return 50;}
+    }
+
+    public void ByteToSetState(byte input) {
+        if (input == 0) {
+            active = false;
+            foreach (GameObject w in walls) w.GetComponentInChildren<Animator>().SetBool("Active", false);
+            for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
+            Debug.Log("will not happen unless a redo or something idk");
+        }
+        else if (input == 1) {
+            if (!active) { //if it was false, then change it
+                active = true;
+                foreach (GameObject w in walls) w.GetComponentInChildren<Animator>().SetBool("Active", true);
+                for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = walls[i];
+                SpriteRenderer[] spriteRenders = GetComponentsInChildren<SpriteRenderer>();
+                spriteRenders[0].sprite = topSprites[type - 1];
+                spriteRenders[1].sprite = pip.GetSprite(pip.pips);
+
+            }
+        }
+        else Debug.Log("Something went wrong!");
     }
 }

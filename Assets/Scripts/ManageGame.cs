@@ -88,8 +88,10 @@ public class ManageGame : MonoBehaviour
     };
 
     // Lists of mechanics in the level at a time
+
     List<GameObject> wallTiles, toggleSwitchesInLevel,
         xBlocksInLevel, oBlocksInLevel;
+        
     List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
         legoSwitchesInLevel, legoWallsInLevel;
@@ -100,7 +102,18 @@ public class ManageGame : MonoBehaviour
 
     void Awake()
     {
+        
         Application.targetFrameRate = 60;
+
+        string path = SceneManager.GetActiveScene().path;
+        //sets IDs and Level Data if scene is named correctly
+        if (path.Contains("Chapter ") && path.Contains("Level ")) {
+            levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
+            chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
+            levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + ".png");
+            filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p.png");
+        }
+
 
         width = levelImage.width;
         length = levelImage.height;
@@ -209,6 +222,12 @@ public class ManageGame : MonoBehaviour
         {
             foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
         }
+        foreach(GameObject t in singleUseTilesInLevel)
+        {
+            SingleUseController single = t.GetComponentInChildren<SingleUseController>();
+            single.CheckForActivation();
+        }
+
     }
 
     void ConnectMechanics()
@@ -264,6 +283,7 @@ public class ManageGame : MonoBehaviour
                 if (pixel == singleUseColor)
                 {
                     GameObject temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+
                     SingleUseController suc = temp.GetComponent<SingleUseController>();
                     suc.position = new Vector2Int(i, j);
                     suc.player = die;

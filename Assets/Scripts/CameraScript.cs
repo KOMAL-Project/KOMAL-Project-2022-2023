@@ -122,7 +122,7 @@ public class CameraScript : MonoBehaviour
 
         // move things
         transform.eulerAngles = new Vector3(Mathf.LerpAngle(transform.eulerAngles.x, targetXRotation, Time.deltaTime * rotationSpeed), Mathf.LerpAngle(transform.eulerAngles.y, targetYRotation, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);
-        transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPosition.x, Time.deltaTime * rotationSpeed), 0, Mathf.Lerp(transform.position.z, targetPosition.z, Time.deltaTime * rotationSpeed));
+        transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPosition.x, Time.deltaTime * moveSpeed), 0, Mathf.Lerp(transform.position.z, targetPosition.z, Time.deltaTime * moveSpeed));
         viewCam.orthographicSize = Mathf.Lerp(viewCam.orthographicSize, targetZoom, Time.deltaTime * rotationSpeed);
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
 

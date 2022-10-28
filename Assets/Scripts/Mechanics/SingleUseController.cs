@@ -20,8 +20,9 @@ public class SingleUseController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+
+    public void CheckForActivation() {
+
         playerPosition = pDie.position;
 
         if (playerPosition == position) primed = true;
@@ -31,6 +32,25 @@ public class SingleUseController : MonoBehaviour
             used = true;
             GetComponentInChildren<Animator>().SetTrigger("Go");
         }
+    }
+
+    //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
+    public byte GetStateByte() {
+        if (!primed) return 20;
+        else if (primed && !used) return 1;
+        else return 0;
+    }
+
+    //undo stuff - could change maybe?
+    public void ByteToSetState(byte input) {
+        if (input == 20) {primed = used = false;}
+        if (input == 1) {
+            primed = true; used = false;
+            GetComponentInChildren<Animator>().SetTrigger("Back");
+            manager.GetComponent<ManageGame>().levelData[position.x, position.y] = null;
+            
+        }
+        if (input == 0) {primed = used = true;}
     }
    
 }

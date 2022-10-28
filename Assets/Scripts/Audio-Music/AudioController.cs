@@ -15,7 +15,9 @@ public class AudioController : MonoBehaviour
     }
 
     public void setVolume(float sliderValue) {
-        mixer.SetFloat(audioName + " Volume", Mathf.Log10(sliderValue) * 30);
+
+        float mixerVolume = sliderValue > 0.01 ? Mathf.Log10(sliderValue) * 30 : -80;
+        mixer.SetFloat(audioName + " Volume", mixerVolume);
         volume[audioName] = sliderValue;
     }
 
