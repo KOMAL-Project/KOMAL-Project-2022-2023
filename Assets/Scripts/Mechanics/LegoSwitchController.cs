@@ -80,7 +80,6 @@ public class LegoSwitchController : MonoBehaviour
             active = false;
             foreach (GameObject w in walls) w.GetComponentInChildren<Animator>().SetBool("Active", false);
             for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
-            Debug.Log("will not happen unless a redo or something idk");
         }
         else if (input == 1) {
             if (!active) { //if it was false, then change it
