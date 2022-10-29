@@ -19,15 +19,17 @@ public record states {
     public Vector3? chargeDirection;
     public List<byte> legoSwitchState; //0 is not active, 1 is active
 
-
-    //updates THIS states params to match OTHER states params while making OTHER state param null if they already matched.
+    /// <summary>
+    /// updates THIS states params to match OTHER states params while making OTHER state param null if they already matched.
+    /// </summary>
+    /// <param name="other"></param>
     public void updateStates(states other) {
 
         if (other.toggleState is not null && this.toggleState != other.toggleState) { //could I compact this?
             this.toggleState = other.toggleState;
         }
         else {
-            other.toggleState = null;
+            //other.toggleState = null;
         }
         if (other.useTileState is not null && !(this.useTileState.SequenceEqual(other.useTileState))) {
             this.useTileState = other.useTileState;
@@ -163,8 +165,8 @@ public class ActionRecorder : MonoBehaviour
         states moveState = stateStack.Peek();
 
         //mechanics
-        if (mechanicsState.toggleState is not null) TSC.boolToSetState((bool)mechanicsState.toggleState);
-        TSC.CheckForActivation(); //could change this later if trying to change it to snap instead of activating
+        if (moveState.toggleState is not null) TSC.boolToSetState((bool)moveState.toggleState);
+        //TSC.CheckForActivation(); //could change this later if trying to change it to snap instead of activating
 
         if (moveState.useTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].ByteToSetState(moveState.useTileState[i]);
 

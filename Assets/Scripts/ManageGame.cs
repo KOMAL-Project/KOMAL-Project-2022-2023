@@ -33,8 +33,9 @@ public class ManageGame : MonoBehaviour
     // Obstructed tiles are references to the gameObject occupying the tile.
     public GameObject[,] levelData, floorData;
     public int[] playerStart;
-    public static int furthestLevel = 255; //change this to skip levels
-    public static int furthestChapter = 255;
+    public static int furthestLevel = 256; //change this to skip levels, default is 0
+    public static int furthestChapter = 256; //default is 1
+    //public static 
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);

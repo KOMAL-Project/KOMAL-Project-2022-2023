@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
-    public static Dictionary<string, float> volume = new Dictionary<string, float>(){{"Music", 1f}, {"SFX", 1f}};
+    public static Dictionary<string, float> volume = new Dictionary<string, float>(){{"Music", 0f}, {"SFX", 1f}};
     [SerializeField] private string audioName;
     [SerializeField] private AudioMixer mixer;
     

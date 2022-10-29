@@ -12,7 +12,7 @@ public class ToggleSwitchController : MonoBehaviour
     // switches: All toggle switches in the current level, including this one
     public List<GameObject> xBlocks, oBlocks, switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
-    public string state = "x";
+    public static string state = "x";
 
     // Physical Appearance
     SpriteRenderer spr;
@@ -52,7 +52,12 @@ public class ToggleSwitchController : MonoBehaviour
         {
             //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
             state = state == "x" ? "o" : "x"; // swap active block
-            List<GameObject> toActivate = state == "x" ? xBlocks : oBlocks;
+            doToggle();
+        }
+    }
+
+    public void doToggle() {
+        List<GameObject> toActivate = state == "x" ? xBlocks : oBlocks;
             List<GameObject> toDeactivate = state == "x" ? oBlocks : xBlocks;
             List<Vector2Int> coordsOfToActivate = state == "x" ? xBlockPositions : oBlockPositions;
             List<Vector2Int> coordsOfToDeactivate = state == "x" ? oBlockPositions : xBlockPositions;
@@ -74,8 +79,7 @@ public class ToggleSwitchController : MonoBehaviour
             // Finally, update all of the switches.
             Sprite newSwitchSprite = state == "x" ? xSprite : oSprite;
             spr.sprite = newSwitchSprite;
-            //foreach (GameObject s in switches) s.GetComponent<SpriteRenderer>().sprite = newSwitchSprite;
-        }
+            foreach (GameObject s in switches) s.GetComponentInChildren<SpriteRenderer>().sprite = newSwitchSprite;
     }
 
     public bool stateToGetBool() {
@@ -83,6 +87,9 @@ public class ToggleSwitchController : MonoBehaviour
     }
 
     public void boolToSetState(bool setBool) {
-        state = setBool ? "x" : "o";
+        if (stateToGetBool() != setBool) {
+            state = setBool ? "x" : "o";
+            doToggle();
+        }
     }
 }
