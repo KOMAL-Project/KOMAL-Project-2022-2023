@@ -14,7 +14,7 @@ public record states {
     //states of mechanics
     //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
     public bool? toggleState;
-    public List<byte> useTileState; //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
+    public List<byte> limitedUseTileState; //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
     public List<byte> chargeState; //0 is activated, 1 is charge on dice, 2 is not being used
     public Vector3? chargeDirection;
     public List<byte> legoSwitchState; //0 is not active, 1 is active
@@ -31,8 +31,8 @@ public record states {
         else {
             //other.toggleState = null;
         }
-        if (other.useTileState is not null && !(this.useTileState.SequenceEqual(other.useTileState))) {
-            this.useTileState = other.useTileState;
+        if (other.limitedUseTileState is not null && !(this.limitedUseTileState.SequenceEqual(other.limitedUseTileState))) {
+            this.limitedUseTileState = other.limitedUseTileState;
             
         }
         else { //issue is that the state right before the change needs to be logged (which happens before anything even knows what the player is doing)
@@ -130,11 +130,10 @@ public class ActionRecorder : MonoBehaviour
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
             toggleState = (TSC is not null ? TSC.stateToGetBool() : null),
-            useTileState = (SUC.Count != 0 ? SingleUseStates: null),
+            limitedUseTileState = (SUC.Count != 0 ? SingleUseStates: null),
             chargeState = (CC.Count != 0 ? ChargeStates: null),
             chargeDirection = dieController.chargeDirection,
             legoSwitchState = (LSC.Count != 0? LegoStates: null)
-
         };
     }
 
@@ -147,7 +146,6 @@ public class ActionRecorder : MonoBehaviour
         currentState.updateStates(newState);
         stateStack.Push(newState);
         //Debug.Log(currentState);
-
     }
     /// <summary>
     /// Returns to the last set of states
@@ -168,7 +166,7 @@ public class ActionRecorder : MonoBehaviour
         if (moveState.toggleState is not null) TSC.boolToSetState((bool)moveState.toggleState);
         //TSC.CheckForActivation(); //could change this later if trying to change it to snap instead of activating
 
-        if (moveState.useTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].ByteToSetState(moveState.useTileState[i]);
+        if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].ByteToSetState(moveState.limitedUseTileState[i]);
 
         if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3)mechanicsState.chargeDirection;
         if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].ByteToSetState(moveState.chargeState[i]);
@@ -183,10 +181,6 @@ public class ActionRecorder : MonoBehaviour
         die.transform.rotation = moveState.rotation;
 
         currentState.updateStates(moveState);
-        
-        
-        
-
     }
 
     /// <summary>
