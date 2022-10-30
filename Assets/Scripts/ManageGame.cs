@@ -35,7 +35,7 @@ public class ManageGame : MonoBehaviour
     public int[] playerStart;
     public static int furthestLevel = 256; //change this to skip levels, default is 0
     public static int furthestChapter = 256; //default is 1
-    //public static 
+    public static List<string> finishedLevels = new List<string>();
     public static bool levelFinishing = false;
 
     Color singleUseColor = new Color32(128, 128, 128, 255);
@@ -362,9 +362,17 @@ public class ManageGame : MonoBehaviour
         return 0;
     }
 
+    public static string IDsToString(int IDLevel, int IDChapter) {
+        return ("" + IDLevel + "-" + IDChapter);
+    }
+
     public void LevelComplete()
     {
         levelFinishing = true;
+        string levelString = IDsToString(levelID, chapterID);
+        if (!finishedLevels.Contains(levelString)) {
+            finishedLevels.Add(levelString);
+        }
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
 

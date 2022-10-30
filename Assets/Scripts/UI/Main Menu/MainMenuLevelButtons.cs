@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MainMenuLevelButtons : MonoBehaviour
 {
+    private static Color normal = new Color(0.62f,0.62f,0.62f,1); //grey button, no lightup
+    private static Color completed = new Color(0.9f,0.9f,0.9f,1); //lightup after completion
     private int level;
     private int chapter;
     void Start()
@@ -18,11 +20,18 @@ public class MainMenuLevelButtons : MonoBehaviour
         int furthestLevel = ManageGame.furthestLevel;
         int furthestChapter = ManageGame.furthestChapter;
 
+        /*
         if ((furthestLevel + 1 >= level && furthestChapter == chapter) || furthestChapter > chapter) {
             button.interactable = true;
         }
         else {
             button.interactable = false;
+        }
+        */
+        button.interactable = true; //button for now will always be usable
+
+        if (ManageGame.finishedLevels.Contains(ManageGame.IDsToString(level, chapter))) {
+            GetComponent<Image>().color = completed;
         }
 
         button.onClick.AddListener(ChangeLevel);
