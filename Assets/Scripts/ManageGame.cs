@@ -199,6 +199,7 @@ public class ManageGame : MonoBehaviour
                 c.UpdateChargeStatus();
             }
         }
+        foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
 
     void ConnectMechanics()
