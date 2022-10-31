@@ -25,6 +25,7 @@ public class ChargeController : MonoBehaviour
     [SerializeField]
     private ManageGame mg;
     private MeshRenderer rend;
+    private static List<ChargeController> sameTypeControllers = new List<ChargeController>();
 
     private void Start()
     {
@@ -38,6 +39,9 @@ public class ChargeController : MonoBehaviour
         pip.pips = pips;
         pip.thisPos = pos;
         pip.player = player;
+
+        if (sameTypeControllers.Count <= 0) foreach (GameObject chargeSwitch in mg.chargeSwitchesInLevel[type]) 
+        sameTypeControllers.Add(chargeSwitch.GetComponentInChildren<ChargeController>());
         
     }
     public void CheckForActivation()
@@ -47,25 +51,16 @@ public class ChargeController : MonoBehaviour
             // If the die is on the switch and the pip switch (if any) is activated give the corresponding charge.
             if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
-                Debug.Log("went over charge tile " + type);
-                if (pScript.chargeDirection != Vector3.zero && pScript.currentCharge != this) 
-                {
-                    if (pScript.currentCharge != null) 
-                    {
-                        pScript.currentCharge.pickedUp = false;
-                        pScript.currentCharge.rend.material = mats[0];
-                        pScript.currentCharge = null;
-                    }
-                    pScript.PowerDown();
-                    rend.material = mats[0];
-                    pScript.currentCharge = null;
-                }
-
                 pickedUp = true;
                 pScript.PowerUp(type, Vector3.down);
                 rend.material = mats[1];
                 pScript.currentCharge = this;
                 pScript.chargeDirection = Vector3.down;
+
+                foreach (ChargeController control in sameTypeControllers) if (control != this){
+                    control.pickedUp = false;
+                    control.rend.material = mats[0];
+                }
 
             }
         }
@@ -76,7 +71,7 @@ public class ChargeController : MonoBehaviour
         if (!gateOpen)
         {
             // When charge face touches ground, reset charge.
-            if (pScript.chargeDirection == Vector3.zero && pScript.currentCharge != null)
+            if (pScript.chargeDirection == Vector3.zero && pScript.currentCharge == this)
             {
                 pickedUp = false;
                 pScript.PowerDown();
@@ -95,20 +90,18 @@ public class ChargeController : MonoBehaviour
                             gateOpen = true;
                             pickedUp = false;
                             pScript.PowerDown();
-                            rend.material = mats[1];
                             pScript.currentCharge = null;
-
-                            foreach (var door in doors)
-                            {
-                                door.GetComponent<Animator>().SetBool("Active", false);
-                            }
-
-                            //Debug.Log(doors.Count);
 
                             for (int j = 0; j < doors.Count; j++)
                             {
                                 mg.levelData[gatePos[j].x, gatePos[j].y] = null;
+                                doors[j].GetComponent<Animator>().SetBool("Active", false);
                             }
+                            foreach (ChargeController control in sameTypeControllers) {
+                                control.rend.material = mats[1];
+                                control.gateOpen = true; 
+                            }
+
                             break;
                         }
                     }
@@ -140,10 +133,10 @@ public class ChargeController : MonoBehaviour
             rend.material = mats[1];
             pScript.currentCharge = this;
             pScript.PowerUp(type, pScript.chargeDirection);
-            foreach (var door in doors) door.GetComponent<Animator>().SetBool("Active", true);
-            for (int i = 0; i < doors.Count; i++)
+            for (int j = 0; j < doors.Count; j++)
             {
-                mg.levelData[gatePos[i].x, gatePos[i].y] = doors[i];
+                mg.levelData[gatePos[j].x, gatePos[j].y] = doors[j];
+                doors[j].GetComponent<Animator>().SetBool("Active", true);
             }
 
         }

@@ -222,12 +222,8 @@ public class ManageGame : MonoBehaviour
         }
         foreach(List<GameObject> l in chargeSwitchesInLevel)
         {
-            foreach (GameObject g in l)
-            {
-                ChargeController c = g.GetComponent<ChargeController>();
-                c.CheckForActivation();
-                c.UpdateChargeStatus();
-            }
+            foreach (GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
+            foreach (GameObject g in l) g.GetComponent<ChargeController>().UpdateChargeStatus();
         }
         foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
