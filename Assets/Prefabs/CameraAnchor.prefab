@@ -51,8 +51,8 @@ MonoBehaviour:
   overheadKey: 32
   xAngle: 45
   wallMat: {fileID: 0}
-  rotationSpeed: 25
-  moveSpeed: 5
+  rotationSpeed: 7.5
+  moveSpeed: 7.5
   zoomInSize: 5.5
   zoomOutSize: 7
   delayTime: 0.25

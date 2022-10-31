@@ -44,6 +44,7 @@ public class ChargeController : MonoBehaviour
     {
         if (!gateOpen)
         {
+            // If the die is on the switch and the pip switch (if any) is activated give the corresponding charge.
             if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
                 Debug.Log("went over charge tile " + type);
@@ -67,6 +68,14 @@ public class ChargeController : MonoBehaviour
                 pScript.chargeDirection = Vector3.down;
 
             }
+        }
+    }
+
+    public void UpdateChargeStatus()
+    {
+        if (!gateOpen)
+        {
+            // When charge face touches ground, reset charge.
             if (pScript.chargeDirection == Vector3.zero && pScript.currentCharge != null)
             {
                 pickedUp = false;
@@ -74,7 +83,7 @@ public class ChargeController : MonoBehaviour
                 rend.material = mats[0];
                 pScript.currentCharge = null;
             }
-            else 
+            else
             {
                 if (pScript.currentCharge == this)
                 {

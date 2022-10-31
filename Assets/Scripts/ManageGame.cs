@@ -171,26 +171,6 @@ public class ManageGame : MonoBehaviour
 
         levelFinishing = false;
 
-        //wallDirections = new Dictionary<string, GameObject>
-        //{
-        //    // left, right, up, down
-        //    { "0110", wallTiles[0] }, // corner_bottom_left
-        //    { "1010", wallTiles[1] }, // corner_bottom_right
-        //    { "0101", wallTiles[2] }, // corner_top_left
-        //    { "1001", wallTiles[3] }, // corner_top_right
-        //    { "0010", wallTiles[4] }, // end_bottom
-        //    { "0100", wallTiles[5] }, // end_left
-        //    { "1000", wallTiles[6] }, // end_right
-        //    { "0001", wallTiles[7] }, // end_top
-        //    { "1110", wallTiles[8] }, // t_bottom
-        //    { "0111", wallTiles[9] }, // t_left
-        //    { "1011", wallTiles[10] }, // t_right
-        //    { "1101", wallTiles[11] }, // t_up
-        //    { "0011", wallTiles[12] }, // u-d straight
-        //    { "1100", wallTiles[13] }, // l-r straight
-        //    { "0000", new GameObject() }
-        //};
-
         ReadLevel();
         ConnectMechanics();
         //Debug.Log("norm" + levelData);
@@ -212,7 +192,12 @@ public class ManageGame : MonoBehaviour
         }
         foreach(List<GameObject> l in chargeSwitchesInLevel)
         {
-            foreach(GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
+            foreach (GameObject g in l)
+            {
+                ChargeController c = g.GetComponent<ChargeController>();
+                c.CheckForActivation();
+                c.UpdateChargeStatus();
+            }
         }
         foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
