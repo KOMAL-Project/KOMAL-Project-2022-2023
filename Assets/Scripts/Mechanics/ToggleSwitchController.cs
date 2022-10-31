@@ -36,6 +36,7 @@ public class ToggleSwitchController : MonoBehaviour
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
 
+        
         // Activate X Blocks
         for (int i = 0; i < xBlocks.Count; i++)
         {
@@ -43,12 +44,15 @@ public class ToggleSwitchController : MonoBehaviour
             gameManager.levelData[coords.x, coords.y] = xBlocks[i];
             xBlocks[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
         }
+
+        pipFilter.gameObject.transform.localScale /= 10;
+        pipFilter.gameObject.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, .01f);
     }
 
     public void CheckForActivation()
     {
         //Debug.Log(position +"   "  + die.position);
-        if(die.position == position)
+        if(die.position == position && pipFilter.MeetsPipRequirement(die.gameObject))
         {
             //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
             state = state == "x" ? "o" : "x"; // swap active block
