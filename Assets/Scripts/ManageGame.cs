@@ -214,6 +214,7 @@ public class ManageGame : MonoBehaviour
         {
             foreach(GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
         }
+        foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
 
     void ConnectMechanics()
