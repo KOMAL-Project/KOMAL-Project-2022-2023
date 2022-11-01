@@ -12,7 +12,7 @@ public class ToggleSwitchController : MonoBehaviour
     // switches: All toggle switches in the current level, including this one
     public List<GameObject> xBlocks, oBlocks, switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
-    public static string state = "x";
+    public string state = "x";
 
     // Physical Appearance
     SpriteRenderer spr;
@@ -58,28 +58,31 @@ public class ToggleSwitchController : MonoBehaviour
 
     public void doToggle() {
         List<GameObject> toActivate = state == "x" ? xBlocks : oBlocks;
-            List<GameObject> toDeactivate = state == "x" ? oBlocks : xBlocks;
-            List<Vector2Int> coordsOfToActivate = state == "x" ? xBlockPositions : oBlockPositions;
-            List<Vector2Int> coordsOfToDeactivate = state == "x" ? oBlockPositions : xBlockPositions;
+        List<GameObject> toDeactivate = state == "x" ? oBlocks : xBlocks;
+        List<Vector2Int> coordsOfToActivate = state == "x" ? xBlockPositions : oBlockPositions;
+        List<Vector2Int> coordsOfToDeactivate = state == "x" ? oBlockPositions : xBlockPositions;
 
-            // In with the new...
-            for (int i = 0; i < toActivate.Count; i++)
-            {
-                Vector2Int coords = coordsOfToActivate[i];
-                gameManager.levelData[coords.x, coords.y] = toActivate[i];
-                toActivate[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
-            }
-            // ... out with the old.
-            for (int i = 0; i < toDeactivate.Count; i++)
-            {
-                Vector2Int coords = coordsOfToDeactivate[i];
-                gameManager.levelData[coords.x, coords.y] = null;
-                toDeactivate[i].GetComponentInChildren<Animator>().SetBool("Activated", false);
-            }
-            // Finally, update all of the switches.
-            Sprite newSwitchSprite = state == "x" ? xSprite : oSprite;
-            spr.sprite = newSwitchSprite;
-            foreach (GameObject s in switches) s.GetComponentInChildren<SpriteRenderer>().sprite = newSwitchSprite;
+        // In with the new...
+        for (int i = 0; i < toActivate.Count; i++)
+        {
+            Vector2Int coords = coordsOfToActivate[i];
+            gameManager.levelData[coords.x, coords.y] = toActivate[i];
+            toActivate[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
+        }
+        // ... out with the old.
+        for (int i = 0; i < toDeactivate.Count; i++)
+        {
+            Vector2Int coords = coordsOfToDeactivate[i];
+            gameManager.levelData[coords.x, coords.y] = null;
+            toDeactivate[i].GetComponentInChildren<Animator>().SetBool("Activated", false);
+        }
+        // Finally, update all of the switches.
+        Sprite newSwitchSprite = (state == "x") ? xSprite : oSprite;
+        spr.sprite = newSwitchSprite;
+        foreach (GameObject s in switches) {
+            s.GetComponentInChildren<SpriteRenderer>().sprite = newSwitchSprite; 
+            s.GetComponentInChildren<ToggleSwitchController>().state = this.state;
+        }
     }
 
     public bool stateToGetBool() {

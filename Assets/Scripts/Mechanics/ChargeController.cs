@@ -25,7 +25,7 @@ public class ChargeController : MonoBehaviour
     [SerializeField]
     private ManageGame mg;
     private MeshRenderer rend;
-    private static List<ChargeController> sameTypeControllers = new List<ChargeController>();
+    private List<ChargeController> otherControllers = new List<ChargeController>();
 
     private void Start()
     {
@@ -40,8 +40,8 @@ public class ChargeController : MonoBehaviour
         pip.thisPos = pos;
         pip.player = player;
 
-        if (sameTypeControllers.Count <= 0) foreach (GameObject chargeSwitch in mg.chargeSwitchesInLevel[type]) 
-        sameTypeControllers.Add(chargeSwitch.GetComponentInChildren<ChargeController>());
+        foreach (List<GameObject> i in mg.chargeSwitchesInLevel) foreach (GameObject chargeSwitch in i)
+        otherControllers.Add(chargeSwitch.GetComponentInChildren<ChargeController>());
         
     }
     public void CheckForActivation()
@@ -57,7 +57,7 @@ public class ChargeController : MonoBehaviour
                 pScript.currentCharge = this;
                 pScript.chargeDirection = Vector3.down;
 
-                foreach (ChargeController control in sameTypeControllers) if (control != this){
+                foreach (ChargeController control in otherControllers) if (control != this){
                     control.pickedUp = false;
                     control.rend.material = mats[0];
                 }
@@ -97,7 +97,8 @@ public class ChargeController : MonoBehaviour
                                 mg.levelData[gatePos[j].x, gatePos[j].y] = null;
                                 doors[j].GetComponent<Animator>().SetBool("Active", false);
                             }
-                            foreach (ChargeController control in sameTypeControllers) {
+                            foreach (GameObject obj in mg.chargeSwitchesInLevel[type]) {
+                                ChargeController control = obj.GetComponentInChildren<ChargeController>();
                                 control.rend.material = mats[1];
                                 control.gateOpen = true; 
                             }
