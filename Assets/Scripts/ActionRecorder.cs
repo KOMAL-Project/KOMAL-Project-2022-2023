@@ -16,7 +16,7 @@ public record states {
     public bool? toggleState;
     public List<byte> limitedUseTileState; //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
     public List<byte> chargeState; //0 is activated, 1 is charge on dice, 2 is not being used
-    public Vector3? chargeDirection;
+    public Vector3Int? chargeDirection;
     public List<byte> legoSwitchState; //0 is not active, 1 is active
 
     /// <summary>
@@ -168,7 +168,7 @@ public class ActionRecorder : MonoBehaviour
 
         if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].ByteToSetState(moveState.limitedUseTileState[i]);
 
-        if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3)mechanicsState.chargeDirection;
+        if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)mechanicsState.chargeDirection;
         if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].ByteToSetState(moveState.chargeState[i]);
 
         if (moveState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].ByteToSetState(moveState.legoSwitchState[i]);

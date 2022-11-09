@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -63,28 +64,28 @@ public class CameraScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject; 
 
         UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
-        //camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
+        camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponentInChildren<Camera>());
         
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(leftKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff) {
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
-            side++;
+            ChangeSide(1);
             Debug.Log("SIDE: " + side);
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
         }
 
-        if ((Input.GetKeyDown(rightKey) || input.keys["clockwise"] ) && Time.time >= timeDiff)
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"] ) && Time.time >= timeDiff)
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
-            side--;
-            //Debug.Log("SIDE: " + side);
+            ChangeSide(-1);
+            Debug.Log("SIDE: " + side);
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;
@@ -112,8 +113,6 @@ public class CameraScript : MonoBehaviour
             followPlayer = true;
         }
 
-        if (side < 0) side = 3;
-        if (side > 3) side = 0;
 
         // Position Stuff
         targetPosition = followPlayer ? player.transform.position : defaultPosition;
@@ -127,6 +126,13 @@ public class CameraScript : MonoBehaviour
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
 
 
+    }
+
+    void ChangeSide(int val)
+    {
+        side += val;
+        if (side < 0) side = 3;
+        if (side > 3) side = 0;
     }
 
     public void SetOffset(Vector3 newSide)

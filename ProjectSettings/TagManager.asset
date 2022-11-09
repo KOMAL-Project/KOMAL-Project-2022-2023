@@ -8,6 +8,7 @@ TagManager:
   - OverlayCamera
   - D-Pad
   - Menu
+  - OverlayDie
   layers:
   - Default
   - TransparentFX

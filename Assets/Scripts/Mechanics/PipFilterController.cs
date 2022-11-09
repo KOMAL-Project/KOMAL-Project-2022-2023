@@ -42,7 +42,7 @@ public class PipFilterController : MonoBehaviour
     /// <returns></returns>
     public bool MeetsPipRequirement(GameObject die)
     {
-        return die.GetComponentInChildren<DieController>().sides[Vector3.down] == pips || pips == 0;
+        return die.GetComponentInChildren<DieController>().sides[Vector3Int.down] == pips || pips == 0;
     }
 
     public Sprite GetSprite(int type) {

@@ -52,10 +52,10 @@ public class ChargeController : MonoBehaviour
             if (pip.MeetsPipRequirement(player) && pScript.position == pos)
             {
                 pickedUp = true;
-                pScript.PowerUp(type, Vector3.down);
+                pScript.PowerUp(type, Vector3Int.down);
                 rend.material = mats[1];
                 pScript.currentCharge = this;
-                pScript.chargeDirection = Vector3.down;
+                pScript.chargeDirection = Vector3Int.down;
 
                 foreach (ChargeController control in otherControllers) if (control != this){
                     control.pickedUp = false;
