@@ -23,7 +23,6 @@ public class DieController : MonoBehaviour
     public Texture2D[] ghostTextures = new Texture2D[6];
     public Sprite[] ghosts = new Sprite[6];
 
-    public GameObject frontFace, backFace, leftFace, rightFace;
 
     public bool canControl = true;
     private bool isMoving;
@@ -38,21 +37,14 @@ public class DieController : MonoBehaviour
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
     private CameraScript cs;
+    private DieOverlayController doc;
     public static int totalDiceMoves = 0;
 
-    // Die Overlay Stuff
-    GameObject dieOverlayDie, dieOverlayTopIcon, dieOverlayLeftIcon, dieOverlayRightIcon;
     
     // Start is called before the first frame update
     void Awake()
     {
-        mt = new List<Material>[]{spades, hearts, clubs, diamonds };
-        // set up ghosts
-        for (int i = 0; i < 6; i++)
-        {
-            Rect rect = new Rect(0, 0, 10, 10);
-            ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
-        }
+        mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
 
         cameraObj = Camera.main.gameObject;
         cs = cameraObj.GetComponentInParent<CameraScript>();
@@ -76,12 +68,8 @@ public class DieController : MonoBehaviour
         length = gm.length;
 
         // Die Overlay Stuff
-        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("OverlayDie");
-        dieOverlayDie = dieOverlayParent.transform.GetChild(0).gameObject;
-        GameObject dieOverlayPipIconParent = dieOverlayParent.transform.GetChild(1).gameObject;
-        dieOverlayTopIcon = dieOverlayPipIconParent.transform.GetChild(0).GetChild(1).gameObject;
-        dieOverlayLeftIcon = dieOverlayPipIconParent.transform.GetChild(1).GetChild(1).gameObject;
-        dieOverlayRightIcon = dieOverlayPipIconParent.transform.GetChild(2).GetChild(1).gameObject;
+        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
+        doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
     }
 
     Dictionary<Vector3Int, int> GetClockwiseRotatedSides(Dictionary<Vector3Int, int> tempSides)
@@ -122,8 +110,27 @@ public class DieController : MonoBehaviour
     /// </summary>
     /// <param name="cameraSide"></param>
     /// <returns></returns>
-    Dictionary<Vector3Int, int> GetInvisibleFaces(int cameraSide)
+    public Dictionary<Vector3Int, int> GetInvisibleFaces(int cameraSide)
     {
+        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
+
+        for (int i = 0; i < cameraSide + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.up, tempSides[Vector3Int.down]},
+            { Vector3Int.forward, tempSides[Vector3Int.back]},
+            { Vector3Int.right, tempSides[Vector3Int.left]}
+        };
+    }
+    /// <summary>
+    /// Gets the 3 die faces that cannot be seen from the player's POV
+    /// </summary>
+    /// <param name="cameraSide"></param>
+    /// <returns></returns>
+    public Dictionary<Vector3Int, int> GetInvisibleFaces()
+    {
+        int cameraSide = cs.side;
         Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
 
         for (int i = 0; i < cameraSide + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
@@ -145,27 +152,10 @@ public class DieController : MonoBehaviour
             if (Input.GetKeyUp("k")) actionRec.Undo();
         }
         //Debug.Log(gm.levelData);
-        UpdateFaces();
 
         
     }
 
-    /// <summary>
-    /// Updates the position of the ghost faces around the die
-    /// </summary>
-    void UpdateFaces()
-    {
-        frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3Int.forward] - 1];
-        frontFace.transform.position = new Vector3(transform.position.x, .6f, transform.position.z + 1.05f);
-        backFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3Int.back] - 1];
-        backFace.transform.position = new Vector3(transform.position.x, .6f, transform.position.z - 1.05f);
-        rightFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3Int.right] - 1];
-        rightFace.transform.position = new Vector3(transform.position.x + 1.05f, .6f, transform.position.z);
-        leftFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3Int.left] - 1];
-        leftFace.transform.position = new Vector3(transform.position.x - 1.05f, .6f, transform.position.z);
-    }
-
-   
     /// <summary>
     /// Moves die faces when die goes in the negative z direction
     /// </summary>
@@ -311,9 +301,8 @@ public class DieController : MonoBehaviour
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
 
         // Die Overlay rolling
-        var overlayAnchor = dieOverlayDie.transform.position;
-        var overlayAxis = Quaternion.Euler(0, 180-45, 0) * Vector3.Cross(Vector3.up, directions[index]);
-        StartCoroutine(RollOverlay(overlayAnchor, overlayAxis));
+        var overlayAxis = Quaternion.Euler(0, 180-45  + 90 * (cs.side + 2), 0) * Vector3.Cross(Vector3.up, directions[index]);
+        StartCoroutine(doc.RollOverlay(overlayAxis, rollSpeed));
 
 
         var visible = GetVisibleFaces(cs.side);
@@ -362,7 +351,7 @@ public class DieController : MonoBehaviour
 
         position += moveVec;
         WinCheck();
-        frontFace.transform.position = transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
+        
 
         func();
         gm.CheckMechanics();
@@ -371,16 +360,7 @@ public class DieController : MonoBehaviour
         isMoving = false;
     }
 
-    IEnumerator RollOverlay(Vector3 anchor, Vector3 axis)
-    {
-        isMoving = true;
-
-        for (int i = 0; i < (90 / rollSpeed); i++)
-        {
-            dieOverlayDie.transform.RotateAround(anchor, axis, rollSpeed);
-            yield return new WaitForSeconds(0.01f);
-        }
-    }
+    
 
 
 
@@ -419,5 +399,7 @@ public class DieController : MonoBehaviour
     {
         GetComponentInChildren<MeshRenderer>().material = baseMT;
     }
+
+    public bool getIsMoving() { return isMoving; }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,7 @@ public class CameraScript : MonoBehaviour
     
 
     private GameObject player;
+    private DieController die;
 
     private bool followPlayer;
 
@@ -46,6 +48,7 @@ public class CameraScript : MonoBehaviour
     public int side = 2;
     public float xOffsetRotation = 60;
 
+    DieOverlayController doc;
 
     void Start()
     {
@@ -61,16 +64,21 @@ public class CameraScript : MonoBehaviour
         cam = Camera.main.gameObject;
         viewCam = Camera.main;
         targetXRotation = -xAngle;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject; 
+        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject;
+        die = player.GetComponent<DieController>();
 
         UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
         camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponentInChildren<Camera>());
-        
+
+        // Die Overlay Stuff
+        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
+        doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff) {
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff && !die.getIsMoving()) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
             ChangeSide(1);
@@ -78,9 +86,12 @@ public class CameraScript : MonoBehaviour
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
+            // Die Overlay rolling
+            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.up;
+            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"] ) && Time.time >= timeDiff)
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"] ) && Time.time >= timeDiff && !die.getIsMoving())
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
@@ -90,6 +101,8 @@ public class CameraScript : MonoBehaviour
             {
                 targetYRotation -= 360;
             }
+            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.down;
+            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
         if (Input.GetKeyDown(overheadKey) || input.overhead) // Set to overhead view
         {
