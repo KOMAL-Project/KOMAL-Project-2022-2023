@@ -57,23 +57,18 @@ public class MobileControlOptions : MonoBehaviour
         else if (controlName == "Side") {
             
             if (sliderValue == 1f) { //right side
-                controllerTransform.anchorMin = Vector2.right;
-                controllerTransform.anchorMax = Vector2.right;
+                controllerTransform.anchorMin  = controllerTransform.anchorMax = Vector2.right;
                 controllerTransform.pivot = pivotRight;
-                controllerTransform.position = new Vector2(Screen.width - (900*controllerTransform.localScale.x), 0); 
                 cs.SetOffset(Vector3.left);
             }
             else { //left side
-                controllerTransform.anchorMin = Vector2.zero;
-                controllerTransform.anchorMax = Vector2.zero;
+                controllerTransform.anchorMin = controllerTransform.anchorMax = Vector2.zero;
                 controllerTransform.pivot = pivotLeft;
-                controllerTransform.position = Vector2.zero;
                 cs.SetOffset(Vector3.right);
 
             }
         }
     }
-
    
 
 }
