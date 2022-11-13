@@ -89,13 +89,12 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Gets the 3 die faces that can be seen from the player's POV
     /// </summary>
-    /// <param name="cameraSide"></param>
     /// <returns></returns>
-    Dictionary<Vector3Int, int> GetVisibleFaces(int cameraSide)
+    public Dictionary<Vector3Int, int> GetVisibleFaces()
     {
         Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
 
-        for (int i = 0; i < cameraSide + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+        for (int i = 0; i < cs.side + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
 
         return new Dictionary<Vector3Int, int>
         {
@@ -108,25 +107,6 @@ public class DieController : MonoBehaviour
     /// <summary>
     /// Gets the 3 die faces that cannot be seen from the player's POV
     /// </summary>
-    /// <param name="cameraSide"></param>
-    /// <returns></returns>
-    public Dictionary<Vector3Int, int> GetInvisibleFaces(int cameraSide)
-    {
-        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
-
-        for (int i = 0; i < cameraSide + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
-
-        return new Dictionary<Vector3Int, int>
-        {
-            { Vector3Int.up, tempSides[Vector3Int.down]},
-            { Vector3Int.forward, tempSides[Vector3Int.back]},
-            { Vector3Int.right, tempSides[Vector3Int.left]}
-        };
-    }
-    /// <summary>
-    /// Gets the 3 die faces that cannot be seen from the player's POV
-    /// </summary>
-    /// <param name="cameraSide"></param>
     /// <returns></returns>
     public Dictionary<Vector3Int, int> GetInvisibleFaces()
     {
@@ -305,8 +285,8 @@ public class DieController : MonoBehaviour
         StartCoroutine(doc.RollOverlay(overlayAxis, rollSpeed));
 
 
-        var visible = GetVisibleFaces(cs.side);
-        Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
+        //var visible = GetVisibleFaces();
+        //Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
 
     }
     /// <summary>
