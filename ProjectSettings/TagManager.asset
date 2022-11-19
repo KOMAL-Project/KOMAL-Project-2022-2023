@@ -9,6 +9,7 @@ TagManager:
   - D-Pad
   - Menu
   - OverlayDie
+  - DieOverlay
   layers:
   - Default
   - TransparentFX

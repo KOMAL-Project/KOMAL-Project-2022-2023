@@ -25,7 +25,7 @@ public class ChargeController : MonoBehaviour
     [SerializeField]
     private ManageGame mg;
     private MeshRenderer rend;
-    private List<ChargeController> otherControllers = new List<ChargeController>();
+    private List<ChargeController> otherControllers = new List<ChargeController>(); //can easily be changed to be within game manager for optimization
 
     private void Start()
     {
@@ -57,7 +57,7 @@ public class ChargeController : MonoBehaviour
                 pScript.currentCharge = this;
                 pScript.chargeDirection = Vector3Int.down;
 
-                foreach (ChargeController control in otherControllers) if (control != this){
+                foreach (ChargeController control in otherControllers) if (control != this && !control.gateOpen) {
                     control.pickedUp = false;
                     control.rend.material = mats[0];
                 }
