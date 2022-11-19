@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -18,6 +20,7 @@ public class CameraScript : MonoBehaviour
     
 
     private GameObject player;
+    private DieController die;
 
     private bool followPlayer;
 
@@ -45,6 +48,7 @@ public class CameraScript : MonoBehaviour
     public int side = 2;
     public float xOffsetRotation = 60;
 
+    DieOverlayController doc;
 
     void Start()
     {
@@ -60,35 +64,45 @@ public class CameraScript : MonoBehaviour
         cam = Camera.main.gameObject;
         viewCam = Camera.main;
         targetXRotation = -xAngle;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject; 
+        player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>().gameObject;
+        die = player.GetComponent<DieController>();
 
         UniversalAdditionalCameraData camData = Camera.main.GetUniversalAdditionalCameraData();
-        //camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponent<Camera>());
-        
+        camData.cameraStack.Add(GameObject.FindGameObjectWithTag("OverlayCamera").GetComponentInChildren<Camera>());
+
+        // Die Overlay Stuff
+        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
+        doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(leftKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff) {
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff && !die.getIsMoving()) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
-            side++;
+            ChangeSide(1);
             Debug.Log("SIDE: " + side);
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
+            // Die Overlay rolling
+            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.up;
+            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
 
-        if ((Input.GetKeyDown(rightKey) || input.keys["clockwise"] ) && Time.time >= timeDiff)
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"] ) && Time.time >= timeDiff && !die.getIsMoving())
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
-            side--;
-            //Debug.Log("SIDE: " + side);
+            ChangeSide(-1);
+            Debug.Log("SIDE: " + side);
             if (targetYRotation > 360)
             {
                 targetYRotation -= 360;
             }
+            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.down;
+            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
         if (Input.GetKeyDown(overheadKey) || input.overhead) // Set to overhead view
         {
@@ -112,8 +126,6 @@ public class CameraScript : MonoBehaviour
             followPlayer = true;
         }
 
-        if (side < 0) side = 3;
-        if (side > 3) side = 0;
 
         // Position Stuff
         targetPosition = followPlayer ? player.transform.position : defaultPosition;
@@ -127,6 +139,13 @@ public class CameraScript : MonoBehaviour
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
 
 
+    }
+
+    void ChangeSide(int val)
+    {
+        side += val;
+        if (side < 0) side = 3;
+        if (side > 3) side = 0;
     }
 
     public void SetOffset(Vector3 newSide)

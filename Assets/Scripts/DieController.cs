@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class DieController : MonoBehaviour
 {
@@ -11,7 +13,7 @@ public class DieController : MonoBehaviour
 
     int width, length;
 
-    public Vector3 chargeDirection;
+    public Vector3Int chargeDirection;
     public ChargeController currentCharge;
     public ActionRecorder actionRec;
     [HideInInspector] public Action lastAction;
@@ -21,7 +23,6 @@ public class DieController : MonoBehaviour
     public Texture2D[] ghostTextures = new Texture2D[6];
     public Sprite[] ghosts = new Sprite[6];
 
-    public GameObject frontFace, backFace, leftFace, rightFace;
 
     public bool canControl = true;
     private bool isMoving;
@@ -32,22 +33,18 @@ public class DieController : MonoBehaviour
     
     private float rollSpeed = 4.5f;
     
-    public Dictionary<Vector3, int> sides = new Dictionary<Vector3, int>();
+    public Dictionary<Vector3Int, int> sides = new Dictionary<Vector3Int, int>();
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
     private CameraScript cs;
+    private DieOverlayController doc;
     public static int totalDiceMoves = 0;
+
     
     // Start is called before the first frame update
     void Awake()
     {
-        mt = new List<Material>[]{spades, hearts, clubs, diamonds };
-        // set up ghosts
-        for (int i = 0; i < 6; i++)
-        {
-            Rect rect = new Rect(0, 0, 10, 10);
-            ghosts[i] = Sprite.Create(ghostTextures[i], rect, new Vector2(.5f, .5f));
-        }
+        mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
 
         cameraObj = Camera.main.gameObject;
         cs = cameraObj.GetComponentInParent<CameraScript>();
@@ -57,21 +54,74 @@ public class DieController : MonoBehaviour
         source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
 
         // Set up sides
-        sides.Add(Vector3.up, 1);
-        sides.Add(Vector3.down, 6);
-        sides.Add(Vector3.left, 2);
-        sides.Add(Vector3.right, 5);
-        sides.Add(Vector3.back, 3);
-        sides.Add(Vector3.forward, 4);
+        sides.Add(Vector3Int.up, 1);
+        sides.Add(Vector3Int.down, 6);
+        sides.Add(Vector3Int.left, 2);
+        sides.Add(Vector3Int.right, 5);
+        sides.Add(Vector3Int.back, 3);
+        sides.Add(Vector3Int.forward, 4);
 
 
 
         gm = FindObjectOfType<ManageGame>();
         width = gm.width;
         length = gm.length;
+
+        // Die Overlay Stuff
+        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
+        doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
     }
 
+    Dictionary<Vector3Int, int> GetClockwiseRotatedSides(Dictionary<Vector3Int, int> tempSides)
+    {
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.forward, tempSides[Vector3Int.left] },
+            { Vector3Int.right, tempSides[Vector3Int.forward] },
+            { Vector3Int.back, tempSides[Vector3Int.right] },
+            { Vector3Int.left, tempSides[Vector3Int.back] },
+            // we're not actually changing these two
+            { Vector3Int.up, tempSides[Vector3Int.up] },
+            { Vector3Int.down, tempSides[Vector3Int.down] }
+        };
+    }
 
+    /// <summary>
+    /// Gets the 3 die faces that can be seen from the player's POV
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<Vector3Int, int> GetVisibleFaces()
+    {
+        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
+
+        for (int i = 0; i < cs.side + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.up, tempSides[Vector3Int.up]},
+            { Vector3Int.forward, tempSides[Vector3Int.forward]},
+            { Vector3Int.right, tempSides[Vector3Int.right]}
+        };
+    }
+
+    /// <summary>
+    /// Gets the 3 die faces that cannot be seen from the player's POV
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<Vector3Int, int> GetInvisibleFaces()
+    {
+        int cameraSide = cs.side;
+        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
+
+        for (int i = 0; i < cameraSide + 2; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.up, tempSides[Vector3Int.down]},
+            { Vector3Int.forward, tempSides[Vector3Int.back]},
+            { Vector3Int.right, tempSides[Vector3Int.left]}
+        };
+    }
 
 
     // Update is called once per frame
@@ -82,39 +132,23 @@ public class DieController : MonoBehaviour
             if (Input.GetKeyUp("k")) actionRec.Undo();
         }
         //Debug.Log(gm.levelData);
-        UpdateFaces();
+
         
     }
 
-    /// <summary>
-    /// Updates the position of the ghost faces around the die
-    /// </summary>
-    void UpdateFaces()
-    {
-        frontFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.forward] - 1];
-        frontFace.transform.position = new Vector3(transform.position.x, .6f, transform.position.z + 1.05f);
-        backFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.back] - 1];
-        backFace.transform.position = new Vector3(transform.position.x, .6f, transform.position.z - 1.05f);
-        rightFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.right] - 1];
-        rightFace.transform.position = new Vector3(transform.position.x + 1.05f, .6f, transform.position.z);
-        leftFace.GetComponent<SpriteRenderer>().sprite = ghosts[sides[Vector3.left] - 1];
-        leftFace.transform.position = new Vector3(transform.position.x - 1.05f, .6f, transform.position.z);
-    }
-
-   
     /// <summary>
     /// Moves die faces when die goes in the negative z direction
     /// </summary>
     public void MoveBack()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
-            [Vector3.up] = sides[Vector3.forward],
-            [Vector3.back] = sides[Vector3.up],
-            [Vector3.down] = sides[Vector3.back],
-            [Vector3.forward] = sides[Vector3.down],
-            [Vector3.left] = sides[Vector3.left],
-            [Vector3.right] = sides[Vector3.right]
+            [Vector3Int.up] = sides[Vector3Int.forward],
+            [Vector3Int.back] = sides[Vector3Int.up],
+            [Vector3Int.down] = sides[Vector3Int.back],
+            [Vector3Int.forward] = sides[Vector3Int.down],
+            [Vector3Int.left] = sides[Vector3Int.left],
+            [Vector3Int.right] = sides[Vector3Int.right]
         };
 
         //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
@@ -122,11 +156,11 @@ public class DieController : MonoBehaviour
 
         if (chargeDirection != Vector3.zero)
         {
-            if (chargeDirection == Vector3.forward) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.up) chargeDirection = Vector3.back;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.forward;
+            if (chargeDirection == Vector3.forward) chargeDirection = Vector3Int.up;
+            else if (chargeDirection == Vector3.up) chargeDirection = Vector3Int.back;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.forward;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.zero;
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3Int.zero;
         }
     }
 
@@ -135,14 +169,14 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveForward()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
-            [Vector3.up] = sides[Vector3.back],
-            [Vector3.back] = sides[Vector3.down],
-            [Vector3.down] = sides[Vector3.forward],
-            [Vector3.forward] = sides[Vector3.up],
-            [Vector3.left] = sides[Vector3.left],
-            [Vector3.right] = sides[Vector3.right]
+            [Vector3Int.up] = sides[Vector3Int.back],
+            [Vector3Int.back] = sides[Vector3Int.down],
+            [Vector3Int.down] = sides[Vector3Int.forward],
+            [Vector3Int.forward] = sides[Vector3Int.up],
+            [Vector3Int.left] = sides[Vector3Int.left],
+            [Vector3Int.right] = sides[Vector3Int.right]
         };
 
         //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
@@ -150,11 +184,11 @@ public class DieController : MonoBehaviour
 
         if (chargeDirection != Vector3.zero)
         {
-            if (chargeDirection == Vector3.up) chargeDirection = Vector3.forward;
-            else if (chargeDirection == Vector3.back) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.back;
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3Int.forward;
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3Int.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.back;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3.zero;
+            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3Int.zero;
         }
     }
 
@@ -163,14 +197,14 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveLeft()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
-            [Vector3.up] = sides[Vector3.right],
-            [Vector3.left] = sides[Vector3.up],
-            [Vector3.down] = sides[Vector3.left],
-            [Vector3.right] = sides[Vector3.down],
-            [Vector3.forward] = sides[Vector3.forward],
-            [Vector3.back] = sides[Vector3.back]
+            [Vector3Int.up] = sides[Vector3Int.right],
+            [Vector3Int.left] = sides[Vector3Int.up],
+            [Vector3Int.down] = sides[Vector3Int.left],
+            [Vector3Int.right] = sides[Vector3Int.down],
+            [Vector3Int.forward] = sides[Vector3Int.forward],
+            [Vector3Int.back] = sides[Vector3Int.back]
         };
 
         //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
@@ -178,11 +212,11 @@ public class DieController : MonoBehaviour
 
         if (chargeDirection != Vector3.zero)
         {
-            if (chargeDirection == Vector3.up) chargeDirection = Vector3.left;
-            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.right;
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3Int.left;
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3Int.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.right;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.zero;
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3Int.zero;
         }
     }
 
@@ -191,14 +225,14 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveRight()
     {
-        Dictionary<Vector3, int> newSides = new Dictionary<Vector3, int>(sides)
+        Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
-            [Vector3.up] = sides[Vector3.left],
-            [Vector3.left] = sides[Vector3.down],
-            [Vector3.down] = sides[Vector3.right],
-            [Vector3.right] = sides[Vector3.up],
-            [Vector3.forward] = sides[Vector3.forward],
-            [Vector3.back] = sides[Vector3.back]
+            [Vector3Int.up] = sides[Vector3Int.left],
+            [Vector3Int.left] = sides[Vector3Int.down],
+            [Vector3Int.down] = sides[Vector3Int.right],
+            [Vector3Int.right] = sides[Vector3Int.up],
+            [Vector3Int.forward] = sides[Vector3Int.forward],
+            [Vector3Int.back] = sides[Vector3Int.back]
         };
 
         //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
@@ -206,11 +240,11 @@ public class DieController : MonoBehaviour
 
         if (chargeDirection != Vector3.zero)
         {
-            if (chargeDirection == Vector3.up) chargeDirection = Vector3.right;
-            else if (chargeDirection == Vector3.left) chargeDirection = Vector3.up;
-            else if (chargeDirection == Vector3.down) chargeDirection = Vector3.left;
+            if (chargeDirection == Vector3.up) chargeDirection = Vector3Int.right;
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3Int.up;
+            else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.left;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.right) chargeDirection = Vector3.zero;
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3Int.zero;
         }
     }
 
@@ -231,10 +265,9 @@ public class DieController : MonoBehaviour
 
 
         int index = InputToIndex();
-        if (index < 0 || isMoving) return;
+        if (index < 0 || isMoving) return; // check if no button is pressed or if the die is already moving
         //Debug.Log("Index: " + index);
         index = (index + cs.side) % 4;
-        //if (index < 0) index += 4;
         int newX = (int)directions[index].x + x;
         int newY = (int)directions[index].y + y;
         //if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
@@ -246,9 +279,20 @@ public class DieController : MonoBehaviour
         lastAction = moves[index];
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
-                
+
+        // Die Overlay rolling
+        var overlayAxis = Quaternion.Euler(0, 180-45  + 90 * (cs.side + 2), 0) * Vector3.Cross(Vector3.up, directions[index]);
+        StartCoroutine(doc.RollOverlay(overlayAxis, rollSpeed));
+
+
+        //var visible = GetVisibleFaces();
+        //Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
+
     }
-    
+    /// <summary>
+    /// Returns the indexes of directional buttons that have been pressed
+    /// </summary>
+    /// <returns></returns>
     int InputToIndex()
     {
         int i = 0;
@@ -282,12 +326,12 @@ public class DieController : MonoBehaviour
             source.clip = diceHit;
             source.Play();
         }
-
+        
         totalDiceMoves++;
 
         position += moveVec;
         WinCheck();
-        frontFace.transform.position = transform.position = new Vector3(position.x - width / 2, 1, position.y - length / 2);
+        
 
         func();
         gm.CheckMechanics();
@@ -296,11 +340,16 @@ public class DieController : MonoBehaviour
         isMoving = false;
     }
 
-    /// <summary>
-    /// Checks to see if the die is on the win panel.
-    /// If so, sends die flying up and ends the level.
-    /// </summary>
-    void WinCheck()
+    
+
+
+
+
+        /// <summary>
+        /// Checks to see if the die is on the win panel.
+        /// If so, sends die flying up and ends the level.
+        /// </summary>
+        void WinCheck()
     {
         if(position == winPos)
         {
@@ -316,9 +365,9 @@ public class DieController : MonoBehaviour
     /// Applies Charge of type "type" to the face in a direction.
     /// </summary>
     /// <param name="type"></param>
-    public void PowerUp(int type, Vector3 direction)
+    public void PowerUp(int type, Vector3Int direction)
     {
-        if (direction != Vector3.zero) {
+        if (direction != Vector3Int.zero) {
         GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
         }
     }
@@ -330,5 +379,7 @@ public class DieController : MonoBehaviour
     {
         GetComponentInChildren<MeshRenderer>().material = baseMT;
     }
+
+    public bool getIsMoving() { return isMoving; }
 
 }
