@@ -632,6 +632,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.69803923
       objectReference: {fileID: 0}
+    - target: {fileID: 1182629645020682404, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_TagString
+      value: LevelNumberText
+      objectReference: {fileID: 0}
     - target: {fileID: 1967392156141748360, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_Color.a
       value: 0.69803923

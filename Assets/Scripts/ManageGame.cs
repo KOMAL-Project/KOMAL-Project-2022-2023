@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
@@ -19,13 +21,14 @@ public class ManageGame : MonoBehaviour
     public GameObject[] chargeWalls = new GameObject[4];
     public GameObject[] chargeSwitchPrefabs = new GameObject[4];
 
-    
+    TMP_Text levelNumberText;
 
     [SerializeField] private bool alternatingFloorTiles;
 
     GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
+    string levelIDString;
     public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
@@ -111,7 +114,8 @@ public class ManageGame : MonoBehaviour
         //sets IDs and Level Data if scene is named correctly - if its not named to template, nothing is set.
         if (path.Contains("Chapter ") && path.Contains("Level ")) {
             try {
-                levelID = int.Parse(path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6));
+                levelIDString = path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6);
+                levelID = int.Parse(levelIDString);
                 chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
                 levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + ".png");
                 filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p.png");
@@ -204,6 +208,20 @@ public class ManageGame : MonoBehaviour
         ReadLevel();
         ConnectMechanics();
         //Debug.Log("norm" + levelData);
+        SetUpLevelText();
+
+    }
+
+    void SetUpLevelText()
+    {
+        // Set Level Number
+        levelNumberText = GameObject.FindGameObjectWithTag("LevelNumberText").GetComponent<TMP_Text>();
+        // Bonus Level Changes
+        string chapterAftertext = levelIDString[0] == 'b' ? " (Bonus)" : "";
+        string levelIDStringTemp = levelIDString[0] == 'b' ? levelIDString[1].ToString() : levelIDString;
+        // Put all of the text together
+        string levelText = "Chapter " + chapterID + chapterAftertext + "\nLevel " + levelIDStringTemp;
+        levelNumberText.text = (levelIDString == "12" || levelIDString == "b4") ? levelText + "\n(Final)" : levelText;
     }
 
     /// <summary>
