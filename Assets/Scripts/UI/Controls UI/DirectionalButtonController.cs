@@ -28,6 +28,7 @@ public class DirectionalButtonController : MonoBehaviour
             { "right", false },
             { "counterclockwise", false },
             { "clockwise", false },
+            { "undo", false },
         };
         
     }
@@ -37,6 +38,7 @@ public class DirectionalButtonController : MonoBehaviour
         //Debug.Log(iso + " " + overhead + " " + doIso);
         iso = false;
         overhead = false;
+        keys["undo"] = false;
     }
 
     public void Press(string input)

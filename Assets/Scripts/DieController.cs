@@ -78,7 +78,7 @@ public class DieController : MonoBehaviour
         if (canControl && !isMoving && Time.time >= cs.GetTimeDiff()+.1f)
         {
             GetInput();
-            if (Input.GetKeyUp("k")) actionRec.Undo();
+            if (dPad.keys["undo"]) actionRec.Undo();
         }
         //Debug.Log(gm.levelData);
 
