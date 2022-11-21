@@ -146,7 +146,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
+  - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,40 +255,36 @@ MonoBehaviour:
   - {fileID: 2800000, guid: b077a089e8ab0f9449ab71d880f5523c, type: 3}
   - {fileID: 2800000, guid: 446712fd118931d4c89843acb7f589a7, type: 3}
   - {fileID: 2800000, guid: ae4227ddbfafe72459f86c7c2509d112, type: 3}
-  frontFace: {fileID: 4723431862766478839}
-  backFace: {fileID: 6832069935840380237}
-  leftFace: {fileID: 5437983938488200971}
-  rightFace: {fileID: 1111317615576484905}
   canControl: 1
   spades:
-  - {fileID: 2100000, guid: e505e6b0a0fb7504094c62dd4750733c, type: 2}
-  - {fileID: 2100000, guid: c0e5662c50b20824189e7325f54e06fe, type: 2}
-  - {fileID: 2100000, guid: 9d5343990d210a44b884d1ebd679a71b, type: 2}
-  - {fileID: 2100000, guid: 048f494065c6fef448fae6d4efd1cf1f, type: 2}
-  - {fileID: 2100000, guid: b52d9547e28888544a8e007eb0dc8219, type: 2}
-  - {fileID: 2100000, guid: 0fdd484b146cb054d8935426af8f9f0e, type: 2}
+  - {fileID: 2100000, guid: 90476e92e98518042950396e40274364, type: 2}
+  - {fileID: 2100000, guid: eb5703a354b18914b9dc1798be09efda, type: 2}
+  - {fileID: 2100000, guid: aba12fc02b167b64483c8561ab4b5670, type: 2}
+  - {fileID: 2100000, guid: ea32a7927bd33024db1c7c60f5bc043e, type: 2}
+  - {fileID: 2100000, guid: 4d2e0ce33ceca8d4db9b1c8d8d2232a9, type: 2}
+  - {fileID: 2100000, guid: c1ab67ec5ef8fe540aac392b2905caa6, type: 2}
   hearts:
-  - {fileID: 2100000, guid: 8f88032a90abce94fa05e0904274efba, type: 2}
-  - {fileID: 2100000, guid: bd20a9c7046f285449d1e36be5959612, type: 2}
-  - {fileID: 2100000, guid: 9f9e27ad1b5b4294aa446393e01bc9c3, type: 2}
-  - {fileID: 2100000, guid: c6dbf50010bceca478c699ebb052d165, type: 2}
-  - {fileID: 2100000, guid: 6a5e360fd4f3acd459fb3fc908a2c259, type: 2}
-  - {fileID: 2100000, guid: 4d23135116b611a4ab0fd2441e56a4c8, type: 2}
+  - {fileID: 2100000, guid: 35e151b6aa36f6b40ba1018b20734bf3, type: 2}
+  - {fileID: 2100000, guid: a21fe44ed7147544da4957475cd4042c, type: 2}
+  - {fileID: 2100000, guid: 75031825056a8d344b4425f9a8c2b1bb, type: 2}
+  - {fileID: 2100000, guid: 846817653ac79a146a79ed9f65bb9147, type: 2}
+  - {fileID: 2100000, guid: d889565d9f26a4448bc2b63cf004947e, type: 2}
+  - {fileID: 2100000, guid: acf6e3ddc55f1b846a02cd32122aa944, type: 2}
   clubs:
-  - {fileID: 2100000, guid: 8121184971fe9ae469c5521fb876e7d3, type: 2}
-  - {fileID: 2100000, guid: 017aaa5c6db0ec94a870f17156defb14, type: 2}
-  - {fileID: 2100000, guid: 3baeb06f91736fd449a1af11933605df, type: 2}
-  - {fileID: 2100000, guid: 71b4461e6e4937f489fa6805f7afc6f1, type: 2}
-  - {fileID: 2100000, guid: ad25741bb5832bc498504502e34fc392, type: 2}
-  - {fileID: 2100000, guid: 33495509ff674874dad98f7c501ae27e, type: 2}
+  - {fileID: 2100000, guid: f8f8d47048b309e4cb3886ab2e6d17d3, type: 2}
+  - {fileID: 2100000, guid: c82266bd96d37ff4e9d92a25a8a7df56, type: 2}
+  - {fileID: 2100000, guid: 77f084e2ed370ee4f9eebc798dab2505, type: 2}
+  - {fileID: 2100000, guid: c7b927b6b143d184697156ba81f60f89, type: 2}
+  - {fileID: 2100000, guid: 25519c31867666549a8473f2ca8d6812, type: 2}
+  - {fileID: 2100000, guid: e447a671e9259e84586078b4ca9f662a, type: 2}
   diamonds:
-  - {fileID: 2100000, guid: 774f4ee01bc63f3449363329518be5fc, type: 2}
-  - {fileID: 2100000, guid: d874658ecb6084d4b95a290e7505f6ee, type: 2}
-  - {fileID: 2100000, guid: 10e49ef368a18914e82c6e480f6001b2, type: 2}
-  - {fileID: 2100000, guid: c8e5083fecb4a374b8ba7932040d64c9, type: 2}
-  - {fileID: 2100000, guid: b49b2183f9c62cf458525571e3291359, type: 2}
-  - {fileID: 2100000, guid: c03c3445c0cbdae4d82d29946dc1eb9f, type: 2}
-  baseMT: {fileID: 2100000, guid: 4d549810472d86245bbc8dc3605e1cb0, type: 2}
+  - {fileID: 2100000, guid: 9532ead35ce47ac41b35250cf86659e9, type: 2}
+  - {fileID: 2100000, guid: b5ddfef0619e69f45994938f6aa24339, type: 2}
+  - {fileID: 2100000, guid: 8f55f10985a57394081f2faf718c0e6e, type: 2}
+  - {fileID: 2100000, guid: 96728fb544fd35947bdac8fbeb04302d, type: 2}
+  - {fileID: 2100000, guid: 485c07e84dce42443aed5bd25116306e, type: 2}
+  - {fileID: 2100000, guid: d7c58dca2de94b34cbf6b19355ea447c, type: 2}
+  baseMT: {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
 --- !u!114 &5760006467806241220
 MonoBehaviour:
@@ -303,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   die: {fileID: 0}
-  dieScript: {fileID: 0}
+  dieController: {fileID: 0}
 --- !u!1 &4723431862766478839
 GameObject:
   m_ObjectHideFlags: 0
