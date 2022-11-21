@@ -91,7 +91,7 @@ public class CameraScript : MonoBehaviour
             StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"] ) && Time.time >= timeDiff && !die.getIsMoving())
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && Time.time >= timeDiff && !die.getIsMoving())
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
@@ -152,4 +152,6 @@ public class CameraScript : MonoBehaviour
     {
         cameraOffset = newSide * cameraOffsetMultiplier;
     }
+
+    public float GetTimeDiff() { return timeDiff; }
 }

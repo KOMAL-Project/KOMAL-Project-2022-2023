@@ -72,6 +72,19 @@ public class DieController : MonoBehaviour
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (canControl && !isMoving && Time.time >= cs.GetTimeDiff()+.1f)
+        {
+            GetInput();
+            if (dPad.keys["undo"]) actionRec.Undo();
+        }
+        //Debug.Log(gm.levelData);
+
+
+    }
+
     Dictionary<Vector3Int, int> GetClockwiseRotatedSides(Dictionary<Vector3Int, int> tempSides)
     {
         return new Dictionary<Vector3Int, int>
@@ -123,18 +136,6 @@ public class DieController : MonoBehaviour
         };
     }
 
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(canControl && !isMoving) {
-            GetInput();
-            if (Input.GetKeyUp("k")) actionRec.Undo();
-        }
-        //Debug.Log(gm.levelData);
-
-        
-    }
 
     /// <summary>
     /// Moves die faces when die goes in the negative z direction
@@ -380,6 +381,7 @@ public class DieController : MonoBehaviour
         GetComponentInChildren<MeshRenderer>().material = baseMT;
     }
 
-    public bool getIsMoving() { return isMoving; }
+    public bool getIsMoving() { Debug.Log(isMoving);
+        return isMoving; }
 
 }
