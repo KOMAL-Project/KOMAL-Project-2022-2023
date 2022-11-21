@@ -45,16 +45,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Chapter 1/Level 12.unity
     guid: 64ec8f609f06e364694e587c43ec45ae
   - enabled: 1
-    path: Assets/Scenes/Chapter 1/Level 13.unity
+    path: Assets/Scenes/Chapter 1/Level b1.unity
     guid: 404957d0d87b34c83b0ac7b61146de67
   - enabled: 1
-    path: Assets/Scenes/Chapter 1/Level 14.unity
+    path: Assets/Scenes/Chapter 1/Level b2.unity
     guid: 67a35fedc71c649e0b68e39d5b29c60e
   - enabled: 1
-    path: Assets/Scenes/Chapter 1/Level 17.unity
+    path: Assets/Scenes/Chapter 1/Level b3.unity
     guid: a24dcab421e6645fc942bfb563b93b3b
   - enabled: 1
-    path: Assets/Scenes/Chapter 1/Level 18.unity
+    path: Assets/Scenes/Chapter 1/Level b4.unity
     guid: b4dfa83d401e94030a4bf419f9c76bae
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level 1.unity
@@ -93,10 +93,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Chapter 2/Level 12.unity
     guid: 48d5a91bfa1234cf1a74b3b78dc1678f
   - enabled: 1
-    path: Assets/Scenes/Chapter 2/Level 13.unity
+    path: Assets/Scenes/Chapter 2/Level b1.unity
     guid: 892654748a5984275b7e05a35d678fee
   - enabled: 1
-    path: Assets/Scenes/Chapter 2/Level 14.unity
+    path: Assets/Scenes/Chapter 2/Level b2.unity
     guid: 4577507bd336448b6b8f0eec1025cbb2
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level 15.unity
@@ -108,7 +108,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Chapter 2/Level 17.unity
     guid: e53ff339742f143e58750cffef0eac5a
   - enabled: 1
-    path: Assets/Scenes/Chapter 2/Level 18.unity
+    path: Assets/Scenes/Chapter 2/Level b4.unity
     guid: 01177eb02bd62458291d8a1d4b10fe9c
   - enabled: 1
     path: Assets/Scenes/Chapter 3/Level 1.unity
