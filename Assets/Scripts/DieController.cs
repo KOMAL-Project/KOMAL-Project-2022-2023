@@ -15,6 +15,7 @@ public class DieController : MonoBehaviour
 
     public Vector3Int chargeDirection;
     public ChargeController currentCharge;
+    public GameObject chargeFaceObj;
     public ActionRecorder actionRec;
     [HideInInspector] public Action lastAction;
     public Vector2Int position = new Vector2Int();
@@ -28,6 +29,7 @@ public class DieController : MonoBehaviour
     private bool isMoving;
     
     [SerializeField] List<Material> spades, hearts, clubs, diamonds;
+    [SerializeField] List<Material> chargeFaceMaterials;
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
@@ -368,9 +370,13 @@ public class DieController : MonoBehaviour
     /// <param name="type"></param>
     public void PowerUp(int type, Vector3Int direction)
     {
-        if (direction != Vector3Int.zero) {
+        /*if (direction != Vector3Int.zero) {
         GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
-        }
+        }*/
+        chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
+        chargeFaceObj.transform.eulerAngles = new Vector3(-90, 0, 0);
+        chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
+        Debug.Log(type);
     }
 
     /// <summary>
@@ -378,7 +384,9 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void PowerDown()
     {
-        GetComponentInChildren<MeshRenderer>().material = baseMT;
+        //GetComponentInChildren<MeshRenderer>().material = baseMT;
+        chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[4];
+        Debug.Log("powered down");
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);
