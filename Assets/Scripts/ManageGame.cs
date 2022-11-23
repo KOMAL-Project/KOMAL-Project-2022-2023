@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using UnityEditor.UIElements;
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
@@ -382,7 +383,7 @@ public class ManageGame : MonoBehaviour
                 // Player
                 if (pixel == Color.green)
                 {
-                    Debug.Log(i + " " + j);
+                    //Debug.Log(i + " " + j);
                     die.GetComponentInChildren<DieController>().position = new Vector2Int(i,j);
                     
                     die.GetComponentInChildren<DieController>().gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
@@ -429,7 +430,10 @@ public class ManageGame : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
         if (levelID != 12) {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
-            SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + (levelID + 1));
+            int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
+            string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
+            Debug.Log(levelIDString + " " + newLevelID + " " + newLevelIDString);
+            SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }
         else {
             furthestChapter++;
