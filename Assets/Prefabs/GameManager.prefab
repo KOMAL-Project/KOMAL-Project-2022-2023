@@ -396,6 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2201775946093453417}
   - component: {fileID: 2201775946093453422}
+  - component: {fileID: 2579957120045967654}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -464,7 +465,62 @@ MonoBehaviour:
   - {fileID: 2436169771269303037, guid: 6d61995e96119c045834123ed1091276, type: 3}
   - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
   - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
+  width: 0
+  length: 0
+  levelID: 1
+  chapterID: 1
+  playerStart: 
+  wallTiles: []
+  toggleSwitchesInLevel: []
+  singleUseTilesInLevel: []
+  xBlocksInLevel: []
+  oBlocksInLevel: []
+--- !u!114 &2579957120045967654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201775946093453423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce05720fc94b464fa12523a126a8a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorTile: {fileID: 9186678779994403599, guid: 82692e79a4b02544c839f778c919ad22, type: 3}
+  pipSwitchPrefab: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
+  winTile: {fileID: 51070051948085511, guid: b03f8431baec1994289d9555cc13a699, type: 3}
+  board: {fileID: 2201775946470745440}
+  die: {fileID: 0}
+  singleUseTilePrefab: {fileID: 3669176422411836730, guid: 135380890e35efd449052a2bb267c961, type: 3}
+  wallObj: {fileID: 7805049832142475294, guid: 8a4402010dfba5047bd6005d173fc1f5, type: 3}
+  toggleSwitchPrefab: {fileID: 961602868302959040, guid: e121639e520a73243b0e978cf774c09d, type: 3}
+  oBlockPrefab: {fileID: 7710054099128840412, guid: 29f80f43505e3de4daa4b4175d71c415, type: 3}
+  xBlockPrefab: {fileID: 5750683206848860648, guid: 047f17798f047e64496b3f88ea409abd, type: 3}
+  floorTiles:
+  - {fileID: 488478871340147275, guid: 026bb590953c8b74d950a9d8dd178c32, type: 3}
+  - {fileID: 3687705212401882769, guid: 2094ce72cdf2bba4bbfb5117292b1014, type: 3}
+  - {fileID: 6206741334415194336, guid: 9ee41472ed86ba340a1b6f1dc70770c3, type: 3}
+  - {fileID: 2769877800468549266, guid: e08f71bfb25a00144a293ad3d592cd03, type: 3}
+  pipsWallsPrefabs:
+  - {fileID: 5741960352895764762, guid: ec9b9e1de366c564e8b09dbe85d06737, type: 3}
+  - {fileID: 5741960352895764762, guid: d396577ca9f86ee40afa6df510133875, type: 3}
+  - {fileID: 5741960352895764762, guid: a0b5725287f8362428abe479b74fa127, type: 3}
+  - {fileID: 5741960352895764762, guid: f6036feea49d6f94cb2cf75fbdab0e5c, type: 3}
+  - {fileID: 5741960352895764762, guid: be730ee9987f3934fb36c0b7e02dad73, type: 3}
+  - {fileID: 5741960352895764762, guid: 891e82c4750f09449be83fea432f2a24, type: 3}
+  chargeWalls:
+  - {fileID: 4941758341458459841, guid: 6846f7f661da06c4f9c068fd7fc4b066, type: 3}
+  - {fileID: 4941758341458459841, guid: 709c9768078ea6646b429040dc32d90c, type: 3}
+  - {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
+  - {fileID: 4941758341458459841, guid: fd006874336c9774496e39098498dbc5, type: 3}
+  chargeSwitchPrefabs:
+  - {fileID: 9139951490446770271, guid: 30280152ffc505a4fa23270f7154e09b, type: 3}
+  - {fileID: 2436169771269303037, guid: 6d61995e96119c045834123ed1091276, type: 3}
+  - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
+  - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
   alternatingFloorTiles: 1
+  winSwitchInstance: {fileID: 0}
   width: 0
   length: 0
   levelID: 1
