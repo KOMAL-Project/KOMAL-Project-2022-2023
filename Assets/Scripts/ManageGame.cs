@@ -29,7 +29,7 @@ public class ManageGame : MonoBehaviour
     GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
-    string levelIDString;
+    string levelIDString = "-1";
     public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
@@ -112,42 +112,45 @@ public class ManageGame : MonoBehaviour
 
         string path = SceneManager.GetActiveScene().path;
 
+        void CheckNull() { //method specifically to check and log if image files are set incorrectly
+            if (levelImage is null) {
+                Debug.Log("The level image has not been set correctly. Either the file is not in the right location or has not been assigned.");
+                Debug.Log("Please format the level image as '(chapterID)-(levelID)' and the chapter folder as 'Chapter #'. E.G. '1-1' in 'Chapter 1'");
+                levelImage = Resources.Load<Texture2D>("Template");   
+            }
+            if (filtersImage is null) {
+                Debug.Log("The level filter image has not been set correctly. Either the file is not in the right location or has not been assigned.");
+                Debug.Log("Please format the level filter image as '(chapterID)-(levelID)p' and the chapter folder as 'Chapter #'. E.G. '1-1p' in 'Chapter 1'");
+                filtersImage = Resources.Load<Texture2D>("Template-p");
+            }
+        }
+
         //sets IDs and Level Data if scene is named correctly - if its not named to template, nothing is set.
         if (path.Contains("Chapter ") && path.Contains("Level ")) {
             try {
+
                 levelIDString = path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6);
-                levelID = int.Parse(levelIDString);
+
                 chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
-                levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + ".png");
-                filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p.png");
-                if (levelImage is null) {
-                    Debug.Log("The level image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                    Debug.Log("Please format the level image as '(chapterID)-(levelID)' and the chapter folder as 'Chapter #'. E.G. '1-1' in 'Chapter 1'");
-                    levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Template.png");
-                    
+
+                if (levelIDString.Contains("b")) { //different paths if bonus
+                    levelID = int.Parse(levelIDString.Substring(1));
+                    levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-b" + levelID);
+                    filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-b" + levelID + "p");
                 }
-                if (filtersImage is null) {
-                    Debug.Log("The level filter image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                    Debug.Log("Please format the level filter image as '(chapterID)-(levelID)p' and the chapter folder as 'Chapter #'. E.G. '1-1p' in 'Chapter 1'");
-                    filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Template p.png");
+                else {
+                    levelID = int.Parse(levelIDString); 
+                    levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID);
+                    filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p");
                 }
+                CheckNull();
             }
             catch (System.FormatException) {
                 Debug.Log("The scene name or chapter folder name is not configured correctly! Please format the level and chapter name as 'Level #' and 'Chapter #'.");
             }
         }
         else {
-            if (levelImage == null) {
-                Debug.Log("The level image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                Debug.Log("Please format the level image as '(chapterID)-(levelID)' and the chapter folder as 'Chapter #'. E.G. '1-1' in 'Chapter 1'");
-                levelImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Template.png");
-                    
-            }
-            if (filtersImage == null) {
-                Debug.Log("The level filter image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                Debug.Log("Please format the level filter image as '(chapterID)-(levelID)p' and the chapter folder as 'Chapter #'. E.G. '1-1p' in 'Chapter 1'");
-                filtersImage = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Level Files/Template p.png");
-            }
+            CheckNull();
         }
 
 
