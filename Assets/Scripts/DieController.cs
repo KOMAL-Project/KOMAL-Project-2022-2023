@@ -30,6 +30,7 @@ public class DieController : MonoBehaviour
     
     [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material> chargeFaceMaterials;
+    [SerializeField] List<Mesh> chargeFaceMeshes;
     [SerializeField] List<Material>[] mt; 
     [SerializeField] Material baseMT;
     
@@ -374,8 +375,9 @@ public class DieController : MonoBehaviour
         GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
         }*/
         chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
-        chargeFaceObj.transform.eulerAngles = new Vector3(-90, 0, 0);
+        chargeFaceObj.transform.eulerAngles = new Vector3(0, 90, 0);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
         Debug.Log(type);
     }
 
@@ -385,7 +387,7 @@ public class DieController : MonoBehaviour
     public void PowerDown()
     {
         //GetComponentInChildren<MeshRenderer>().material = baseMT;
-        chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[4];
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
         Debug.Log("powered down");
     }
 
