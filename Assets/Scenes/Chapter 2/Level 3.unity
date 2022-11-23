@@ -545,11 +545,19 @@ PrefabInstance:
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: levelImage
       value: 
+<<<<<<< Updated upstream
       objectReference: {fileID: 2800000, guid: 647fa48e9d5894187aba7026a1b17c28, type: 3}
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: filtersImage
       value: 
       objectReference: {fileID: 2800000, guid: b9361078d27454bc4be9871669bed410, type: 3}
+=======
+      objectReference: {fileID: 2800000, guid: 1054c979df9774ed0ad2c7ead7591596, type: 3}
+    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: filtersImage
+      value: 
+      objectReference: {fileID: 2800000, guid: f1ef38aaf92b7449d94627e6a7d60846, type: 3}
+>>>>>>> Stashed changes
     - target: {fileID: 2201775946093453423, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_Name
       value: GameManager
