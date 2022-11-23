@@ -1,11 +1,14 @@
 fileFormatVersion: 2
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Assets/Materials/Textures/dice_normals_baked.png.meta
 guid: 80c05ac27896b7f4aad0ed6d13c53d2b
 =======
 guid: bdf4875d0f5d84b889febc27f4015c34
 >>>>>>> Stashed changes:Assets/Level Files/Resources/Chapter 2/Level 2-b2.png.meta
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD:Assets/Level Files/Filter Template.png.meta
 <<<<<<< Updated upstream
 guid: 4e1fa70fbfdb6dc4bb50f21b9bba294d
@@ -15,6 +18,9 @@ guid: a06440a6531f54e5ab22f20454727e5c
 =======
 guid: 80c05ac27896b7f4aad0ed6d13c53d2b
 >>>>>>> cf01bb484510ccf85484a147920c292153f50573:Assets/Materials/Textures/dice_normals_baked.png.meta
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 TextureImporter:
   internalIDToNameTable: []
@@ -117,6 +123,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream:Assets/Materials/Textures/dice_normals_baked.png.meta
 =======
   - serializedVersion: 3
@@ -144,6 +151,8 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
 >>>>>>> Stashed changes:Assets/Level Files/Resources/Chapter 2/Level 2-b2.png.meta
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   spriteSheet:
