@@ -19,17 +19,21 @@ public class ChargeController : MonoBehaviour
     public bool pickedUp = false;
     public bool gateOpen = false;
 
+    [SerializeField] private AudioClip pickupCharge, loseCharge;
+
     [SerializeField]
     private GameObject player;
     private DieController pScript;
     [SerializeField]
     private ManageGame mg;
     private MeshRenderer rend;
+    private AudioSource source;
     private List<ChargeController> otherControllers = new List<ChargeController>(); //can easily be changed to be within game manager for optimization
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
         pScript = player.GetComponentInChildren<DieController>();
         mg = FindObjectOfType<ManageGame>();
         pip = GetComponentInChildren<PipFilterController>();
@@ -53,6 +57,9 @@ public class ChargeController : MonoBehaviour
             {
                 pickedUp = true;
                 pScript.PowerUp(type, Vector3Int.down);
+                if (source is not null) {
+                    source.PlayOneShot(pickupCharge, 1.0f);
+                }
                 rend.material = mats[1];
                 pScript.currentCharge = this;
                 pScript.chargeDirection = Vector3Int.down;
@@ -75,6 +82,9 @@ public class ChargeController : MonoBehaviour
             {
                 pickedUp = false;
                 pScript.PowerDown();
+                if (source is not null) {
+                    source.PlayOneShot(loseCharge, 1.0f);
+                }
                 rend.material = mats[0];
                 pScript.currentCharge = null;
             }

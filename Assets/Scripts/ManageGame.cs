@@ -334,7 +334,7 @@ public class ManageGame : MonoBehaviour
                     // Charge Givers    
                     if (pixel == chargeGiveColors[k])
                     {
-                        GameObject temp = Instantiate( chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2 ), new Quaternion(0, 0, 0, 0), board.transform);
+                        GameObject temp = Instantiate( chargeSwitchPrefabs[k], new Vector3(i - width / 2, 0f, j - length / 2 ), new Quaternion(0, 0, 0, 0), board.transform);
                         ChargeController chc = temp.GetComponent<ChargeController>();
                         chc.pos = new Vector2Int(i, j);
                         chc.type = k;

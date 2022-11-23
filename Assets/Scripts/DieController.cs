@@ -322,8 +322,7 @@ public class DieController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         if (source is not null) {
-            source.clip = diceHit;
-            source.Play();
+            source.PlayOneShot(diceHit, 0.7f);
         }
         
         totalDiceMoves++;
@@ -339,16 +338,11 @@ public class DieController : MonoBehaviour
         isMoving = false;
     }
 
-    
-
-
-
-
-        /// <summary>
-        /// Checks to see if the die is on the win panel.
-        /// If so, sends die flying up and ends the level.
-        /// </summary>
-        void WinCheck()
+    /// <summary>
+    /// Checks to see if the die is on the win panel.
+    /// If so, sends die flying up and ends the level.
+    /// </summary>
+    void WinCheck()
     {
         if(position == winPos)
         {
@@ -379,10 +373,9 @@ public class DieController : MonoBehaviour
     public void PowerDown()
     {
         chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
-        Debug.Log("powered down");
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);
-        return isMoving; }
-
+        return isMoving; 
+    }
 }

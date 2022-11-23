@@ -249,5 +249,7 @@ MonoBehaviour:
   doors: []
   pickedUp: 0
   gateOpen: 0
+  pickupCharge: {fileID: 8300000, guid: ca435fe9fab980a429175c0be4f7464f, type: 3}
+  loseCharge: {fileID: 8300000, guid: 1d1215047d6461e48b6d2825f513a526, type: 3}
   player: {fileID: 0}
   mg: {fileID: 0}
