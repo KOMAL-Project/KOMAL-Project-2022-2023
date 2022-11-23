@@ -545,11 +545,11 @@ PrefabInstance:
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: levelImage
       value: 
-      objectReference: {fileID: 2800000, guid: bdf4875d0f5d84b889febc27f4015c34, type: 3}
+      objectReference: {fileID: 2800000, guid: 180ca37b59d0f4f42a3ae30b9457ff86, type: 3}
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: filtersImage
       value: 
-      objectReference: {fileID: 2800000, guid: 745ecc48b99574b11b75fc1d53b30440, type: 3}
+      objectReference: {fileID: 2800000, guid: 5ad3949defc1043b798c84e74ff3dbd4, type: 3}
     - target: {fileID: 2201775946093453423, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_Name
       value: GameManager

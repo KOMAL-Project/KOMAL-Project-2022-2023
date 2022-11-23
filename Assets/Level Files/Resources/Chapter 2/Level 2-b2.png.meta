@@ -1,27 +1,13 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream:Assets/Materials/Textures/dice_normals_baked.png.meta
-guid: 80c05ac27896b7f4aad0ed6d13c53d2b
-=======
-<<<<<<< Updated upstream:Assets/Level Files/Resources/Chapter 2/Level 2-b3.png.meta
-guid: ab62d8835f94b4c31b686868cb789815
->>>>>>> Stashed changes
-=======
-guid: bdf4875d0f5d84b889febc27f4015c34
->>>>>>> Stashed changes:Assets/Level Files/Resources/Chapter 2/Level 2-b2.png.meta
+guid: 180ca37b59d0f4f42a3ae30b9457ff86
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-<<<<<<< Updated upstream
-    enableMipMap: 1
-    sRGBTexture: 0
-=======
     enableMipMap: 0
     sRGBTexture: 1
->>>>>>> Stashed changes
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -34,11 +20,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-<<<<<<< Updated upstream
-  isReadable: 0
-=======
   isReadable: 1
->>>>>>> Stashed changes
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -69,15 +51,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-<<<<<<< Updated upstream
-  alphaIsTransparency: 0
-  spriteTessellationDetail: -1
-  textureType: 1
-=======
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
->>>>>>> Stashed changes
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -93,11 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-<<<<<<< Updated upstream
-    textureCompression: 1
-=======
     textureCompression: 0
->>>>>>> Stashed changes
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,11 +100,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream:Assets/Materials/Textures/dice_normals_baked.png.meta
-=======
-=======
->>>>>>> Stashed changes
   - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
@@ -157,10 +124,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< Updated upstream
->>>>>>> Stashed changes:Assets/Level Files/Resources/Chapter 2/Level 2-b2.png.meta
-=======
->>>>>>> Stashed changes
   spriteSheet:
     serializedVersion: 2
     sprites: []
