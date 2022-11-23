@@ -124,6 +124,8 @@ public class GenerateLevel : MonoBehaviour
         mg.chargeCardPositionsInLevel = chargeCardPositionsInLevel;
         mg.xBlockPositionsInLevel = xBlockPositionsInLevel;
         mg.oBlockPositionsInLevel = oBlockPositionsInLevel;
+
+        mg.winSwitchInstance = winSwitchInstance;
     }
 
     void GenerateFloorTiles()

@@ -49,6 +49,10 @@ public class DieOverlayController : MonoBehaviour
     {
         dieOverlayDie.transform.position = overlayCam.ScreenToWorldPoint(new Vector3(0, overlayCam.pixelHeight, overlayCam.nearClipPlane + 2));
         dieOverlayDie.transform.position += new Vector3(.75f, -.75f, 0);
+        Dictionary<Vector3Int, int> invisPips = die.GetInvisibleFaces();
+        hiddenBottomPip.sprite = pipIcons[invisPips[Vector3Int.up] - 1];
+        hiddenRightPip.sprite = pipIcons[invisPips[Vector3Int.right] - 1];
+        hiddenLeftPip.sprite = pipIcons[invisPips[Vector3Int.forward] - 1];
     }
     public IEnumerator RollOverlay(Vector3 axis, float rollSpeed)
     {
