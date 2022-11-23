@@ -28,11 +28,8 @@ public class DieController : MonoBehaviour
     public bool canControl = true;
     private bool isMoving;
     
-    [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material> chargeFaceMaterials;
     [SerializeField] List<Mesh> chargeFaceMeshes;
-    [SerializeField] List<Material>[] mt; 
-    [SerializeField] Material baseMT;
     
     private float rollSpeed = 4.5f;
     
@@ -46,9 +43,7 @@ public class DieController : MonoBehaviour
     
     // Start is called before the first frame update
     void Awake()
-    {
-        mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
-
+    {   
         cameraObj = Camera.main.gameObject;
         cs = cameraObj.GetComponentInParent<CameraScript>();
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
@@ -371,9 +366,6 @@ public class DieController : MonoBehaviour
     /// <param name="type"></param>
     public void PowerUp(int type, Vector3Int direction)
     {
-        /*if (direction != Vector3Int.zero) {
-        GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
-        }*/
         chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
         chargeFaceObj.transform.eulerAngles = new Vector3(0, 90, 0);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
@@ -386,7 +378,6 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void PowerDown()
     {
-        //GetComponentInChildren<MeshRenderer>().material = baseMT;
         chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
         Debug.Log("powered down");
     }
