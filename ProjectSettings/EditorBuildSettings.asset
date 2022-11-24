@@ -62,9 +62,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level 2.unity
     guid: c6556ad6f770f4446b6e8ee458740ff3
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level 3.unity
-    guid: b9b42bfde461a8d458f877b8015c4fbe
+    guid: 1c47bb63a2ace47c69f39539af9a6111
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level 4.unity
     guid: f49d1a5c7a21b904c8eacdb1585bd97e
@@ -95,12 +98,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Chapter 2/Level b1.unity
     guid: 892654748a5984275b7e05a35d678fee
-  - enabled: 1
-    path: Assets/Scenes/Chapter 2/Level b2.unity
-    guid: 4577507bd336448b6b8f0eec1025cbb2
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Chapter 2/Level b2.unity
+    guid: 96f7d521d1aa943f0b334845da9f1296
+  - enabled: 1
+    path: Assets/Scenes/Chapter 2/Level b3.unity
+    guid: 4e2687a6faa3f4ba787f1660278640a0
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000

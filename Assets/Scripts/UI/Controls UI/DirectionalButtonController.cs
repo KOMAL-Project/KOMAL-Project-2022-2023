@@ -11,6 +11,7 @@ public class DirectionalButtonController : MonoBehaviour
     public bool overhead, iso, doIso;
 
     [SerializeField] bool showUI;
+    [SerializeField] GameObject dPadObject;
     
     private void Start()
     {
@@ -51,6 +52,7 @@ public class DirectionalButtonController : MonoBehaviour
             doIso = !doIso;
             if (doIso) iso = true;
             else overhead = true;
+            dPadObject.GetComponent<Animator>().SetBool("Overhead", !iso);
         }
         else if (input == "pause")
         {
