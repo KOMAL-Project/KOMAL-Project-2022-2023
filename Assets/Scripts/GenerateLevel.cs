@@ -108,6 +108,7 @@ public class GenerateLevel : MonoBehaviour
         mg.length = length;
         mg.width = width;
         mg.levelID = levelID;
+        mg.chapterID = chapterID;
 
         mg.wallTiles = wallTiles;
         mg.toggleSwitchesInLevel = toggleSwitchesInLevel;

@@ -96,13 +96,13 @@ public class ManageGame : MonoBehaviour
     /// <returns></returns>
     IEnumerator NextLevel()
     {
-
         yield return new WaitForSecondsRealtime(5);
         if (levelID != 12 || levelIDString == "b4") {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
-            int newLevelID = levelIDString[0] == 'b' ? 'b' + int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
+            int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
+            
             string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
-            Debug.Log(levelIDString + " " + newLevelID + " " + newLevelIDString);
+            Debug.Log(chapterID + " " + levelIDString + " " + newLevelID + " " + newLevelIDString);
             SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }
         else {
