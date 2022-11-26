@@ -397,8 +397,9 @@ public class DieController : MonoBehaviour
         //GetComponentInChildren<MeshRenderer>().material = baseMT;
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[4];
         Debug.Log("powered down");
-        if(chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
-                                                                               // we can use this to find what a side is supposed to be                                                        
+        if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
+                                                                                                                       // we can use this to find what a side is supposed to be
+        else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
         Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;
     }
