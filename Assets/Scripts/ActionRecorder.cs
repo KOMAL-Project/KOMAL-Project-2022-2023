@@ -11,6 +11,7 @@ public record states {
     public Action ghostRotation;
     public Vector2Int mappedDieLocation;
     public Quaternion rotation;
+    public Quaternion overlayRotation;
     //states of mechanics
     //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
     public bool? toggleState;
@@ -124,11 +125,13 @@ public class ActionRecorder : MonoBehaviour
         foreach (ChargeController t in CC) ChargeStates.Add(t.getStateByte());
         List<byte> LegoStates = new List<byte>();
         foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getStateByte());
+        Debug.Log(string.Join(", ", LegoStates));
 
         return new states {
             ghostRotation = dieController.lastAction,
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
+            overlayRotation = dieController.doc.overlayDie.transform.rotation,
             toggleState = (TSC is not null ? TSC.stateToGetBool() : null),
             limitedUseTileState = (SUC.Count != 0 ? SingleUseStates: null),
             chargeState = (CC.Count != 0 ? ChargeStates: null),
@@ -179,6 +182,7 @@ public class ActionRecorder : MonoBehaviour
         dieController.position = moveState.mappedDieLocation;
         die.transform.position = MapToActualPosition(moveState.mappedDieLocation);
         die.transform.rotation = moveState.rotation;
+        dieController.doc.overlayDie.transform.rotation = moveState.overlayRotation;
 
         currentState.updateStates(moveState);
     }
