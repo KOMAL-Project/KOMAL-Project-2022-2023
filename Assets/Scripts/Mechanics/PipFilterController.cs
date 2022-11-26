@@ -5,17 +5,12 @@ using UnityEngine;
 public class PipFilterController : MonoBehaviour
 {
     public int pips;
-    public Vector2Int thisPos;
-    public Vector2Int playerPos;
     public GameObject player;
-    
     private ManageGame mg;
-
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
 
     public bool activated = false;
-
     private void Start()
     {
         mg = FindObjectOfType<ManageGame>();
