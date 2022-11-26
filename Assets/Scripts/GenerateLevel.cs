@@ -342,7 +342,7 @@ public class GenerateLevel : MonoBehaviour
                     {
                         GameObject temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         LegoSwitchController lsc = temp.GetComponent<LegoSwitchController>();
-                        lsc.thisPos = new Vector2Int(i, j);
+                        lsc.position = new Vector2Int(i, j);
                         lsc.type = k + 1;
                         lsc.pips = GetPipFilter(i, j);
                         legoSwitchesInLevel[k].Add(temp);
@@ -363,7 +363,7 @@ public class GenerateLevel : MonoBehaviour
                     {
                         GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         ChargeController chc = temp.GetComponent<ChargeController>();
-                        chc.pos = new Vector2Int(i, j);
+                        chc.position = new Vector2Int(i, j);
                         chc.type = k;
                         chc.pips = GetPipFilter(i, j);
                         chargeSwitchesInLevel[k].Add(temp);

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToggleSwitchController : MonoBehaviour
+public class ToggleSwitchController : Mechanic
 {
     ManageGame gameManager;
     DieController die;
     PipFilterController pipFilter;
     public int pips;
-    public Vector2Int position;
     // switches: All toggle switches in the current level, including this one
     public List<GameObject> xBlocks, oBlocks, switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
@@ -49,7 +48,7 @@ public class ToggleSwitchController : MonoBehaviour
         pipFilter.gameObject.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, .01f);
     }
 
-    public void CheckForActivation()
+    public override void CheckForActivation()
     {
         //Debug.Log(position +"   "  + die.position);
         if(die.position == position && pipFilter.MeetsPipRequirement(die.gameObject))

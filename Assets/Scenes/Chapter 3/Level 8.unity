@@ -752,10 +752,6 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.69803923
       objectReference: {fileID: 0}
-    - target: {fileID: 1967392156875785357, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 1967392156949396023, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_Color.a
       value: 0.69803923
@@ -771,14 +767,6 @@ PrefabInstance:
     - target: {fileID: 1967392157780184814, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_Color.a
       value: 0.69803923
-      objectReference: {fileID: 0}
-    - target: {fileID: 2646443553861527470, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 2646443553861527470, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 2646443553861527470, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_LocalRotation.x

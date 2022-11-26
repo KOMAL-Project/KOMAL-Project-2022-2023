@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleUseController : MonoBehaviour
+public class SingleUseController : Mechanic
 {
     public GameObject player, manager;
     private DieController pDie;
     private bool primed, used;
-    public Vector2Int position;
     private Vector2Int playerPosition;
 
 
@@ -21,7 +20,7 @@ public class SingleUseController : MonoBehaviour
 
     // Update is called once per frame
 
-    public void CheckForActivation() {
+    public override void CheckForActivation() {
 
         playerPosition = pDie.position;
 
