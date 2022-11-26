@@ -50,6 +50,7 @@ public class ChargeController : Mechanic
             if (pip.MeetsPipRequirement(player) && pScript.position == position)
             {
                 pickedUp = true;
+                pScript.PowerDown(); // reset any existing charges before applying new ones
                 pScript.PowerUp(type, Vector3Int.down);
                 rend.material = mats[1];
                 pScript.currentCharge = this;

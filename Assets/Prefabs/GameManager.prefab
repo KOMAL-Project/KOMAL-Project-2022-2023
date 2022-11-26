@@ -433,16 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735b1b83912fffb4b9a0c114d07d592c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorTile: {fileID: 9186678779994403599, guid: 82692e79a4b02544c839f778c919ad22, type: 3}
-  pipSwitchPrefab: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
-  winTile: {fileID: 51070051948085511, guid: b03f8431baec1994289d9555cc13a699, type: 3}
-  board: {fileID: 2201775946470745440}
-  die: {fileID: 0}
-  singleUseTilePrefab: {fileID: 3669176422411836730, guid: 135380890e35efd449052a2bb267c961, type: 3}
-  wallObj: {fileID: 7805049832142475294, guid: 8a4402010dfba5047bd6005d173fc1f5, type: 3}
-  toggleSwitchPrefab: {fileID: 961602868302959040, guid: e121639e520a73243b0e978cf774c09d, type: 3}
-  oBlockPrefab: {fileID: 7710054099128840412, guid: 29f80f43505e3de4daa4b4175d71c415, type: 3}
-  xBlockPrefab: {fileID: 5750683206848860648, guid: 047f17798f047e64496b3f88ea409abd, type: 3}
   floorTiles:
   - {fileID: 488478871340147275, guid: 026bb590953c8b74d950a9d8dd178c32, type: 3}
   - {fileID: 3687705212401882769, guid: 2094ce72cdf2bba4bbfb5117292b1014, type: 3}
@@ -465,6 +455,7 @@ MonoBehaviour:
   - {fileID: 2436169771269303037, guid: 6d61995e96119c045834123ed1091276, type: 3}
   - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
   - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
+  winSwitchInstance: {fileID: 0}
   width: 0
   length: 0
   levelID: 1
@@ -475,6 +466,8 @@ MonoBehaviour:
   singleUseTilesInLevel: []
   xBlocksInLevel: []
   oBlocksInLevel: []
+  xBlockPositionsInLevel: []
+  oBlockPositionsInLevel: []
 --- !u!114 &2579957120045967654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +526,8 @@ MonoBehaviour:
   singleUseTilesInLevel: []
   xBlocksInLevel: []
   oBlocksInLevel: []
+  xBlockPositionsInLevel: []
+  oBlockPositionsInLevel: []
 --- !u!1 &2201775946470745440
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +792,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2337d5aa2f359314d905f8e44ee9126f, type: 3}
   - {fileID: 2800000, guid: 1102b21fd3be3a448920e6c76e4c62d4, type: 3}
   - {fileID: 2800000, guid: 70ec473ceb70a924ab85c4396683c431, type: 3}
+  - {fileID: 2800000, guid: b328872273cecf841bb1fef72a76ee3c, type: 3}
+  - {fileID: 2800000, guid: b51dc83d4af1bb141b4a08e0e3f11e77, type: 3}
+  - {fileID: 2800000, guid: 30ee67d5619f5a847836205054179a18, type: 3}
+  - {fileID: 2800000, guid: e0dc7fdcf342d8547b7b7befec22c792, type: 3}
 --- !u!1 &3665720727664779773
 GameObject:
   m_ObjectHideFlags: 0

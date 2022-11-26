@@ -20,9 +20,9 @@ public class DieOverlayController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pipIcons = new Sprite[6];
+        pipIcons = new Sprite[10];
         
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 10; i++)
         {
             Rect newRectTemplate = new Rect(0, 0, 250, 250);
             pipIcons[i] = Sprite.Create(pipIconTextures[i], newRectTemplate, new Vector2(.5f, .5f));

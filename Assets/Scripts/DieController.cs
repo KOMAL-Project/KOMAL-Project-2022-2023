@@ -41,8 +41,9 @@ public class DieController : MonoBehaviour
     private CameraScript cs;
     private DieOverlayController doc;
     public static int totalDiceMoves = 0;
+    int chargeType;
 
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -63,8 +64,6 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3Int.back, 3);
         sides.Add(Vector3Int.forward, 4);
 
-
-
         gm = FindObjectOfType<ManageGame>();
         width = gm.width;
         length = gm.length;
@@ -72,6 +71,8 @@ public class DieController : MonoBehaviour
         // Die Overlay Stuff
         GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+
+        chargeType = 0;
     }
 
     // Update is called once per frame
@@ -86,7 +87,11 @@ public class DieController : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Returns a dictionary of the die's sides when rotated counterclockwise by 90 degrees
+    /// </summary>
+    /// <param name="tempSides"></param>
+    /// <returns></returns>
     Dictionary<Vector3Int, int> GetClockwiseRotatedSides(Dictionary<Vector3Int, int> tempSides)
     {
         return new Dictionary<Vector3Int, int>
@@ -100,6 +105,7 @@ public class DieController : MonoBehaviour
             { Vector3Int.down, tempSides[Vector3Int.down] }
         };
     }
+
 
     /// <summary>
     /// Gets the 3 die faces that can be seen from the player's POV
@@ -376,7 +382,11 @@ public class DieController : MonoBehaviour
         chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
         chargeFaceObj.transform.eulerAngles = new Vector3(-90, 0, 0);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
-        Debug.Log(type);
+        chargeType = type;
+        Debug.Log("powering up");
+        sides[Vector3Int.down] = 7 + type;
+        Debug.Log(sides[Vector3Int.down]);
+        //Debug.Log(type);
     }
 
     /// <summary>
@@ -387,6 +397,10 @@ public class DieController : MonoBehaviour
         //GetComponentInChildren<MeshRenderer>().material = baseMT;
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[4];
         Debug.Log("powered down");
+        if(chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
+                                                                               // we can use this to find what a side is supposed to be                                                        
+        Debug.Log(sides[Vector3Int.down]);
+        chargeType = 0;
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);
