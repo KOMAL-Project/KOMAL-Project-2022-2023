@@ -39,7 +39,7 @@ public class DieController : MonoBehaviour
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
     private CameraScript cs;
-    private DieOverlayController doc;
+    public DieOverlayController doc;
     public static int totalDiceMoves = 0;
     int chargeType;
 
@@ -69,7 +69,6 @@ public class DieController : MonoBehaviour
         length = gm.length;
 
         // Die Overlay Stuff
-        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
 
         chargeType = 0;
@@ -347,6 +346,7 @@ public class DieController : MonoBehaviour
 
         actionRec.Record();
         isMoving = false;
+
     }
 
     

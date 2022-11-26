@@ -781,6 +781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559e49eb05aaf4b48a11800111d66ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dieOverlayDie: {fileID: 0}
   hiddenBotomPipObj: {fileID: 1975304559759687223}
   hiddenLeftPipObj: {fileID: 6717360532369443435}
   hiddenRightPipObj: {fileID: 5241983149458890908}
@@ -807,7 +808,7 @@ GameObject:
   - component: {fileID: 7907042450275462798}
   m_Layer: 0
   m_Name: Die Overlay Thing
-  m_TagString: OverlayDie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

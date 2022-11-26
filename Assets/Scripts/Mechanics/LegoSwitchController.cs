@@ -13,7 +13,7 @@ public class LegoSwitchController : Mechanic
     public GameObject player;
     public DieController pScript;
     PipFilterController pip;
-    public bool active;
+    private bool active = true;
 
     private ManageGame mg;
 
@@ -79,7 +79,7 @@ public class LegoSwitchController : Mechanic
             for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
         }
         else if (input == 1) {
-            if (!active) { //if it was false, then change it
+            if (!active) { //resets the walls if it wasnt active and now is again
                 active = true;
                 foreach (GameObject w in walls) w.GetComponentInChildren<Animator>().SetBool("Active", true);
                 for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = walls[i];
