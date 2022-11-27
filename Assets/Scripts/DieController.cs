@@ -44,7 +44,6 @@ public class DieController : MonoBehaviour
     int chargeType;
 
 
-    // Start is called before the first frame update
     void Awake()
     {
         mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
@@ -54,7 +53,7 @@ public class DieController : MonoBehaviour
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
 
-        source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
+        source = MusicManager.Instance.GetComponents<AudioSource>()[1];
 
         // Set up sides
         sides.Add(Vector3Int.up, 1);
@@ -330,10 +329,10 @@ public class DieController : MonoBehaviour
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-        if (source is not null) {
-            source.clip = diceHit;
-            source.Play();
-        }
+
+        if (source != MusicManager.Instance.sources[1]) source = MusicManager.Instance.sources[1];
+        source.clip = diceHit;
+        source.Play();
         
         totalDiceMoves++;
 
