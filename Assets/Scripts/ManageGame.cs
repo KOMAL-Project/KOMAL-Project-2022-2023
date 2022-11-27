@@ -100,7 +100,7 @@ public class ManageGame : MonoBehaviour
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
             int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
             
-            string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
+            string newLevelIDString = levelIDString == "-1" ? "b" + newLevelID : newLevelID.ToString();
             Debug.Log(chapterID + " " + levelIDString + " " + newLevelID + " " + newLevelIDString);
             SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }
