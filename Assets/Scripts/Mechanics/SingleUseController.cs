@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SingleUseController : Mechanic
 {
-    public GameObject player, manager;
-    private DieController pDie;
     private bool primed, used;
     private Vector2Int playerPosition;
 
@@ -15,19 +13,18 @@ public class SingleUseController : Mechanic
     {
         primed = false;
         used = false;
-        pDie = player.GetComponentInChildren<DieController>();
     }
 
     // Update is called once per frame
 
     public override void CheckForActivation() {
 
-        playerPosition = pDie.position;
+        playerPosition = dieControl.position;
 
         if (playerPosition == position) primed = true;
         if (playerPosition != position && primed && !used)
         {
-            manager.GetComponent<ManageGame>().levelData[position.x, position.y] = gameObject;
+            gameManager.levelData[position.x, position.y] = gameObject;
             used = true;
             GetComponentInChildren<Animator>().SetTrigger("Go");
         }
@@ -46,7 +43,7 @@ public class SingleUseController : Mechanic
         if (input == 1) {
             primed = true; used = false;
             GetComponentInChildren<Animator>().SetTrigger("Back");
-            manager.GetComponent<ManageGame>().levelData[position.x, position.y] = null;
+            gameManager.levelData[position.x, position.y] = null;
             
         }
         if (input == 0) {primed = used = true;}

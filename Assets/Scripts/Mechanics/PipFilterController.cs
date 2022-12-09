@@ -5,7 +5,7 @@ using UnityEngine;
 public class PipFilterController : MonoBehaviour
 {
     public int pips;
-    public GameObject player;
+    public DieController dieControl;
     private ManageGame mg;
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
@@ -14,7 +14,7 @@ public class PipFilterController : MonoBehaviour
     private void Start()
     {
         mg = FindObjectOfType<ManageGame>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        dieControl = DieController.Instance;
         // set up sprites
 
         if (pips > 0)
@@ -35,12 +35,13 @@ public class PipFilterController : MonoBehaviour
     /// </summary>
     /// <param name="die"></param>
     /// <returns></returns>
-    public bool MeetsPipRequirement(GameObject die)
+    public bool MeetsPipRequirement(int comparedPip)
     {
-        return die.GetComponentInChildren<DieController>().sides[Vector3Int.down] == pips || pips == 0;
+        return comparedPip == pips || pips == 0;
     }
 
     public Sprite GetSprite(int type) {
         return topSprites[type - 1];
     }
+
 }

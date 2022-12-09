@@ -39,9 +39,14 @@ public class ManageGame : MonoBehaviour
     public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
+    private static ManageGame instance;
+    public static ManageGame Instance { //used to get the one instance of manageGame instead of using tags
+        get {return instance;}
+    }
 
     private void Awake()
     {
+        instance = this;
         levelFinishing = false;
         
         levelData = new GameObject[0,0];

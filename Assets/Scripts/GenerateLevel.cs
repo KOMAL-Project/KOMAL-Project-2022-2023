@@ -225,7 +225,7 @@ public class GenerateLevel : MonoBehaviour
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
 
-        mg = GetComponent<ManageGame>();
+        mg = FindObjectOfType<ManageGame>();
 
         // Prepare the lists of GameObjects
         // Set up lists of GameObjects:
@@ -310,10 +310,16 @@ public class GenerateLevel : MonoBehaviour
     /// </summary>
     public void ReadLevel()
     {
+        GameObject empty = new GameObject();
+        DieController dieControl = die.GetComponentInChildren<DieController>();
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
+                GameObject temp = empty;
+                int type = -1; //if no type is declared, type is -1
+                
                 // Get the color of the level Image pixel
                 Color pixel = levelImage.GetPixel(i, j);
                 // Basic Walls
@@ -323,14 +329,9 @@ public class GenerateLevel : MonoBehaviour
                     Destroy(floorData[i, j]);
                 }
                 // Single Use Tiles
-                if (pixel == singleUseColor)
+                else if (pixel == singleUseColor)
                 {
-                    GameObject temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-
-                    SingleUseController suc = temp.GetComponent<SingleUseController>();
-                    suc.position = new Vector2Int(i, j);
-                    suc.player = die;
-                    suc.manager = gameObject;
+                    temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     singleUseTilesInLevel.Add(temp);
 
                 }
@@ -340,11 +341,8 @@ public class GenerateLevel : MonoBehaviour
                     // Lego Switches
                     if (pixel == legoSwitchColors[k])
                     {
-                        GameObject temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        LegoSwitchController lsc = temp.GetComponent<LegoSwitchController>();
-                        lsc.position = new Vector2Int(i, j);
-                        lsc.type = k + 1;
-                        lsc.pips = GetPipFilter(i, j);
+                        temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        type = k + 1;
                         legoSwitchesInLevel[k].Add(temp);
                     }
                     // Legos
@@ -356,16 +354,12 @@ public class GenerateLevel : MonoBehaviour
                     }
                 }
 
-                for (int k = 0; k < chargeGiveColors.Length; k++)
-                {
+                for (int k = 0; k < chargeGiveColors.Length; k++) {
                     // Charge Givers    
                     if (pixel == chargeGiveColors[k])
                     {
-                        GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        ChargeController chc = temp.GetComponent<ChargeController>();
-                        chc.position = new Vector2Int(i, j);
-                        chc.type = k;
-                        chc.pips = GetPipFilter(i, j);
+                        temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        type = k;
                         chargeSwitchesInLevel[k].Add(temp);
                     }
                     // Cards
@@ -379,40 +373,49 @@ public class GenerateLevel : MonoBehaviour
                 // Toggle Switch
                 if (pixel == toggleSwitchColor)
                 {
-                    GameObject temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    ToggleSwitchController tsc = temp.GetComponentInChildren<ToggleSwitchController>();
-                    tsc.position = new Vector2Int(i, j);
-                    tsc.pips = GetPipFilter(i, j);
+                    temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     toggleSwitchesInLevel.Add(temp);
                 }
                 // "O" Toggle Block
-                if (pixel == oBlockColor)
+                else if (pixel == oBlockColor)
                 {
-                    GameObject temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     oBlocksInLevel.Add(temp);
                     oBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // "X" Toggle Block
-                if (pixel == xBlockColor)
+                else if (pixel == xBlockColor)
                 {
-                    GameObject temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     xBlocksInLevel.Add(temp);
                     temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
                     xBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // Win Switch
-                if (pixel == new Color(1, 1, 0)) // Color is yellow
+                else if (pixel == new Color(1, 1, 0)) // Color is yellow
                 {
-                    die.GetComponentInChildren<DieController>().winPos = new Vector2Int(i, j);
+                    dieControl.winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
-                if (pixel == Color.green)
+                else if (pixel == Color.green)
                 {
                     //Debug.Log(i + " " + j);
-                    die.GetComponentInChildren<DieController>().position = new Vector2Int(i, j);
+                    dieControl.position = new Vector2Int(i, j);
+                    dieControl.gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
+                }
 
-                    die.GetComponentInChildren<DieController>().gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
+
+                Mechanic mec = temp.GetComponentInChildren<Mechanic>();
+                if (mec != null) {
+                    Debug.Log(mec);
+                    mec.attachValues(
+                        mg
+                        ,dieControl
+                        ,new Vector2Int(i, j)
+                        ,GetPipFilter(i, j)
+                        ,type
+                    );
                 }
             }
         }

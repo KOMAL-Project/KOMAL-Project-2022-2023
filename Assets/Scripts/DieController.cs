@@ -42,10 +42,15 @@ public class DieController : MonoBehaviour
     public DieOverlayController doc;
     public static int totalDiceMoves = 0;
     int chargeType;
-
-
+    private static DieController instance;
+    //used to get the one instance of die controller instead of using tags.
+    //be careful using, will not work if used before dieController awakes
+    public static DieController Instance { 
+        get {return instance;} 
+    }
     void Awake()
     {
+        instance = this;
         mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
 
         cameraObj = Camera.main.gameObject;
@@ -63,7 +68,7 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3Int.back, 3);
         sides.Add(Vector3Int.forward, 4);
 
-        gm = FindObjectOfType<ManageGame>();
+        gm = ManageGame.Instance;
         width = gm.width;
         length = gm.length;
 
