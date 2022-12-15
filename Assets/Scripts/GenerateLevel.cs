@@ -91,6 +91,11 @@ public class GenerateLevel : MonoBehaviour
     public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
 
+    public List<Mechanic> mechanics;
+    public List<ChargeController> chargeControllers;
+    public List<ToggleSwitchController> toggleSwitchControllers;
+    public List<LegoSwitchController> legoSwitchControllers;
+
     public List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel,
         legoSwitchesInLevel, legoWallsInLevel;
@@ -115,6 +120,11 @@ public class GenerateLevel : MonoBehaviour
         mg.singleUseTilesInLevel = singleUseTilesInLevel;
         mg.xBlocksInLevel = xBlocksInLevel;
         mg.oBlocksInLevel = oBlocksInLevel;
+
+        mg.mechanics = mechanics;
+        mg.chargeControllers = chargeControllers;
+        mg.toggleSwitchControllers = toggleSwitchControllers;
+        mg.legoSwitchControllers = legoSwitchControllers;
 
         mg.chargeCardsInLevel = chargeCardsInLevel;
         mg.chargeSwitchesInLevel = chargeSwitchesInLevel;
@@ -250,6 +260,7 @@ public class GenerateLevel : MonoBehaviour
         xBlockPositionsInLevel = new List<Vector2Int>();
         xBlocksInLevel = new List<GameObject>();
         toggleSwitchesInLevel = new List<GameObject>();
+        mechanics = new List<Mechanic>();
 
         //sets IDs and Level Data if scene is named correctly - if its not named to template, nothing is set.
 
@@ -322,6 +333,7 @@ public class GenerateLevel : MonoBehaviour
                 
                 // Get the color of the level Image pixel
                 Color pixel = levelImage.GetPixel(i, j);
+
                 // Basic Walls
                 if (pixel == Color.black)
                 {
@@ -344,6 +356,7 @@ public class GenerateLevel : MonoBehaviour
                         temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         type = k + 1;
                         legoSwitchesInLevel[k].Add(temp);
+                        break;
                     }
                     // Legos
                     if (pixel == legoBlockColors[k])
@@ -351,6 +364,7 @@ public class GenerateLevel : MonoBehaviour
                         levelData[i, j] = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         legoWallsInLevel[k].Add(levelData[i, j]);
                         legoWallPositionsInLevel[k].Add(new Vector2Int(i, j));
+                        break;
                     }
                 }
 
@@ -361,6 +375,7 @@ public class GenerateLevel : MonoBehaviour
                         temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         type = k;
                         chargeSwitchesInLevel[k].Add(temp);
+                        break;
                     }
                     // Cards
                     if (pixel == chargeCardColors[k])
@@ -368,6 +383,7 @@ public class GenerateLevel : MonoBehaviour
                         levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         chargeCardsInLevel[k].Add(levelData[i, j]);
                         chargeCardPositionsInLevel[k].Add(new Vector2Int(i, j));
+                        break;
                     }
                 }
                 // Toggle Switch
@@ -408,7 +424,7 @@ public class GenerateLevel : MonoBehaviour
 
                 Mechanic mec = temp.GetComponentInChildren<Mechanic>();
                 if (mec != null) {
-                    Debug.Log(mec);
+                    //attaches each value if needed
                     mec.attachValues(
                         mg
                         ,dieControl
@@ -416,6 +432,8 @@ public class GenerateLevel : MonoBehaviour
                         ,GetPipFilter(i, j)
                         ,type
                     );
+
+                    mechanics.Add(mec);
                 }
             }
         }

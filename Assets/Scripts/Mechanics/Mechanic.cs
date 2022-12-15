@@ -4,18 +4,18 @@ using UnityEngine;
 
 public abstract class Mechanic : MonoBehaviour
 {
-    //board location
+    //location of the object on the board
     public Vector2Int position;
-    //ambiguous state used by all mechanics
+    //ambiguous state used by all mechanics. Details of each state is in script description. (should i move this elsewhere?)
     protected int state;
     //ambiguous type used by mechanics which have multiple of the same types
     protected int type;
     //filter connected to mechanic
     protected PipFilterController pipFilter;
-    //overall checking function
     protected DieController dieControl;
     protected ManageGame gameManager;
-    public abstract void CheckForActivation();
+    public abstract void CheckForActivation(); //overall checking function
+    public abstract void setState(int input); //overall setting state function
 
     /// <summary>
     /// Checks if the current pip on the die facing down matches the filter
@@ -26,7 +26,7 @@ public abstract class Mechanic : MonoBehaviour
     }
 
     /// <summary>
-    /// Attaches main scripts to each mechanic script.
+    /// Attaches main scripts to each mechanic script. Used in GenerateLevel, when mechanics are created.
     /// </summary>
     /// <param name="mg"></param>
     /// <param name="dc"></param>
@@ -40,6 +40,14 @@ public abstract class Mechanic : MonoBehaviour
         pipFilter = GetComponentInChildren<PipFilterController>();
         if (pipFilter) pipFilter.pips = pipFilterValue;
         type = theType;
+    }
+
+    /// <summary>
+    /// Returns the state of the mechanic. Check the script summary to find what each state means.
+    /// </summary>
+    /// <returns></returns>
+    public int getState() {
+        return state;
     }
 
 }

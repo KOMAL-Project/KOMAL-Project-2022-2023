@@ -5,18 +5,12 @@ using UnityEngine;
 public class PipFilterController : MonoBehaviour
 {
     public int pips;
-    public DieController dieControl;
-    private ManageGame mg;
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
 
     public bool activated = false;
     private void Start()
     {
-        mg = FindObjectOfType<ManageGame>();
-        dieControl = DieController.Instance;
-        // set up sprites
-
         if (pips > 0)
         {
             Rect rect = new Rect(0, 0, 10, 10);
@@ -30,7 +24,7 @@ public class PipFilterController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true if the pip count of the current face touching the the ground of die
+    /// Returns true if the pip count inputed
     /// matches "pips"
     /// </summary>
     /// <param name="die"></param>

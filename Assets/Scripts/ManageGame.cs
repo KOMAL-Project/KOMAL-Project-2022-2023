@@ -32,6 +32,12 @@ public class ManageGame : MonoBehaviour
     // Lists of mechanics in the level at a time
     public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
+    
+    // list of every mechanic that is in the level
+    public List<Mechanic> mechanics;
+    public List<ChargeController> chargeControllers;
+    public List<ToggleSwitchController> toggleSwitchControllers;
+    public List<LegoSwitchController> legoSwitchControllers;
         
     public List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
@@ -59,21 +65,15 @@ public class ManageGame : MonoBehaviour
     /// </summary>
     public void CheckMechanics()
     {
-        foreach(List<GameObject> l in legoSwitchesInLevel)
-        {
-            foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
+
+        foreach (Mechanic m in mechanics) {
+            m.CheckForActivation();
         }
-        foreach(GameObject t in toggleSwitchesInLevel)
-        {
-            ToggleSwitchController toggle = t.GetComponentInChildren<ToggleSwitchController>();
-            toggle.CheckForActivation();
-        }
+
         foreach(List<GameObject> l in chargeSwitchesInLevel)
         {
-            foreach (GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
             foreach (GameObject g in l) g.GetComponent<ChargeController>().UpdateChargeStatus();
         }
-        foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
 
     

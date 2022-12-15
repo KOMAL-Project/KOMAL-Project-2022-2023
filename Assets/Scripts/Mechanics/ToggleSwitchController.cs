@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// Script for ToggleSwitches.
-/// <para>  state 1: X is shown, meaning O is down and X is up. This is default.   </para>
-/// <para>  state 0: O is shown, meaning X is up and O is down.   </para>
+/// <para>  State 1: X is shown, meaning O is down and X is up. This is default.   </para>
+/// <para>  State 0: O is shown, meaning X is up and O is down.   </para>
 /// </summary>
 
 public class ToggleSwitchController : Mechanic
@@ -50,7 +50,6 @@ public class ToggleSwitchController : Mechanic
         //Debug.Log(position +"   "  + dieControl.position);
         if(dieControl.position == position && CheckPipFilter())
         {
-            //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
             state = state == 1 ? 0 : 1; // swap active block
             doToggle();
         }
@@ -85,13 +84,9 @@ public class ToggleSwitchController : Mechanic
         }
     }
 
-    public bool stateToGetBool() {
-        return state == 1? true : false;
-    }
-
-    public void boolToSetState(bool setBool) {
-        if (stateToGetBool() != setBool) {
-            state = setBool ? 1 : 0;
+    public override void setState(int input) {
+        if (state != input) {
+            state = input;
             doToggle();
         }
     }

@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for Charge Givers.
+/// <para> State 2: Charge giver is able to give charge and its charge is not on the die. This is default. </para>
+/// <para> State 1: Charge giver cannot give charge and its charge is on the die. </para>
+/// <para> State 0: Charge giver cannot give charge and doors of the same type have been used. </para>
+/// </summary>
 public class ChargeController : Mechanic
 {
     public List<Vector2Int> gatePos;
-    public Vector3 gateDirection;
     public Material[] mats = new Material[2];
-
     public List<GameObject> doors;
-
-    public bool pickedUp = false;
-    public bool gateOpen = false;
     private MeshRenderer rend;
     private List<ChargeController> otherControllers = new List<ChargeController>(); //can easily be changed to be within game manager for optimization
 
@@ -24,22 +25,23 @@ public class ChargeController : Mechanic
         otherControllers.Add(chargeSwitch.GetComponentInChildren<ChargeController>());
         
     }
-    public override void CheckForActivation()
+    //currently, things happen in this order: 1. all charges check if they attach their charge to the dice. 2. a charge checks for a reset, then checks for a matching door.
+    public override void CheckForActivation() //this really only checks if the charge block and dice collide, not dice and door
     {
-        if (!gateOpen)
+        if (state != 2)
         {
             // If the die is on the switch and the pip switch (if any) is activated give the corresponding charge.
             if (CheckPipFilter() && dieControl.position == position)
             {
-                pickedUp = true;
+                state = 1;
                 dieControl.PowerDown(); // reset any existing charges before applying new ones
                 dieControl.PowerUp(type, Vector3Int.down);
                 rend.material = mats[1];
                 dieControl.currentCharge = this;
                 dieControl.chargeDirection = Vector3Int.down;
 
-                foreach (ChargeController control in otherControllers) if (control != this && !control.gateOpen) {
-                    control.pickedUp = false;
+                foreach (ChargeController control in otherControllers) if (control != this && control.state != 2) {
+                    control.state = 0;
                     control.rend.material = mats[0];
                 }
 
@@ -49,12 +51,12 @@ public class ChargeController : Mechanic
 
     public void UpdateChargeStatus()
     {
-        if (!gateOpen)
+        if (state != 2)
         {
             // When charge face touches ground, reset charge.
             if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this)
             {
-                pickedUp = false;
+                state = 0;
                 dieControl.PowerDown();
                 rend.material = mats[0];
                 dieControl.currentCharge = null;
@@ -68,8 +70,7 @@ public class ChargeController : Mechanic
                     {
                         if (chargePosition == gatePos[i])
                         {
-                            gateOpen = true;
-                            pickedUp = false;
+                            state = 2;
                             dieControl.PowerDown();
                             dieControl.currentCharge = null;
 
@@ -81,7 +82,7 @@ public class ChargeController : Mechanic
                             foreach (GameObject obj in gameManager.chargeSwitchesInLevel[type]) {
                                 ChargeController control = obj.GetComponentInChildren<ChargeController>();
                                 control.rend.material = mats[1];
-                                control.gateOpen = true; 
+                                control.state = 2; 
                             }
 
                             break;
@@ -92,16 +93,13 @@ public class ChargeController : Mechanic
         }
     }
 
-    public byte getStateByte() {
-        if (!pickedUp && !gateOpen) return 2;
-        else if (pickedUp && !gateOpen) return 1;
-        else return 0;
+    public void activate() {
+
     }
 
-    public void ByteToSetState(byte input) {
+    public override void setState(int input) {
+        state = input;
         if (input == 2) {
-            pickedUp = false;
-            gateOpen = false;
             rend.material = mats[0];
             if (dieControl.currentCharge == this) {
                 dieControl.PowerDown();
@@ -110,8 +108,6 @@ public class ChargeController : Mechanic
 
         }
         else if (input == 1) { //reset doors if they were down
-            gateOpen = false;
-            pickedUp = true;
             rend.material = mats[1];
             dieControl.currentCharge = this;
             dieControl.PowerUp(type, dieControl.chargeDirection);
@@ -122,8 +118,7 @@ public class ChargeController : Mechanic
             }
 
         }
-        else if (input == 0) { //btw this shouldnt ever happen
-            gateOpen = true;
+        else if (input == 0) { //charge connected
             dieControl.PowerDown();
             rend.material = mats[1];
             dieControl.currentCharge = null;
