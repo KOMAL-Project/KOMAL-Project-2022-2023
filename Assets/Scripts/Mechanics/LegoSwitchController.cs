@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LegoSwitchController : MonoBehaviour
+public class LegoSwitchController : Mechanic
 {
 
     public int pips, type;
     public List<GameObject> walls;
     public List<Vector2Int> wallsPos;
-    public Vector2Int thisPos;
     public Vector2Int playerPos;
     public GameObject player;
     public DieController pScript;
     PipFilterController pip;
-    public bool active;
+    private bool active = true;
 
     private ManageGame mg;
 
@@ -35,9 +34,7 @@ public class LegoSwitchController : MonoBehaviour
         pScript =  player.GetComponentInChildren<DieController>();
         // Debug.Log(pips + " " + type);
         pip.pips = pips;
-        pip.thisPos = thisPos;
         pip.player = player;
-        pip.playerPos = playerPos;
         active = true;
         
 
@@ -47,10 +44,10 @@ public class LegoSwitchController : MonoBehaviour
 
     }
 
-    public void CheckForActivation()
+    public override void CheckForActivation()
     {
         //Debug.Log(playerPos + " // "  + thisPos );
-        if (active != false && pip.MeetsPipRequirement(player) && thisPos == pScript.position)
+        if (active != false && pip.MeetsPipRequirement(player) && position == pScript.position)
         {
             Debug.Log("Face switch triggered!");
             active = false;
@@ -82,7 +79,7 @@ public class LegoSwitchController : MonoBehaviour
             for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = null;
         }
         else if (input == 1) {
-            if (!active) { //if it was false, then change it
+            if (!active) { //resets the walls if it wasnt active and now is again
                 active = true;
                 foreach (GameObject w in walls) w.GetComponentInChildren<Animator>().SetBool("Active", true);
                 for (int i = 0; i < walls.Count; i++) mg.levelData[wallsPos[i].x, wallsPos[i].y] = walls[i];

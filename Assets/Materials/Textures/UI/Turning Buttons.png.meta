@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d0059fc62df6578459b4f10b0cc0068c
+guid: 066384eca66d5d64c9f440ea20bdbf42
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -136,86 +136,11 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buttons_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 268
-        width: 134
-        height: 134
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ee3dd7a12d5080446bc779697d39b8f2
-      internalID: -1900279411
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Buttons_1
-      rect:
-        serializedVersion: 2
-        x: 134
-        y: 268
-        width: 134
-        height: 134
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c12b76b81ecf6e945927209735820120
-      internalID: 1975633903
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Buttons_2
-      rect:
-        serializedVersion: 2
-        x: 268
-        y: 268
-        width: 134
-        height: 134
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1effd0d0d5b66974ea6261b84dfccf16
-      internalID: -1298013373
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Buttons_3
+      name: Turning Buttons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -223,20 +148,20 @@ TextureImporter:
         width: 134
         height: 134
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00423d1e1683a9f458f703c0c3713eb7
-      internalID: -1199636089
+      spriteID: eaef3a57c0e825f41baba40373711a99
+      internalID: -635384080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_4
+      name: Turning Buttons_1
       rect:
         serializedVersion: 2
         x: 134
@@ -244,20 +169,20 @@ TextureImporter:
         width: 134
         height: 134
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eae2a5dfbc45e844f9ad4640ba876e1b
-      internalID: 1003592944
+      spriteID: 5b48991e24be1ee47a9dda49ab425939
+      internalID: 917760778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_5
+      name: Turning Buttons_2
       rect:
         serializedVersion: 2
         x: 268
@@ -265,20 +190,41 @@ TextureImporter:
         width: 134
         height: 134
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15fe3702e5447f14f8d2655d9bdf57f7
-      internalID: -1462580002
+      spriteID: cba4b2093cfcc45408d5a961d68d0a32
+      internalID: 1563724234
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buttons_7
+      name: Turning Buttons_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 134
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ebaa90085d4f5744abe5f1c3890bd84
+      internalID: -1905568879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turning Buttons_4
       rect:
         serializedVersion: 2
         x: 134
@@ -286,14 +232,35 @@ TextureImporter:
         width: 134
         height: 134
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3bdbcf38d93d664a85cc7cdc6be174a
-      internalID: -1287702000
+      spriteID: dcce944d885b5684791560c541cfa5af
+      internalID: 1398503078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Turning Buttons_5
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 0
+        width: 134
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a94cf83f89424424faa2c986cd1efb4e
+      internalID: -121787691
       vertices: []
       indices: 
       edges: []
@@ -309,15 +276,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Buttons_3: -1199636089
-      Buttons_2: -1298013373
-      Buttons_4: 1003592944
-      Buttons_7: -1287702000
-      Buttons_6: -1566158147
-      Buttons_0: -1900279411
-      Buttons_5: -1462580002
-      Buttons_1: 1975633903
-      Buttons_8: -125241534
+      Turning Buttons_2: 1563724234
+      Turning Buttons_0: -635384080
+      Turning Buttons_1: 917760778
+      Turning Buttons_4: 1398503078
+      Turning Buttons_3: -1905568879
+      Turning Buttons_5: -121787691
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

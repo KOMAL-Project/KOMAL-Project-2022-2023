@@ -4,33 +4,20 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using UnityEditor.UIElements;
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
-    
-
-    // Prefabs for mechanics
-    public GameObject floorTile, 
-        pipSwitchPrefab, winTile, board, die, singleUseTilePrefab, wallObj, 
-        toggleSwitchPrefab, oBlockPrefab, xBlockPrefab;
-
     // Prefab variant things
     public GameObject[] floorTiles = new GameObject[4];
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
     public GameObject[] chargeWalls = new GameObject[4];
     public GameObject[] chargeSwitchPrefabs = new GameObject[4];
 
-    TMP_Text levelNumberText;
-
-    [SerializeField] private bool alternatingFloorTiles;
-
-    GameObject winSwitchInstance;
+    public GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
     string levelIDString = "-1";
-    public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
     // Unobstructed tiles are a null value.
@@ -42,190 +29,24 @@ public class ManageGame : MonoBehaviour
     public static List<string> finishedLevels = new List<string>();
     public static bool levelFinishing = false;
 
-    Color singleUseColor = new Color32(128, 128, 128, 255);
-
-    // Toggle Switch and Block Colors
-    Color toggleSwitchColor = new Color32(255, 207, 158, 255);
-    Color xBlockColor = new Color32(248, 114, 36, 255);
-    Color oBlockColor = new Color32(13, 21, 218, 255);
-
-    Color[] pipFilterColors = new Color[]
-    {
-        new Color32(250, 72, 81, 255), // 1 Pip
-        new Color32(250, 135, 72, 255), // 2 Pips
-        new Color32(219, 237, 24, 255), // 3 Pips
-        new Color32(72, 250, 108, 255), // 4 Pips
-        new Color32(72, 178, 250, 255), // 5 Pips
-        new Color32(185, 72, 250, 255)  // 6 Pips
-    };
-
-    Color[] legoSwitchColors = new Color[]
-    {
-        new Color32(255, 100, 255, 255), // Red
-        new Color32(230, 100, 255, 255), // Green
-        new Color32(205, 100, 255, 255), // Blue
-        new Color32(180, 100, 255, 255), // Yellow
-        new Color32(155, 100, 255, 255), // Purple
-        new Color32(130, 100, 255, 255)  // Black
-    };
-    Color[] legoBlockColors = new Color[]
-    {
-        new Color32(255, 0, 255, 255), // Red
-        new Color32(230, 0, 255, 255), // Green
-        new Color32(205, 0, 255, 255), // Blue
-        new Color32(180, 0, 255, 255), // Yellow
-        new Color32(155, 0, 255, 255), // Purple
-        new Color32(130, 0, 255, 255)  // Black
-    };
-    Color[] chargeGiveColors = new Color[]
-    {
-        new Color32(255, 77,  77, 255), // Blue Triangle
-        new Color32(255, 107, 77, 255), // Red Square
-        new Color32(255, 137, 77, 255), // Yellow Cross
-        new Color32(255, 167, 77, 255)  // Green Circle
-    };
-    Color[] chargeCardColors = new Color[]
-    {
-        new Color32(255, 77,  0, 255), // Blue Triangle
-        new Color32(255, 107, 0, 255), // Red Square
-        new Color32(255, 137, 0, 255), // Yellow Cross
-        new Color32(255, 167, 0, 255)  // Green Circle
-    };
-
     // Lists of mechanics in the level at a time
-
     public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
         
     public List<GameObject>[]
         chargeSwitchesInLevel, chargeCardsInLevel, 
         legoSwitchesInLevel, legoWallsInLevel;
-    List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
-    List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
-    public Dictionary<string, GameObject> wallDirections;
-    
+    public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
+    public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
-    void Awake()
+
+    private void Awake()
     {
-        
-        Application.targetFrameRate = 60;
-
-        string path = SceneManager.GetActiveScene().path;
-
-        void CheckNull() { //method specifically to check and log if image files are set incorrectly
-            if (levelImage is null) {
-                Debug.Log("The level image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                Debug.Log("Please format the level image as '(chapterID)-(levelID)' and the chapter folder as 'Chapter #'. E.G. '1-1' in 'Chapter 1'");
-                levelImage = Resources.Load<Texture2D>("Template");   
-            }
-            if (filtersImage is null) {
-                Debug.Log("The level filter image has not been set correctly. Either the file is not in the right location or has not been assigned.");
-                Debug.Log("Please format the level filter image as '(chapterID)-(levelID)p' and the chapter folder as 'Chapter #'. E.G. '1-1p' in 'Chapter 1'");
-                filtersImage = Resources.Load<Texture2D>("Template-p");
-            }
-        }
-
-        //sets IDs and Level Data if scene is named correctly - if its not named to template, nothing is set.
-        if (path.Contains("Chapter ") && path.Contains("Level ")) {
-            try {
-
-                levelIDString = path.Substring(path.IndexOf("Level ") + 6, path.IndexOf(".unity") - path.IndexOf("Level ") - 6);
-
-                chapterID = int.Parse(path.Substring(path.IndexOf("Chapter ") + 8, path.IndexOf("/Level") - path.IndexOf("Chapter ") - 8));
-
-                if (levelIDString.Contains("b")) { //different paths if bonus
-                    levelID = int.Parse(levelIDString.Substring(1));
-                    levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-b" + levelID);
-                    filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-b" + levelID + "p");
-                }
-                else {
-                    levelID = int.Parse(levelIDString); 
-                    levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID);
-                    filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level "+ chapterID + "-" + levelID + "p");
-                }
-                CheckNull();
-            }
-            catch (System.FormatException) {
-                Debug.Log("The scene name or chapter folder name is not configured correctly! Please format the level and chapter name as 'Level #' and 'Chapter #'.");
-            }
-        }
-        else {
-            CheckNull();
-        }
-
-
-        width = levelImage.width;
-        length = levelImage.height;
-        levelData = new GameObject[width, length];
-        floorData = new GameObject[width, length];
-
-
-        /// Set up basic floor plan (movable and empty spaces)
-        for (int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < length; j++)
-            {
-                if (!alternatingFloorTiles) { 
-                    floorData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                }
-                else 
-                {
-                    GameObject temp;
-
-                    if (i % 2 == 0 && j % 2 == 0) temp = floorTiles[0];
-                    else if (i % 2 == 1 && j % 2 == 0) temp = floorTiles[1];
-                    else if (i % 2 == 0 && j % 2 == 1) temp = floorTiles[2];
-                    else temp = floorTiles[3];
-
-                    floorData[i, j] = Instantiate(temp, new Vector3(i - width / 2, 0.4f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                }
-            }
-        }
-
-        die = GameObject.FindGameObjectWithTag("Player");
-
-        // Set up lists of GameObjects:
-        legoSwitchesInLevel = new List<GameObject>[6];
-        for (int i = 0; i < legoSwitchesInLevel.Length; i++) legoSwitchesInLevel[i] = new List<GameObject>();
-        legoWallsInLevel = new List<GameObject>[6];
-        for (int i = 0; i < legoWallsInLevel.Length; i++) legoWallsInLevel[i] = new List<GameObject>();
-        legoWallPositionsInLevel = new List<Vector2Int>[6];
-        for (int i = 0; i < legoWallPositionsInLevel.Length; i++) legoWallPositionsInLevel[i] = new List<Vector2Int>();
-
-        // Charge Lists
-        chargeSwitchesInLevel = new List<GameObject>[4];
-        for (int i = 0; i < chargeSwitchesInLevel.Length; i++) chargeSwitchesInLevel[i] = new List<GameObject>();
-        chargeCardsInLevel = new List<GameObject>[4];
-        for (int i = 0; i < chargeCardsInLevel.Length; i++) chargeCardsInLevel[i] = new List<GameObject>();
-        chargeCardPositionsInLevel = new List<Vector2Int>[4];
-        for (int i = 0; i < chargeCardPositionsInLevel.Length; i++) chargeCardPositionsInLevel[i] = new List<Vector2Int>();
-
-        // Toggle Block Lists
-        oBlocksInLevel = new List<GameObject>();
-        oBlockPositionsInLevel = new List<Vector2Int>();
-        xBlockPositionsInLevel = new List<Vector2Int>();
-        xBlocksInLevel = new List<GameObject>();
-        toggleSwitchesInLevel = new List<GameObject>();
-
         levelFinishing = false;
-
-        ReadLevel();
-        ConnectMechanics();
-        //Debug.Log("norm" + levelData);
-        SetUpLevelText();
-
-    }
-
-    void SetUpLevelText()
-    {
-        // Set Level Number
-        levelNumberText = GameObject.FindGameObjectWithTag("LevelNumberText").GetComponent<TMP_Text>();
-        // Bonus Level Changes
-        string chapterAftertext = levelIDString[0] == 'b' ? " (Bonus)" : "";
-        string levelIDStringTemp = levelIDString[0] == 'b' ? levelIDString[1].ToString() : levelIDString;
-        // Put all of the text together
-        string levelText = "Chapter " + chapterID + chapterAftertext + "\nLevel " + levelIDStringTemp;
-        levelNumberText.text = (levelIDString == "12" || levelIDString == "b4") ? levelText + "\n(Final)" : levelText;
+        
+        levelData = new GameObject[0,0];
+        Debug.Log("LEVELDATA" + levelData);
+        floorData = new GameObject[0,0];
     }
 
     /// <summary>
@@ -427,15 +248,19 @@ public class ManageGame : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Identifies and loads the next level and loads the menu if there are no more levels in the section.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator NextLevel()
     {
-
         yield return new WaitForSecondsRealtime(5);
-        if (levelID != 12) {
+        if (levelID != 12 || levelIDString == "b4") {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
             int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
-            string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
-            Debug.Log(levelIDString + " " + newLevelID + " " + newLevelIDString);
+            
+            string newLevelIDString = levelIDString == "-1" ? "b" + newLevelID : newLevelID.ToString();
+            Debug.Log(chapterID + " " + levelIDString + " " + newLevelID + " " + newLevelIDString);
             SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }
         else {

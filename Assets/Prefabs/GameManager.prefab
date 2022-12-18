@@ -396,6 +396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2201775946093453417}
   - component: {fileID: 2201775946093453422}
+  - component: {fileID: 2579957120045967654}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -432,6 +433,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735b1b83912fffb4b9a0c114d07d592c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorTiles:
+  - {fileID: 488478871340147275, guid: 026bb590953c8b74d950a9d8dd178c32, type: 3}
+  - {fileID: 3687705212401882769, guid: 2094ce72cdf2bba4bbfb5117292b1014, type: 3}
+  - {fileID: 6206741334415194336, guid: 9ee41472ed86ba340a1b6f1dc70770c3, type: 3}
+  - {fileID: 2769877800468549266, guid: e08f71bfb25a00144a293ad3d592cd03, type: 3}
+  pipsWallsPrefabs:
+  - {fileID: 5741960352895764762, guid: ec9b9e1de366c564e8b09dbe85d06737, type: 3}
+  - {fileID: 5741960352895764762, guid: d396577ca9f86ee40afa6df510133875, type: 3}
+  - {fileID: 5741960352895764762, guid: a0b5725287f8362428abe479b74fa127, type: 3}
+  - {fileID: 5741960352895764762, guid: f6036feea49d6f94cb2cf75fbdab0e5c, type: 3}
+  - {fileID: 5741960352895764762, guid: be730ee9987f3934fb36c0b7e02dad73, type: 3}
+  - {fileID: 5741960352895764762, guid: 891e82c4750f09449be83fea432f2a24, type: 3}
+  chargeWalls:
+  - {fileID: 4941758341458459841, guid: 6846f7f661da06c4f9c068fd7fc4b066, type: 3}
+  - {fileID: 4941758341458459841, guid: 709c9768078ea6646b429040dc32d90c, type: 3}
+  - {fileID: 4941758341458459841, guid: 973eb0b60447a0a4785aff36efbddd84, type: 3}
+  - {fileID: 4941758341458459841, guid: fd006874336c9774496e39098498dbc5, type: 3}
+  chargeSwitchPrefabs:
+  - {fileID: 9139951490446770271, guid: 30280152ffc505a4fa23270f7154e09b, type: 3}
+  - {fileID: 2436169771269303037, guid: 6d61995e96119c045834123ed1091276, type: 3}
+  - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
+  - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
+  winSwitchInstance: {fileID: 0}
+  width: 0
+  length: 0
+  levelID: 1
+  chapterID: 1
+  playerStart: 
+  wallTiles: []
+  toggleSwitchesInLevel: []
+  singleUseTilesInLevel: []
+  xBlocksInLevel: []
+  oBlocksInLevel: []
+  xBlockPositionsInLevel: []
+  oBlockPositionsInLevel: []
+--- !u!114 &2579957120045967654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201775946093453423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce05720fc94b464fa12523a126a8a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   floorTile: {fileID: 9186678779994403599, guid: 82692e79a4b02544c839f778c919ad22, type: 3}
   pipSwitchPrefab: {fileID: 2506385080886334817, guid: f0572b60110bbe34c983a1d3f0990cc0, type: 3}
   winTile: {fileID: 51070051948085511, guid: b03f8431baec1994289d9555cc13a699, type: 3}
@@ -465,6 +513,7 @@ MonoBehaviour:
   - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
   - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
   alternatingFloorTiles: 1
+  winSwitchInstance: {fileID: 0}
   width: 0
   length: 0
   levelID: 1
@@ -477,6 +526,8 @@ MonoBehaviour:
   singleUseTilesInLevel: []
   xBlocksInLevel: []
   oBlocksInLevel: []
+  xBlockPositionsInLevel: []
+  oBlockPositionsInLevel: []
 --- !u!1 &2201775946470745440
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,6 +781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559e49eb05aaf4b48a11800111d66ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dieOverlayDie: {fileID: 0}
   hiddenBotomPipObj: {fileID: 1975304559759687223}
   hiddenLeftPipObj: {fileID: 6717360532369443435}
   hiddenRightPipObj: {fileID: 5241983149458890908}
@@ -741,6 +793,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2337d5aa2f359314d905f8e44ee9126f, type: 3}
   - {fileID: 2800000, guid: 1102b21fd3be3a448920e6c76e4c62d4, type: 3}
   - {fileID: 2800000, guid: 70ec473ceb70a924ab85c4396683c431, type: 3}
+  - {fileID: 2800000, guid: b328872273cecf841bb1fef72a76ee3c, type: 3}
+  - {fileID: 2800000, guid: b51dc83d4af1bb141b4a08e0e3f11e77, type: 3}
+  - {fileID: 2800000, guid: 30ee67d5619f5a847836205054179a18, type: 3}
+  - {fileID: 2800000, guid: e0dc7fdcf342d8547b7b7befec22c792, type: 3}
 --- !u!1 &3665720727664779773
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +808,7 @@ GameObject:
   - component: {fileID: 7907042450275462798}
   m_Layer: 0
   m_Name: Die Overlay Thing
-  m_TagString: OverlayDie
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

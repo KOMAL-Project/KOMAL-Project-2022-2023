@@ -37,11 +37,11 @@ public class DieController : MonoBehaviour
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
     private CameraScript cs;
-    private DieOverlayController doc;
+    public DieOverlayController doc;
     public static int totalDiceMoves = 0;
+    int chargeType;
 
-    
-    // Start is called before the first frame update
+
     void Awake()
     {   
         cameraObj = Camera.main.gameObject;
@@ -49,7 +49,7 @@ public class DieController : MonoBehaviour
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
 
-        source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
+        source = MusicManager.Instance.GetComponents<AudioSource>()[1];
 
         // Set up sides
         sides.Add(Vector3Int.up, 1);
@@ -59,15 +59,14 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3Int.back, 3);
         sides.Add(Vector3Int.forward, 4);
 
-
-
         gm = FindObjectOfType<ManageGame>();
         width = gm.width;
         length = gm.length;
 
         // Die Overlay Stuff
-        GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+
+        chargeType = 0;
     }
 
     // Update is called once per frame
@@ -82,7 +81,11 @@ public class DieController : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Returns a dictionary of the die's sides when rotated counterclockwise by 90 degrees
+    /// </summary>
+    /// <param name="tempSides"></param>
+    /// <returns></returns>
     Dictionary<Vector3Int, int> GetClockwiseRotatedSides(Dictionary<Vector3Int, int> tempSides)
     {
         return new Dictionary<Vector3Int, int>
@@ -96,6 +99,7 @@ public class DieController : MonoBehaviour
             { Vector3Int.down, tempSides[Vector3Int.down] }
         };
     }
+
 
     /// <summary>
     /// Gets the 3 die faces that can be seen from the player's POV
@@ -336,6 +340,7 @@ public class DieController : MonoBehaviour
 
         actionRec.Record();
         isMoving = false;
+
     }
 
     /// <summary>
@@ -364,7 +369,12 @@ public class DieController : MonoBehaviour
         chargeFaceObj.transform.eulerAngles = new Vector3(0, 90, 0);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
         chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
-        Debug.Log(type);
+
+        chargeType = type;
+        Debug.Log("powering up");
+        sides[Vector3Int.down] = 7 + type;
+        Debug.Log(sides[Vector3Int.down]);
+        //Debug.Log(type);
     }
 
     /// <summary>
@@ -373,6 +383,13 @@ public class DieController : MonoBehaviour
     public void PowerDown()
     {
         chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
+
+        Debug.Log("powered down");
+        if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
+                                                                                                                       // we can use this to find what a side is supposed to be
+        else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
+        Debug.Log(sides[Vector3Int.down]);
+        chargeType = 0;
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);

@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargeController : MonoBehaviour
+public class ChargeController : Mechanic
 {
-    public Vector2Int pos;
     public List<Vector2Int> gatePos;
     public Vector3 gateDirection;
 
@@ -41,21 +40,21 @@ public class ChargeController : MonoBehaviour
         rend.material = mats[0];
 
         pip.pips = pips;
-        pip.thisPos = pos;
         pip.player = player;
 
         foreach (List<GameObject> i in mg.chargeSwitchesInLevel) foreach (GameObject chargeSwitch in i)
         otherControllers.Add(chargeSwitch.GetComponentInChildren<ChargeController>());
         
     }
-    public void CheckForActivation()
+    public override void CheckForActivation()
     {
         if (!gateOpen)
         {
             // If the die is on the switch and the pip switch (if any) is activated give the corresponding charge.
-            if (pip.MeetsPipRequirement(player) && pScript.position == pos)
+            if (pip.MeetsPipRequirement(player) && pScript.position == position)
             {
                 pickedUp = true;
+                pScript.PowerDown(); // reset any existing charges before applying new ones
                 pScript.PowerUp(type, Vector3Int.down);
                 if (source is not null) {
                     source.PlayOneShot(pickupCharge, 1.0f);

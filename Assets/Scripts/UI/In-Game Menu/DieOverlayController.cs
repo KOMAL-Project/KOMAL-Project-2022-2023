@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class DieOverlayController : MonoBehaviour
 {
-    GameObject dieOverlayDie;
     Camera overlayCam;
-
     DieController die;
 
     SpriteRenderer hiddenBottomPip, hiddenLeftPip, hiddenRightPip;
-    [SerializeField]
-    GameObject hiddenBotomPipObj, hiddenLeftPipObj, hiddenRightPipObj,
-        overlayDie;
+    GameObject dieOverlayDie; //object holding the actual die and invisible pips
+    [SerializeField] GameObject hiddenBotomPipObj, hiddenLeftPipObj, hiddenRightPipObj; //actual invisible pips
+    [SerializeField] public GameObject overlayDie; //actual die
 
     [SerializeField] Texture2D[] pipIconTextures;
     Sprite[] pipIcons;
@@ -20,9 +18,9 @@ public class DieOverlayController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pipIcons = new Sprite[6];
+        pipIcons = new Sprite[10];
         
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 10; i++)
         {
             Rect newRectTemplate = new Rect(0, 0, 250, 250);
             pipIcons[i] = Sprite.Create(pipIconTextures[i], newRectTemplate, new Vector2(.5f, .5f));
@@ -37,10 +35,8 @@ public class DieOverlayController : MonoBehaviour
         hiddenRightPip = hiddenRightPipObj.GetComponent<SpriteRenderer>();
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        Dictionary<Vector3Int, int> invisPips = die.GetInvisibleFaces();
-        hiddenBottomPip.sprite = pipIcons[invisPips[Vector3Int.up] - 1];
-        hiddenRightPip.sprite = pipIcons[invisPips[Vector3Int.right] - 1];
-        hiddenLeftPip.sprite = pipIcons[invisPips[Vector3Int.forward] - 1];
+
+        updateInvisibleFaces();
 
     }
 
@@ -49,6 +45,7 @@ public class DieOverlayController : MonoBehaviour
     {
         dieOverlayDie.transform.position = overlayCam.ScreenToWorldPoint(new Vector3(0, overlayCam.pixelHeight, overlayCam.nearClipPlane + 2));
         dieOverlayDie.transform.position += new Vector3(.75f, -.75f, 0);
+        updateInvisibleFaces();
     }
     public IEnumerator RollOverlay(Vector3 axis, float rollSpeed)
     {
@@ -59,7 +56,12 @@ public class DieOverlayController : MonoBehaviour
             overlayDie.transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-        // Update the pip back things
+        updateInvisibleFaces();
+
+
+    }
+    //updates the invisible faces
+    public void updateInvisibleFaces() {
         Dictionary<Vector3Int, int> invisPips = die.GetInvisibleFaces();
         hiddenBottomPip.sprite = pipIcons[invisPips[Vector3Int.up] - 1];
         hiddenRightPip.sprite = pipIcons[invisPips[Vector3Int.right] - 1];

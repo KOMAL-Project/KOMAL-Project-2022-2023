@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using Mono.Cecil;
 
 public class DirectionalButtonController : MonoBehaviour
 {
@@ -11,7 +12,12 @@ public class DirectionalButtonController : MonoBehaviour
     public bool overhead, iso, doIso;
 
     [SerializeField] bool showUI;
-    
+    [SerializeField] GameObject dPadObject;
+
+    // variables needed for touch swiping
+    Vector2[] touchStarts;
+    private int swipeThreshold = 200;
+
     private void Start()
     {
         doIso = true;
@@ -30,7 +36,40 @@ public class DirectionalButtonController : MonoBehaviour
             { "clockwise", false },
             { "undo", false },
         };
-        
+
+        touchStarts = new Vector2[10]; // 10 fingers on two hands explains this limit
+    }
+
+    private Vector3 startPosition = Vector3.zero;
+    private Vector3 endPosition = Vector3.zero;
+
+    void Update()
+    {
+        for(int i = 0; i < Input.touchCount; i++)
+        {
+            Touch t = Input.GetTouch(i);
+            if (t.phase == TouchPhase.Began)
+            {
+                touchStarts[i] = t.position;
+                Debug.Log("Touch Started @ " + t.position.x);
+                Debug.Log(touchStarts[i].x);
+            }
+            if (t.phase == TouchPhase.Ended)
+            {
+                float deltaX = t.position.x - touchStarts[i].x;
+                
+                if (Mathf.Abs(deltaX) > swipeThreshold)
+                {
+                    Debug.Log(t.position.x + " " + touchStarts[i].x + " " + deltaX);
+                    string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
+                    keys[key] = true;
+                    Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
+                    StartCoroutine(UncheckInput(key, .1f));
+                }
+                touchStarts[i] = new Vector2();
+
+            }
+        }
     }
 
     private void LateUpdate()
@@ -39,6 +78,14 @@ public class DirectionalButtonController : MonoBehaviour
         iso = false;
         overhead = false;
         keys["undo"] = false;
+    }
+
+    private IEnumerator UncheckInput(string key, float delay)
+    {
+        Debug.Log("waiting to uncheck");
+        yield return new WaitForSeconds(delay);
+        Release(key);
+        //Debug.Log(key + " released");
     }
 
     public void Press(string input)
@@ -51,6 +98,7 @@ public class DirectionalButtonController : MonoBehaviour
             doIso = !doIso;
             if (doIso) iso = true;
             else overhead = true;
+            dPadObject.GetComponent<Animator>().SetBool("Overhead", !iso);
         }
         else if (input == "pause")
         {
