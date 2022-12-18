@@ -878,6 +878,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2579957120045967654, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: levelImage
+      value: 
+      objectReference: {fileID: 2800000, guid: 22bf6b58925df488094c1645f4adaf8f, type: 3}
+    - target: {fileID: 2579957120045967654, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: filtersImage
+      value: 
+      objectReference: {fileID: 2800000, guid: c310a4e62eddf41f9b2197dfd535479f, type: 3}
     - target: {fileID: 7642060390911003976, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_RenderingLayerMask
       value: 1
