@@ -245,9 +245,11 @@ MonoBehaviour:
   pips: 0
   mats:
   - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
-  - {fileID: 2100000, guid: 8afa8038d694e35468a77790177f9414, type: 2}
+  - {fileID: 2100000, guid: c96b4e7ab67988a46847984049805af8, type: 2}
   doors: []
   pickedUp: 0
   gateOpen: 0
+  pickupCharge: {fileID: 8300000, guid: ca435fe9fab980a429175c0be4f7464f, type: 3}
+  loseCharge: {fileID: 8300000, guid: 1d1215047d6461e48b6d2825f513a526, type: 3}
   player: {fileID: 0}
   mg: {fileID: 0}

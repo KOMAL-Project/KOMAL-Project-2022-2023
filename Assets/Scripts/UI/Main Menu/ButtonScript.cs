@@ -22,8 +22,7 @@ public class ButtonScript : MonoBehaviour
     }
 
     public void playSound() {
-        source.clip = sound;
-        source.Play();
+        source.PlayOneShot(sound, 1.0f);
     }
 
     public void click() {
