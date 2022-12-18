@@ -269,7 +269,6 @@ public class GenerateLevel : MonoBehaviour
         //Debug.Log("norm" + levelData);
         SetUpLevelText();
         UpdateManageGame();
-        //Debug.Log("SIDS: " + levelIDString);
 
     }
     /// <summary>
