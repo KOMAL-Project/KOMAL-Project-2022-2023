@@ -404,7 +404,7 @@ public class DieController : MonoBehaviour
         if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
                                                                                                                        // we can use this to find what a side is supposed to be
         else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
-        Debug.Log(sides[Vector3Int.down]);
+        //Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;
     }
 

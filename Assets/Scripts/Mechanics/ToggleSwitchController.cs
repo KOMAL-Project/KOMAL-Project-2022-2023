@@ -11,7 +11,8 @@ using UnityEngine;
 public class ToggleSwitchController : Mechanic
 {
     // switches: All toggle switches in the current level, including this one
-    public List<GameObject> xBlocks, oBlocks, switches;
+    public List<GameObject> xBlocks, oBlocks;
+    public List<ToggleSwitchController> switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
     // Physical Appearance
     SpriteRenderer spr;
@@ -78,9 +79,9 @@ public class ToggleSwitchController : Mechanic
         // Finally, update all of the switches.
         Sprite newSwitchSprite = (state == 1) ? xSprite : oSprite;
         spr.sprite = newSwitchSprite;
-        foreach (GameObject s in switches) {
-            s.GetComponentInChildren<SpriteRenderer>().sprite = newSwitchSprite; 
-            s.GetComponentInChildren<ToggleSwitchController>().state = this.state;
+        foreach (ToggleSwitchController s in switches) {
+            s.spr.sprite = newSwitchSprite; 
+            s.state = this.state;
         }
     }
 

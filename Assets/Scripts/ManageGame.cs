@@ -30,19 +30,16 @@ public class ManageGame : MonoBehaviour
     public static bool levelFinishing = false;
 
     // Lists of mechanics in the level at a time
-    public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
+    public List<GameObject> wallTiles, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
     
-    // list of every mechanic that is in the level
+    public List<GameObject>[] chargeGatesInLevel, legoGatesInLevel;
     public List<Mechanic> mechanics;
-    public List<ChargeController> chargeControllers;
     public List<ToggleSwitchController> toggleSwitchControllers;
-    public List<LegoSwitchController> legoSwitchControllers;
-        
-    public List<GameObject>[]
-        chargeSwitchesInLevel, chargeCardsInLevel, 
-        legoSwitchesInLevel, legoWallsInLevel;
-    public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
+    public List<ChargeController>[] chargeControllers;
+    public List<LegoSwitchController>[] legoSwitchControllers;
+
+    public List<Vector2Int>[] legoGatePositionsInLevel, chargeGatePositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
     private static ManageGame instance;
@@ -70,9 +67,9 @@ public class ManageGame : MonoBehaviour
             m.CheckForActivation();
         }
 
-        foreach(List<GameObject> l in chargeSwitchesInLevel)
+        foreach(List<ChargeController> l in chargeControllers)
         {
-            foreach (GameObject g in l) g.GetComponent<ChargeController>().UpdateChargeStatus();
+            foreach (ChargeController c in l) c.UpdateChargeStatus();
         }
     }
 

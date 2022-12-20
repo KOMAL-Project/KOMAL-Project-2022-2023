@@ -94,17 +94,17 @@ public class ActionRecorder : MonoBehaviour
 
         ManageGame gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponentInChildren<ManageGame>();
 
-        if (gameManager.toggleSwitchesInLevel.Count > 0)
-        TSC = gameManager.toggleSwitchesInLevel[0].GetComponentInChildren<ToggleSwitchController>();
+        //if (gameManager.toggleSwitchesInLevel.Count > 0)
+        //TSC = gameManager.toggleSwitchesInLevel[0].GetComponentInChildren<ToggleSwitchController>();
 
         SUC = new List<SingleUseController>(){};
         foreach (GameObject t in gameManager.singleUseTilesInLevel) SUC.Add(t.GetComponent<SingleUseController>());
 
         CC = new List<ChargeController>();
-        foreach(List<GameObject> l in gameManager.chargeSwitchesInLevel) foreach(GameObject g in l) CC.Add(g.GetComponent<ChargeController>());
+        //foreach(List<GameObject> l in gameManager.chargeSwitchesInLevel) foreach(GameObject g in l) CC.Add(g.GetComponent<ChargeController>());
 
         LSC = new List<LegoSwitchController>();
-        foreach(List<GameObject> l in gameManager.legoSwitchesInLevel) foreach(GameObject g in l) LSC.Add(g.GetComponent<LegoSwitchController>());
+        //foreach(List<GameObject> l in gameManager.legoSwitchesInLevel) foreach(GameObject g in l) LSC.Add(g.GetComponent<LegoSwitchController>());
 
 
         currentState = getState();

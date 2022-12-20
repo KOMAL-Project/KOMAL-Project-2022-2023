@@ -88,18 +88,16 @@ public class GenerateLevel : MonoBehaviour
 
     // Lists of mechanics in the level at a time
 
-    public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
+    public List<GameObject> wallTiles, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
-
+    
+    public List<GameObject>[] chargeGatesInLevel, legoGatesInLevel;
     public List<Mechanic> mechanics;
-    public List<ChargeController> chargeControllers;
     public List<ToggleSwitchController> toggleSwitchControllers;
-    public List<LegoSwitchController> legoSwitchControllers;
+    public List<ChargeController>[] chargeControllers;
+    public List<LegoSwitchController>[] legoSwitchControllers;
 
-    public List<GameObject>[]
-        chargeSwitchesInLevel, chargeCardsInLevel,
-        legoSwitchesInLevel, legoWallsInLevel;
-    public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
+    public List<Vector2Int>[] legoGatePositionsInLevel, chargeGatePositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
     public Dictionary<string, GameObject> wallDirections;
 
@@ -116,23 +114,19 @@ public class GenerateLevel : MonoBehaviour
         mg.chapterID = chapterID;
 
         mg.wallTiles = wallTiles;
-        mg.toggleSwitchesInLevel = toggleSwitchesInLevel;
         mg.singleUseTilesInLevel = singleUseTilesInLevel;
         mg.xBlocksInLevel = xBlocksInLevel;
         mg.oBlocksInLevel = oBlocksInLevel;
 
         mg.mechanics = mechanics;
-        mg.chargeControllers = chargeControllers;
         mg.toggleSwitchControllers = toggleSwitchControllers;
+        mg.chargeControllers = chargeControllers;
         mg.legoSwitchControllers = legoSwitchControllers;
 
-        mg.chargeCardsInLevel = chargeCardsInLevel;
-        mg.chargeSwitchesInLevel = chargeSwitchesInLevel;
-        mg.legoSwitchesInLevel = legoSwitchesInLevel;
-        mg.legoWallsInLevel = legoWallsInLevel;
-
-        mg.legoWallPositionsInLevel = legoWallPositionsInLevel;
-        mg.chargeCardPositionsInLevel = chargeCardPositionsInLevel;
+        mg.legoGatePositionsInLevel = legoGatePositionsInLevel;
+        mg.chargeGatePositionsInLevel = chargeGatePositionsInLevel;
+        mg.legoGatesInLevel = legoGatesInLevel;
+        mg.chargeGatesInLevel = chargeGatesInLevel;
         mg.xBlockPositionsInLevel = xBlockPositionsInLevel;
         mg.oBlockPositionsInLevel = oBlockPositionsInLevel;
 
@@ -235,32 +229,33 @@ public class GenerateLevel : MonoBehaviour
         levelData = new GameObject[width, length];
         floorData = new GameObject[width, length];
 
-        mg = FindObjectOfType<ManageGame>();
+        mg = FindObjectOfType<ManageGame>(); //can change to tags?
+
 
         // Prepare the lists of GameObjects
+        mechanics = new List<Mechanic>();
         // Set up lists of GameObjects:
-        legoSwitchesInLevel = new List<GameObject>[6];
-        for (int i = 0; i < legoSwitchesInLevel.Length; i++) legoSwitchesInLevel[i] = new List<GameObject>();
-        legoWallsInLevel = new List<GameObject>[6];
-        for (int i = 0; i < legoWallsInLevel.Length; i++) legoWallsInLevel[i] = new List<GameObject>();
-        legoWallPositionsInLevel = new List<Vector2Int>[6];
-        for (int i = 0; i < legoWallPositionsInLevel.Length; i++) legoWallPositionsInLevel[i] = new List<Vector2Int>();
+        legoSwitchControllers = new List<LegoSwitchController>[6];
+        for (int i = 0; i < legoSwitchControllers.Length; i++) legoSwitchControllers[i] = new List<LegoSwitchController>();
+        legoGatesInLevel = new List<GameObject>[6];
+        for (int i = 0; i < legoGatesInLevel.Length; i++) legoGatesInLevel[i] = new List<GameObject>();
+        legoGatePositionsInLevel = new List<Vector2Int>[6];
+        for (int i = 0; i < legoGatePositionsInLevel.Length; i++) legoGatePositionsInLevel[i] = new List<Vector2Int>();
 
         // Charge Lists
-        chargeSwitchesInLevel = new List<GameObject>[4];
-        for (int i = 0; i < chargeSwitchesInLevel.Length; i++) chargeSwitchesInLevel[i] = new List<GameObject>();
-        chargeCardsInLevel = new List<GameObject>[4];
-        for (int i = 0; i < chargeCardsInLevel.Length; i++) chargeCardsInLevel[i] = new List<GameObject>();
-        chargeCardPositionsInLevel = new List<Vector2Int>[4];
-        for (int i = 0; i < chargeCardPositionsInLevel.Length; i++) chargeCardPositionsInLevel[i] = new List<Vector2Int>();
+        chargeControllers = new List<ChargeController>[4];
+        for (int i = 0; i < chargeControllers.Length; i++) chargeControllers[i] = new List<ChargeController>();
+        chargeGatesInLevel = new List<GameObject>[4];
+        for (int i = 0; i < chargeGatesInLevel.Length; i++) chargeGatesInLevel[i] = new List<GameObject>();
+        chargeGatePositionsInLevel = new List<Vector2Int>[4];
+        for (int i = 0; i < chargeGatePositionsInLevel.Length; i++) chargeGatePositionsInLevel[i] = new List<Vector2Int>();
 
         // Toggle Block Lists
         oBlocksInLevel = new List<GameObject>();
+        xBlocksInLevel = new List<GameObject>();
         oBlockPositionsInLevel = new List<Vector2Int>();
         xBlockPositionsInLevel = new List<Vector2Int>();
-        xBlocksInLevel = new List<GameObject>();
-        toggleSwitchesInLevel = new List<GameObject>();
-        mechanics = new List<Mechanic>();
+        toggleSwitchControllers = new List<ToggleSwitchController>();
 
         //sets IDs and Level Data if scene is named correctly - if its not named to template, nothing is set.
 
@@ -289,30 +284,31 @@ public class GenerateLevel : MonoBehaviour
         // Attach Legos to their switches
         for (int j = 0; j < 6; j++)
         {
-            for (int k = 0; k < legoSwitchesInLevel[j].Count; k++)
+            for (int k = 0; k < legoSwitchControllers[j].Count; k++)
             {
-                legoSwitchesInLevel[j][k].GetComponent<LegoSwitchController>().wallsPos = legoWallPositionsInLevel[j];
-                legoSwitchesInLevel[j][k].GetComponent<LegoSwitchController>().walls = legoWallsInLevel[j];
+                legoSwitchControllers[j][k].gatePos = legoGatePositionsInLevel[j];
+                legoSwitchControllers[j][k].gates = legoGatesInLevel[j];
+                legoSwitchControllers[j][k].controllers = legoSwitchControllers[j];
             }
         }
         // Attach Cards to their charges
         for (int j = 0; j < 4; j++)
         {
-            for (int k = 0; k < chargeSwitchesInLevel[j].Count; k++)
+            for (int k = 0; k < chargeControllers[j].Count; k++)
             {
-                chargeSwitchesInLevel[j][k].GetComponent<ChargeController>().gatePos = chargeCardPositionsInLevel[j];
-                chargeSwitchesInLevel[j][k].GetComponent<ChargeController>().doors = chargeCardsInLevel[j];
+                chargeControllers[j][k].gatePos = chargeGatePositionsInLevel[j];
+                chargeControllers[j][k].gates = chargeGatesInLevel[j];
+                chargeControllers[j][k].controllers = chargeControllers;
             }
         }
         // Attach toggle blocks to their switches (and switches to other switches)
-        foreach (GameObject t in toggleSwitchesInLevel)
+        foreach (ToggleSwitchController t in toggleSwitchControllers)
         {
-            ToggleSwitchController tsc = t.GetComponentInChildren<ToggleSwitchController>();
-            tsc.oBlocks = oBlocksInLevel;
-            tsc.xBlocks = xBlocksInLevel;
-            tsc.switches = toggleSwitchesInLevel;
-            tsc.oBlockPositions = oBlockPositionsInLevel;
-            tsc.xBlockPositions = xBlockPositionsInLevel;
+            t.oBlocks = oBlocksInLevel;
+            t.xBlocks = xBlocksInLevel;
+            t.oBlockPositions = oBlockPositionsInLevel;
+            t.xBlockPositions = xBlockPositionsInLevel;
+            t.switches = toggleSwitchControllers;
         }
     }
 
@@ -321,14 +317,13 @@ public class GenerateLevel : MonoBehaviour
     /// </summary>
     public void ReadLevel()
     {
-        GameObject empty = new GameObject();
         DieController dieControl = die.GetComponentInChildren<DieController>();
 
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
-                GameObject temp = empty;
+                Mechanic mec = null;
                 int type = -1; //if no type is declared, type is -1
                 
                 // Get the color of the level Image pixel
@@ -343,8 +338,9 @@ public class GenerateLevel : MonoBehaviour
                 // Single Use Tiles
                 else if (pixel == singleUseColor)
                 {
-                    temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    GameObject temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     singleUseTilesInLevel.Add(temp);
+                    mec = temp.GetComponent<SingleUseController>();
 
                 }
 
@@ -353,17 +349,19 @@ public class GenerateLevel : MonoBehaviour
                     // Lego Switches
                     if (pixel == legoSwitchColors[k])
                     {
-                        temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        GameObject temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         type = k + 1;
-                        legoSwitchesInLevel[k].Add(temp);
+                        mec = temp.GetComponent<LegoSwitchController>();
+                        legoSwitchControllers[k].Add((LegoSwitchController) mec);
                         break;
                     }
                     // Legos
                     if (pixel == legoBlockColors[k])
                     {
-                        levelData[i, j] = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        legoWallsInLevel[k].Add(levelData[i, j]);
-                        legoWallPositionsInLevel[k].Add(new Vector2Int(i, j));
+                        GameObject temp = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        levelData[i, j] = temp;
+                        legoGatesInLevel[k].Add(temp);
+                        legoGatePositionsInLevel[k].Add(new Vector2Int(i, j));
                         break;
                     }
                 }
@@ -372,37 +370,40 @@ public class GenerateLevel : MonoBehaviour
                     // Charge Givers    
                     if (pixel == chargeGiveColors[k])
                     {
-                        temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        GameObject temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                         type = k;
-                        chargeSwitchesInLevel[k].Add(temp);
+                        mec = temp.GetComponent<ChargeController>();
+                        chargeControllers[k].Add((ChargeController) mec);
                         break;
                     }
                     // Cards
                     if (pixel == chargeCardColors[k])
                     {
-                        levelData[i, j] = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                        chargeCardsInLevel[k].Add(levelData[i, j]);
-                        chargeCardPositionsInLevel[k].Add(new Vector2Int(i, j));
+                        GameObject temp = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        levelData[i, j] = temp;
+                        chargeGatesInLevel[k].Add(temp);
+                        chargeGatePositionsInLevel[k].Add(new Vector2Int(i, j));
                         break;
                     }
                 }
                 // Toggle Switch
                 if (pixel == toggleSwitchColor)
                 {
-                    temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
-                    toggleSwitchesInLevel.Add(temp);
+                    GameObject temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    mec = temp.GetComponentInChildren<ToggleSwitchController>();
+                    toggleSwitchControllers.Add((ToggleSwitchController) mec);
                 }
                 // "O" Toggle Block
                 else if (pixel == oBlockColor)
                 {
-                    temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    GameObject temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     oBlocksInLevel.Add(temp);
                     oBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // "X" Toggle Block
                 else if (pixel == xBlockColor)
                 {
-                    temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    GameObject temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                     xBlocksInLevel.Add(temp);
                     temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
                     xBlockPositionsInLevel.Add(new Vector2Int(i, j));
@@ -421,8 +422,6 @@ public class GenerateLevel : MonoBehaviour
                     dieControl.gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
 
-
-                Mechanic mec = temp.GetComponentInChildren<Mechanic>();
                 if (mec != null) {
                     //attaches each value if needed
                     mec.attachValues(
