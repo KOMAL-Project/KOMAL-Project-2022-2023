@@ -258,42 +258,20 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 446712fd118931d4c89843acb7f589a7, type: 3}
   - {fileID: 2800000, guid: ae4227ddbfafe72459f86c7c2509d112, type: 3}
   canControl: 1
-  spades:
-  - {fileID: 2100000, guid: 90476e92e98518042950396e40274364, type: 2}
-  - {fileID: 2100000, guid: eb5703a354b18914b9dc1798be09efda, type: 2}
-  - {fileID: 2100000, guid: aba12fc02b167b64483c8561ab4b5670, type: 2}
-  - {fileID: 2100000, guid: ea32a7927bd33024db1c7c60f5bc043e, type: 2}
-  - {fileID: 2100000, guid: 4d2e0ce33ceca8d4db9b1c8d8d2232a9, type: 2}
-  - {fileID: 2100000, guid: c1ab67ec5ef8fe540aac392b2905caa6, type: 2}
-  hearts:
-  - {fileID: 2100000, guid: 35e151b6aa36f6b40ba1018b20734bf3, type: 2}
-  - {fileID: 2100000, guid: a21fe44ed7147544da4957475cd4042c, type: 2}
-  - {fileID: 2100000, guid: 75031825056a8d344b4425f9a8c2b1bb, type: 2}
-  - {fileID: 2100000, guid: 846817653ac79a146a79ed9f65bb9147, type: 2}
-  - {fileID: 2100000, guid: d889565d9f26a4448bc2b63cf004947e, type: 2}
-  - {fileID: 2100000, guid: acf6e3ddc55f1b846a02cd32122aa944, type: 2}
-  clubs:
-  - {fileID: 2100000, guid: f8f8d47048b309e4cb3886ab2e6d17d3, type: 2}
-  - {fileID: 2100000, guid: c82266bd96d37ff4e9d92a25a8a7df56, type: 2}
-  - {fileID: 2100000, guid: 77f084e2ed370ee4f9eebc798dab2505, type: 2}
-  - {fileID: 2100000, guid: c7b927b6b143d184697156ba81f60f89, type: 2}
-  - {fileID: 2100000, guid: 25519c31867666549a8473f2ca8d6812, type: 2}
-  - {fileID: 2100000, guid: e447a671e9259e84586078b4ca9f662a, type: 2}
-  diamonds:
-  - {fileID: 2100000, guid: 9532ead35ce47ac41b35250cf86659e9, type: 2}
-  - {fileID: 2100000, guid: b5ddfef0619e69f45994938f6aa24339, type: 2}
-  - {fileID: 2100000, guid: 8f55f10985a57394081f2faf718c0e6e, type: 2}
-  - {fileID: 2100000, guid: 96728fb544fd35947bdac8fbeb04302d, type: 2}
-  - {fileID: 2100000, guid: 485c07e84dce42443aed5bd25116306e, type: 2}
-  - {fileID: 2100000, guid: d7c58dca2de94b34cbf6b19355ea447c, type: 2}
   chargeFaceMaterials:
   - {fileID: 2100000, guid: ff4bc3ad7012ee64c82bc66c908a8290, type: 2}
   - {fileID: 2100000, guid: 26e97894bdd845a41b4a8f3aa9f5da7e, type: 2}
   - {fileID: 2100000, guid: cb798ab21d8d5be4fb484806da154abc, type: 2}
   - {fileID: 2100000, guid: 7a657a77107830647a1505e6681020fd, type: 2}
   - {fileID: 2100000, guid: be1f6475b81aabd438303eec92e5b811, type: 2}
-  baseMT: {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
+  chargeFaceMeshes:
+  - {fileID: -2432090755550338912, guid: f743100d66dd8514a8dec587b467381d, type: 3}
+  - {fileID: -2432090755550338912, guid: bc9530ab7912c4d42aeb1dce83090ccf, type: 3}
+  - {fileID: -2432090755550338912, guid: 15f17603702fef341b49c3350765f93b, type: 3}
+  - {fileID: -2432090755550338912, guid: 8c1f13942263ea64b9454cec8db46e4e, type: 3}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
+  pickupCharge: {fileID: 8300000, guid: ca435fe9fab980a429175c0be4f7464f, type: 3}
+  loseCharge: {fileID: 8300000, guid: 1d1215047d6461e48b6d2825f513a526, type: 3}
 --- !u!114 &5760006467806241220
 MonoBehaviour:
   m_ObjectHideFlags: 0

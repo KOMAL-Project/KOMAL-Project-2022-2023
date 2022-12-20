@@ -17,7 +17,7 @@ public class ManageGame : MonoBehaviour
     public GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
-    string levelIDString = "-1";
+    public string levelIDString;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
     // Unobstructed tiles are a null value.
@@ -73,7 +73,6 @@ public class ManageGame : MonoBehaviour
         }
     }
 
-    
 
     public static string IDsToString(int IDLevel, int IDChapter) {
         return ("" + IDLevel + "-" + IDChapter);
@@ -100,9 +99,10 @@ public class ManageGame : MonoBehaviour
         yield return new WaitForSecondsRealtime(5);
         if (levelID != 12 || levelIDString == "b4") {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
+            Debug.Log("LEVLEIDSTERINHG " + levelIDString);
             int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
             
-            string newLevelIDString = levelIDString == "-1" ? "b" + newLevelID : newLevelID.ToString();
+            string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
             Debug.Log(chapterID + " " + levelIDString + " " + newLevelID + " " + newLevelIDString);
             SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }

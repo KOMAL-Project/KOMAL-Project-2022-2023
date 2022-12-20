@@ -28,10 +28,8 @@ public class DieController : MonoBehaviour
     public bool canControl = true;
     private bool isMoving;
     
-    [SerializeField] List<Material> spades, hearts, clubs, diamonds;
     [SerializeField] List<Material> chargeFaceMaterials;
-    [SerializeField] List<Material>[] mt; 
-    [SerializeField] Material baseMT;
+    [SerializeField] List<Mesh> chargeFaceMeshes;
     
     private float rollSpeed = 4.5f;
     
@@ -50,10 +48,7 @@ public class DieController : MonoBehaviour
     }
     void Awake()
     {
-        instance = this;
-        mt = new List<Material>[]{spades, hearts, clubs, diamonds };        
-
-        cameraObj = Camera.main.gameObject;
+        instance = this;    
         cs = cameraObj.GetComponentInParent<CameraScript>();
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
@@ -334,10 +329,9 @@ public class DieController : MonoBehaviour
             transform.RotateAround(anchor, axis, rollSpeed);
             yield return new WaitForSeconds(0.01f);
         }
-
-        if (source != MusicManager.Instance.sources[1]) source = MusicManager.Instance.sources[1];
-        source.clip = diceHit;
-        source.Play();
+        if (source is not null) {
+            source.PlayOneShot(diceHit, 0.7f);
+        }
         
         totalDiceMoves++;
 
@@ -353,16 +347,11 @@ public class DieController : MonoBehaviour
 
     }
 
-    
-
-
-
-
-        /// <summary>
-        /// Checks to see if the die is on the win panel.
-        /// If so, sends die flying up and ends the level.
-        /// </summary>
-        void WinCheck()
+    /// <summary>
+    /// Checks to see if the die is on the win panel.
+    /// If so, sends die flying up and ends the level.
+    /// </summary>
+    void WinCheck()
     {
         if(position == winPos)
         {
@@ -380,12 +369,11 @@ public class DieController : MonoBehaviour
     /// <param name="type"></param>
     public void PowerUp(int type, Vector3Int direction)
     {
-        /*if (direction != Vector3Int.zero) {
-        GetComponentInChildren<MeshRenderer>().material = mt[type][sides[direction] - 1];
-        }*/
         chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
-        chargeFaceObj.transform.eulerAngles = new Vector3(-90, 0, 0);
+        chargeFaceObj.transform.eulerAngles = new Vector3(0, 90, 0);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
+
         chargeType = type;
         Debug.Log("powering up");
         sides[Vector3Int.down] = 7 + type;
@@ -398,8 +386,8 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void PowerDown()
     {
-        //GetComponentInChildren<MeshRenderer>().material = baseMT;
-        chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[4];
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
+
         Debug.Log("powered down");
         if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
                                                                                                                        // we can use this to find what a side is supposed to be
@@ -409,6 +397,6 @@ public class DieController : MonoBehaviour
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);
-        return isMoving; }
-
+        return isMoving; 
+    }
 }

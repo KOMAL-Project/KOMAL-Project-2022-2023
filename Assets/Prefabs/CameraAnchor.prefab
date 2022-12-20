@@ -53,8 +53,8 @@ MonoBehaviour:
   wallMat: {fileID: 0}
   rotationSpeed: 7.5
   moveSpeed: 7.5
-  zoomInSize: 5.5
-  zoomOutSize: 7
+  zoomInSize: 4
+  zoomOutSize: 8
   delayTime: 0.25
   cameraOffsetMultiplier: 3
   side: 0
@@ -103,7 +103,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.26406196, g: 0.8113208, b: 0.7676453, a: 0}
+  m_BackGroundColor: {r: 0.49123356, g: 0.7830189, b: 0.6255487, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

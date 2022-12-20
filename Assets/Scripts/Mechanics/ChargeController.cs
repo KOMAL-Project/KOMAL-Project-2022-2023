@@ -17,6 +17,7 @@ public class ChargeController : Mechanic
     private MeshRenderer rend;
     private void Start()
     {
+
         rend = GetComponentInChildren<MeshRenderer>();
         rend.material = mats[0];
         state = 2;
@@ -48,6 +49,12 @@ public class ChargeController : Mechanic
             if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this)
             {
                 deactivateSelf(false);
+                
+                if (source is not null) {
+                    source.PlayOneShot(loseCharge, 1.0f);
+                }
+                rend.material = mats[0];
+                pScript.currentCharge = null;
             }
             else if (dieControl.currentCharge == this)
             {
