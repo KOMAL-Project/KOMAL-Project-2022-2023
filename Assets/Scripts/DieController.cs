@@ -49,7 +49,8 @@ public class DieController : MonoBehaviour
     void Awake()
     {
         instance = this;    
-        cs = cameraObj.GetComponentInParent<CameraScript>();
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        cs = cameraObj.GetComponent<CameraScript>();
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
 

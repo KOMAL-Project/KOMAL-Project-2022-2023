@@ -13,12 +13,15 @@ public class ChargeController : Mechanic
     public List<ChargeController>[] controllers;
     public List<GameObject> gates;
     public List<Vector2Int> gatePos;
+    [SerializeField] private AudioClip pickupCharge, loseCharge;
     public Material[] mats = new Material[2];
     private MeshRenderer rend;
+    private AudioSource source;
     private void Start()
     {
-
+        
         rend = GetComponentInChildren<MeshRenderer>();
+        source = MusicManager.Instance.GetComponents<AudioSource>()[1];
         rend.material = mats[0];
         state = 2;
         
@@ -49,12 +52,10 @@ public class ChargeController : Mechanic
             if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this)
             {
                 deactivateSelf(false);
-                
+
                 if (source is not null) {
                     source.PlayOneShot(loseCharge, 1.0f);
                 }
-                rend.material = mats[0];
-                pScript.currentCharge = null;
             }
             else if (dieControl.currentCharge == this)
             {
