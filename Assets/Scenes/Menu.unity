@@ -2688,6 +2688,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3237929798157832891, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929798598472644, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3237929799030689952, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_Name
       value: Chapter 3
@@ -2799,6 +2807,14 @@ PrefabInstance:
     - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4282137660
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929799389996877, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929799547205718, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4831839647423336333, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: menuDestination
