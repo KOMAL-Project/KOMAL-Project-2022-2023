@@ -41,7 +41,9 @@ public class ToggleSwitchController : Mechanic
         {
             Vector2Int coords = xBlockPositions[i];
             gameManager.levelData[coords.x, coords.y] = xBlocks[i];
-            xBlocks[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
+            GameObject temp = xBlocks[i].transform.GetChild(0).gameObject;
+            temp.GetComponent<Animator>().SetBool("Activated", true);
+            temp.GetComponentInChildren<Animator>().SetBool("On", true);
         }
 
         pipFilter.gameObject.transform.localScale /= 10;
@@ -70,14 +72,18 @@ public class ToggleSwitchController : Mechanic
         {
             Vector2Int coords = coordsOfToActivate[i];
             gameManager.levelData[coords.x, coords.y] = toActivate[i];
-            toActivate[i].GetComponentInChildren<Animator>().SetBool("Activated", true);
+            GameObject temp = toActivate[i].transform.GetChild(0).gameObject;
+            temp.GetComponent<Animator>().SetBool("Activated", true);
+            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", true);
         }
         // ... out with the old.
         for (int i = 0; i < toDeactivate.Count; i++)
         {
             Vector2Int coords = coordsOfToDeactivate[i];
             gameManager.levelData[coords.x, coords.y] = null;
-            toDeactivate[i].GetComponentInChildren<Animator>().SetBool("Activated", false);
+            GameObject temp = toDeactivate[i].transform.GetChild(0).gameObject;
+            temp.GetComponent<Animator>().SetBool("Activated", false);
+            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", false);
         }
         // Finally, update all of the switches.
         Sprite newSwitchSprite = (state == "x") ? xSprite : oSprite;
