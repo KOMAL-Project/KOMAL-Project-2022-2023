@@ -43,7 +43,7 @@ public class ToggleSwitchController : Mechanic
             gameManager.levelData[coords.x, coords.y] = xBlocks[i];
             GameObject temp = xBlocks[i].transform.GetChild(0).gameObject;
             temp.GetComponent<Animator>().SetBool("Activated", true);
-            temp.GetComponentInChildren<Animator>().SetBool("On", true);
+            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", true);
         }
 
         pipFilter.gameObject.transform.localScale /= 10;
