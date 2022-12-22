@@ -2688,6 +2688,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3237929798157832891, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929798598472644, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3237929799030689952, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_Name
       value: Chapter 3
@@ -2799,6 +2807,14 @@ PrefabInstance:
     - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4282137660
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929799389996877, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237929799547205718, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4831839647423336333, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: menuDestination
@@ -4860,7 +4876,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a492445d32f72b4baae5db791ec1d16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f221805d07aee9e43be3c335be587e60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
