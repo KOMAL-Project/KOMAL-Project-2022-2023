@@ -95,7 +95,8 @@ public class ManageGame : MonoBehaviour
     IEnumerator NextLevel()
     {
         yield return new WaitForSecondsRealtime(5);
-        if (levelID != 12 || levelIDString == "b4") {
+        Debug.Log(levelIDString);
+        if (levelID != 12 || !levelIDString.Equals("b4")) {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
             Debug.Log("LEVLEIDSTERINHG " + levelIDString);
             int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
@@ -106,7 +107,7 @@ public class ManageGame : MonoBehaviour
         }
         else {
             furthestChapter++;
-            furthestLevel = 0;
+            //furthestLevel = 0;
             SceneManager.LoadSceneAsync("Menu");
         }
     }
