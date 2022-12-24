@@ -20,9 +20,11 @@ public class ManageGame : MonoBehaviour
     public string levelIDString;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
+    // mechanicData holds data for each mechanic.
     // Unobstructed tiles are a null value.
     // Obstructed tiles are references to the gameObject occupying the tile.
     public GameObject[,] levelData, floorData;
+    public Mechanic[,] mechanicData;
     public int[] playerStart;
     public static int furthestLevel = 256; //change this to skip levels, default is 0
     public static int furthestChapter = 256; //default is 1
@@ -42,6 +44,8 @@ public class ManageGame : MonoBehaviour
     public List<Vector2Int>[] legoGatePositionsInLevel, chargeGatePositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
+    //non-game managing variables
+    public DieController dieController; 
     private static ManageGame instance;
     public static ManageGame Instance { //used to get the one instance of manageGame instead of using tags
         get {return instance;}
@@ -62,10 +66,10 @@ public class ManageGame : MonoBehaviour
     /// </summary>
     public void CheckMechanics()
     {
+        Vector2Int diePos = dieController.position;
+        Mechanic mec = mechanicData[diePos.x, diePos.y];
+        if (mec) mec.CheckForActivation();
 
-        foreach (Mechanic m in mechanics) {
-            m.CheckForActivation();
-        }
 
         foreach(List<ChargeController> l in chargeControllers)
         {
