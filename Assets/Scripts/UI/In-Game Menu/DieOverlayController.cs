@@ -10,10 +10,11 @@ public class DieOverlayController : MonoBehaviour
     SpriteRenderer hiddenBottomPip, hiddenLeftPip, hiddenRightPip;
     GameObject dieOverlayDie; //object holding the actual die and invisible pips
     [SerializeField] GameObject hiddenBotomPipObj, hiddenLeftPipObj, hiddenRightPipObj; //actual invisible pips
-    [SerializeField] public GameObject overlayDie; //actual die
+    [SerializeField] public GameObject overlayDie, chargeFaceObj; //actual die
 
     [SerializeField] Texture2D[] pipIconTextures;
     Sprite[] pipIcons;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +34,8 @@ public class DieOverlayController : MonoBehaviour
         hiddenBottomPip = hiddenBotomPipObj.GetComponent<SpriteRenderer>();
         hiddenLeftPip = hiddenLeftPipObj.GetComponent<SpriteRenderer>();
         hiddenRightPip = hiddenRightPipObj.GetComponent<SpriteRenderer>();
-
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-
         updateInvisibleFaces();
-
     }
 
     // Update is called once per frame
@@ -47,6 +45,7 @@ public class DieOverlayController : MonoBehaviour
         dieOverlayDie.transform.position += new Vector3(.75f, -.75f, 0);
         updateInvisibleFaces();
     }
+
     public IEnumerator RollOverlay(Vector3 axis, float rollSpeed)
     {
         // shmoove the die
@@ -60,11 +59,35 @@ public class DieOverlayController : MonoBehaviour
 
 
     }
+
     //updates the invisible faces
     public void updateInvisibleFaces() {
         Dictionary<Vector3Int, int> invisPips = die.GetInvisibleFaces();
         hiddenBottomPip.sprite = pipIcons[invisPips[Vector3Int.up] - 1];
         hiddenRightPip.sprite = pipIcons[invisPips[Vector3Int.right] - 1];
         hiddenLeftPip.sprite = pipIcons[invisPips[Vector3Int.forward] - 1];
+    }
+
+    /// <summary>
+    /// adds charge model to overlay
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="direction"></param>
+
+    public void PowerUp(Mesh toAdd, Material meshMaterial)
+    {
+        chargeFaceObj.transform.position = dieOverlayDie.transform.position+ new Vector3(0, -.185f, 0);
+        chargeFaceObj.transform.rotation = Quaternion.Euler(0, -135, 0) ;
+        chargeFaceObj.GetComponent<MeshRenderer>().material = meshMaterial;
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = toAdd;
+        //Debug.Log(type);
+    }
+
+    /// <summary>
+    /// Removes active Charge from the die overlay.
+    /// </summary>
+    public void PowerDown()
+    {
+        chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
     }
 }

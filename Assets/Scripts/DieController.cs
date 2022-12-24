@@ -375,6 +375,9 @@ public class DieController : MonoBehaviour
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
         chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
 
+        doc.PowerDown();
+        doc.PowerUp(chargeFaceMeshes[type], chargeFaceMaterials[type]);
+
         chargeType = type;
         Debug.Log("powering up");
         sides[Vector3Int.down] = 7 + type;
@@ -395,6 +398,7 @@ public class DieController : MonoBehaviour
         else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
         //Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;
+        doc.PowerDown();
     }
 
     public bool getIsMoving() { Debug.Log(isMoving);
