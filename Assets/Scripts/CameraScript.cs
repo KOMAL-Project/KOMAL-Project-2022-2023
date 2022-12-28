@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -50,6 +51,10 @@ public class CameraScript : MonoBehaviour
 
     DieOverlayController doc;
 
+    List<ObstructWallController> transparentWalls;
+
+    Transform camTransform;
+
     void Start()
     {
         followPlayer = true;
@@ -74,10 +79,15 @@ public class CameraScript : MonoBehaviour
         GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
 
+        transparentWalls = new List<ObstructWallController>();
+        camTransform = transform.GetChild(0).GetChild(0);
+
     }
 
     private void Update()
     {
+
+        // Camera Input Stuff
         if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff && !die.getIsMoving()) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
@@ -138,6 +148,29 @@ public class CameraScript : MonoBehaviour
         viewCam.orthographicSize = Mathf.Lerp(viewCam.orthographicSize, targetZoom, Time.deltaTime * rotationSpeed);
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
 
+        // Die-Ray intersects
+        if (!input.overhead)
+        {
+            Vector3 displacementVec = (player.transform.position - new Vector3(0, .4f, 0)) - camTransform.position;
+            float player2CamDistance = displacementVec.magnitude;
+            RaycastHit[] hits = Physics.RaycastAll(camTransform.position, displacementVec, player2CamDistance);
+            Debug.DrawLine((camTransform.position), (camTransform.position + displacementVec), Color.blue);
+            Debug.Log(hits.Length);
+
+            
+
+            
+            foreach (RaycastHit r in hits)
+            {
+                Debug.Log(r.transform.gameObject.name);
+                //if (LayerMask.LayerToName(r.transform.gameObject.layer) != "Wall") continue;
+                ObstructWallController owc = r.transform.gameObject.GetComponentInChildren<ObstructWallController>();
+                
+                transparentWalls.Add(owc);
+                Debug.Log(owc);
+                //owc.BecomeTransparent();
+            }
+        }
 
     }
 
