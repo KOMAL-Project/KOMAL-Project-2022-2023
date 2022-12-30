@@ -1730,7 +1730,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlName: Side
   pivotLeft: {x: -4.5, y: -4.5}
-  pivotRight: {x: 9, y: -4.5}
+  pivotRight: {x: 4.5, y: -4.5}
 --- !u!1 &5602873599177388675
 GameObject:
   m_ObjectHideFlags: 0

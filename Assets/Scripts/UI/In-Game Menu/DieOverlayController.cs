@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,11 @@ public class DieOverlayController : MonoBehaviour
 
     [SerializeField] Texture2D[] pipIconTextures;
     Sprite[] pipIcons;
+
+    Vector2 side;
+
+    // Note that this is NOT the distance of the diagonal, only the horizontal and vertical displacements
+    float distanceFromCorner = .55f;
 
 
     // Start is called before the first frame update
@@ -41,9 +47,20 @@ public class DieOverlayController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dieOverlayDie.transform.position = overlayCam.ScreenToWorldPoint(new Vector3(0, overlayCam.pixelHeight, overlayCam.nearClipPlane + 2));
-        dieOverlayDie.transform.position += new Vector3(.75f, -.75f, 0);
+        if (side == Vector2.right)
+            dieOverlayDie.transform.position = overlayCam.ScreenToWorldPoint(new Vector3(0, overlayCam.pixelHeight, overlayCam.nearClipPlane + 2)) + new Vector3(distanceFromCorner, distanceFromCorner * -1, 0);
+        else
+            dieOverlayDie.transform.position = overlayCam.ScreenToWorldPoint(new Vector3(overlayCam.pixelWidth, overlayCam.pixelHeight, overlayCam.nearClipPlane + 2)) + new Vector3(distanceFromCorner * -1, distanceFromCorner * -1, 0);
         updateInvisibleFaces();
+    }
+
+    /// <summary>
+    /// Sets the position of the die overlay on the screen. Should use with Vector2.left or Vector2.right for best results.
+    /// </summary>
+    /// <param name="side"></param>
+    public void SetSide(Vector2 side2Set)
+    {
+        side = side2Set;
     }
 
     public IEnumerator RollOverlay(Vector3 axis, float rollSpeed)
@@ -60,7 +77,9 @@ public class DieOverlayController : MonoBehaviour
 
     }
 
-    //updates the invisible faces
+    /// <summary>
+    /// Updates the sprites representing faces that can't be seen from the current camera angle
+    /// </summary>
     public void updateInvisibleFaces() {
         Dictionary<Vector3Int, int> invisPips = die.GetInvisibleFaces();
         hiddenBottomPip.sprite = pipIcons[invisPips[Vector3Int.up] - 1];
@@ -73,7 +92,6 @@ public class DieOverlayController : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <param name="direction"></param>
-
     public void PowerUp(Mesh toAdd, Material meshMaterial)
     {
         chargeFaceObj.transform.position = dieOverlayDie.transform.position+ new Vector3(0, -.185f, 0);
