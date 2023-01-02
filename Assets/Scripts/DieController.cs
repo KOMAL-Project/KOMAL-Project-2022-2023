@@ -39,7 +39,7 @@ public class DieController : MonoBehaviour
     private CameraScript cs;
     public DieOverlayController doc;
     public static int totalDiceMoves = 0;
-    int chargeType;
+    public int chargeType;
 
 
     void Awake()

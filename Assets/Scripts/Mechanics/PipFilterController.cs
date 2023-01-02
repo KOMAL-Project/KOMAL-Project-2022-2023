@@ -37,7 +37,11 @@ public class PipFilterController : MonoBehaviour
     /// <returns></returns>
     public bool MeetsPipRequirement(GameObject die)
     {
-        return die.GetComponentInChildren<DieController>().sides[Vector3Int.down] == pips || pips == 0;
+        DieController dc = die.GetComponentInChildren<DieController>();
+        // because the bottom pip value may be altered by a charge,
+        // we use the fact that opposing sides of the die add up to 7
+        // to determine the bottom face value using the top face value.
+        return (7 - dc.sides[Vector3Int.up]) == pips || pips == 0; 
     }
 
     public Sprite GetSprite(int type) {
