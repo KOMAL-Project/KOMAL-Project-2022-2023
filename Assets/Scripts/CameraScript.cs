@@ -49,6 +49,7 @@ public class CameraScript : MonoBehaviour
     public float xOffsetRotation = 60;
 
     DieOverlayController doc;
+    GameObject dieOverlayAnchor;
 
     void Start()
     {
@@ -73,12 +74,13 @@ public class CameraScript : MonoBehaviour
         // Die Overlay Stuff
         GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+        dieOverlayAnchor = doc.overlayDie.transform.parent.gameObject;
 
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && Time.time >= timeDiff && !die.getIsMoving()) {
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && CanMoveCamera()) {
             timeDiff = Time.time + delayTime;
             targetYRotation -= 90;
             ChangeSide(1);
@@ -88,10 +90,11 @@ public class CameraScript : MonoBehaviour
             }
             // Die Overlay rolling
             var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.up;
-            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
+            //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
+            doc.TurnClockwise();
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && Time.time >= timeDiff && !die.getIsMoving())
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && CanMoveCamera())
         {
             timeDiff = Time.time + delayTime;
             targetYRotation += 90;
@@ -101,11 +104,12 @@ public class CameraScript : MonoBehaviour
             {
                 targetYRotation -= 360;
             }
-            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.down;
-            StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
+            doc.TurnCounterClockwise();
+            //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
-        if (Input.GetKeyDown(overheadKey) || input.overhead) // Set to overhead view
+        if ((Input.GetKeyDown(overheadKey) || input.overhead) && CanMoveCamera()) // Set to overhead view
         {
+            timeDiff = Time.time + delayTime;
             targetYRotation -= 30;
             targetXRotation = -90;
             if (targetYRotation > 360)
@@ -113,10 +117,12 @@ public class CameraScript : MonoBehaviour
                 targetYRotation -= 360;
             }
             followPlayer = false;
+            doc.switchToOverhead();
         }
 
-        if (Input.GetKeyUp(overheadKey) || input.iso) // Set to isometric view
+        if ((Input.GetKeyUp(overheadKey) || input.iso) && CanMoveCamera()) // Set to isometric view
         {
+            timeDiff = Time.time + delayTime;
             targetYRotation += 30;
             targetXRotation = -xAngle;
             if (targetYRotation > 360)
@@ -124,6 +130,7 @@ public class CameraScript : MonoBehaviour
                 targetYRotation -= 360;
             }
             followPlayer = true;
+            doc.switchOutOfOverhead();
         }
 
 
@@ -137,7 +144,7 @@ public class CameraScript : MonoBehaviour
         transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPosition.x, Time.deltaTime * moveSpeed), 0, Mathf.Lerp(transform.position.z, targetPosition.z, Time.deltaTime * moveSpeed));
         viewCam.orthographicSize = Mathf.Lerp(viewCam.orthographicSize, targetZoom, Time.deltaTime * rotationSpeed);
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
-
+        
 
     }
 
@@ -154,4 +161,9 @@ public class CameraScript : MonoBehaviour
     }
 
     public float GetTimeDiff() { return timeDiff; }
+
+    public bool CanMoveCamera()
+    {
+        return Time.time >= timeDiff && !die.getIsMoving();
+    }
 }

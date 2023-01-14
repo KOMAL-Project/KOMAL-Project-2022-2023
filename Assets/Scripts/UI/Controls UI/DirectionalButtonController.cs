@@ -12,8 +12,8 @@ public class DirectionalButtonController : MonoBehaviour
     public bool overhead, iso, doIso;
 
     [SerializeField] bool showUI;
-    [SerializeField] GameObject dPadObject;
-
+    [SerializeField] GameObject dPadObject, overheadButton;
+    CameraScript cs;
     // variables needed for touch swiping
     Vector2[] touchStarts;
     private int swipeThreshold = 200;
@@ -38,6 +38,8 @@ public class DirectionalButtonController : MonoBehaviour
         };
 
         touchStarts = new Vector2[10]; // 10 fingers on two hands explains this limit
+        cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();
+        overheadButton = dPadObject.transform.parent.GetChild(0).gameObject;
     }
 
     private Vector3 startPosition = Vector3.zero;
@@ -88,6 +90,7 @@ public class DirectionalButtonController : MonoBehaviour
         //Debug.Log(key + " released");
     }
 
+    
     public void Press(string input)
     {
         if (keys.ContainsKey(input)) keys[input] = true;
@@ -95,6 +98,11 @@ public class DirectionalButtonController : MonoBehaviour
         // Have to do a separate thing for toggle button presses
         if (input == "camera")
         {
+            if (!cs.CanMoveCamera()) 
+            {
+                overheadButton.GetComponent<ToggleButtonUIController>().Release();
+                return; 
+            }
             doIso = !doIso;
             if (doIso) iso = true;
             else overhead = true;
@@ -104,8 +112,6 @@ public class DirectionalButtonController : MonoBehaviour
         {
             GameObject.FindWithTag("Menu").GetComponentInChildren<LevelMenuScript>().changeMenu(1);
         }
-
-
     }
     public void Release(string input)
     {
