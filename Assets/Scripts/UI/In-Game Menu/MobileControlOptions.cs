@@ -18,7 +18,7 @@ public class MobileControlOptions : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log(gameObject.name + " " + transform.parent.gameObject.name);
+        //Debug.Log(gameObject.name + " " + transform.parent.gameObject.name);
         controller = GameObject.FindGameObjectWithTag("D-Pad");
         pauseRt = controller.transform.parent.GetChild(0).gameObject.GetComponent<RectTransform>();
         cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();

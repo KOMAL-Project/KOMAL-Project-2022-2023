@@ -18,6 +18,7 @@ public class DirectionalButtonController : MonoBehaviour
     Vector2[] touchStarts;
     private int swipeThreshold = 200;
 
+
     private void Start()
     {
         doIso = true;
@@ -35,6 +36,7 @@ public class DirectionalButtonController : MonoBehaviour
             { "counterclockwise", false },
             { "clockwise", false },
             { "undo", false },
+            { "generic-touch", false },
         };
 
         touchStarts = new Vector2[10]; // 10 fingers on two hands explains this limit
@@ -45,7 +47,8 @@ public class DirectionalButtonController : MonoBehaviour
 
     void Update()
     {
-        for(int i = 0; i < Input.touchCount; i++)
+        keys["generic-touch"] = false;
+        for (int i = 0; i < Input.touchCount; i++)
         {
             Touch t = Input.GetTouch(i);
             if (t.phase == TouchPhase.Began)
@@ -56,6 +59,8 @@ public class DirectionalButtonController : MonoBehaviour
             }
             if (t.phase == TouchPhase.Ended)
             {
+                keys["generic-touch"] = true;
+
                 float deltaX = t.position.x - touchStarts[i].x;
                 
                 if (Mathf.Abs(deltaX) > swipeThreshold)

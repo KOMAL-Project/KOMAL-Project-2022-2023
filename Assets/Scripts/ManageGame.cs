@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using UnityEditor.Build.Player;
+using Unity.Collections;
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
@@ -39,6 +41,8 @@ public class ManageGame : MonoBehaviour
     public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
+    GameObject playerUI, tutorialPanel, dPad;
+    DirectionalButtonController inputManager;
 
     private void Awake()
     {
@@ -47,6 +51,38 @@ public class ManageGame : MonoBehaviour
         levelData = new GameObject[0,0];
         Debug.Log("LEVELDATA" + levelData);
         floorData = new GameObject[0,0];
+
+        dPad = GameObject.FindGameObjectWithTag("D-Pad");
+        playerUI = dPad.transform.parent.gameObject;
+        tutorialPanel = playerUI.transform.GetChild(playerUI.transform.childCount - 1).gameObject;
+        inputManager = dPad.GetComponent<DirectionalButtonController>();
+    }
+
+    private void Start()
+    {
+        TutorialPanel[] panels = Resources.LoadAll<TutorialPanel>("TutorialPanels");
+        string tempLevelIDString = chapterID + "-" + levelID;
+        foreach (TutorialPanel p in panels)
+        {
+            Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
+            if (p.levelID == tempLevelIDString)
+            {
+                tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(p.panelImage,
+                    new Rect(0, 0, 750, 500), Vector2.zero);
+                tutorialPanel.GetComponent<Animator>().Play("OnScreen");
+                break;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        Debug.Log(inputManager.keys["generic-touch"]);
+        if (inputManager.keys["generic-touch"])
+        {
+            Debug.Log("AAAAAA");
+            tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);
+        }
     }
 
     /// <summary>
@@ -111,6 +147,4 @@ public class ManageGame : MonoBehaviour
             SceneManager.LoadSceneAsync("Menu");
         }
     }
-
-
 }
