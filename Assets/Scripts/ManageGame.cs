@@ -80,7 +80,6 @@ public class ManageGame : MonoBehaviour
         Debug.Log(inputManager.keys["generic-touch"]);
         if (inputManager.keys["generic-touch"])
         {
-            Debug.Log("AAAAAA");
             tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);
         }
     }
@@ -121,7 +120,6 @@ public class ManageGame : MonoBehaviour
         }
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
-
     }
 
     /// <summary>

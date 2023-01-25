@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 730648281089210453}
   - component: {fileID: 4253212914664692929}
   m_Layer: 0
-  m_Name: Blue Square Model
+  m_Name: Red Square Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 2898627351392253701}
   - component: {fileID: 3016072187789615107}
   - component: {fileID: 3246311613503251149}
+  - component: {fileID: 4614581192178842289}
   m_Layer: 0
   m_Name: Pip Filter
   m_TagString: Untagged
@@ -251,3 +252,23 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 814527af429418241805d77f7438b480, type: 3}
   - {fileID: 2800000, guid: f61cb5e68a55f564fb817167ab169b1b, type: 3}
   activated: 0
+--- !u!95 &4614581192178842289
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7603745138158481942}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e330e7d42c106ab44a78431e085b5487, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2923837564669865132}
   - component: {fileID: 737481394414265826}
   - component: {fileID: 744476343206463200}
+  - component: {fileID: 5509561036034114485}
   m_Layer: 0
   m_Name: Pip Filter
   m_TagString: Untagged
@@ -190,6 +191,26 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 814527af429418241805d77f7438b480, type: 3}
   - {fileID: 2800000, guid: f61cb5e68a55f564fb817167ab169b1b, type: 3}
   activated: 0
+--- !u!95 &5509561036034114485
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5731752723544209144}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e330e7d42c106ab44a78431e085b5487, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6193186430653510028
 GameObject:
   m_ObjectHideFlags: 0
