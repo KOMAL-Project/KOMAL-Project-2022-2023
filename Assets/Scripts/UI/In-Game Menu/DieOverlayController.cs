@@ -177,9 +177,16 @@ public class DieOverlayController : MonoBehaviour
     /// <param name="direction"></param>
     public void PowerUp(Mesh toAdd, Material meshMaterial)
     {
-        chargeFaceObj.transform.position = dieOverlayDie.transform.position;
-        chargeFaceObj.transform.position += new Vector3(0, -.185f, 0);
-        chargeFaceObj.transform.rotation = Quaternion.Euler(0, 45, 0);
+        if (overhead)
+        {
+            chargeFaceObj.transform.position = dieOverlayDie.transform.position + new Vector3(0, -.125f, .125f);
+            chargeFaceObj.transform.rotation = Quaternion.Euler(-45, 0, 0);
+        }
+        else
+        { 
+            chargeFaceObj.transform.position = dieOverlayDie.transform.position + new Vector3(0, -.185f, 0);
+            chargeFaceObj.transform.rotation = Quaternion.Euler(0, 45, 0);
+        }
         chargeFaceObj.GetComponent<MeshRenderer>().material = meshMaterial;
         chargeFaceObj.GetComponent<MeshFilter>().mesh = toAdd;
         //Debug.Log(type);
