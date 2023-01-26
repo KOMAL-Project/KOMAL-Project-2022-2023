@@ -125,6 +125,26 @@ public class DieController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the pip count for each side face on the die. Starts with the farthest face and goes clockwise.
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<Vector3Int, int> GetSideFaces()
+    {
+        // get the state of the die
+        int cameraSide = cs.side;
+        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
+        // we need to make it so that we are getting the sides in the right order, that relative to the camera.
+        for (int i = 0; i < cameraSide; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.forward, tempSides[Vector3Int.forward]},
+            { Vector3Int.right, tempSides[Vector3Int.right]},
+            { Vector3Int.back, tempSides[Vector3Int.back]},
+            { Vector3Int.left, tempSides[Vector3Int.left]}
+        };
+    }
+
+    /// <summary>
     /// Gets the 3 die faces that cannot be seen from the player's POV
     /// </summary>
     /// <returns></returns>
@@ -278,24 +298,22 @@ public class DieController : MonoBehaviour
         index = (index + cs.side) % 4;
         int newX = (int)directions[index].x + x;
         int newY = (int)directions[index].y + y;
-        //if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
+        if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
         if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;// checking if new move spot is occupied
         
         var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
-        var axis = Vector3.Cross(Vector3.up, directions[index]);
+        var axis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orhtagonal to the plane formed by direction and y axis
 
         lastAction = moves[index];
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
 
         // Die Overlay rolling
-        var overlayAxis = Quaternion.Euler(0, 180-45  + 90 * (cs.side + 2), 0) * Vector3.Cross(Vector3.up, directions[index]);
-        StartCoroutine(doc.RollOverlay(overlayAxis, rollSpeed));
-
+        var overlayParentRot = doc.anchorRotations;
+        StartCoroutine(doc.RollOverlay(axis, rollSpeed, cs.side));
 
         //var visible = GetVisibleFaces();
         //Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
-
     }
     /// <summary>
     /// Returns the indexes of directional buttons that have been pressed
@@ -401,7 +419,7 @@ public class DieController : MonoBehaviour
         doc.PowerDown();
     }
 
-    public bool getIsMoving() { Debug.Log(isMoving);
+    public bool getIsMoving() { 
         return isMoving; 
     }
 }
