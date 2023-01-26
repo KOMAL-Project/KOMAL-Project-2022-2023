@@ -125,7 +125,6 @@ public class ActionRecorder : MonoBehaviour
         foreach (ChargeController t in CC) ChargeStates.Add(t.getState());
         List<int> LegoStates = new List<int>();
         foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getState());
-
         return new states {
             ghostRotation = dieController.lastAction,
             mappedDieLocation = dieController.position,

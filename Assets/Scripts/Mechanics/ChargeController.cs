@@ -111,6 +111,7 @@ public class ChargeController : Mechanic
         } else { //still able to be used afterwards
             state = 0;
             rend.material = mats[0];
+            dieControl.chargeDirection = Vector3Int.zero;
         }
     }
 
@@ -135,9 +136,7 @@ public class ChargeController : Mechanic
     }
 
     public override void setState(int input) {
-        state = input;
-        Debug.Log(input);
-        if (input == 0) {
+        if (input == 0 & state != 0) {
             rend.material = mats[0];
             if (dieControl.currentCharge == this) {
                 dieControl.PowerDown();
@@ -145,19 +144,19 @@ public class ChargeController : Mechanic
             }
 
         }
-        else if (input == 1) { //reset gates if they were down
+        else if (input == 1 & state != 1) { //reset gates if they were down
             rend.material = mats[1];
             dieControl.currentCharge = this;
             dieControl.PowerUp(type, dieControl.chargeDirection);
-            setGates(false);
+            setGates(true);
 
         }
-        else if (input == 2) { //charge connected
+        else if (input == 2 & state != 2) { //charge connected
             dieControl.PowerDown();
             rend.material = mats[1];
             dieControl.currentCharge = null;
         }
-        else Debug.Log("SOMETHING WENT WRONG");
+        state = input;
     }
 
 

@@ -350,14 +350,38 @@ public class DieController : MonoBehaviour
         }
         if (source is not null) {
             source.PlayOneShot(diceHit, 0.7f);
-        }
-        
+        }   
         totalDiceMoves++;
 
         position += moveVec;
         WinCheck();
         
+        func();
+        gm.CheckMechanics();
 
+        actionRec.Record();
+        isMoving = false;
+
+    }
+    /// <summary>
+    /// Handles the position and rotation of the die while it is moving between spaces instantly.
+    /// </summary>
+    /// <param name="anchor"></param>
+    /// <param name="axis"></param>
+    /// <param name="func"></param>
+    /// <param name="moveVec"></param>
+    void RollInstant(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
+        isMoving = true;
+
+        transform.RotateAround(anchor, axis, 90);
+        
+        if (source is not null) {
+            source.PlayOneShot(diceHit, 0.7f);
+        }   
+        totalDiceMoves++;
+        position += moveVec;
+        WinCheck();
+        
         func();
         gm.CheckMechanics();
 
