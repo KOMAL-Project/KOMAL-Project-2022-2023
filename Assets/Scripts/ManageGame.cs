@@ -89,7 +89,7 @@ public class ManageGame : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(inputManager.keys["generic-touch"]);
+       // Debug.Log(inputManager.keys["generic-touch"]);
         if (inputManager.keys["generic-touch"])
         {
             tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);

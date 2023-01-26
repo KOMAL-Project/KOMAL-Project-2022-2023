@@ -341,7 +341,8 @@ public class GenerateLevel : MonoBehaviour
                 // Basic Walls
                 if (pixel == Color.black)
                 {
-                    levelData[i, j] = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    levelData[i, j] = temp;
                     Destroy(floorData[i, j]);
                 }
                 // Single Use Tiles

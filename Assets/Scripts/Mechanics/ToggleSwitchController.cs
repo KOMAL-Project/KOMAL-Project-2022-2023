@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// Script for ToggleSwitches.
-/// <para>  State 1: X is shown, meaning O is down and X is up. This is default.   </para>
-/// <para>  State 0: O is shown, meaning X is up and O is down.   </para>
+/// <para>  State 0: X is shown, meaning O is down and X is up. This is default.   </para>
+/// <para>  State 1: O is shown, meaning X is up and O is down.   </para>
 /// </summary>
 
 public class ToggleSwitchController : Mechanic
@@ -22,14 +22,14 @@ public class ToggleSwitchController : Mechanic
     // Start is called before the first frame update
     void Start()
     {
-        state = 1;
+        state = 0;
 
         Rect rect = new Rect(0, 0, 10, 10);
         oSprite = Sprite.Create(oTexture, rect, new Vector2(.5f, .5f));
         xSprite = Sprite.Create(xTexture, rect, new Vector2(.5f, .5f));
 
         spr = GetComponent<SpriteRenderer>();
-        spr.sprite = state == 1 ? xSprite : oSprite;
+        spr.sprite = state == 0 ? xSprite : oSprite;
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
 
@@ -59,10 +59,10 @@ public class ToggleSwitchController : Mechanic
     }
 
     public void doToggle() {
-        List<GameObject> toActivate = state == 1 ? xBlocks : oBlocks;
-        List<GameObject> toDeactivate = state == 1 ? oBlocks : xBlocks;
-        List<Vector2Int> coordsOfToActivate = state == 1 ? xBlockPositions : oBlockPositions;
-        List<Vector2Int> coordsOfToDeactivate = state == 1 ? oBlockPositions : xBlockPositions;
+        List<GameObject> toActivate = state == 0 ? xBlocks : oBlocks;
+        List<GameObject> toDeactivate = state == 0 ? oBlocks : xBlocks;
+        List<Vector2Int> coordsOfToActivate = state == 0 ? xBlockPositions : oBlockPositions;
+        List<Vector2Int> coordsOfToDeactivate = state == 0 ? oBlockPositions : xBlockPositions;
 
         // In with the new...
         for (int i = 0; i < toActivate.Count; i++)
@@ -83,7 +83,7 @@ public class ToggleSwitchController : Mechanic
             temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", false);
         }
         // Finally, update all of the switches.
-        Sprite newSwitchSprite = (state == 1) ? xSprite : oSprite;
+        Sprite newSwitchSprite = (state == 0) ? xSprite : oSprite;
         spr.sprite = newSwitchSprite;
         foreach (ToggleSwitchController s in switches) {
             s.spr.sprite = newSwitchSprite; 

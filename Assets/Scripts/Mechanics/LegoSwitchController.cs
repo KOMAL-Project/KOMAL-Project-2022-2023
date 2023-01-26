@@ -4,8 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// Script for Lego Switches.
-/// <para> State 1: Switch is active and can be pressed. Gates are up. This is default. </para>
-/// <para> State 0: Switch is not active and cannot be pressed. Gates are down. </para>
+/// <para> State 0: Switch is active and can be pressed. Gates are up. This is default. </para>
+/// <para> State 1: Switch is not active and cannot be pressed. Gates are down. </para>
 /// </summary>
 public class LegoSwitchController : Mechanic
 {
@@ -26,16 +26,16 @@ public class LegoSwitchController : Mechanic
         spr.sprite = topSprites[type - 1];
         spr.gameObject.transform.localScale *= 10;
 
-        state = 1;
+        state = 0;
 
     }
 
     public override void CheckForActivation()
     {
-        if (state == 1 && CheckPipFilter() && position == dieControl.position)
+        if (state == 0 && CheckPipFilter() && position == dieControl.position)
         {
-            setState(0);
-            foreach (LegoSwitchController controller in controllers) if (controller != this) setState(0);
+            setState(1);
+            foreach (LegoSwitchController controller in controllers) if (controller != this) setState(1);
    
         }
     } 
@@ -43,12 +43,12 @@ public class LegoSwitchController : Mechanic
     public override void setState(int input) {
     state = input;
 
-    if (input == 0) {
+    if (input == 1) {
         foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", false);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
         foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {s.sprite = topSprites[6];}
     }
-    else if (input == 1) {
+    else if (input == 0) {
         foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", true);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
 

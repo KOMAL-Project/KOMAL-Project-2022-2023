@@ -4,9 +4,9 @@ using UnityEngine;
 
 /// <summary>
 /// Script for Charge Givers.
-/// <para> State 2: Charge giver is able to give charge and its charge is not on the die. This is default. </para>
+/// <para> State 0: Charge giver is able to give charge and its charge is not on the die. This is default. </para>
 /// <para> State 1: Charge giver cannot give charge and its charge is on the die. </para>
-/// <para> State 0: Charge giver cannot give charge and gates of the same type have been used. </para>
+/// <para> State 2: Charge giver cannot give charge and gates of the same type have been used. </para>
 /// </summary>
 public class ChargeController : Mechanic
 {
@@ -23,20 +23,20 @@ public class ChargeController : Mechanic
         rend = GetComponentInChildren<MeshRenderer>();
         source = MusicManager.Instance.GetComponents<AudioSource>()[1];
         rend.material = mats[0];
-        state = 2;
+        state = 0;
         
     }
     //currently, things happen in this order: 1. all charges check if they attach their charge to the dice. 2. a charge checks for a reset, then checks for a matching door.
     public override void CheckForActivation() //this ONLY checks if the charge block and dice collide, not dice and door
     {
-        if (state != 0 && CheckPipFilter() && dieControl.position == position)
+        if (state != 2 && CheckPipFilter() && dieControl.position == position)
         {        
             activateSelf(Vector3.down);
 
             //forces all other charges to deactivate
             foreach (List<ChargeController> _controllers in controllers) foreach (ChargeController control in _controllers) 
-            if (control != this && control.state != 0) {
-                control.state = 2;
+            if (control != this && control.state != 2) {
+                control.state = 0;
                 control.rend.material = mats[0];
             }
 
@@ -46,7 +46,7 @@ public class ChargeController : Mechanic
 
     public void UpdateChargeStatus()
     {
-        if (state != 0)
+        if (state != 2)
         {
             // When charge face touches ground, reset charge.
             if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this)
@@ -70,7 +70,7 @@ public class ChargeController : Mechanic
 
                         foreach (ChargeController control in controllers[type]) {
                             control.rend.material = mats[1];
-                            control.state = 0; 
+                            control.state = 2; 
                         }
 
                         break;
@@ -104,12 +104,12 @@ public class ChargeController : Mechanic
         dieControl.currentCharge = null;
 
         if (used) { //unable to be used afterwards
-            state = 0;
+            state = 2;
             rend.material = mats[1];
             pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
 
         } else { //still able to be used afterwards
-            state = 2;
+            state = 0;
             rend.material = mats[0];
         }
     }
@@ -136,7 +136,8 @@ public class ChargeController : Mechanic
 
     public override void setState(int input) {
         state = input;
-        if (input == 2) {
+        Debug.Log(input);
+        if (input == 0) {
             rend.material = mats[0];
             if (dieControl.currentCharge == this) {
                 dieControl.PowerDown();
@@ -151,7 +152,7 @@ public class ChargeController : Mechanic
             setGates(false);
 
         }
-        else if (input == 0) { //charge connected
+        else if (input == 2) { //charge connected
             dieControl.PowerDown();
             rend.material = mats[1];
             dieControl.currentCharge = null;
