@@ -120,6 +120,26 @@ public class DieController : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the pip count for each side face on the die. Starts with the farthest face and goes clockwise.
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<Vector3Int, int> GetSideFaces()
+    {
+        // get the state of the die
+        int cameraSide = cs.side;
+        Dictionary<Vector3Int, int> tempSides = new Dictionary<Vector3Int, int>(sides);
+        // we need to make it so that we are getting the sides in the right order, that relative to the camera.
+        for (int i = 0; i < cameraSide; i++) tempSides = GetClockwiseRotatedSides(tempSides);
+        return new Dictionary<Vector3Int, int>
+        {
+            { Vector3Int.forward, tempSides[Vector3Int.forward]},
+            { Vector3Int.right, tempSides[Vector3Int.right]},
+            { Vector3Int.back, tempSides[Vector3Int.back]},
+            { Vector3Int.left, tempSides[Vector3Int.left]}
+        };
+    }
+
+    /// <summary>
     /// Gets the 3 die faces that cannot be seen from the player's POV
     /// </summary>
     /// <returns></returns>
@@ -285,12 +305,10 @@ public class DieController : MonoBehaviour
 
         // Die Overlay rolling
         var overlayParentRot = doc.anchorRotations;
-        StartCoroutine(doc.RollOverlay(axis, rollSpeed));
-
+        StartCoroutine(doc.RollOverlay(axis, rollSpeed, cs.side));
 
         //var visible = GetVisibleFaces();
         //Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
-
     }
     /// <summary>
     /// Returns the indexes of directional buttons that have been pressed
