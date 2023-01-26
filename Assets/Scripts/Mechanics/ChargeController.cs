@@ -91,10 +91,7 @@ public class ChargeController : Mechanic
         rend.material = mats[1];
         dieControl.currentCharge = this;
         dieControl.chargeDirection = Vector3Int.down;
-        pip.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
-        if (source is not null) {
-            source.PlayOneShot(pickupCharge, 1.0f);
-        }
+        pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
     }
 
     /// <summary>
@@ -109,7 +106,7 @@ public class ChargeController : Mechanic
         if (used) { //unable to be used afterwards
             state = 0;
             rend.material = mats[1];
-            pip.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
 
         } else { //still able to be used afterwards
             state = 2;
