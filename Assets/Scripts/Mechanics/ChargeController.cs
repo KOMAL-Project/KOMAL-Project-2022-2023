@@ -86,7 +86,7 @@ public class ChargeController : Mechanic
                     source.PlayOneShot(loseCharge, 1.0f);
                 }
                 rend.material = mats[0];
-                pip.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+                if(pip.pips > 0)pip.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
                 pScript.currentCharge = null;
             }
             else
