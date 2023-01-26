@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8892687217388471113
 Transform:
@@ -94,12 +94,13 @@ GameObject:
   - component: {fileID: 2563232765705128523}
   - component: {fileID: 2119829183324321471}
   - component: {fileID: 5443796368624461654}
+  - component: {fileID: 1221548493107222520}
   m_Layer: 0
   m_Name: Pip Filter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2563232765705128523
 Transform:
@@ -181,8 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pips: 0
-  thisPos: {x: 0, y: 0}
-  playerPos: {x: 0, y: 0}
   player: {fileID: 0}
   topTextures:
   - {fileID: 2800000, guid: 6c10fa73c3f2b454ab6231957eb89d8c, type: 3}
@@ -192,6 +191,26 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 814527af429418241805d77f7438b480, type: 3}
   - {fileID: 2800000, guid: f61cb5e68a55f564fb817167ab169b1b, type: 3}
   activated: 0
+--- !u!95 &1221548493107222520
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8455666295744007024}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e330e7d42c106ab44a78431e085b5487, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8670220340756326571
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +226,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8293695210304958993
 Transform:
@@ -238,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74a791f7f354014884b3132fa328de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos: {x: 0, y: 0}
+  position: {x: 0, y: 0}
   gatePos: []
   gateDirection: {x: 0, y: 0, z: 0}
   type: 0

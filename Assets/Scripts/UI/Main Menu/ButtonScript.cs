@@ -18,7 +18,6 @@ public class ButtonScript : MonoBehaviour
         lms = GetComponentInParent<LevelMenuScript>();
         
         GetComponent<UnityEngine.UI.Button>().onClick.AddListener(click);
-
     }
 
     public void playSound() {
@@ -33,9 +32,5 @@ public class ButtonScript : MonoBehaviour
         else { //main menu
             mms.ChangeMenu(menuDestination);
         }
-        
-
     }
-
-
 }

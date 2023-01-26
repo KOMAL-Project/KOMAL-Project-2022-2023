@@ -19,8 +19,10 @@ public class PipFilterController : MonoBehaviour
             SpriteRenderer spr = GetComponent<SpriteRenderer>();
             spr.sprite = topSprites[pips - 1];
             spr.gameObject.transform.localScale *= 10;
+            GetComponent<Animator>().Play("Normal");
         }
         else GetComponent<SpriteRenderer>().enabled = false;
+        
     }
 
     /// <summary>

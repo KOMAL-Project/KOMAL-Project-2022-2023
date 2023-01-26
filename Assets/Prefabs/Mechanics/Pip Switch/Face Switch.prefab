@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6267676189374380850
 Transform:
@@ -98,8 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pips: 0
-  thisPos: {x: 0, y: 0}
-  playerPos: {x: 0, y: 0}
   player: {fileID: 0}
   topTextures:
   - {fileID: 2800000, guid: 6c10fa73c3f2b454ab6231957eb89d8c, type: 3}
@@ -108,6 +106,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f99742c7dd61d124d817c4b7d357124b, type: 3}
   - {fileID: 2800000, guid: 814527af429418241805d77f7438b480, type: 3}
   - {fileID: 2800000, guid: f61cb5e68a55f564fb817167ab169b1b, type: 3}
+  activated: 0
 --- !u!1 &2506385080886334817
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +125,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2506385080886334750
 Transform:
@@ -220,12 +219,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0bbada081761d64b90f3501b180fd22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
   pips: 2
+  type: 0
   walls: []
   wallsPos: []
-  thisPos: {x: 8, y: 1}
   playerPos: {x: 0, y: 0}
   player: {fileID: 0}
+  pScript: {fileID: 0}
   topTextures:
   - {fileID: 2800000, guid: 64e9b139765cd984dacf1dd8bc3dbcb0, type: 3}
   - {fileID: 2800000, guid: bafebce2147404341864bdf18684ab6a, type: 3}
@@ -248,7 +249,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8192880262458319316
 Transform:
