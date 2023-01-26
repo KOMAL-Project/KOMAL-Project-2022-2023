@@ -2,54 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for Single Use Tiles.
+/// <para> State 0: Tile is not activated or primed. This is default. </para>
+/// <para> State 1: Tile is not activated but primed to fall once die leaves. </para>
+/// <para> State 2: Tile has been activated. </para>
+/// </summary>
 public class SingleUseController : Mechanic
 {
-    public GameObject player, manager;
-    private DieController pDie;
-    private bool primed, used;
-    private Vector2Int playerPosition;
-
 
     // Start is called before the first frame update
     void Start()
     {
-        primed = false;
-        used = false;
-        pDie = player.GetComponentInChildren<DieController>();
+        state = 0;
     }
-
-    // Update is called once per frame
 
     public override void CheckForActivation() {
 
-        playerPosition = pDie.position;
+        Vector2Int playerPosition = dieControl.position;
 
-        if (playerPosition == position) primed = true;
-        if (playerPosition != position && primed && !used)
+        if (playerPosition == position) state = 1;
+        if (playerPosition != position && state == 1)
         {
-            manager.GetComponent<ManageGame>().levelData[position.x, position.y] = gameObject;
-            used = true;
+            gameManager.levelData[position.x, position.y] = this.gameObject;
+            state = 2;
             GetComponentInChildren<Animator>().SetTrigger("Go");
         }
     }
 
-    //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
-    public byte GetStateByte() {
-        if (!primed) return 20;
-        else if (primed && !used) return 1;
-        else return 0;
-    }
-
-    //undo stuff - could change maybe?
-    public void ByteToSetState(byte input) {
-        if (input == 20) {primed = used = false;}
-        if (input == 1) {
-            primed = true; used = false;
+    public override void setState(int input) {
+        state = input;
+        if (input == 0) {
             GetComponentInChildren<Animator>().SetTrigger("Back");
-            manager.GetComponent<ManageGame>().levelData[position.x, position.y] = null;
-            
+            gameManager.levelData[position.x, position.y] = null;
         }
-        if (input == 0) {primed = used = true;}
     }
    
 }

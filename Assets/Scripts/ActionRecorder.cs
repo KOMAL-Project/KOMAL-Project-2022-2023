@@ -14,11 +14,11 @@ public record states {
     public Quaternion overlayRotation;
     //states of mechanics
     //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
-    public bool? toggleState;
-    public List<byte> limitedUseTileState; //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
-    public List<byte> chargeState; //0 is activated, 1 is charge on dice, 2 is not being used
+    public int? toggleState;
+    public List<int> limitedUseTileState; //0 is landed, 1 is primed, 20 is nothing (can easily change if this turns into multiple use tile)
+    public List<int> chargeState; //0 is activated, 1 is charge on dice, 2 is not being used
     public Vector3Int? chargeDirection;
-    public List<byte> legoSwitchState; //0 is not active, 1 is active
+    public List<int> legoSwitchState; //0 is not active, 1 is active
 
     /// <summary>
     /// updates THIS states params to match OTHER states params while making OTHER state param null if they already matched.
@@ -94,17 +94,17 @@ public class ActionRecorder : MonoBehaviour
 
         ManageGame gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponentInChildren<ManageGame>();
 
-        if (gameManager.toggleSwitchesInLevel.Count > 0)
-        TSC = gameManager.toggleSwitchesInLevel[0].GetComponentInChildren<ToggleSwitchController>();
+        if (gameManager.toggleSwitchControllers.Count > 0)
+        TSC = gameManager.toggleSwitchControllers[0];
 
         SUC = new List<SingleUseController>(){};
         foreach (GameObject t in gameManager.singleUseTilesInLevel) SUC.Add(t.GetComponent<SingleUseController>());
 
         CC = new List<ChargeController>();
-        foreach(List<GameObject> l in gameManager.chargeSwitchesInLevel) foreach(GameObject g in l) CC.Add(g.GetComponent<ChargeController>());
+        foreach(List<ChargeController> l in gameManager.chargeControllers) foreach(ChargeController g in l) CC.Add(g);
 
         LSC = new List<LegoSwitchController>();
-        foreach(List<GameObject> l in gameManager.legoSwitchesInLevel) foreach(GameObject g in l) LSC.Add(g.GetComponent<LegoSwitchController>());
+        foreach(List<LegoSwitchController> l in gameManager.legoSwitchControllers) foreach(LegoSwitchController g in l) LSC.Add(g);
 
 
         currentState = getState();
@@ -119,19 +119,18 @@ public class ActionRecorder : MonoBehaviour
 /// <returns></returns>
     public states getState() {
 
-        List<byte> SingleUseStates = new List<byte>();
-        foreach (SingleUseController t in SUC) SingleUseStates.Add(t.GetStateByte());
-        List<byte> ChargeStates = new List<byte>();
-        foreach (ChargeController t in CC) ChargeStates.Add(t.getStateByte());
-        List<byte> LegoStates = new List<byte>();
-        foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getStateByte());
-
+        List<int> SingleUseStates = new List<int>();
+        foreach (SingleUseController t in SUC) SingleUseStates.Add(t.getState());
+        List<int> ChargeStates = new List<int>();
+        foreach (ChargeController t in CC) ChargeStates.Add(t.getState());
+        List<int> LegoStates = new List<int>();
+        foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getState());
         return new states {
             ghostRotation = dieController.lastAction,
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
             overlayRotation = dieController.doc.overlayDie.transform.rotation,
-            toggleState = (TSC is not null ? TSC.stateToGetBool() : null),
+            toggleState = (TSC is not null ? TSC.getState() : null),
             limitedUseTileState = (SUC.Count != 0 ? SingleUseStates: null),
             chargeState = (CC.Count != 0 ? ChargeStates: null),
             chargeDirection = dieController.chargeDirection,
@@ -165,15 +164,12 @@ public class ActionRecorder : MonoBehaviour
         states moveState = stateStack.Peek();
 
         //mechanics
-        if (moveState.toggleState is not null) TSC.boolToSetState((bool)moveState.toggleState);
-        //TSC.CheckForActivation(); //could change this later if trying to change it to snap instead of activating
-
-        if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].ByteToSetState(moveState.limitedUseTileState[i]);
+        if (moveState.toggleState is not null) TSC.setState((int)moveState.toggleState);
+        if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].setState(moveState.limitedUseTileState[i]);
+        if (moveState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].setState(moveState.legoSwitchState[i]);
 
         if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)mechanicsState.chargeDirection;
-        if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].ByteToSetState(moveState.chargeState[i]);
-
-        if (moveState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].ByteToSetState(moveState.legoSwitchState[i]);
+        if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].setState(moveState.chargeState[i]);
 
         ReverseTurn(mechanicsState.ghostRotation)(); //note that this MUST happen before the position is moved since mechanics rely on last position
 

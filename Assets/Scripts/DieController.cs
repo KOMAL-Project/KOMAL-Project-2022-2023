@@ -39,13 +39,18 @@ public class DieController : MonoBehaviour
     private CameraScript cs;
     public DieOverlayController doc;
     public static int totalDiceMoves = 0;
-    public int chargeType;
-
-
+    int chargeType;
+    private static DieController instance;
+    //used to get the one instance of die controller instead of using tags.
+    //be careful using, will not work if used before dieController awakes
+    public static DieController Instance { 
+        get {return instance;} 
+    }
     void Awake()
-    {   
-        cameraObj = Camera.main.gameObject;
-        cs = cameraObj.GetComponentInParent<CameraScript>();
+    {
+        instance = this;    
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        cs = cameraObj.GetComponent<CameraScript>();
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
 
@@ -59,7 +64,7 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3Int.back, 3);
         sides.Add(Vector3Int.forward, 4);
 
-        gm = FindObjectOfType<ManageGame>();
+        gm = ManageGame.Instance;
         width = gm.width;
         length = gm.length;
 
@@ -345,14 +350,38 @@ public class DieController : MonoBehaviour
         }
         if (source is not null) {
             source.PlayOneShot(diceHit, 0.7f);
-        }
-        
+        }   
         totalDiceMoves++;
 
         position += moveVec;
         WinCheck();
         
+        func();
+        gm.CheckMechanics();
 
+        actionRec.Record();
+        isMoving = false;
+
+    }
+    /// <summary>
+    /// Handles the position and rotation of the die while it is moving between spaces instantly.
+    /// </summary>
+    /// <param name="anchor"></param>
+    /// <param name="axis"></param>
+    /// <param name="func"></param>
+    /// <param name="moveVec"></param>
+    void RollInstant(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
+        isMoving = true;
+
+        transform.RotateAround(anchor, axis, 90);
+        
+        if (source is not null) {
+            source.PlayOneShot(diceHit, 0.7f);
+        }   
+        totalDiceMoves++;
+        position += moveVec;
+        WinCheck();
+        
         func();
         gm.CheckMechanics();
 
@@ -409,7 +438,7 @@ public class DieController : MonoBehaviour
         if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
                                                                                                                        // we can use this to find what a side is supposed to be
         else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
-        Debug.Log(sides[Vector3Int.down]);
+        //Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;
         doc.PowerDown();
     }

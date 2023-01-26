@@ -9,7 +9,7 @@ public class MusicManager : MonoBehaviour
     private static MusicManager instance = null;
     public static MusicManager Instance { 
         get {return instance;} 
-        }
+    }
 
     // Start is called before the first frame update
     void Awake()
