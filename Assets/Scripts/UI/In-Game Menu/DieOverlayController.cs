@@ -126,14 +126,6 @@ public class DieOverlayController : MonoBehaviour
         UpdateIcons();
     }
 
-    public void RollOverlayInstant(Vector3 axis, int cSide)
-    {
-        Vector3 toRotate = overhead ? GetOverheadQuaternionFromCameraSide(cSide) * axis : Quaternion.Euler(0, -45 + 90 * cSide, 0) * axis;
-        Debug.DrawRay(overlayDie.transform.position, toRotate * 5, Color.green, 100f);
-        Vector3 anchor = overlayDie.transform.position;
-        overlayDie.transform.RotateAround(anchor, toRotate, 90);
-        UpdateIcons();
-    }
     /// <summary>
     /// Rotates the die around the given axis instantly. Axis MUST be a factor of 90 for this to work (otherwise we get floating point errors).
     /// </summary>
