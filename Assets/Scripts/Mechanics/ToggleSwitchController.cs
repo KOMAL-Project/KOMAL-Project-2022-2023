@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for ToggleSwitches.
+/// <para>  State 0: X is shown, meaning O is down and X is up. This is default.   </para>
+/// <para>  State 1: O is shown, meaning X is up and O is down.   </para>
+/// </summary>
+
 public class ToggleSwitchController : Mechanic
 {
-    ManageGame gameManager;
-    DieController die;
-    PipFilterController pipFilter;
-    public int pips;
     // switches: All toggle switches in the current level, including this one
-    public List<GameObject> xBlocks, oBlocks, switches;
+    public List<GameObject> xBlocks, oBlocks;
+    public List<ToggleSwitchController> switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
-    public string state = "x";
-
     // Physical Appearance
     SpriteRenderer spr;
     [SerializeField] Texture2D oTexture, xTexture;
@@ -21,17 +22,14 @@ public class ToggleSwitchController : Mechanic
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ManageGame>();
-        die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        pipFilter = GetComponentInChildren<PipFilterController>();
-        pipFilter.pips = pips;
+        state = 0;
 
         Rect rect = new Rect(0, 0, 10, 10);
         oSprite = Sprite.Create(oTexture, rect, new Vector2(.5f, .5f));
         xSprite = Sprite.Create(xTexture, rect, new Vector2(.5f, .5f));
 
         spr = GetComponent<SpriteRenderer>();
-        spr.sprite = state == "x" ? xSprite : oSprite;
+        spr.sprite = state == 0 ? xSprite : oSprite;
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
 
@@ -52,20 +50,19 @@ public class ToggleSwitchController : Mechanic
 
     public override void CheckForActivation()
     {
-        //Debug.Log(position +"   "  + die.position);
-        if(die.position == position && pipFilter.MeetsPipRequirement(die.gameObject))
+        //Debug.Log(position +"   "  + dieControl.position);
+        if(dieControl.position == position && CheckPipFilter())
         {
-            //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAA");
-            state = state == "x" ? "o" : "x"; // swap active block
+            state = state == 1 ? 0 : 1; // swap active block
             doToggle();
         }
     }
 
     public void doToggle() {
-        List<GameObject> toActivate = state == "x" ? xBlocks : oBlocks;
-        List<GameObject> toDeactivate = state == "x" ? oBlocks : xBlocks;
-        List<Vector2Int> coordsOfToActivate = state == "x" ? xBlockPositions : oBlockPositions;
-        List<Vector2Int> coordsOfToDeactivate = state == "x" ? oBlockPositions : xBlockPositions;
+        List<GameObject> toActivate = state == 0 ? xBlocks : oBlocks;
+        List<GameObject> toDeactivate = state == 0 ? oBlocks : xBlocks;
+        List<Vector2Int> coordsOfToActivate = state == 0 ? xBlockPositions : oBlockPositions;
+        List<Vector2Int> coordsOfToDeactivate = state == 0 ? oBlockPositions : xBlockPositions;
 
         // In with the new...
         for (int i = 0; i < toActivate.Count; i++)
@@ -86,21 +83,17 @@ public class ToggleSwitchController : Mechanic
             temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", false);
         }
         // Finally, update all of the switches.
-        Sprite newSwitchSprite = (state == "x") ? xSprite : oSprite;
+        Sprite newSwitchSprite = (state == 0) ? xSprite : oSprite;
         spr.sprite = newSwitchSprite;
-        foreach (GameObject s in switches) {
-            s.GetComponentInChildren<SpriteRenderer>().sprite = newSwitchSprite; 
-            s.GetComponentInChildren<ToggleSwitchController>().state = this.state;
+        foreach (ToggleSwitchController s in switches) {
+            s.spr.sprite = newSwitchSprite; 
+            s.state = this.state;
         }
     }
 
-    public bool stateToGetBool() {
-        return state == "x"? true : false;
-    }
-
-    public void boolToSetState(bool setBool) {
-        if (stateToGetBool() != setBool) {
-            state = setBool ? "x" : "o";
+    public override void setState(int input) {
+        if (state != input) {
+            state = input;
             doToggle();
         }
     }

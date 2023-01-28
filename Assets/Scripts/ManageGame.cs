@@ -22,9 +22,11 @@ public class ManageGame : MonoBehaviour
     public string levelIDString;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
+    // mechanicData holds data for each mechanic.
     // Unobstructed tiles are a null value.
     // Obstructed tiles are references to the gameObject occupying the tile.
     public GameObject[,] levelData, floorData;
+    public Mechanic[,] mechanicData;
     public int[] playerStart;
     public static int furthestLevel = 256; //change this to skip levels, default is 0
     public static int furthestChapter = 256; //default is 1
@@ -32,20 +34,30 @@ public class ManageGame : MonoBehaviour
     public static bool levelFinishing = false;
 
     // Lists of mechanics in the level at a time
-    public List<GameObject> wallTiles, toggleSwitchesInLevel, singleUseTilesInLevel,
+    public List<GameObject> wallTiles, singleUseTilesInLevel,
         xBlocksInLevel, oBlocksInLevel;
-        
-    public List<GameObject>[]
-        chargeSwitchesInLevel, chargeCardsInLevel, 
-        legoSwitchesInLevel, legoWallsInLevel;
-    public List<Vector2Int>[] legoWallPositionsInLevel, chargeCardPositionsInLevel;
+    
+    public List<GameObject>[] chargeGatesInLevel, legoGatesInLevel;
+    public List<Mechanic> mechanics;
+    public List<ToggleSwitchController> toggleSwitchControllers;
+    public List<ChargeController>[] chargeControllers;
+    public List<LegoSwitchController>[] legoSwitchControllers;
+
+    public List<Vector2Int>[] legoGatePositionsInLevel, chargeGatePositionsInLevel;
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
+    //non-game managing variables
+    public DieController dieController; 
+    private static ManageGame instance;
+    public static ManageGame Instance { //used to get the one instance of manageGame instead of using tags
+        get {return instance;}
+    }
     GameObject playerUI, tutorialPanel, dPad;
     DirectionalButtonController inputManager;
 
     private void Awake()
     {
+        instance = this;
         levelFinishing = false;
         
         levelData = new GameObject[0,0];
@@ -77,7 +89,7 @@ public class ManageGame : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(inputManager.keys["generic-touch"]);
+       // Debug.Log(inputManager.keys["generic-touch"]);
         if (inputManager.keys["generic-touch"])
         {
             tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);
@@ -89,21 +101,15 @@ public class ManageGame : MonoBehaviour
     /// </summary>
     public void CheckMechanics()
     {
-        foreach(List<GameObject> l in legoSwitchesInLevel)
+        Vector2Int diePos = dieController.position;
+        Mechanic mec = mechanicData[diePos.x, diePos.y];
+        if (mec) mec.CheckForActivation();
+
+
+        foreach(List<ChargeController> l in chargeControllers)
         {
-            foreach (GameObject g in l) g.GetComponent<LegoSwitchController>().CheckForActivation();
+            foreach (ChargeController c in l) c.UpdateChargeStatus();
         }
-        foreach(GameObject t in toggleSwitchesInLevel)
-        {
-            ToggleSwitchController toggle = t.GetComponentInChildren<ToggleSwitchController>();
-            toggle.CheckForActivation();
-        }
-        foreach(List<GameObject> l in chargeSwitchesInLevel)
-        {
-            foreach (GameObject g in l) g.GetComponent<ChargeController>().CheckForActivation();
-            foreach (GameObject g in l) g.GetComponent<ChargeController>().UpdateChargeStatus();
-        }
-        foreach(GameObject s in singleUseTilesInLevel) s.GetComponent<SingleUseController>().CheckForActivation();
     }
 
 
