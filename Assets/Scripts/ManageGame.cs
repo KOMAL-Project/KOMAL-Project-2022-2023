@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using UnityEditor.Build.Player;
+//using UnityEditor.Build.Player;
 using Unity.Collections;
 
 //[ExecuteInEditMode]
