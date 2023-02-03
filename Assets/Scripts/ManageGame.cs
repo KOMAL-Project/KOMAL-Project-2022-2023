@@ -101,9 +101,12 @@ public class ManageGame : MonoBehaviour
     /// </summary>
     public void CheckMechanics()
     {
-        Vector2Int diePos = dieController.position;
+        /*      Vector2Int diePos = dieController.position;
         Mechanic mec = mechanicData[diePos.x, diePos.y];
-        if (mec) mec.CheckForActivation();
+        if (mec) mec.CheckForActivation(); */
+        foreach (Mechanic mec in mechanics) {
+            mec.CheckForActivation();
+        }
 
 
         foreach(List<ChargeController> l in chargeControllers)
