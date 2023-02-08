@@ -169,6 +169,7 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveBack()
     {
+        Debug.Log("Move Back");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.forward],
@@ -179,7 +180,6 @@ public class DieController : MonoBehaviour
             [Vector3Int.right] = sides[Vector3Int.right]
         };
 
-        //Debug.Log(sides[Vector3.up] + " => " + newSides[Vector3.up]);
         sides = newSides;
 
         if (chargeDirection != Vector3.zero)
@@ -188,7 +188,7 @@ public class DieController : MonoBehaviour
             else if (chargeDirection == Vector3.up) chargeDirection = Vector3Int.back;
             else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.forward;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.back) chargeDirection = Vector3Int.zero;
+            else if (chargeDirection == Vector3.back) chargeDirection = Vector3Int.down;
         }
     }
 
@@ -197,6 +197,7 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveForward()
     {
+        Debug.Log("Move forward");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.back],
@@ -216,7 +217,7 @@ public class DieController : MonoBehaviour
             else if (chargeDirection == Vector3.back) chargeDirection = Vector3Int.up;
             else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.back;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3Int.zero;
+            else if (chargeDirection == Vector3.forward) chargeDirection = Vector3Int.down;
         }
     }
 
@@ -225,6 +226,7 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveLeft()
     {
+        Debug.Log("Move left");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.right],
@@ -244,7 +246,7 @@ public class DieController : MonoBehaviour
             else if (chargeDirection == Vector3.right) chargeDirection = Vector3Int.up;
             else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.right;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.left) chargeDirection = Vector3Int.zero;
+            else if (chargeDirection == Vector3.left) chargeDirection = Vector3Int.down;
         }
     }
 
@@ -253,6 +255,7 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveRight()
     {
+        Debug.Log("Move right");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.left],
@@ -272,7 +275,7 @@ public class DieController : MonoBehaviour
             else if (chargeDirection == Vector3.left) chargeDirection = Vector3Int.up;
             else if (chargeDirection == Vector3.down) chargeDirection = Vector3Int.left;
             //charge side faces down, resets
-            else if (chargeDirection == Vector3.right) chargeDirection = Vector3Int.zero;
+            else if (chargeDirection == Vector3.right) chargeDirection = Vector3Int.down;
         }
     }
 
@@ -302,7 +305,7 @@ public class DieController : MonoBehaviour
         if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;// checking if new move spot is occupied
         
         var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
-        var axis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orhtagonal to the plane formed by direction and y axis
+        var axis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orthagonal to the plane formed by direction and y axis
 
         lastAction = moves[index];
 
@@ -352,7 +355,6 @@ public class DieController : MonoBehaviour
             source.PlayOneShot(diceHit, 0.7f);
         }   
         totalDiceMoves++;
-
         position += moveVec;
         WinCheck();
         

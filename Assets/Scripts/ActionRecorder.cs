@@ -156,7 +156,6 @@ public class ActionRecorder : MonoBehaviour
         if (stateStack.Count <= 1) {
             return;
         }
-
         //gets the state that the dice just moved too (obtained right after the move happened)
         states mechanicsState = stateStack.Pop();
 
@@ -168,11 +167,11 @@ public class ActionRecorder : MonoBehaviour
         if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].setState(moveState.limitedUseTileState[i]);
         if (moveState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].setState(moveState.legoSwitchState[i]);
 
-        if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)mechanicsState.chargeDirection;
+        if (moveState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)mechanicsState.chargeDirection;
         if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].setState(moveState.chargeState[i]);
 
         ReverseTurn(mechanicsState.ghostRotation)(); //note that this MUST happen before the position is moved since mechanics rely on last position
-
+        Debug.Log(dieController.chargeDirection);
         //dice
         dieController.position = moveState.mappedDieLocation;
         die.transform.position = MapToActualPosition(moveState.mappedDieLocation);
