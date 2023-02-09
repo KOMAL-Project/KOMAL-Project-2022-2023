@@ -49,7 +49,7 @@ public class ChargeController : Mechanic
         if (state != 2)
         {
             // When charge face touches ground, reset charge.
-            if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this && this.position != dieControl.position)
+            if (dieControl.chargeDirection == Vector3.down && dieControl.currentCharge == this && this.position != dieControl.position)
             {
                 deactivateSelf(false);
 

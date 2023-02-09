@@ -169,7 +169,6 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveBack()
     {
-        Debug.Log("Move Back");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.forward],
@@ -197,7 +196,6 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveForward()
     {
-        Debug.Log("Move forward");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.back],
@@ -226,7 +224,6 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveLeft()
     {
-        Debug.Log("Move left");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.right],
@@ -255,7 +252,6 @@ public class DieController : MonoBehaviour
     /// </summary>
     public void MoveRight()
     {
-        Debug.Log("Move right");
         Dictionary<Vector3Int, int> newSides = new Dictionary<Vector3Int, int>(sides)
         {
             [Vector3Int.up] = sides[Vector3Int.left],
@@ -442,6 +438,7 @@ public class DieController : MonoBehaviour
         else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
         //Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;
+        chargeDirection = Vector3Int.zero;
         doc.PowerDown();
     }
 
