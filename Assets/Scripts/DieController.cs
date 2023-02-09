@@ -410,8 +410,8 @@ public class DieController : MonoBehaviour
     /// <param name="type"></param>
     public void PowerUp(int type, Vector3Int direction)
     {
-        chargeFaceObj.transform.position = this.gameObject.transform.position + new Vector3(0, -0.6f, 0);
-        chargeFaceObj.transform.eulerAngles = new Vector3(0, 90, 0);
+        chargeFaceObj.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(0.6f, 0.6f, 0.6f), direction);
+        chargeFaceObj.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
         chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
 

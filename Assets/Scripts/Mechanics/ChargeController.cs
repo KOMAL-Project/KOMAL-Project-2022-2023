@@ -144,11 +144,15 @@ public class ChargeController : Mechanic
             }
 
         }
-        else if (input == 1 & state != 1) { //reset gates if they were down
+        else if (input == 1 & state != 1) {
             rend.material = mats[1];
             dieControl.currentCharge = this;
-            dieControl.PowerUp(type, dieControl.chargeDirection);
-            setGates(true);
+            if (state == 2) {
+                dieControl.PowerUp(type, Vector3Int.up);
+                setGates(true);
+            } else {
+                dieControl.PowerUp(type, Vector3Int.down);
+            }
 
         }
         else if (input == 2 & state != 2) { //charge connected
