@@ -106,12 +106,12 @@ public class ChargeController : Mechanic
         if (used) { //unable to be used afterwards
             state = 2;
             rend.material = mats[1];
-            pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
-
+            
         } else { //still able to be used afterwards
             state = 0;
             rend.material = mats[0];
             dieControl.chargeDirection = Vector3Int.zero;
+            pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
     }
 
