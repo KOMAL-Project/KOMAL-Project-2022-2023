@@ -49,7 +49,7 @@ public record states {
             this.chargeDirection = other.chargeDirection;
         }
         else {
-            other.chargeDirection = null;
+            //other.chargeDirection = null;
         }
         if (other.legoSwitchState is not null && !(this.legoSwitchState.SequenceEqual(other.legoSwitchState))) {
             this.legoSwitchState = other.legoSwitchState;
@@ -119,6 +119,7 @@ public class ActionRecorder : MonoBehaviour
 /// <returns></returns>
     public states getState() {
 
+        //Debug.Log("get state" + dieController.chargeDirection);
         List<int> SingleUseStates = new List<int>();
         foreach (SingleUseController t in SUC) SingleUseStates.Add(t.getState());
         List<int> ChargeStates = new List<int>();
@@ -156,7 +157,6 @@ public class ActionRecorder : MonoBehaviour
         if (stateStack.Count <= 1) {
             return;
         }
-
         //gets the state that the dice just moved too (obtained right after the move happened)
         states mechanicsState = stateStack.Pop();
 
@@ -168,11 +168,13 @@ public class ActionRecorder : MonoBehaviour
         if (moveState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].setState(moveState.limitedUseTileState[i]);
         if (moveState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].setState(moveState.legoSwitchState[i]);
 
-        if (mechanicsState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)mechanicsState.chargeDirection;
+        //Debug.Log("set state 1" + dieController.chargeDirection);
         if (moveState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].setState(moveState.chargeState[i]);
-
-        ReverseTurn(mechanicsState.ghostRotation)(); //note that this MUST happen before the position is moved since mechanics rely on last position
-
+    
+        ReverseTurn(mechanicsState.ghostRotation)();
+        //Debug.Log("set state 2" + dieController.chargeDirection);
+        if (moveState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)moveState.chargeDirection;
+        //Debug.Log("set state 3" + dieController.chargeDirection);
         //dice
         dieController.position = moveState.mappedDieLocation;
         die.transform.position = MapToActualPosition(moveState.mappedDieLocation);

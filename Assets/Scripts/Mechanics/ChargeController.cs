@@ -49,7 +49,7 @@ public class ChargeController : Mechanic
         if (state != 2)
         {
             // When charge face touches ground, reset charge.
-            if (dieControl.chargeDirection == Vector3.zero && dieControl.currentCharge == this)
+            if (dieControl.chargeDirection == Vector3.down && dieControl.currentCharge == this && this.position != dieControl.position)
             {
                 deactivateSelf(false);
 
@@ -144,11 +144,15 @@ public class ChargeController : Mechanic
             }
 
         }
-        else if (input == 1 & state != 1) { //reset gates if they were down
+        else if (input == 1 & state != 1) {
             rend.material = mats[1];
             dieControl.currentCharge = this;
-            dieControl.PowerUp(type, dieControl.chargeDirection);
-            setGates(true);
+            if (state == 2) {
+                dieControl.PowerUp(type, Vector3Int.up);
+                setGates(true);
+            } else {
+                dieControl.PowerUp(type, Vector3Int.down);
+            }
 
         }
         else if (input == 2 & state != 2) { //charge connected
