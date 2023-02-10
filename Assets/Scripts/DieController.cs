@@ -402,7 +402,8 @@ public class DieController : MonoBehaviour
             gm.LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
             GetComponentInChildren<Animator>().SetTrigger("Go");
-            cameraObj.GetComponentInParent<Animator>().SetTrigger("Go");
+            Debug.Log(cameraObj);
+            cameraObj.GetComponentInChildren<Animator>().SetTrigger("Go");
         }
     }
     
