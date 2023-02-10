@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Controls Tutorial
   m_EditorClassIdentifier: 
   levelID: 1-1
-  panelImage: {fileID: 2800000, guid: 4531dc7b7dafa1c419bd7b14b930a772, type: 3}
+  panelImage: {fileID: 2800000, guid: a7f2c4e9af51ef4428ecdca943fdff32, type: 3}
