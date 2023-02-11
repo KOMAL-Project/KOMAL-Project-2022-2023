@@ -54,7 +54,7 @@ public class DieOverlayController : MonoBehaviour
         }
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        Debug.Log(die.name);
+        //Debug.Log(die.name);
         UpdateIcons();
 
         targetAnchorRotation = rotationAnchorX.transform.eulerAngles;

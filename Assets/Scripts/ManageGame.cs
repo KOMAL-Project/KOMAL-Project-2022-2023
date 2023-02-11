@@ -67,24 +67,33 @@ public class ManageGame : MonoBehaviour
         dPad = GameObject.FindGameObjectWithTag("D-Pad");
         playerUI = dPad.transform.parent.gameObject;
         tutorialPanel = playerUI.transform.GetChild(playerUI.transform.childCount - 1).gameObject;
+        
         inputManager = dPad.GetComponent<DirectionalButtonController>();
     }
 
-    private void Start()
+    IEnumerator ActivateTutorialPanel()
     {
+        yield return new WaitForSecondsRealtime(.25f);
         TutorialPanel[] panels = Resources.LoadAll<TutorialPanel>("TutorialPanels");
         string tempLevelIDString = chapterID + "-" + levelID;
+
         foreach (TutorialPanel p in panels)
         {
             Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
             if (p.levelID == tempLevelIDString)
             {
+                Debug.Log("match");
                 tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(p.panelImage,
                     new Rect(0, 0, 750, 500), Vector2.zero);
-                tutorialPanel.GetComponent<Animator>().Play("OnScreen");
+                tutorialPanel.GetComponent<Animator>().Play("GoOnScreen");
                 break;
             }
         }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(ActivateTutorialPanel());
     }
 
     private void Update()
