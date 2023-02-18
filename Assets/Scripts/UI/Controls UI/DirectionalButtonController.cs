@@ -52,6 +52,7 @@ public class DirectionalButtonController : MonoBehaviour
         keys["generic-touch"] = false;
         for (int i = 0; i < Input.touchCount; i++)
         {
+            // Touchscreen Input
             Touch t = Input.GetTouch(i);
             if (t.phase == TouchPhase.Began)
             {
@@ -74,8 +75,31 @@ public class DirectionalButtonController : MonoBehaviour
                     StartCoroutine(UncheckInput(key, .1f));
                 }
                 touchStarts[i] = new Vector2();
-
             }
+        }
+        // Mouse "touch" Input
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("MouseUp");
+            touchStarts[0] = Input.mousePosition;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("MouseUp");
+            keys["generic-touch"] = true;
+
+            Vector2 mousePos = Input.mousePosition;
+
+            float deltaX = mousePos.x - touchStarts[0].x;
+            if (Mathf.Abs(deltaX) > swipeThreshold)
+            {
+                Debug.Log(mousePos.x + " " + touchStarts[0].x + " " + deltaX);
+                string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
+                keys[key] = true;
+                Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
+                StartCoroutine(UncheckInput(key, .1f));
+            }
+            touchStarts[0] = new Vector2();
         }
     }
 
