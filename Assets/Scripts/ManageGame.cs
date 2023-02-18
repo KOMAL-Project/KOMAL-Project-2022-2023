@@ -73,22 +73,21 @@ public class ManageGame : MonoBehaviour
 
     IEnumerator ActivateTutorialPanel()
     {
-        yield return new WaitForSecondsRealtime(.25f);
+        yield return new WaitForSecondsRealtime(.25f); // delay the function until some time after the level has started
         TutorialPanel[] panels = Resources.LoadAll<TutorialPanel>("TutorialPanels");
         string tempLevelIDString = chapterID + "-" + levelID;
-
+        TutorialPanel panel = null;
         foreach (TutorialPanel p in panels)
         {
             Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
-            if (p.levelID == tempLevelIDString)
-            {
-                Debug.Log("match");
-                tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(p.panelImage,
-                    new Rect(0, 0, 750, 500), Vector2.zero);
-                tutorialPanel.GetComponent<Animator>().Play("GoOnScreen");
-                break;
-            }
+            if (p.levelID == tempLevelIDString) { panel = p; break; }
         }
+
+        if (panel == null) yield break;
+        tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(panel.panelImage,
+            new Rect(0, 0, 750, 500), Vector2.zero); // Set the panel image to the at
+        tutorialPanel.GetComponent<Animator>().Play("GoOnScreen");
+
     }
 
     private void Start()
