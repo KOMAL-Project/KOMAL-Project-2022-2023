@@ -53,6 +53,7 @@ public class ManageGame : MonoBehaviour
         get {return instance;}
     }
     GameObject playerUI, tutorialPanel, dPad;
+    bool tutorialDismissed = false;
     DirectionalButtonController inputManager;
 
     private void Awake()
@@ -71,10 +72,16 @@ public class ManageGame : MonoBehaviour
         inputManager = dPad.GetComponent<DirectionalButtonController>();
     }
 
+    /// <summary>
+    /// Handles whether or not to display a tutorial panel. Runs once upon level startup.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ActivateTutorialPanel()
     {
         yield return new WaitForSecondsRealtime(.25f); // delay the function until some time after the level has started
         TutorialPanel[] panels = Resources.LoadAll<TutorialPanel>("TutorialPanels");
+        
+        // here we check through all tutorial panels to see if one of their ID's matches this levels ID
         string tempLevelIDString = chapterID + "-" + levelID;
         TutorialPanel panel = null;
         foreach (TutorialPanel p in panels)
@@ -84,6 +91,8 @@ public class ManageGame : MonoBehaviour
         }
 
         if (panel == null) yield break;
+        // If a panel with a matching ID has been found, set the tutorial panel's image to the image of that panel and display the tutorial panel
+        dieController.canControl = false;
         tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(panel.panelImage,
             new Rect(0, 0, 750, 500), Vector2.zero); // Set the panel image to the at
         tutorialPanel.GetComponent<Animator>().Play("GoOnScreen");
@@ -98,9 +107,11 @@ public class ManageGame : MonoBehaviour
     private void Update()
     {
        // Debug.Log(inputManager.keys["generic-touch"]);
-        if (inputManager.keys["generic-touch"])
+        if (inputManager.keys["generic-touch"] && !tutorialDismissed)
         {
             tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);
+            dieController.canControl = true;
+            tutorialDismissed = true;
         }
     }
 
@@ -128,6 +139,9 @@ public class ManageGame : MonoBehaviour
         return ("" + IDLevel + "-" + IDChapter);
     }
 
+    /// <summary>
+    /// Runs upon level completion.
+    /// </summary>
     public void LevelComplete()
     {
         levelFinishing = true;
@@ -145,20 +159,19 @@ public class ManageGame : MonoBehaviour
     /// <returns></returns>
     IEnumerator NextLevel()
     {
+        // Wait a few seconds for the level ending animation to complete
         yield return new WaitForSecondsRealtime(5);
-        //Debug.Log(levelIDString + " " + levelIDString.Equals("12"));
+        // Run the following if we are NOT in the last level in the sequence (12th normal level or 4th bonus level)
         if (!levelIDString.Equals("12") && !levelIDString.Equals("b4")) {
             furthestLevel = (furthestChapter == chapterID) ? levelID + 1 : furthestLevel;
-            Debug.Log("LEVLEIDSTERINHG " + levelIDString);
+            // Get the integer number of the next level in the sequence
             int newLevelID = levelIDString[0] == 'b' ? int.Parse(levelIDString[1].ToString()) + 1 : levelID + 1;
-            
+            // Combine the integer number of the next level with the sequence number (chapter number + b if bonus)
             string newLevelIDString = levelIDString[0] == 'b' ? "b" + newLevelID : newLevelID.ToString();
-            Debug.Log(chapterID + " " + levelIDString + " " + newLevelID + " " + newLevelIDString);
             SceneManager.LoadSceneAsync("Scenes/Chapter " + chapterID + "/Level " + newLevelIDString);
         }
         else {
             furthestChapter++;
-            //furthestLevel = 0;
             SceneManager.LoadSceneAsync("Menu");
         }
     }

@@ -49,6 +49,8 @@ public class DirectionalButtonController : MonoBehaviour
 
     void Update()
     {
+        // Handles touch/mouse input for detecting swipes or taps
+
         keys["generic-touch"] = false;
         for (int i = 0; i < Input.touchCount; i++)
         {

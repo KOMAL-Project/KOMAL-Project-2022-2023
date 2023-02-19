@@ -77,6 +77,7 @@ public class DieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(canControl);
         if (canControl && !isMoving && Time.time >= cs.GetTimeDiff()+.1f)
         {
             GetInput();

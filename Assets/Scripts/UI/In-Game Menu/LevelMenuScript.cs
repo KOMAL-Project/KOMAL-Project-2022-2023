@@ -22,37 +22,52 @@ public class LevelMenuScript : MonoBehaviour
         currentMenu = 0;
         //Debug.Log(Yoffset);
         Yoffset = GetComponent<CanvasScaler>().referenceResolution.y;
+        die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
     }
 
-    void Update() {
-        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing)) {
-            if (currentMenu == 1) {
+    void Update() 
+    {
+        if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing)) 
+        {
+            if (currentMenu == 1) 
+            {
                 changeMenu(0);
             }
-            else {
+            else 
+            {
                 changeMenu(1);
             }
         } 
-        if (Input.GetKeyDown(KeyCode.R) && !ManageGame.levelFinishing) {
+        if (Input.GetKeyDown(KeyCode.R) && !ManageGame.levelFinishing) 
+        {
             restartLevel();
         }
     }
 
-    public void restartLevel() {
+    public void restartLevel() 
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void returnToSelector() {
+    public void returnToSelector() 
+    {
         SceneManager.LoadScene("Menu");
     }
 
     //menu animations
-    public void changeMenu(int to) {
+    public void changeMenu(int to) 
+    {
 
-        if (ManageGame.levelFinishing) {
+        if (ManageGame.levelFinishing) 
+        {
             return;
         }
-        
+
+        // Freeze die motion if pausing, unfreeze if unpausing:
+        die.canControl = to == 0;
+
+        Debug.Log(die.canControl + ": SAEFSDF");
+
         //Debug.Log(currentMenu + "  " + to);
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
@@ -61,27 +76,28 @@ public class LevelMenuScript : MonoBehaviour
         float target = (to > currentMenu) ? Yoffset : -Yoffset;
         //Debug.Log(pause.GetComponent<RectTransform>().localPosition.y);
 
-        if (to == 0) { //moving back to gameplay
-
+        if (to == 0) 
+        { //moving back to gameplay
             //camData.renderPostProcessing = false;
-            die.canControl = true;
             LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
         }
-        else if (to == 1) { //moving to pause
+        else if (to == 1) 
+        { //moving to pause
 
             LeanTween.moveY(pause.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
-            if (currentMenu == 0) { //moving from gameplay
-
+            if (currentMenu == 0)
+            { //moving from gameplay
                 //camData.renderPostProcessing = false;
-                die.canControl = true;
             }
-            else { //moving from options
+            else 
+            { //moving from options
                 LeanTween.moveY(options.GetComponent<RectTransform>(), options.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
             }
             
         }
-        else { //moving to options
+        else 
+        { //moving to options
             LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
             LeanTween.moveY(options.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
             
