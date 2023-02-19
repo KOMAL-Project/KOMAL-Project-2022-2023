@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
+using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 
 /// <summary>
@@ -30,20 +32,21 @@ public class ChargeController : Mechanic
     public override void CheckForActivation() //this ONLY checks if the charge block and dice collide, not dice and door
     {
         if (state != 2 && CheckPipFilter() && dieControl.position == position)
-        {        
+        {
+            // Activate this switch
             activateSelf(Vector3.down);
 
-            //forces all other charges to deactivate
+            //forces all other charges to go back to normal
             foreach (List<ChargeController> _controllers in controllers) foreach (ChargeController control in _controllers) 
-            if (control != this && control.state != 2) {
+            if (control != this && control.state != 2 && control.type == this.type) {
                 control.state = 0;
                 control.rend.material = mats[0];
+                control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = control.pipFilter.pips > 0;
             }
-
-            
         }
     }
 
+    // Checks for charge touching cards and charge touching ground
     public void UpdateChargeStatus()
     {
         if (state != 2)
@@ -52,10 +55,11 @@ public class ChargeController : Mechanic
             if (dieControl.chargeDirection == Vector3.down && dieControl.currentCharge == this && this.position != dieControl.position)
             {
                 deactivateSelf(false);
-
+                pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = pipFilter.pips > 0;
                 if (source is not null) {
                     source.PlayOneShot(loseCharge, 1.0f);
                 }
+
             }
             else if (dieControl.currentCharge == this)
             {
@@ -70,7 +74,8 @@ public class ChargeController : Mechanic
 
                         foreach (ChargeController control in controllers[type]) {
                             control.rend.material = mats[1];
-                            control.state = 2; 
+                            control.state = 2;
+                            control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
                         }
 
                         break;
@@ -111,7 +116,7 @@ public class ChargeController : Mechanic
             state = 0;
             rend.material = mats[0];
             dieControl.chargeDirection = Vector3Int.zero;
-            pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = pipFilter.pips > 0;
         }
     }
 
