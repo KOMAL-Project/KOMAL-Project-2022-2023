@@ -16,7 +16,7 @@ public class DirectionalButtonController : MonoBehaviour
     CameraScript cs;
     // variables needed for touch swiping
     Vector2[] touchStarts;
-    private int swipeThreshold = 200;
+    private int touchSwipeThreshold = 200, mouseSwipeThreshold = 100;
 
 
     private void Start()
@@ -39,7 +39,7 @@ public class DirectionalButtonController : MonoBehaviour
             { "generic-touch", false },
         };
 
-        touchStarts = new Vector2[10]; // 10 fingers on two hands explains this limit
+        touchStarts = new Vector2[11]; // 10 fingers on two hands + 1 to store mouse input
         cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();
         overheadButton = dPadObject.transform.parent.GetChild(0).gameObject;
     }
@@ -68,8 +68,9 @@ public class DirectionalButtonController : MonoBehaviour
 
                 float deltaX = t.position.x - touchStarts[i].x;
                 
-                if (Mathf.Abs(deltaX) > swipeThreshold)
+                if (Mathf.Abs(deltaX) > touchSwipeThreshold)
                 {
+                    Debug.Log("Touch " + deltaX);
                     Debug.Log(t.position.x + " " + touchStarts[i].x + " " + deltaX);
                     string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
                     keys[key] = true;
@@ -83,7 +84,7 @@ public class DirectionalButtonController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("MouseUp");
-            touchStarts[0] = Input.mousePosition;
+            touchStarts[10] = Input.mousePosition;
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -92,16 +93,18 @@ public class DirectionalButtonController : MonoBehaviour
 
             Vector2 mousePos = Input.mousePosition;
 
-            float deltaX = mousePos.x - touchStarts[0].x;
-            if (Mathf.Abs(deltaX) > swipeThreshold)
+            float deltaX = mousePos.x - touchStarts[10].x;
+           
+            if (Mathf.Abs(deltaX) > mouseSwipeThreshold)
             {
-                Debug.Log(mousePos.x + " " + touchStarts[0].x + " " + deltaX);
+                Debug.Log("Mouse " + deltaX);
+                Debug.Log(mousePos.x + " " + touchStarts[10].x + " " + deltaX);
                 string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
                 keys[key] = true;
                 Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
                 StartCoroutine(UncheckInput(key, .1f));
             }
-            touchStarts[0] = new Vector2();
+            touchStarts[10] = new Vector2();
         }
     }
 

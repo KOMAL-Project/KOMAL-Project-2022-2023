@@ -303,7 +303,7 @@ public class DieController : MonoBehaviour
         if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
         if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;// checking if new move spot is occupied
         
-        var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f);
+        var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f); // the point around which we are rotating
         var axis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orthagonal to the plane formed by direction and y axis
 
         lastAction = moves[index];
