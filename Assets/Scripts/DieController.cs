@@ -27,6 +27,7 @@ public class DieController : MonoBehaviour
 
     public bool canControl = true;
     private bool isMoving;
+    private Animator anim;
     
     [SerializeField] List<Material> chargeFaceMaterials;
     [SerializeField] List<Mesh> chargeFaceMeshes;
@@ -70,6 +71,7 @@ public class DieController : MonoBehaviour
 
         // Die Overlay Stuff
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
+        anim = GetComponentInChildren<Animator>();
 
         chargeType = 0;
     }
@@ -80,7 +82,7 @@ public class DieController : MonoBehaviour
         //Debug.Log(canControl);
         if (canControl && !isMoving && Time.time >= cs.GetTimeDiff()+.1f)
         {
-            GetInput();
+            HandleMovement();
             if (dPad.keys["undo"]) actionRec.Undo();
         }
         //Debug.Log(gm.levelData);
@@ -281,7 +283,7 @@ public class DieController : MonoBehaviour
     /// The order of the elements are offset by an amount based on the camera angle.
     /// This makes it so that the die always moves relative to the camera (left arrow always makes die go left)
     /// </summary>
-    void GetInput()
+    void HandleMovement()
     {
         int x = position.x;
         int y = position.y;
@@ -337,10 +339,10 @@ public class DieController : MonoBehaviour
     /// </summary>
     /// <param name="anchor"></param>
     /// <param name="axis"></param>
-    /// <param name="func"></param>
+    /// <param name="moveFunc"></param>
     /// <param name="moveVec"></param>
     /// <returns></returns>
-    IEnumerator Roll(Vector3 anchor, Vector3 axis, Action func, Vector2Int moveVec) {
+    IEnumerator Roll(Vector3 anchor, Vector3 axis, Action moveFunc, Vector2Int moveVec) {
         isMoving = true;
 
         for (int i = 0; i < (90 /rollSpeed); i++) 
@@ -355,7 +357,7 @@ public class DieController : MonoBehaviour
         position += moveVec;
         WinCheck();
         
-        func();
+        moveFunc();
         gm.CheckMechanics();
 
         actionRec.Record();
@@ -400,7 +402,7 @@ public class DieController : MonoBehaviour
             canControl = false;
             gm.LevelComplete();
             transform.rotation = new Quaternion(0, 0, 0, 0);
-            GetComponentInChildren<Animator>().SetTrigger("Go");
+            anim.SetTrigger("Go");
             Debug.Log(cameraObj);
             cameraObj.GetComponentInChildren<Animator>().SetTrigger("Go");
         }
@@ -412,6 +414,8 @@ public class DieController : MonoBehaviour
     /// <param name="type"></param>
     public void PowerUp(int type, Vector3Int direction)
     {
+        String[] animStrings = { "Power Up Blue", "Power Up Red", "Power Up Yellow", "Power Up Green" };
+
         chargeFaceObj.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(0.6f, 0.6f, 0.6f), direction);
         chargeFaceObj.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
         chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
@@ -419,6 +423,8 @@ public class DieController : MonoBehaviour
 
         doc.PowerDown();
         doc.PowerUp(chargeFaceMeshes[type], chargeFaceMaterials[type]);
+        Debug.Log(type + " " + animStrings[type]);
+        anim.Play(animStrings[type]);
 
         chargeType = type;
         Debug.Log("powering up");
@@ -428,9 +434,10 @@ public class DieController : MonoBehaviour
     }
 
     /// <summary>
-    /// Removes active Charge from the die.
+    /// Removes any existing charges on the die.
     /// </summary>
-    public void PowerDown()
+    /// <param name="playAnim"></param>
+    public void PowerDown(bool playAnim = false)
     {
         chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
 
@@ -442,6 +449,7 @@ public class DieController : MonoBehaviour
         chargeType = 0;
         chargeDirection = Vector3Int.zero;
         doc.PowerDown();
+        if(playAnim) anim.Play("Power Down");
     }
 
     public bool getIsMoving() { 

@@ -105,7 +105,7 @@ public class ChargeController : Mechanic
     /// </summary>
     /// <param name="active"></param>
     public void deactivateSelf(bool used) {
-        dieControl.PowerDown();
+        dieControl.PowerDown(true);
         dieControl.currentCharge = null;
 
         if (used) { //unable to be used afterwards
