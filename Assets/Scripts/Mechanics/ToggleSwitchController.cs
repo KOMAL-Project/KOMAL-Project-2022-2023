@@ -32,7 +32,7 @@ public class ToggleSwitchController : Mechanic
         spr.sprite = state == 0 ? xSprite : oSprite;
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
-
+        
         
         // Activate X Blocks
         for (int i = 0; i < xBlocks.Count; i++)
@@ -42,6 +42,12 @@ public class ToggleSwitchController : Mechanic
             GameObject temp = xBlocks[i].transform.GetChild(0).gameObject;
             temp.GetComponent<Animator>().SetBool("Activated", true);
             temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", true);
+        }
+        // Deactivate O Blocks
+        for (int i = 0; i < oBlocks.Count; i++)
+        {
+            Vector2Int coords = oBlockPositions[i];
+            gameManager.levelData[coords.x, coords.y] = null;
         }
 
         pipFilter.gameObject.transform.localScale /= 10;

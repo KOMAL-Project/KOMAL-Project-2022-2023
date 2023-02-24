@@ -59,8 +59,8 @@ public class DirectionalButtonController : MonoBehaviour
             if (t.phase == TouchPhase.Began)
             {
                 touchStarts[i] = t.position;
-                Debug.Log("Touch Started @ " + t.position.x);
-                Debug.Log(touchStarts[i].x);
+                //Debug.Log("Touch Started @ " + t.position.x);
+                //Debug.Log(touchStarts[i].x);
             }
             if (t.phase == TouchPhase.Ended)
             {
@@ -70,11 +70,11 @@ public class DirectionalButtonController : MonoBehaviour
                 
                 if (Mathf.Abs(deltaX) > touchSwipeThreshold)
                 {
-                    Debug.Log("Touch " + deltaX);
-                    Debug.Log(t.position.x + " " + touchStarts[i].x + " " + deltaX);
+                    //Debug.Log("Touch " + deltaX);
+                    //Debug.Log(t.position.x + " " + touchStarts[i].x + " " + deltaX);
                     string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
                     keys[key] = true;
-                    Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
+                    //Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
                     StartCoroutine(UncheckInput(key, .1f));
                 }
                 touchStarts[i] = new Vector2();
@@ -83,12 +83,12 @@ public class DirectionalButtonController : MonoBehaviour
         // Mouse "touch" Input
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("MouseUp");
+            //Debug.Log("MouseDown");
             touchStarts[10] = Input.mousePosition;
         }
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("MouseUp");
+            //Debug.Log("MouseUp");
             keys["generic-touch"] = true;
 
             Vector2 mousePos = Input.mousePosition;
@@ -97,11 +97,11 @@ public class DirectionalButtonController : MonoBehaviour
            
             if (Mathf.Abs(deltaX) > mouseSwipeThreshold)
             {
-                Debug.Log("Mouse " + deltaX);
-                Debug.Log(mousePos.x + " " + touchStarts[10].x + " " + deltaX);
+                //Debug.Log("Mouse " + deltaX);
+                //Debug.Log(mousePos.x + " " + touchStarts[10].x + " " + deltaX);
                 string key = (deltaX < 0) ? "counterclockwise" : "clockwise";
                 keys[key] = true;
-                Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
+                //Debug.Log((deltaX < 0) ? "counterclockwise" : "clockwise");
                 StartCoroutine(UncheckInput(key, .1f));
             }
             touchStarts[10] = new Vector2();
@@ -118,7 +118,7 @@ public class DirectionalButtonController : MonoBehaviour
 
     private IEnumerator UncheckInput(string key, float delay)
     {
-        Debug.Log("waiting to uncheck");
+        //Debug.Log("waiting to uncheck");
         yield return new WaitForSeconds(delay);
         Release(key);
         //Debug.Log(key + " released");
