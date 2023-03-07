@@ -428,8 +428,8 @@ public class DieController : MonoBehaviour
 
         chargeType = type;
         Debug.Log("powering up");
-        sides[Vector3Int.down] = 7 + type;
-        Debug.Log(sides[Vector3Int.down]);
+        sides[direction] = 7 + type;
+        //Debug.Log(sides[Vector3Int.down]);
         //Debug.Log(type);
     }
 
