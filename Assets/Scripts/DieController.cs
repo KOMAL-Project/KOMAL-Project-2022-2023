@@ -416,7 +416,7 @@ public class DieController : MonoBehaviour
     {
         String[] animStrings = { "Power Up Blue", "Power Up Red", "Power Up Yellow", "Power Up Green" };
 
-        chargeFaceObject.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(1,1,1) * .6f, direction);
+        chargeFaceObject.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(1,1,1) * .55f, direction);
         chargeFaceObject.transform.localEulerAngles = new Vector3(-90, 0, 0);
 
         //chargeFaceObjAnchor.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);

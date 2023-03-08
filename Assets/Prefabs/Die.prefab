@@ -297,10 +297,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7a657a77107830647a1505e6681020fd, type: 2}
   - {fileID: 2100000, guid: be1f6475b81aabd438303eec92e5b811, type: 2}
   chargeFaceMeshes:
-  - {fileID: -2432090755550338912, guid: f743100d66dd8514a8dec587b467381d, type: 3}
-  - {fileID: -2432090755550338912, guid: bc9530ab7912c4d42aeb1dce83090ccf, type: 3}
-  - {fileID: -2432090755550338912, guid: 15f17603702fef341b49c3350765f93b, type: 3}
-  - {fileID: -2432090755550338912, guid: 8c1f13942263ea64b9454cec8db46e4e, type: 3}
+  - {fileID: -2432090755550338912, guid: c7366aa8f595b434bbf793570e5f1ea3, type: 3}
+  - {fileID: -2432090755550338912, guid: be95721b43a817f439836b790fe72b5d, type: 3}
+  - {fileID: -2432090755550338912, guid: 760033b56754d43429da95453df639a5, type: 3}
+  - {fileID: -2432090755550338912, guid: 6bf00b05b8c35bc419fe69e33ec72e75, type: 3}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
   doc: {fileID: 0}
   chargeType: 0
