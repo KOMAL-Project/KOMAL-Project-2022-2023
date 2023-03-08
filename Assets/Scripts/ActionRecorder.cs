@@ -11,6 +11,7 @@ public record states {
     public Action ghostRotation; // the function that handles rotation of the die's face structure
     public Vector2Int mappedDieLocation; // tile position of the die on the board
     public Quaternion rotation; // rotation of the die
+    public Dictionary<Vector3Int, int> sides;
     public Quaternion overlayRotation; // rotation of the overlay
     //states of mechanics
     //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
@@ -137,11 +138,12 @@ public class ActionRecorder : MonoBehaviour
         foreach (ChargeController t in CC) ChargeStates.Add(t.getState());
         List<int> LegoStates = new List<int>();
         foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getState());
-        return new states 
+        return new states
         {
-            ghostRotation = dieController.lastAction, 
+            ghostRotation = dieController.lastAction,
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
+            sides = dieController.sides,
             overlayRotation = dieController.doc.overlayDie.transform.rotation,
             // Mechanics -- we only add them to the list if they exist, otherwise we return null.
             toggleState = (TSC is not null ? TSC.getState() : null),
@@ -177,20 +179,24 @@ public class ActionRecorder : MonoBehaviour
         // get the state one step back in time
         states oneStepBackState = stateStack.Peek();
 
-        // set the states of mechanics to that of moveState
-        if (oneStepBackState.toggleState is not null) TSC.setState((int)oneStepBackState.toggleState);
-        if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].setState(oneStepBackState.limitedUseTileState[i]);
-        if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].setState(oneStepBackState.legoSwitchState[i]);
-        if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].setState(oneStepBackState.chargeState[i]);
-    
         // Die Rotation reversal
         ReverseTurn(presentState.ghostRotation)();
         if (oneStepBackState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)oneStepBackState.chargeDirection;
+
+        // set the states of mechanics to that of moveState
+        if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
+        if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].SetState(oneStepBackState.limitedUseTileState[i]);
+        if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
+        if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
+
         // Die Position Undo
         dieController.position = oneStepBackState.mappedDieLocation;
         die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
         die.transform.rotation = oneStepBackState.rotation;
         dieController.doc.overlayDie.transform.rotation = oneStepBackState.overlayRotation;
+
+        // manually fix the charge mesh on the player die because we don't know what's breaking it in this process
+        UpdateChargeOnDie();
 
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()
@@ -208,11 +214,24 @@ public class ActionRecorder : MonoBehaviour
         int index = moves.IndexOf(input);
         return moves[(index + 2) % 4];
     }
-/// <summary>
-/// Converts a mapped vector2 to a actual position in space vector3
-/// </summary>
-/// <param name="mapped"></param>
-/// <returns></returns>
+
+    /// <summary>
+    /// Since the undo process doesn't take into account position of the die's mesh, this function adjusts things after the fact to be accurate
+    /// </summary>
+    public void UpdateChargeOnDie()
+    {
+        if(dieController.chargeType > 0)
+        {
+            //Vector3Int dir = dieController.chargeDirection;
+            dieController.PowerUp(dieController.chargeType, dieController.chargeDirection, true);
+        }
+    }
+
+    /// <summary>
+    /// Converts a mapped vector2 to a actual position in space vector3
+    /// </summary>
+    /// <param name="mapped"></param>
+    /// <returns></returns>
     public Vector3 MapToActualPosition(Vector2Int mapped) 
     {
         return new Vector3(change.x + mapped.x, change.y, change.z + mapped.y);

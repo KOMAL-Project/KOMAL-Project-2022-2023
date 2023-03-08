@@ -30,7 +30,7 @@ public class SingleUseController : Mechanic
         }
     }
 
-    public override void setState(int input) {
+    public override void SetState(int input) {
         state = input;
         if (input == 0) {
             GetComponentInChildren<Animator>().SetTrigger("Back");

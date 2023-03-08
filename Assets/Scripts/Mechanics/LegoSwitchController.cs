@@ -34,13 +34,13 @@ public class LegoSwitchController : Mechanic
     {
         if (state == 0 && CheckPipFilter() && position == dieControl.position)
         {
-            setState(1);
-            foreach (LegoSwitchController controller in controllers) if (controller != this) setState(1);
+            SetState(1);
+            foreach (LegoSwitchController controller in controllers) if (controller != this) SetState(1);
    
         }
     } 
 
-    public override void setState(int input) {
+    public override void SetState(int input) {
     state = input;
 
     if (input == 1) {

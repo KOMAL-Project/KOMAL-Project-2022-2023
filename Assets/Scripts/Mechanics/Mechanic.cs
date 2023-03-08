@@ -15,7 +15,7 @@ public abstract class Mechanic : MonoBehaviour
     protected DieController dieControl;
     protected ManageGame gameManager;
     public abstract void CheckForActivation(); //overall checking function
-    public abstract void setState(int input); //overall setting state function
+    public abstract void SetState(int input); //overall setting state function
 
     /// <summary>
     /// Checks if the current pip on the die facing down matches the filter

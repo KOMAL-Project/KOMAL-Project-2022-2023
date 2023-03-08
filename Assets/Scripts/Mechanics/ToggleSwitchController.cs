@@ -97,7 +97,7 @@ public class ToggleSwitchController : Mechanic
         }
     }
 
-    public override void setState(int input) {
+    public override void SetState(int input) {
         if (state != input) {
             state = input;
             doToggle();

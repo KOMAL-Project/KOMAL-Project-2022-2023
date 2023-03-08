@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class DieController : MonoBehaviour
 {
@@ -15,7 +13,8 @@ public class DieController : MonoBehaviour
 
     public Vector3Int chargeDirection;
     public ChargeController currentCharge;
-    public GameObject chargeFaceObj;
+    public GameObject chargeFaceObjAnchor;
+    GameObject chargeFaceObject;
     public ActionRecorder actionRec;
     [HideInInspector] public Action lastAction;
     public Vector2Int position = new Vector2Int();
@@ -40,7 +39,7 @@ public class DieController : MonoBehaviour
     private CameraScript cs;
     public DieOverlayController doc;
     public static int totalDiceMoves = 0;
-    int chargeType;
+    public int chargeType;
     private static DieController instance;
     //used to get the one instance of die controller instead of using tags.
     //be careful using, will not work if used before dieController awakes
@@ -54,6 +53,7 @@ public class DieController : MonoBehaviour
         cs = cameraObj.GetComponent<CameraScript>();
         dPadObj = GameObject.FindGameObjectWithTag("D-Pad");
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
+        chargeFaceObject = chargeFaceObjAnchor.transform.GetChild(0).gameObject;
 
         source = MusicManager.Instance.GetComponents<AudioSource>()[1];
 
@@ -407,23 +407,33 @@ public class DieController : MonoBehaviour
             cameraObj.GetComponentInChildren<Animator>().SetTrigger("Go");
         }
     }
-    
+
     /// <summary>
     /// Applies Charge of type "type" to the face in a direction.
     /// </summary>
     /// <param name="type"></param>
-    public void PowerUp(int type, Vector3Int direction)
+    public void PowerUp(int type, Vector3Int direction, bool undoing = false)
     {
         String[] animStrings = { "Power Up Blue", "Power Up Red", "Power Up Yellow", "Power Up Green" };
 
-        chargeFaceObj.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(0.6f, 0.6f, 0.6f), direction);
-        chargeFaceObj.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
-        chargeFaceObj.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
-        chargeFaceObj.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
+        chargeFaceObject.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(1,1,1) * .6f, direction);
+        chargeFaceObject.transform.localEulerAngles = new Vector3(-90, 0, 0);
+
+        //chargeFaceObjAnchor.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
+
+        if (direction == Vector3Int.up)
+        {
+            chargeFaceObjAnchor.transform.eulerAngles -= new Vector3(0, 180, 0);
+            Debug.Log("AAAAAAAAAA");
+        }
+
+        Debug.Log("CHARGE " + direction.ToString() + " ROT " + chargeFaceObjAnchor.transform.eulerAngles);
+        chargeFaceObject.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
+        chargeFaceObject.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
 
         doc.PowerDown();
         doc.PowerUp(chargeFaceMeshes[type], chargeFaceMaterials[type]);
-        Debug.Log(type + " " + animStrings[type]);
+        // Debug.Log(type + " " + animStrings[type]);
         anim.Play(animStrings[type]);
 
         chargeType = type;
@@ -439,11 +449,11 @@ public class DieController : MonoBehaviour
     /// <param name="playAnim"></param>
     public void PowerDown(bool playAnim = false)
     {
-        chargeFaceObj.GetComponent<MeshFilter>().mesh = null;
+        chargeFaceObject.GetComponent<MeshFilter>().mesh = null;
 
-        Debug.Log("powered down");
+        //Debug.Log("powered down");
         if (chargeDirection != Vector3Int.zero) sides[chargeDirection] = 7 - sides[Vector3Int.zero - chargeDirection]; // The pips on opposing sides of a die always add up to 7
-                                                                                                                       // we can use this to find what a side is supposed to be
+                                                                                                                       // we can use this to find the pipcount of an unknown side
         else sides[Vector3Int.down] = 7 - sides[Vector3Int.up];
         //Debug.Log(sides[Vector3Int.down]);
         chargeType = 0;

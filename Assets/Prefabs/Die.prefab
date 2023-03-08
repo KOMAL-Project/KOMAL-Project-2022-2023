@@ -188,6 +188,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &2170760244556124579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8881337001051362539}
+  m_Layer: 0
+  m_Name: ChargeFaceAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8881337001051362539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2170760244556124579}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8963225348787188476}
+  m_Father: {fileID: 2429546876790258861}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2199291453945186597
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +251,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7806236073376926056}
-  - {fileID: 8963225348787188476}
+  - {fileID: 8881337001051362539}
   m_Father: {fileID: 7216286591117293616}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 90}
@@ -239,7 +271,7 @@ MonoBehaviour:
   dPadObj: {fileID: 0}
   chargeDirection: {x: 0, y: 0, z: 0}
   currentCharge: {fileID: 0}
-  chargeFaceObj: {fileID: 3721645712715558103}
+  chargeFaceObjAnchor: {fileID: 2170760244556124579}
   actionRec: {fileID: 5760006467806241220}
   position: {x: 0, y: 0}
   winPos: {x: 0, y: 0}
@@ -270,8 +302,8 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: 15f17603702fef341b49c3350765f93b, type: 3}
   - {fileID: -2432090755550338912, guid: 8c1f13942263ea64b9454cec8db46e4e, type: 3}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
-  pickupCharge: {fileID: 8300000, guid: ca435fe9fab980a429175c0be4f7464f, type: 3}
-  loseCharge: {fileID: 8300000, guid: 1d1215047d6461e48b6d2825f513a526, type: 3}
+  doc: {fileID: 0}
+  chargeType: 0
 --- !u!114 &5760006467806241220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,13 +344,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3721645712715558103}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.6, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2429546876790258861}
-  m_RootOrder: 1
+  m_Father: {fileID: 8881337001051362539}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &3498483221114436518
 MeshFilter:

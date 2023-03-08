@@ -70,9 +70,10 @@ public class ChargeController : Mechanic
                     {
                         deactivateSelf(true);
 
-                        setGates(false); //changes all the gates to be down
+                        SetGates(false); //changes all the gates to be down
 
-                        foreach (ChargeController control in controllers[type]) {
+                        foreach (ChargeController control in controllers[type]) 
+                        {
                             control.rend.material = mats[1];
                             control.state = 2;
                             control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -89,7 +90,8 @@ public class ChargeController : Mechanic
     /// causes the charge to be placed onto the dice. direction is the direction that the charge is placed (most often down).
     /// </summary>
     /// <param name="direction"></param>
-    public void activateSelf(Vector3 direction) {
+    public void activateSelf(Vector3 direction) 
+    {
         state = 1;
         dieControl.PowerDown(); // reset any existing charges before applying new ones
         dieControl.PowerUp(type, Vector3Int.down);
@@ -104,15 +106,18 @@ public class ChargeController : Mechanic
     /// i wouldnt blame you if you changed this variable name
     /// </summary>
     /// <param name="active"></param>
-    public void deactivateSelf(bool used) {
+    public void deactivateSelf(bool used) 
+    {
         dieControl.PowerDown(true);
         dieControl.currentCharge = null;
 
-        if (used) { //unable to be used afterwards
+        if (used)
+        { //unable to be used afterwards
             state = 2;
             rend.material = mats[1];
             
-        } else { //still able to be used afterwards
+        } else 
+        { //still able to be used afterwards
             state = 0;
             rend.material = mats[0];
             dieControl.chargeDirection = Vector3Int.zero;
@@ -124,14 +129,17 @@ public class ChargeController : Mechanic
     /// sets the gates to a certain state. active is blocking and taking up space.
     /// </summary>
     /// <param name="active"></param>
-    public void setGates(bool active) {
-        if (active) {
+    public void SetGates(bool active) 
+    {
+        if (active) 
+        {
             for (int j = 0; j < gates.Count; j++)
             {
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = gates[j];
                 gates[j].GetComponent<Animator>().SetBool("Active", true);
             }
-        } else {
+        } else 
+        {
             for (int j = 0; j < gates.Count; j++)
             {
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = null;
@@ -140,27 +148,33 @@ public class ChargeController : Mechanic
         }
     }
 
-    public override void setState(int input) {
-        if (input == 0 & state != 0) {
+    public override void SetState(int input) 
+    {
+        if (input == 0 && state != 0) 
+        {
             rend.material = mats[0];
-            if (dieControl.currentCharge == this) {
+            if (dieControl.currentCharge == this) 
+            {
                 dieControl.PowerDown();
                 dieControl.currentCharge = null;
             }
 
         }
-        else if (input == 1 & state != 1) {
+        else if (input == 1 && state != 1) 
+        { // if we are picking up a charge we did not have before
             rend.material = mats[1];
             dieControl.currentCharge = this;
-            if (state == 2) {
-                dieControl.PowerUp(type, Vector3Int.up);
-                setGates(true);
-            } else {
+            if (state == 2) 
+            {
+                dieControl.PowerUp(type, dieControl.chargeDirection);
+                SetGates(true);
+            } else 
+            {
                 dieControl.PowerUp(type, Vector3Int.down);
             }
-
         }
-        else if (input == 2 & state != 2) { //charge connected
+        else if (input == 2 && state != 2) 
+        { //charge connected
             dieControl.PowerDown();
             rend.material = mats[1];
             dieControl.currentCharge = null;
