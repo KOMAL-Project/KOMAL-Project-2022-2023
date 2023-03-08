@@ -6,7 +6,7 @@ using System.Linq;
 
 
 //record that contains all the necessary states info needed to revert move
-public record states {
+public struct states {
     //states of the die
     public Action ghostRotation; // the function that handles rotation of the die's face structure
     public Vector2Int mappedDieLocation; // tile position of the die on the board
