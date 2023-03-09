@@ -149,6 +149,8 @@ public class ManageGame : MonoBehaviour
         if (!finishedLevels.Contains(levelString)) {
             finishedLevels.Add(levelString);
         }
+        winSwitchInstance.GetComponentsInChildren<MeshRenderer>()[1].enabled = true;
+        winSwitchInstance.GetComponentInChildren<Animator>().enabled = true;
         winSwitchInstance.GetComponentInChildren<Animator>().SetTrigger("Go");
         StartCoroutine(NextLevel());
     }
