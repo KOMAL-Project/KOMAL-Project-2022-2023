@@ -142,13 +142,14 @@ public class GenerateLevel : MonoBehaviour
     void GenerateFloorTiles()
     {
         /// Set up basic floor plan (movable and empty spaces)
+        Transform floor = board.transform.Find("Floor Tiles");
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
                 if (!alternatingFloorTiles)
                 {
-                    floorData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    floorData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), floor);
                 }
                 else
                 {
@@ -159,7 +160,7 @@ public class GenerateLevel : MonoBehaviour
                     else if (i % 2 == 0 && j % 2 == 1) temp = floorTiles[2];
                     else temp = floorTiles[3];
 
-                    floorData[i, j] = Instantiate(temp, new Vector3(i - width / 2, 0.4f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    floorData[i, j] = Instantiate(temp, new Vector3(i - width / 2, 0.4f, j - length / 2), new Quaternion(0, 0, 0, 0), floor);
                 }
             }
         }
@@ -327,6 +328,15 @@ public class GenerateLevel : MonoBehaviour
     public void ReadLevel()
     {
         DieController dieControl = die.GetComponentInChildren<DieController>();
+        Transform walls = board.transform.Find("Walls");
+        Transform legoSwitches = board.transform.Find("Lego Switches");
+        Transform legos = board.transform.Find("Legos");
+        Transform chargeGivers = board.transform.Find("Charge Givers");
+        Transform cards = board.transform.Find("Cards");
+        Transform toggleSwitches = board.transform.Find("Toggle Switches");
+        Transform singleTiles = board.transform.Find("Single Use Tiles");
+        Transform XBlocks = board.transform.Find("X Blocks");
+        Transform OBlocks = board.transform.Find("O Blocks");
 
         for (int i = 0; i < width; i++)
         {
@@ -342,14 +352,14 @@ public class GenerateLevel : MonoBehaviour
                 // Basic Walls
                 if (pixel == Color.black)
                 {
-                    temp = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(wallObj, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), walls);
                     levelData[i, j] = temp;
                     Destroy(floorData[i, j]);
                 }
                 // Single Use Tiles
                 else if (pixel == singleUseColor)
                 {
-                    temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(singleUseTilePrefab, new Vector3(i - width / 2, .51f, j - length / 2), new Quaternion(0, 0, 0, 0), singleTiles);
                     singleUseTilesInLevel.Add(temp);
                     mec = temp.GetComponent<SingleUseController>();
                     temp = null; //DONT add it to levelData immediately
@@ -361,7 +371,7 @@ public class GenerateLevel : MonoBehaviour
                     // Lego Switches
                     if (pixel == legoSwitchColors[k])
                     {
-                        temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        temp = Instantiate(pipSwitchPrefab, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), legoSwitches);
                         type = k + 1;
                         mec = temp.GetComponent<LegoSwitchController>();
                         legoSwitchControllers[k].Add((LegoSwitchController) mec);
@@ -371,7 +381,7 @@ public class GenerateLevel : MonoBehaviour
                     // Legos
                     if (pixel == legoBlockColors[k])
                     {
-                        temp = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        temp = Instantiate(pipsWallsPrefabs[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), legos);
                         levelData[i, j] = temp;
                         legoGatesInLevel[k].Add(temp);
                         legoGatePositionsInLevel[k].Add(new Vector2Int(i, j));
@@ -383,7 +393,7 @@ public class GenerateLevel : MonoBehaviour
                     // Charge Givers    
                     if (pixel == chargeGiveColors[k])
                     {
-                        temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        temp = Instantiate(chargeSwitchPrefabs[k], new Vector3(i - width / 2, .1f, j - length / 2), new Quaternion(0, 0, 0, 0), chargeGivers);
                         type = k;
                         mec = temp.GetComponent<ChargeController>();
                         chargeControllers[k].Add((ChargeController) mec);
@@ -393,7 +403,7 @@ public class GenerateLevel : MonoBehaviour
                     // Cards
                     if (pixel == chargeCardColors[k])
                     {
-                        temp = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                        temp = Instantiate(chargeWalls[k], new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), cards);
                         levelData[i, j] = temp;
                         chargeGatesInLevel[k].Add(temp);
                         chargeGatePositionsInLevel[k].Add(new Vector2Int(i, j));
@@ -403,7 +413,7 @@ public class GenerateLevel : MonoBehaviour
                 // Toggle Switch
                 if (pixel == toggleSwitchColor)
                 {
-                    temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(toggleSwitchPrefab, new Vector3(i - width / 2, .6f, j - length / 2), new Quaternion(0, 0, 0, 0), toggleSwitches);
                     mec = temp.GetComponentInChildren<ToggleSwitchController>();
                     toggleSwitchControllers.Add((ToggleSwitchController) mec);
                     temp = null; //DONT add it to levelData immediately
@@ -411,14 +421,14 @@ public class GenerateLevel : MonoBehaviour
                 // "O" Toggle Block
                 else if (pixel == oBlockColor)
                 {
-                    temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(oBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), OBlocks);
                     oBlocksInLevel.Add(temp);
                     oBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // "X" Toggle Block
                 else if (pixel == xBlockColor)
                 {
-                    temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
+                    temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), XBlocks);
                     xBlocksInLevel.Add(temp);
                     temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
                     xBlockPositionsInLevel.Add(new Vector2Int(i, j));
