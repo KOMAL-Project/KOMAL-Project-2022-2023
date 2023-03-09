@@ -7,22 +7,26 @@ public class PipFilterController : MonoBehaviour
     public int pips;
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+
         if (pips > 0)
         {
             Rect rect = new Rect(0, 0, 10, 10);
             topSprites[pips - 1] = Sprite.Create(topTextures[pips - 1], rect, new Vector2(.5f, .5f));
 
-            SpriteRenderer spr = GetComponent<SpriteRenderer>();
-            spr.sprite = topSprites[pips - 1];
-            spr.gameObject.transform.localScale *= 10;
-            GetComponent<Animator>().Play("Normal");
+            spriteRenderer.sprite = topSprites[pips - 1];
+            spriteRenderer.gameObject.transform.localScale *= 10;
+            animator.Play("Normal");
         }
         else 
         {
-        GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<Animator>().enabled = false;
+        spriteRenderer.enabled = false;
+        animator.enabled = false;
         }
     }
 
@@ -44,12 +48,12 @@ public class PipFilterController : MonoBehaviour
 
     public void Enable() 
     {
-        GetComponent<SpriteRenderer>().enabled = true;
-        GetComponent<Animator>().enabled = true;
+        spriteRenderer.enabled = true;
+        animator.enabled = true;
     }
 
     public void Disable() {
-        GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<Animator>().enabled = false;
+        spriteRenderer.enabled = false;
+        animator.enabled = false;
     }
 }

@@ -41,14 +41,13 @@ public class LegoSwitchController : Mechanic
     } 
 
     public override void SetState(int input) {
-    state = input;
 
-    if (input == 1) {
+    if (input == 1 &&  state != 1) {
         foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", false);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
         foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {s.sprite = topSprites[6];}
     }
-    else if (input == 0) {
+    else if (input == 0 && state != 0) {
         foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", true);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
 
@@ -56,7 +55,7 @@ public class LegoSwitchController : Mechanic
         spriteRenders[0].sprite = topSprites[type - 1];
         spriteRenders[1].sprite = pipFilter.GetSprite(pipFilter.pips);
     }
-    else Debug.Log("Something went wrong!");
+    state = input;
     }
 
 

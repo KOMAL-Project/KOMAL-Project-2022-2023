@@ -103,6 +103,7 @@ public class ToggleSwitchController : Mechanic
             gameManager.levelData[coords.x, coords.y] = null;
             meshToDeactivate[i].material = inactiveMaterial[state];
         }
+        
         xBlocksParent.SetBool("Activated", state == 0);
         oBlocksParent.SetBool("Activated", state != 0);
         
