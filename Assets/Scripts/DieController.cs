@@ -421,11 +421,11 @@ public class DieController : MonoBehaviour
 
         //chargeFaceObjAnchor.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
 
-        if (direction == Vector3Int.up)
-        {
-            chargeFaceObjAnchor.transform.eulerAngles -= new Vector3(0, 180, 0);
-            Debug.Log("AAAAAAAAAA");
-        }
+        // Here we need to set the rotation of the object so that it is facing away from the center
+
+        chargeFaceObject.transform.localEulerAngles = direction * 90;
+        //if (direction.y != 0) chargeFaceObject.transform.eulerAngles = new Vector3(0, direction.y > 0 ? 0: 180, 0);
+        //else chargeFaceObject.transform.eulerAngles = new Vector3(0, 0, direction.x > 0 ? 180 : 0);
 
         Debug.Log("CHARGE " + direction.ToString() + " ROT " + chargeFaceObjAnchor.transform.eulerAngles);
         chargeFaceObject.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
@@ -437,7 +437,7 @@ public class DieController : MonoBehaviour
         anim.Play(animStrings[type]);
 
         chargeType = type;
-        Debug.Log("powering up");
+        //Debug.Log("powering up");
         sides[direction] = 7 + type;
         //Debug.Log(sides[Vector3Int.down]);
         //Debug.Log(type);

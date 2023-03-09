@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 8293695210304958993}
   - component: {fileID: 8400240967963678204}
   m_Layer: 0
-  m_Name: clubcharge
+  m_Name: Yellow Plus Charge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

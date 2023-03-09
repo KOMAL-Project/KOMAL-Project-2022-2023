@@ -183,18 +183,19 @@ public class ActionRecorder : MonoBehaviour
         ReverseTurn(presentState.ghostRotation)();
         if (oneStepBackState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)oneStepBackState.chargeDirection;
 
-        // set the states of mechanics to that of moveState
-        if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
-        if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].SetState(oneStepBackState.limitedUseTileState[i]);
-        if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
-        if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
-
         // Die Position Undo
         dieController.position = oneStepBackState.mappedDieLocation;
         die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
         die.transform.rotation = oneStepBackState.rotation;
         dieController.doc.overlayDie.transform.rotation = oneStepBackState.overlayRotation;
 
+        // set the states of mechanics to that of moveState
+        if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
+        if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].SetState(oneStepBackState.limitedUseTileState[i]);
+        if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
+        if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
+
+        
         // manually fix the charge mesh on the player die because we don't know what's breaking it in this process
         UpdateChargeOnDie();
 
@@ -223,7 +224,7 @@ public class ActionRecorder : MonoBehaviour
         if(dieController.chargeType > 0)
         {
             //Vector3Int dir = dieController.chargeDirection;
-            dieController.PowerUp(dieController.chargeType, dieController.chargeDirection, true);
+           // dieController.PowerUp(dieController.chargeType, dieController.chargeDirection, true);
         }
     }
 

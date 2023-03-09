@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 5755450429265946235}
   - component: {fileID: 5212299565939372638}
   m_Layer: 0
-  m_Name: hearts
+  m_Name: Red Square Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

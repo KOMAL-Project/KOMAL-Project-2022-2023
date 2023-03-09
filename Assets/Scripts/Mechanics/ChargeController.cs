@@ -13,7 +13,9 @@ using UnityEngine;
 public class ChargeController : Mechanic
 {
     public List<ChargeController>[] controllers;
+    [Tooltip("Card objects")]
     public List<GameObject> gates;
+    [Tooltip("Card object positions")]
     public List<Vector2Int> gatePos;
     [SerializeField] private AudioClip pickupCharge, loseCharge;
     public Material[] mats = new Material[2];
@@ -34,14 +36,21 @@ public class ChargeController : Mechanic
         if (state != 2 && CheckPipFilter() && dieControl.position == position)
         {
             // Activate this switch
-            activateSelf(Vector3.down);
+            ActivateSelf(Vector3.down);
 
             //forces all other charges to go back to normal
-            foreach (List<ChargeController> _controllers in controllers) foreach (ChargeController control in _controllers) 
-            if (control != this && control.state != 2 && control.type == this.type) {
-                control.state = 0;
-                control.rend.material = mats[0];
-                control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = control.pipFilter.pips > 0;
+            //Debug.Log(controllers.Length);
+            foreach (List<ChargeController> _controllers in controllers) foreach (ChargeController control in _controllers)
+            {
+                //Debug.Log("!this" + (control != this) + " state" + state + " !type" + (control.type != this.type));
+                Debug.Log(control.gameObject.name + " " + (control != this) + " " + (control.state != 2) + " " + (control.type == this.type));
+                if (control != this && control.state != 2) // && control.type == this.type)
+                {
+                    control.state = 0;
+                    control.rend.material = mats[0];
+                    control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = control.pipFilter.pips > 0;
+                    Debug.Log("AAAA" + _controllers[0]);
+                }
             }
         }
     }
@@ -54,7 +63,7 @@ public class ChargeController : Mechanic
             // When charge face touches ground, reset charge.
             if (dieControl.chargeDirection == Vector3.down && dieControl.currentCharge == this && this.position != dieControl.position)
             {
-                deactivateSelf(false);
+                DeactivateSelf(false);
                 pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = pipFilter.pips > 0;
                 if (source is not null) {
                     source.PlayOneShot(loseCharge, 1.0f);
@@ -68,7 +77,7 @@ public class ChargeController : Mechanic
                 {
                     if (chargePosition == gatePos[i])
                     {
-                        deactivateSelf(true);
+                        DeactivateSelf(true);
 
                         SetGates(false); //changes all the gates to be down
 
@@ -90,7 +99,7 @@ public class ChargeController : Mechanic
     /// causes the charge to be placed onto the dice. direction is the direction that the charge is placed (most often down).
     /// </summary>
     /// <param name="direction"></param>
-    public void activateSelf(Vector3 direction) 
+    public void ActivateSelf(Vector3 direction) 
     {
         state = 1;
         dieControl.PowerDown(); // reset any existing charges before applying new ones
@@ -106,7 +115,7 @@ public class ChargeController : Mechanic
     /// i wouldnt blame you if you changed this variable name
     /// </summary>
     /// <param name="active"></param>
-    public void deactivateSelf(bool used) 
+    public void DeactivateSelf(bool used) 
     {
         dieControl.PowerDown(true);
         dieControl.currentCharge = null;
@@ -148,10 +157,18 @@ public class ChargeController : Mechanic
         }
     }
 
+    /// <summary>
+    /// Sets the State of the Object (used for undo)
+    /// 0: no charge on die and charge has not been used
+    /// 1: Charge is Active and on the die
+    /// 2: Charge has been used on the right set of cards and is no longer usable.
+    /// </summary>
+    /// <param name="input"></param>
     public override void SetState(int input) 
     {
         if (input == 0 && state != 0) 
         {
+            Debug.Log("CHARGE LOST");
             rend.material = mats[0];
             if (dieControl.currentCharge == this) 
             {
@@ -166,23 +183,22 @@ public class ChargeController : Mechanic
             dieControl.currentCharge = this;
             if (state == 2) 
             {
+                Debug.Log("CHARGE REACTIVATED");
                 dieControl.PowerUp(type, dieControl.chargeDirection);
                 SetGates(true);
             } else 
             {
+                Debug.Log("CHARGE OBTAINED");
                 dieControl.PowerUp(type, Vector3Int.down);
             }
         }
         else if (input == 2 && state != 2) 
-        { //charge connected
+        { // this code runs if we just used up a charge by touching it to cards
+            Debug.Log("CHARGE USED UP");
             dieControl.PowerDown();
             rend.material = mats[1];
             dieControl.currentCharge = null;
         }
         state = input;
     }
-
-
-
-
 }

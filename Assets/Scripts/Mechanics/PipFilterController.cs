@@ -22,7 +22,6 @@ public class PipFilterController : MonoBehaviour
             GetComponent<Animator>().Play("Normal");
         }
         else GetComponent<SpriteRenderer>().enabled = false;
-        
     }
 
     /// <summary>
@@ -36,8 +35,8 @@ public class PipFilterController : MonoBehaviour
         return comparedPip == pips || pips == 0;
     }
 
-    public Sprite GetSprite(int type) {
+    public Sprite GetSprite(int type) 
+    {
         return topSprites[type - 1];
     }
-
 }

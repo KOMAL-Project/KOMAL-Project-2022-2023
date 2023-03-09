@@ -147,7 +147,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dd6af4ace5860904b996838bb3b2a28b, type: 2}
+  - {fileID: 2100000, guid: 944e4f5639438414c86e7b657c23a87e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 5755450429265946235}
   - component: {fileID: 5212299565939372638}
   m_Layer: 0
-  m_Name: clubs
+  m_Name: Blue Triangle Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
