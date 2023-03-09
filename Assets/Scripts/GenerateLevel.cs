@@ -430,7 +430,7 @@ public class GenerateLevel : MonoBehaviour
                 {
                     temp = Instantiate(xBlockPrefab, new Vector3(i - width / 2, 1, j - length / 2), new Quaternion(0, 0, 0, 0), XBlocks);
                     xBlocksInLevel.Add(temp);
-                    temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
+                    //temp.GetComponentInChildren<Animator>().SetBool("Activated", true);
                     xBlockPositionsInLevel.Add(new Vector2Int(i, j));
                 }
                 // Win Switch

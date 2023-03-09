@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 376754925575652729}
   - component: {fileID: 6259917838263149226}
   - component: {fileID: 5845976262657337376}
+  - component: {fileID: 6328175868727679588}
   m_Layer: 0
   m_Name: Pip Filter
   m_TagString: Untagged
@@ -78,7 +79,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pips: 0
-  player: {fileID: 0}
   topTextures:
   - {fileID: 2800000, guid: 6c10fa73c3f2b454ab6231957eb89d8c, type: 3}
   - {fileID: 2800000, guid: 22db3ec9b7df1d8479655a92a3b9772d, type: 3}
@@ -139,6 +139,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6328175868727679588
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7511325565365302759}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e330e7d42c106ab44a78431e085b5487, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8512705709355508841
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,12 +258,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
-  pips: 0
   xBlocks: []
   oBlocks: []
   switches: []
   xBlockPositions: []
   oBlockPositions: []
-  state: x
-  oTexture: {fileID: 2800000, guid: cb20ccbcdfa9df54d94f2dcdea792ed6, type: 3}
   xTexture: {fileID: 2800000, guid: b3c5d23fba7b0eb448b6c3e02f7c6764, type: 3}
+  oTexture: {fileID: 2800000, guid: cb20ccbcdfa9df54d94f2dcdea792ed6, type: 3}
+  activeMaterial:
+  - {fileID: 2100000, guid: 9d517afa64211714ab7d3f0f3016e845, type: 2}
+  - {fileID: 2100000, guid: 5ae22226ffc48a34ab7f642c4dc89255, type: 2}
+  inactiveMaterial:
+  - {fileID: 2100000, guid: 3982a4e824153434c80606a63996399e, type: 2}
+  - {fileID: 2100000, guid: 78286012de688ab468cf2fe5145cd367, type: 2}

@@ -14,10 +14,14 @@ public class ToggleSwitchController : Mechanic
     public List<GameObject> xBlocks, oBlocks;
     public List<ToggleSwitchController> switches;
     public List<Vector2Int> xBlockPositions, oBlockPositions;
+    private List<MeshRenderer> xBlockRenderers, oBlockRenderers;
     // Physical Appearance
     SpriteRenderer spr;
-    [SerializeField] Texture2D oTexture, xTexture;
+    [SerializeField] Texture2D xTexture, oTexture;
     Sprite oSprite, xSprite;
+    [SerializeField] Material[] activeMaterial;
+    [SerializeField] Material[] inactiveMaterial;
+    private Animator xBlocksParent, oBlocksParent;
 
     // Start is called before the first frame update
     void Start()
@@ -33,22 +37,33 @@ public class ToggleSwitchController : Mechanic
         spr.gameObject.transform.localScale *= 10;
         transform.rotation.Set(-90, 0, 0, 0);
         
+        xBlocksParent = transform.parent.parent.parent.Find("X Blocks").gameObject.GetComponent<Animator>();
+        oBlocksParent = transform.parent.parent.parent.Find("O Blocks").gameObject.GetComponent<Animator>();
+        xBlocksParent.SetBool("Activated", true);
+        oBlocksParent.SetBool("Activated", false);
+
+        xBlockRenderers = new List<MeshRenderer>();
+        oBlockRenderers = new List<MeshRenderer>();
         
-        // Activate X Blocks
+        // Activate X Blocks, add renderers to list
         for (int i = 0; i < xBlocks.Count; i++)
         {
             Vector2Int coords = xBlockPositions[i];
             gameManager.levelData[coords.x, coords.y] = xBlocks[i];
             GameObject temp = xBlocks[i].transform.GetChild(0).gameObject;
-            temp.GetComponent<Animator>().SetBool("Activated", true);
-            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", true);
+            xBlockRenderers.Add(temp.GetComponentInChildren<MeshRenderer>());
         }
-        // Deactivate O Blocks
+       
+        // Deactivate O Blocks, add renderers to list
         for (int i = 0; i < oBlocks.Count; i++)
         {
             Vector2Int coords = oBlockPositions[i];
             gameManager.levelData[coords.x, coords.y] = null;
+            GameObject temp = oBlocks[i].transform.GetChild(0).gameObject;
+            oBlockRenderers.Add(temp.GetComponentInChildren<MeshRenderer>());
+            oBlockRenderers[i].material = inactiveMaterial[1];
         }
+        
 
         pipFilter.gameObject.transform.localScale /= 10;
         pipFilter.gameObject.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, .01f);
@@ -69,25 +84,28 @@ public class ToggleSwitchController : Mechanic
         List<GameObject> toDeactivate = state == 0 ? oBlocks : xBlocks;
         List<Vector2Int> coordsOfToActivate = state == 0 ? xBlockPositions : oBlockPositions;
         List<Vector2Int> coordsOfToDeactivate = state == 0 ? oBlockPositions : xBlockPositions;
+        List<MeshRenderer> meshToActivate = state == 0 ? xBlockRenderers : oBlockRenderers;
+        List<MeshRenderer> meshToDeactivate = state == 0 ? oBlockRenderers : xBlockRenderers;
+
 
         // In with the new...
         for (int i = 0; i < toActivate.Count; i++)
         {
             Vector2Int coords = coordsOfToActivate[i];
             gameManager.levelData[coords.x, coords.y] = toActivate[i];
-            GameObject temp = toActivate[i].transform.GetChild(0).gameObject;
-            temp.GetComponent<Animator>().SetBool("Activated", true);
-            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", true);
+            meshToActivate[i].material = activeMaterial[state];
+
         }
         // ... out with the old.
         for (int i = 0; i < toDeactivate.Count; i++)
         {
             Vector2Int coords = coordsOfToDeactivate[i];
             gameManager.levelData[coords.x, coords.y] = null;
-            GameObject temp = toDeactivate[i].transform.GetChild(0).gameObject;
-            temp.GetComponent<Animator>().SetBool("Activated", false);
-            temp.transform.GetChild(0).gameObject.GetComponent<Animator>().SetBool("On", false);
+            meshToDeactivate[i].material = inactiveMaterial[state];
         }
+        xBlocksParent.SetBool("Activated", state == 0);
+        oBlocksParent.SetBool("Activated", state != 0);
+        
         // Finally, update all of the switches.
         Sprite newSwitchSprite = (state == 0) ? xSprite : oSprite;
         spr.sprite = newSwitchSprite;

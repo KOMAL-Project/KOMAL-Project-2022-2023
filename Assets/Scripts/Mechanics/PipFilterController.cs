@@ -7,8 +7,6 @@ public class PipFilterController : MonoBehaviour
     public int pips;
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
-
-    public bool activated = false;
     private void Start()
     {
         if (pips > 0)
@@ -21,7 +19,11 @@ public class PipFilterController : MonoBehaviour
             spr.gameObject.transform.localScale *= 10;
             GetComponent<Animator>().Play("Normal");
         }
-        else GetComponent<SpriteRenderer>().enabled = false;
+        else 
+        {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Animator>().enabled = false;
+        }
     }
 
     /// <summary>
@@ -38,5 +40,16 @@ public class PipFilterController : MonoBehaviour
     public Sprite GetSprite(int type) 
     {
         return topSprites[type - 1];
+    }
+
+    public void Enable() 
+    {
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<Animator>().enabled = true;
+    }
+
+    public void Disable() {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Animator>().enabled = false;
     }
 }
