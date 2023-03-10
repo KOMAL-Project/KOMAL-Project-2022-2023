@@ -183,21 +183,18 @@ public class ActionRecorder : MonoBehaviour
         ReverseTurn(presentState.ghostRotation)();
         if (oneStepBackState.chargeDirection is not null) dieController.chargeDirection = (Vector3Int)oneStepBackState.chargeDirection;
 
-        // Die Position Undo
-        dieController.position = oneStepBackState.mappedDieLocation;
-        die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
-        die.transform.rotation = oneStepBackState.rotation;
-        dieController.doc.overlayDie.transform.rotation = oneStepBackState.overlayRotation;
-
         // set the states of mechanics to that of moveState
         if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
         if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].SetState(oneStepBackState.limitedUseTileState[i]);
         if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
         if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
 
-        
-        // manually fix the charge mesh on the player die because we don't know what's breaking it in this process
-        UpdateChargeOnDie();
+        // Die Position Undo
+        dieController.position = oneStepBackState.mappedDieLocation;
+        die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
+        die.transform.rotation = oneStepBackState.rotation;
+        dieController.doc.overlayDie.transform.rotation = oneStepBackState.overlayRotation;
+
 
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()
@@ -216,17 +213,6 @@ public class ActionRecorder : MonoBehaviour
         return moves[(index + 2) % 4];
     }
 
-    /// <summary>
-    /// Since the undo process doesn't take into account position of the die's mesh, this function adjusts things after the fact to be accurate
-    /// </summary>
-    public void UpdateChargeOnDie()
-    {
-        if(dieController.chargeType > 0)
-        {
-            //Vector3Int dir = dieController.chargeDirection;
-           // dieController.PowerUp(dieController.chargeType, dieController.chargeDirection, true);
-        }
-    }
 
     /// <summary>
     /// Converts a mapped vector2 to a actual position in space vector3
