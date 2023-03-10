@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
+using UnityEditor.U2D.Path.GUIFramework;
 //using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 
@@ -48,7 +49,7 @@ public class ChargeController : Mechanic
                 {
                     control.state = 0;
                     control.rend.material = mats[0];
-                    control.pipFilter.Enable();
+                    if(control.pipFilter.pips > 0) control.pipFilter.Enable();
                     Debug.Log("AAAA" + _controllers[0]);
                 }
             }
@@ -64,7 +65,7 @@ public class ChargeController : Mechanic
             if (dieControl.chargeDirection == Vector3.down && dieControl.currentCharge == this && this.position != dieControl.position)
             {
                 DeactivateSelf(false);
-                pipFilter.Enable();
+                if (pipFilter.pips > 0) pipFilter.Enable();
                 if (source is not null) {
                     source.PlayOneShot(loseCharge, 1.0f);
                 }
@@ -131,7 +132,7 @@ public class ChargeController : Mechanic
             state = 0;
             rend.material = mats[0];
             dieControl.chargeDirection = Vector3Int.zero;
-            pipFilter.Enable();
+            if (pipFilter.pips > 0) pipFilter.Enable();
         }
     }
 
