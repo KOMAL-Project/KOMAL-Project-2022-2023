@@ -44,13 +44,13 @@ public class ChargeController : Mechanic
             foreach (List<ChargeController> _controllers in controllers) foreach (ChargeController control in _controllers)
             {
                 //Debug.Log("!this" + (control != this) + " state" + state + " !type" + (control.type != this.type));
-                Debug.Log(control.gameObject.name + " " + (control != this) + " " + (control.state != 2) + " " + (control.type == this.type));
+                //Debug.Log(control.gameObject.name + " " + (control != this) + " " + (control.state != 2) + " " + (control.type == this.type));
                 if (control != this && control.state != 2) // && control.type == this.type)
                 {
                     control.state = 0;
                     control.rend.material = mats[0];
                     if(control.pipFilter.pips > 0) control.pipFilter.Enable();
-                    Debug.Log("AAAA" + _controllers[0]);
+                    //Debug.Log("AAAA" + _controllers[0]);
                 }
             }
         }
@@ -191,7 +191,7 @@ public class ChargeController : Mechanic
             } else 
             {
                 Debug.Log("CHARGE OBTAINED");
-                dieControl.PowerUp(type, Vector3Int.down);
+                dieControl.PowerUp(type, dieControl.chargeDirection);
             }
         }
         else if (input == 2 && state != 2) 
