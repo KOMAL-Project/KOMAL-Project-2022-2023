@@ -187,17 +187,12 @@ public class ActionRecorder : MonoBehaviour
         die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
         dieController.position = oneStepBackState.mappedDieLocation;
         die.transform.rotation = oneStepBackState.rotation;
-        dieController.doc.overlayDie.transform.rotation = oneStepBackState.overlayRotation;
-
 
         // set the states of mechanics to that of moveState
         if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
         if (oneStepBackState.limitedUseTileState is not null) for (int i = 0; i < SUC.Count; i++) SUC[i].SetState(oneStepBackState.limitedUseTileState[i]);
         if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
         if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
-
-       
-
 
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()

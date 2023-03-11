@@ -34,9 +34,6 @@ public class CameraScript : MonoBehaviour
     // Movement
     [SerializeField]
     private float rotationSpeed, moveSpeed, zoomInSize, zoomOutSize;
-    [SerializeField]
-    private float delayTime = 0.25f;
-    private float timeDiff;
 
     private float targetZoom, targetYRotation, targetXRotation;
 
@@ -49,7 +46,6 @@ public class CameraScript : MonoBehaviour
     public float xOffsetRotation = 60;
 
     DieOverlayController doc;
-    GameObject dieOverlayAnchor;
 
     void Start()
     {
@@ -61,7 +57,6 @@ public class CameraScript : MonoBehaviour
         input = inputObj.GetComponent<DirectionalButtonController>();
         side = 2;
         targetYRotation = transform.eulerAngles.y;
-        timeDiff = 0.0f;
         cam = Camera.main.gameObject;
         viewCam = Camera.main;
         targetXRotation = -xAngle;
@@ -74,14 +69,13 @@ public class CameraScript : MonoBehaviour
         // Die Overlay Stuff
         GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
-        dieOverlayAnchor = doc.overlayDie.transform.parent.gameObject;
 
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && CanMoveCamera()) {
-            timeDiff = Time.time + delayTime;
+        if (Input.GetKeyDown(rightKey) || input.keys["counterclockwise"])
+        {
             targetYRotation -= 90;
             ChangeSide(1);
             Debug.Log("SIDE: " + side);
@@ -94,9 +88,8 @@ public class CameraScript : MonoBehaviour
             doc.TurnClockwise();
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && CanMoveCamera())
+        if (Input.GetKeyDown(leftKey) || input.keys["clockwise"])
         {
-            timeDiff = Time.time + delayTime;
             targetYRotation += 90;
             ChangeSide(-1);
             Debug.Log("SIDE: " + side);
@@ -107,9 +100,8 @@ public class CameraScript : MonoBehaviour
             doc.TurnCounterClockwise();
             //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
-        if ((Input.GetKeyDown(overheadKey) || input.overhead) && CanMoveCamera()) // Set to overhead view
+        if (Input.GetKeyDown(overheadKey) || input.overhead) // Set to overhead view
         {
-            timeDiff = Time.time + delayTime;
             targetYRotation -= 30;
             targetXRotation = -90;
             if (targetYRotation > 360)
@@ -120,9 +112,8 @@ public class CameraScript : MonoBehaviour
             doc.switchToOverhead();
         }
 
-        if ((Input.GetKeyUp(overheadKey) || input.iso) && CanMoveCamera()) // Set to isometric view
+        if (Input.GetKeyUp(overheadKey) || input.iso) // Set to isometric view
         {
-            timeDiff = Time.time + delayTime;
             targetYRotation += 30;
             targetXRotation = -xAngle;
             if (targetYRotation > 360)
@@ -160,10 +151,5 @@ public class CameraScript : MonoBehaviour
         cameraOffset = newSide * cameraOffsetMultiplier;
     }
 
-    public float GetTimeDiff() { return timeDiff; }
 
-    public bool CanMoveCamera()
-    {
-        return Time.time >= timeDiff && !die.getIsMoving();
-    }
 }

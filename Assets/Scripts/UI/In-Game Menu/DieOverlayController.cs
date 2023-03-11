@@ -7,6 +7,7 @@ using UnityEngine;
 public class DieOverlayController : MonoBehaviour
 {
     Camera overlayCam;
+    GameObject camAnchor;
     DieController die;
 
     GameObject dieOverlayDie; //object holding the actual die and invisible pips
@@ -54,8 +55,9 @@ public class DieOverlayController : MonoBehaviour
         }
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
+        camAnchor = Camera.main.gameObject.transform.parent.parent.gameObject;
         //Debug.Log(die.name);
-        UpdateIcons();
+        //UpdateIcons();
 
         targetAnchorRotation = rotationAnchorX.transform.eulerAngles;
         foreach (Animator a in overheadAnims)
@@ -81,12 +83,14 @@ public class DieOverlayController : MonoBehaviour
         UpdateIcons();
         HandleOverlayRotation();
     }
-
     /// <summary>
     /// Handles lerping the die's x and y anchors to match the camera angle.
     /// </summary>
     void HandleOverlayRotation()
     {
+        // Copy the die rotation
+        overlayDie.transform.localEulerAngles = die.transform.eulerAngles + new Vector3(0, 180 - 45, 0);
+        // the following code rotates the die so it looks like how the camera is facing the die.
         Vector3 rotEAX = rotationAnchorX.transform.localEulerAngles;
         Vector3 rotEAY = rotationAnchorY.transform.localEulerAngles;
         var xRotLerp = Mathf.LerpAngle(rotEAX.x, targetAnchorRotation.x, Time.deltaTime * 15);
@@ -106,39 +110,6 @@ public class DieOverlayController : MonoBehaviour
         side = side2Set;
     }
 
-    /// <summary>
-    /// Rotates the die around the given axis with a given speed. Axis MUST be a factor of 90 for this to work (otherwise we get floating point errors).
-    /// </summary>
-    /// <param name="axis"></param>
-    /// <param name="rollSpeed"></param>
-    /// <param name="cSide"></param>
-    /// <returns></returns>
-    public IEnumerator RollOverlay(Vector3 axis, float rollSpeed, int cSide)
-    {
-        Vector3 toRotate = overhead ? GetOverheadQuaternionFromCameraSide(cSide) * axis: Quaternion.Euler(0, -45 + 90 * cSide, 0) * axis;
-        Debug.DrawRay(overlayDie.transform.position, toRotate * 5, Color.green, 100f);
-        Vector3 anchor = overlayDie.transform.position;
-        for (int i = 0; i < (90 / rollSpeed); i++)
-        {
-            overlayDie.transform.RotateAround(anchor, toRotate, rollSpeed);
-            yield return new WaitForSeconds(0.01f);
-        }
-        UpdateIcons();
-    }
-
-    /// <summary>
-    /// Rotates the die around the given axis instantly. Axis MUST be a factor of 90 for this to work (otherwise we get floating point errors).
-    /// </summary>
-    /// <param name="axis"></param>
-    /// <param name="cSide"></param>
-    public void RollOverlayInstant(Vector3 axis, int cSide)
-    {
-        Vector3 toRotate = overhead ? GetOverheadQuaternionFromCameraSide(cSide) * axis : Quaternion.Euler(0, -45 + 90 * cSide, 0) * axis;
-        Debug.DrawRay(overlayDie.transform.position, toRotate * 5, Color.green, 100f);
-        Vector3 anchor = overlayDie.transform.position;
-        overlayDie.transform.RotateAround(anchor, toRotate, 90);
-        UpdateIcons();
-    }
 
     /// <summary>
     /// "Calculates" the quaternion needed in order to make the overlay rotate properly when in overhead perspective

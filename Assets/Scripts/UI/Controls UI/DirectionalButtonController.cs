@@ -132,11 +132,6 @@ public class DirectionalButtonController : MonoBehaviour
         // Have to do a separate thing for toggle button presses
         if (input == "camera")
         {
-            if (!cs.CanMoveCamera()) 
-            {
-                overheadButton.GetComponent<ToggleButtonUIController>().Release();
-                return; 
-            }
             doIso = !doIso;
             if (doIso) iso = true;
             else overhead = true;

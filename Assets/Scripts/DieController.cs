@@ -9,8 +9,6 @@ public class DieController : MonoBehaviour
     private DirectionalButtonController dPad;
     private ManageGame gm;
 
-    int width, length;
-
     public Vector3Int chargeDirection;
     public ChargeController currentCharge;
     public GameObject chargeFaceObjAnchor;
@@ -66,8 +64,6 @@ public class DieController : MonoBehaviour
         sides.Add(Vector3Int.forward, 4);
 
         gm = ManageGame.Instance;
-        width = gm.width;
-        length = gm.length;
 
         // Die Overlay Stuff
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
@@ -80,7 +76,7 @@ public class DieController : MonoBehaviour
     void Update()
     {
         //Debug.Log(canControl);
-        if (canControl && !isMoving && Time.time >= cs.GetTimeDiff()+.1f)
+        if (canControl && !isMoving)
         {
             HandleMovement();
             if (dPad.keys["undo"]) actionRec.Undo();
@@ -309,13 +305,6 @@ public class DieController : MonoBehaviour
         lastAction = moves[index];
 
         StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
-
-        // Die Overlay rolling
-        var overlayParentRot = doc.anchorRotations;
-        StartCoroutine(doc.RollOverlay(axis, rollSpeed, cs.side));
-
-        //var visible = GetVisibleFaces();
-        //Debug.Log(visible[Vector3Int.up] + " " + visible[Vector3Int.forward] + " " + visible[Vector3Int.right]);
     }
     /// <summary>
     /// Returns the indexes of directional buttons that have been pressed
