@@ -43,12 +43,19 @@ public class LegoSwitchController : Mechanic
     public override void SetState(int input) {
 
     if (input == 1 &&  state != 1) {
-        foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", false);
+        foreach (GameObject w in gates) LeanTween.moveLocalY(w, 50, 1).setEase(LeanTweenType.easeInOutQuad);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
         foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {s.sprite = topSprites[6];}
     }
     else if (input == 0 && state != 0) {
-        foreach (GameObject w in gates) w.GetComponentInChildren<Animator>().SetBool("Active", true);
+        foreach (GameObject w in gates) 
+        {
+        LeanTween.cancel(w);
+        Vector3 localpos = w.transform.localPosition; //conversion of the local y position to 1. There could be a better way to do this
+        localpos.y = 1;
+        w.transform.localPosition = localpos;
+        }
+        
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
 
         SpriteRenderer[] spriteRenders = GetComponentsInChildren<SpriteRenderer>();
