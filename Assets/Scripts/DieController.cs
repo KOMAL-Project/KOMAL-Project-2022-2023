@@ -419,14 +419,13 @@ public class DieController : MonoBehaviour
         chargeFaceObject.transform.position = this.gameObject.transform.position + Vector3.Scale(new Vector3(1,1,1) * .55f, direction);
         chargeFaceObject.transform.localEulerAngles = new Vector3(-90, 0, 0);
 
-        //chargeFaceObjAnchor.transform.eulerAngles = Vector3.Scale(new Vector3(90, 90, 90), direction);
+        // Set the rotation of the object so that it is facing away from the center of the die
+        //chargeFaceObject.transform.localEulerAngles = direction * 90;
+        if (direction.y != 0) chargeFaceObject.transform.eulerAngles = new Vector3(0, 0, 0);
+        if (direction.x != 0) chargeFaceObject.transform.eulerAngles = new Vector3(0, 0, 90);
+        if (direction.z != 0) chargeFaceObject.transform.eulerAngles = new Vector3(90, 0, 0);
 
-        // Here we need to set the rotation of the object so that it is facing away from the center
-
-        chargeFaceObject.transform.localEulerAngles = direction * 90;
-        //if (direction.y != 0) chargeFaceObject.transform.eulerAngles = new Vector3(0, direction.y > 0 ? 0: 180, 0);
-        //else chargeFaceObject.transform.eulerAngles = new Vector3(0, 0, direction.x > 0 ? 180 : 0);
-
+        // Set the mesh
         Debug.Log("CHARGE " + direction.ToString() + " ROT " + chargeFaceObjAnchor.transform.eulerAngles);
         chargeFaceObject.GetComponent<MeshRenderer>().material = chargeFaceMaterials[type];
         chargeFaceObject.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
