@@ -138,6 +138,7 @@ public class ActionRecorder : MonoBehaviour
         foreach (ChargeController t in CC) ChargeStates.Add(t.getState());
         List<int> LegoStates = new List<int>();
         foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getState());
+
         return new states
         {
             ghostRotation = dieController.lastAction,
@@ -194,6 +195,10 @@ public class ActionRecorder : MonoBehaviour
         if (oneStepBackState.legoSwitchState is not null) for (int i = 0; i < LSC.Count; i++) LSC[i].SetState(oneStepBackState.legoSwitchState[i]);
         if (oneStepBackState.chargeState is not null) for (int i = 0; i < CC.Count; i++) CC[i].SetState(oneStepBackState.chargeState[i]);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e64e870b3eee8cdca86fcdc2619483fa29a64ef2
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()
         currentState.updateStates(oneStepBackState);

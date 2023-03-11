@@ -10,11 +10,13 @@ using UnityEngine;
 /// </summary>
 public class SingleUseController : Mechanic
 {
+    private GameObject block;
 
     // Start is called before the first frame update
     void Start()
     {
         state = 0;
+        block = transform.GetChild(0).gameObject;
     }
 
     public override void CheckForActivation() {
@@ -26,16 +28,21 @@ public class SingleUseController : Mechanic
         {
             gameManager.levelData[position.x, position.y] = this.gameObject;
             state = 2;
-            GetComponentInChildren<Animator>().SetTrigger("Go");
+            LeanTween.moveLocalY(block, 0.5f, 0.5f).setEase(LeanTweenType.easeInOutQuad);
         }
     }
 
     public override void SetState(int input) {
         state = input;
-        if (input == 0) {
-            GetComponentInChildren<Animator>().SetTrigger("Back");
+        if (input < 2 && state == 1) {
             gameManager.levelData[position.x, position.y] = null;
+
+            LeanTween.cancel(block);
+            Vector3 localpos = block.transform.localPosition; //conversion of the local y position to 1. There could be a better way to do this
+            localpos.y = 15;
+            block.transform.localPosition = localpos;
         }
+        
     }
    
 }
