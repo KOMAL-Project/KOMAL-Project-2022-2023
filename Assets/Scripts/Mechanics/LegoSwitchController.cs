@@ -53,7 +53,7 @@ public class LegoSwitchController : Mechanic
 
         SpriteRenderer[] spriteRenders = GetComponentsInChildren<SpriteRenderer>();
         spriteRenders[0].sprite = topSprites[type - 1];
-        spriteRenders[1].sprite = pipFilter.GetSprite(pipFilter.pips);
+        if (spriteRenders[1].sprite != null) spriteRenders[1].sprite = pipFilter.GetSprite(pipFilter.pips);
     }
     state = input;
     }
