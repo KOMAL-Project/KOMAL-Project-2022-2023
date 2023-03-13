@@ -12,7 +12,7 @@ public class DieController : MonoBehaviour
     public Vector3Int chargeDirection;
     public ChargeController currentCharge;
     public GameObject chargeFaceObjAnchor;
-    GameObject chargeFaceObject;
+    public GameObject chargeFaceObject;
     public ActionRecorder actionRec;
     [HideInInspector] public Action lastAction;
     public Vector2Int position = new Vector2Int();
@@ -377,7 +377,6 @@ public class DieController : MonoBehaviour
 
         actionRec.Record();
         isMoving = false;
-
     }
 
     /// <summary>
@@ -401,7 +400,7 @@ public class DieController : MonoBehaviour
     /// Applies Charge of type "type" to the face in a direction.
     /// </summary>
     /// <param name="type"></param>
-    public void PowerUp(int type, Vector3Int direction, bool undoing = false)
+    public void PowerUp(int type, Vector3Int direction)
     {
         String[] animStrings = { "Power Up Blue", "Power Up Red", "Power Up Yellow", "Power Up Green" };
 
@@ -420,7 +419,7 @@ public class DieController : MonoBehaviour
         chargeFaceObject.GetComponent<MeshFilter>().mesh = chargeFaceMeshes[type];
 
         doc.PowerDown();
-        doc.PowerUp(chargeFaceMeshes[type], chargeFaceMaterials[type]);
+        doc.PowerUp(chargeFaceMeshes[type], chargeFaceMaterials[type], direction);
         // Debug.Log(type + " " + animStrings[type]);
         anim.Play(animStrings[type]);
 

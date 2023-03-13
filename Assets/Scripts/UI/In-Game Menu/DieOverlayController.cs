@@ -7,14 +7,13 @@ using UnityEngine;
 public class DieOverlayController : MonoBehaviour
 {
     Camera overlayCam;
-    GameObject camAnchor;
     DieController die;
 
     GameObject dieOverlayDie; //object holding the actual die and invisible pips
     [SerializeField] GameObject rotationAnchorX, rotationAnchorY, isoParent, overheadParent;
     GameObject[] isoObjs = new GameObject[3], overheadObjs = new GameObject[4];
     Animator[] isoAnims = new Animator[3], overheadAnims = new Animator[4];
-    [SerializeField] public GameObject overlayDie, chargeFaceObj; //actual die
+    public GameObject overlayDie, chargeFaceObj; //actual die
 
     [SerializeField] Texture2D[] pipIconTextures;
     Sprite[] pipIcons;
@@ -55,7 +54,6 @@ public class DieOverlayController : MonoBehaviour
         }
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        camAnchor = Camera.main.gameObject.transform.parent.parent.gameObject;
         //Debug.Log(die.name);
         //UpdateIcons();
 
@@ -83,6 +81,7 @@ public class DieOverlayController : MonoBehaviour
         UpdateIcons();
         HandleOverlayRotation();
     }
+
     /// <summary>
     /// Handles lerping the die's x and y anchors to match the camera angle.
     /// </summary>
@@ -110,23 +109,6 @@ public class DieOverlayController : MonoBehaviour
         side = side2Set;
     }
 
-
-    /// <summary>
-    /// "Calculates" the quaternion needed in order to make the overlay rotate properly when in overhead perspective
-    /// </summary>
-    /// <param name="cSide"></param>
-    /// <returns></returns>
-    Quaternion GetOverheadQuaternionFromCameraSide(int cSide)
-    {
-        switch (cSide % 4)
-        {
-            case 0: return Quaternion.Euler(-45, 0, 0);
-            case 1: return Quaternion.Euler(0, 90, -45);
-            case 2: return Quaternion.Euler(45, 180, 0);
-            case 3: return Quaternion.Euler(0, 270, 45);
-            default: return Quaternion.Euler(0, 0, 0); // this should not happen
-        }
-    }
 
     /// <summary>
     /// Updates the sprites representing die faces that can't be seen from the current camera angle. Works in both Isometric and Overhead modes.
@@ -159,18 +141,34 @@ public class DieOverlayController : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <param name="direction"></param>
-    public void PowerUp(Mesh toAdd, Material meshMaterial)
+    public void PowerUp(Mesh toAdd, Material meshMaterial, Vector3Int direction)
     {
-        if (overhead)
+        Vector3 camEulerOffset = rotationAnchorX.transform.eulerAngles + rotationAnchorY.transform.eulerAngles;
+        Quaternion camQuatOffset = Quaternion.Euler(-1 * camEulerOffset);
+        Vector3 displacementVec = Vector3.Scale(new Vector3(1, 1, 1) * .17f, direction);
+        chargeFaceObj.transform.position = overlayDie.gameObject.transform.position + (camQuatOffset * displacementVec);
+        //chargeFaceObj.transform.localEulerAngles = new Vector3(-90, 0, 0);
+
+        // Set the rotation of the object so that it is facing away from the center of the die
+        //chargeFaceObject.transform.localEulerAngles = direction * 90;
+        
+        if (direction.y != 0)
         {
-            chargeFaceObj.transform.position = dieOverlayDie.transform.position + new Vector3(0, -.125f, .125f);
-            chargeFaceObj.transform.rotation = Quaternion.Euler(-45, 0, 0);
+            chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 0);
+            Debug.Log("Y DIFF");
         }
-        else
-        { 
-            chargeFaceObj.transform.position = dieOverlayDie.transform.position + new Vector3(0, -.185f, 0);
-            chargeFaceObj.transform.rotation = Quaternion.Euler(0, 45, 0);
+        if (direction.x != 0)
+        {
+            chargeFaceObj.transform.eulerAngles = new Vector3(0, 0, 90);
+            Debug.Log("X DIFF");
         }
+        if (direction.z != 0)
+        {
+            Debug.Log("Z DIFF");
+            chargeFaceObj.transform.eulerAngles = new Vector3(90, 0, 0);
+        }
+        
+
         chargeFaceObj.GetComponent<MeshRenderer>().material = meshMaterial;
         chargeFaceObj.GetComponent<MeshFilter>().mesh = toAdd;
         //Debug.Log(type);

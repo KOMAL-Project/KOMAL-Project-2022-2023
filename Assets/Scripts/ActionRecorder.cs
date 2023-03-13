@@ -6,13 +6,14 @@ using System.Linq;
 
 
 //record that contains all the necessary states info needed to revert move
-public struct states {
+public struct States {
     //states of the die
     public Action ghostRotation; // the function that handles rotation of the die's face structure
     public Vector2Int mappedDieLocation; // tile position of the die on the board
     public Quaternion rotation; // rotation of the die
-    public Dictionary<Vector3Int, int> sides;
+    public Dictionary<Vector3Int, int> sides; // contains which pip (or charge type) is on which direction of the die
     public Quaternion overlayRotation; // rotation of the overlay
+    public Vector3 dieChargeMeshLocalEulers; // the Local Euler Angles of the mesh for charges attached to the die
     //states of mechanics
     //charge controller states (if they exist) - 0 is no charge, 1 is charge on dice, 2 is charge used
     public int? toggleState;
@@ -26,7 +27,7 @@ public struct states {
     /// updates THIS states params to match OTHER states params while making OTHER state param null if they already matched.
     /// </summary>
     /// <param name="other"></param>
-    public void updateStates(states other) 
+    public void UpdateStates(States other) 
     {
 
         if (other.toggleState is not null && this.toggleState != other.toggleState) 
@@ -74,12 +75,13 @@ public struct states {
 public class ActionRecorder : MonoBehaviour
 {
     //big stacc
-    Stack<states> stateStack;
-    states currentState;
+    Stack<States> stateStack;
+    States currentState;
 
     //dice stuff
-    public GameObject die;
+    public GameObject die, overlayDie;
     public DieController dieController;
+    public DieOverlayController doc;
     private Vector3 change = Vector3.zero;
     
     //mechanics stuff
@@ -92,10 +94,12 @@ public class ActionRecorder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stateStack = new Stack<states>();
+        stateStack = new Stack<States>();
 
         dieController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
         die = dieController.transform.gameObject;
+        overlayDie = GameObject.FindGameObjectWithTag("OverlayDie");
+        doc = dieController.doc;
 
         //sets the change vector for MapToActualPosition()
         Vector3 actual = die.transform.position;
@@ -119,8 +123,8 @@ public class ActionRecorder : MonoBehaviour
         foreach(List<LegoSwitchController> l in gameManager.legoSwitchControllers) foreach(LegoSwitchController g in l) LSC.Add(g);
 
         // push the initial board state to the stack
-        currentState = getState();
-        stateStack.Push(getState());
+        currentState = GetState();
+        stateStack.Push(GetState());
 
 
     }
@@ -128,9 +132,8 @@ public class ActionRecorder : MonoBehaviour
     /// Returns a record containing the states of every part of the game (mechanic states, die + charge orientation, etc.)
     /// </summary>
     /// <returns></returns>
-    public states getState() 
+    public States GetState() 
     {
-
         //Debug.Log("get state" + dieController.chargeDirection);
         List<int> SingleUseStates = new List<int>();
         foreach (SingleUseController t in SUC) SingleUseStates.Add(t.getState());
@@ -139,12 +142,13 @@ public class ActionRecorder : MonoBehaviour
         List<int> LegoStates = new List<int>();
         foreach (LegoSwitchController t in LSC) LegoStates.Add(t.getState());
 
-        return new states
+        return new States
         {
             ghostRotation = dieController.lastAction,
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
             sides = dieController.sides,
+            dieChargeMeshLocalEulers = dieController.chargeFaceObject.transform.localEulerAngles,
             overlayRotation = dieController.doc.overlayDie.transform.rotation,
             // Mechanics -- we only add them to the list if they exist, otherwise we return null.
             toggleState = (TSC is not null ? TSC.getState() : null),
@@ -161,8 +165,8 @@ public class ActionRecorder : MonoBehaviour
     /// </summary>
     public void Record() 
     {
-        states newState = getState();
-        currentState.updateStates(newState);
+        States newState = GetState();
+        currentState.UpdateStates(newState);
         stateStack.Push(newState);
         //Debug.Log(currentState);
     }
@@ -175,10 +179,10 @@ public class ActionRecorder : MonoBehaviour
         if (stateStack.Count <= 1) return;
 
         // clearing the current state away from the stack
-        states presentState = stateStack.Pop();
+        States presentState = stateStack.Pop();
 
         // get the state one step back in time
-        states oneStepBackState = stateStack.Peek();
+        States oneStepBackState = stateStack.Peek();
 
         // Die Rotation reversal
         ReverseTurn(presentState.ghostRotation)();
@@ -188,6 +192,13 @@ public class ActionRecorder : MonoBehaviour
         die.transform.position = MapToActualPosition(oneStepBackState.mappedDieLocation);
         dieController.position = oneStepBackState.mappedDieLocation;
         die.transform.rotation = oneStepBackState.rotation;
+        dieController.sides = oneStepBackState.sides;
+        dieController.chargeFaceObject.transform.localEulerAngles = oneStepBackState.dieChargeMeshLocalEulers;
+        // we do this already in DieOverlay controller but need to do it here 
+        // to make sure the overlay updates in time to recieve a Charge on the correct side.
+        overlayDie.transform.localEulerAngles = die.transform.eulerAngles + new Vector3(0, 180 - 45, 0);
+        //doc.chargeFaceObj.transform.localEulerAngles = oneStepBackState.dieChargeMeshLocalEulers;
+
 
         // set the states of mechanics to that of moveState
         if (oneStepBackState.toggleState is not null) TSC.SetState((int)oneStepBackState.toggleState);
@@ -197,7 +208,7 @@ public class ActionRecorder : MonoBehaviour
 
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()
-        currentState.updateStates(oneStepBackState);
+        currentState.UpdateStates(oneStepBackState);
     }
 
     /// <summary>
