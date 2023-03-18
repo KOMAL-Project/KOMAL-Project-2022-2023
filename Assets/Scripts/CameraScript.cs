@@ -18,13 +18,10 @@ public class CameraScript : MonoBehaviour
     [SerializeField]
     private KeyCode overheadKey = KeyCode.Space;
     
-
+    // Die
     private GameObject player;
     private DieController die;
 
-    private bool followPlayer;
-
-    public int xAngle = 60;
 
     public Material wallMat;
 
@@ -37,12 +34,16 @@ public class CameraScript : MonoBehaviour
 
     private float targetZoom, targetYRotation, targetXRotation;
 
+    private bool followPlayer;
+    public int xAngle = 60;
+
     private Vector3 targetPosition, defaultPosition;
     private Vector3 cameraOffset = Vector3.zero;
     [SerializeField]
     private float cameraOffsetMultiplier;
 
     public int side = 2;
+    public bool isIsometric, isOverhead, isMoving;
     public float xOffsetRotation = 60;
 
     DieOverlayController doc;
@@ -70,11 +71,14 @@ public class CameraScript : MonoBehaviour
         GameObject dieOverlayParent = GameObject.FindGameObjectWithTag("DieOverlay");
         doc = GameObject.FindGameObjectWithTag("DieOverlay").GetComponent<DieOverlayController>();
 
+        isIsometric = true;
+        isOverhead = false;
+
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(rightKey) || input.keys["counterclockwise"])
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && !die.getIsMoving())
         {
             targetYRotation -= 90;
             ChangeSide(1);
@@ -82,13 +86,11 @@ public class CameraScript : MonoBehaviour
             if (targetYRotation < 0) {
                 targetYRotation += 360;
             }
-            // Die Overlay rolling
-            var overlayAxis = Quaternion.Euler(0, 180 - 45, 0) * Vector3.up;
             //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
             doc.TurnClockwise();
         }
 
-        if (Input.GetKeyDown(leftKey) || input.keys["clockwise"])
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && !die.getIsMoving())
         {
             targetYRotation += 90;
             ChangeSide(-1);
@@ -100,7 +102,7 @@ public class CameraScript : MonoBehaviour
             doc.TurnCounterClockwise();
             //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
-        if (Input.GetKeyDown(overheadKey) || input.overhead) // Set to overhead view
+        if ((Input.GetKeyDown(overheadKey) || input.overhead) && !die.getIsMoving() && isIsometric) // Set to overhead view
         {
             targetYRotation -= 30;
             targetXRotation = -90;
@@ -110,9 +112,12 @@ public class CameraScript : MonoBehaviour
             }
             followPlayer = false;
             doc.switchToOverhead();
+
+            isIsometric = false;
+            isOverhead = true;
         }
 
-        if (Input.GetKeyUp(overheadKey) || input.iso) // Set to isometric view
+        if ((Input.GetKeyUp(overheadKey) || input.iso) && !die.getIsMoving() && isOverhead) // Set to isometric view
         {
             targetYRotation += 30;
             targetXRotation = -xAngle;
@@ -122,6 +127,9 @@ public class CameraScript : MonoBehaviour
             }
             followPlayer = true;
             doc.switchOutOfOverhead();
+
+            isIsometric = true;
+            isOverhead = false;
         }
 
 
@@ -131,12 +139,14 @@ public class CameraScript : MonoBehaviour
         //Debug.Log(targetPosition);
 
         // move things
+
         transform.eulerAngles = new Vector3(Mathf.LerpAngle(transform.eulerAngles.x, targetXRotation, Time.deltaTime * rotationSpeed), Mathf.LerpAngle(transform.eulerAngles.y, targetYRotation, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);
+
+        isMoving = (Mathf.Abs(transform.eulerAngles.x - targetXRotation) > 5 && Mathf.Abs(transform.eulerAngles.y - targetYRotation) > 5);
+        
         transform.position = new Vector3(Mathf.Lerp(transform.position.x, targetPosition.x, Time.deltaTime * moveSpeed), 0, Mathf.Lerp(transform.position.z, targetPosition.z, Time.deltaTime * moveSpeed));
         viewCam.orthographicSize = Mathf.Lerp(viewCam.orthographicSize, targetZoom, Time.deltaTime * rotationSpeed);
         cam.transform.localPosition = new Vector3(Mathf.Lerp(cam.transform.localPosition.x, cameraOffset.x, Time.deltaTime * rotationSpeed), 0, 50);
-        
-
     }
 
     void ChangeSide(int val)

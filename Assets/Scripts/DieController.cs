@@ -76,7 +76,7 @@ public class DieController : MonoBehaviour
     void Update()
     {
         //Debug.Log(canControl);
-        if (canControl && !isMoving)
+        if (canControl && !(isMoving || cs.isMoving))
         {
             HandleMovement();
             if (dPad.keys["undo"]) actionRec.Undo();

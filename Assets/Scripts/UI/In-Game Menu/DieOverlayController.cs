@@ -140,38 +140,69 @@ public class DieOverlayController : MonoBehaviour
 
     /// <summary>
     /// Shows charge with given mesh and material on the overlay. Called when a charge is gained.
+    /// Because we don't know the right math to figure this out we had to hard code all of the values... :(
     /// </summary>
     /// <param name="type"></param>
     /// <param name="direction"></param>
     public void PowerUp(Mesh toAdd, Material meshMaterial, Vector3Int direction)
     {
-        Vector3 camEulerOffset = rotationAnchorX.transform.eulerAngles + new Vector3(0, 45 - (90 * cs.side), 0);
+        
+        Vector3 isoEulers = new Vector3(0, 45 - (90 * cs.side), 0);
+        Vector3 overheadEulersOddSide = new Vector3(45, 0 - (90 * cs.side), 45);
+        Vector3 overheadEulersEvenSide = new Vector3(0, 0 - (90 * cs.side), 0);
+        Vector3 camEulerOffset = rotationAnchorX.transform.eulerAngles + (overhead ? (cs.side % 2 == 0 ? overheadEulersEvenSide: overheadEulersOddSide): isoEulers);
+            //(overhead && cs.side % 2 != 0 ? 45 : 0),
+            //(overhead ? 0 : -45) - (90 * cs.side),
+            //(overhead && cs.side % 2 != 0 ? 45 : 0));
+        // x: (overhead && cs.side % 2 != 0 ? 45 : 0) y: (overhead && cs.side%2==0?0 : 45) - (90 * cs.side) z: (overhead && cs.side % 2 != 0 ? 45: 0)
         Quaternion camQuatOffset = Quaternion.Euler(-1 * camEulerOffset);
         Vector3 displacementVec = Vector3.Scale(new Vector3(1, 1, 1) * .17f, direction);
         chargeFaceObj.transform.position = overlayDie.gameObject.transform.position + (camQuatOffset * displacementVec);
         chargeFaceObj.transform.localEulerAngles = new Vector3(-90, 0, 0);
 
         // Set the rotation of the object so that it is facing away from the center of the die
-        //chargeFaceObject.transform.localEulerAngles = direction * 90;
-
-        if (direction.y != 0)
+        if (!overhead)
         {
-            chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 0);
-            Debug.Log("Y DIFF");
+            Debug.Log("Using Iso Charge positions");
+            if (direction.y != 0)
+            {
+                chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 0);
+                Debug.Log("Y DIFF ISO");
+            }
+            if (direction.x != 0)
+            {
+                if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
+                else chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
+                Debug.Log("X DIFF ISO");
+            }
+            if (direction.z != 0)
+            {
+                Debug.Log("Z DIFF ISO");
+                if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
+                else chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
+            }
         }
-        if (direction.x != 0)
+        else
         {
-            if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
-            else chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
-            Debug.Log("X DIFF");
+            Debug.Log("Using Overhead Charge positions");
+            if (direction.y != 0)
+            {
+                chargeFaceObj.transform.eulerAngles = new Vector3(-45, 0, 0);
+                Debug.Log("Y DIFF O");
+            }
+            if (direction.x != 0)
+            {
+                if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(90 + 45, 0, 90);
+                else chargeFaceObj.transform.eulerAngles = new Vector3(45, 0, 0);
+                Debug.Log("X DIFF O");
+            }
+            if (direction.z != 0)
+            {
+                Debug.Log("Z DIFF O");
+                if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(45, 0, 0);
+                else chargeFaceObj.transform.eulerAngles = new Vector3(45, 0, 90);
+            }
         }
-        if (direction.z != 0)
-        {
-            Debug.Log("Z DIFF");
-            if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
-            else chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
-        }
-
 
         chargeFaceObj.GetComponent<MeshRenderer>().material = meshMaterial;
         chargeFaceObj.GetComponent<MeshFilter>().mesh = toAdd;
