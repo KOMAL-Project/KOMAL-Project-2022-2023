@@ -34,7 +34,7 @@ public class DieController : MonoBehaviour
     public Dictionary<Vector3Int, int> sides = new Dictionary<Vector3Int, int>();
     [SerializeField] private AudioClip diceHit;
     private AudioSource source;
-    private CameraScript cs;
+    public CameraScript cs;
     public DieOverlayController doc;
     public static int totalDiceMoves = 0;
     public int chargeType;

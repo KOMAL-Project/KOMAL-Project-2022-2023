@@ -8,6 +8,7 @@ public class DieOverlayController : MonoBehaviour
 {
     Camera overlayCam;
     DieController die;
+    CameraScript cs;  
 
     GameObject dieOverlayDie; //object holding the actual die and invisible pips
     [SerializeField] GameObject rotationAnchorX, rotationAnchorY, isoParent, overheadParent;
@@ -54,6 +55,7 @@ public class DieOverlayController : MonoBehaviour
         }
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
+        cs = die.cs;
         //Debug.Log(die.name);
         //UpdateIcons();
 
@@ -143,15 +145,15 @@ public class DieOverlayController : MonoBehaviour
     /// <param name="direction"></param>
     public void PowerUp(Mesh toAdd, Material meshMaterial, Vector3Int direction)
     {
-        Vector3 camEulerOffset = rotationAnchorX.transform.eulerAngles + rotationAnchorY.transform.eulerAngles;
+        Vector3 camEulerOffset = rotationAnchorX.transform.eulerAngles + new Vector3(0, 45 - (90 * cs.side), 0);
         Quaternion camQuatOffset = Quaternion.Euler(-1 * camEulerOffset);
         Vector3 displacementVec = Vector3.Scale(new Vector3(1, 1, 1) * .17f, direction);
         chargeFaceObj.transform.position = overlayDie.gameObject.transform.position + (camQuatOffset * displacementVec);
-        //chargeFaceObj.transform.localEulerAngles = new Vector3(-90, 0, 0);
+        chargeFaceObj.transform.localEulerAngles = new Vector3(-90, 0, 0);
 
         // Set the rotation of the object so that it is facing away from the center of the die
         //chargeFaceObject.transform.localEulerAngles = direction * 90;
-        
+
         if (direction.y != 0)
         {
             chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 0);
@@ -159,15 +161,17 @@ public class DieOverlayController : MonoBehaviour
         }
         if (direction.x != 0)
         {
-            chargeFaceObj.transform.eulerAngles = new Vector3(0, 0, 90);
+            if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
+            else chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
             Debug.Log("X DIFF");
         }
         if (direction.z != 0)
         {
             Debug.Log("Z DIFF");
-            chargeFaceObj.transform.eulerAngles = new Vector3(90, 0, 0);
+            if (cs.side % 2 == 0) chargeFaceObj.transform.eulerAngles = new Vector3(0, 45, 90);
+            else chargeFaceObj.transform.eulerAngles = new Vector3(90, 45, 0);
         }
-        
+
 
         chargeFaceObj.GetComponent<MeshRenderer>().material = meshMaterial;
         chargeFaceObj.GetComponent<MeshFilter>().mesh = toAdd;
