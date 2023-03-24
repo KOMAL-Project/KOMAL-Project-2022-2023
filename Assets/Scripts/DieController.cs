@@ -36,7 +36,6 @@ public class DieController : MonoBehaviour
     private AudioSource source;
     public CameraScript cs;
     public DieOverlayController doc;
-    public static int totalDiceMoves = 0;
     public int chargeType;
     private static DieController instance;
     //used to get the one instance of die controller instead of using tags.
@@ -342,7 +341,6 @@ public class DieController : MonoBehaviour
         if (source is not null) {
             source.PlayOneShot(diceHit, 0.7f);
         }   
-        totalDiceMoves++;
         position += moveVec;
         WinCheck();
         
@@ -368,7 +366,6 @@ public class DieController : MonoBehaviour
         if (source is not null) {
             source.PlayOneShot(diceHit, 0.7f);
         }   
-        totalDiceMoves++;
         position += moveVec;
         WinCheck();
         
