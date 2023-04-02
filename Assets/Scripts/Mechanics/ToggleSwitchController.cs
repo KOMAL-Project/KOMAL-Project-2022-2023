@@ -61,7 +61,7 @@ public class ToggleSwitchController : Mechanic
             gameManager.levelData[coords.x, coords.y] = null;
             GameObject temp = oBlocks[i].transform.GetChild(0).gameObject;
             oBlockRenderers.Add(temp.GetComponentInChildren<MeshRenderer>());
-            oBlockRenderers[i].material = inactiveMaterial[1];
+            oBlockRenderers[i].material = inactiveMaterial[0];
         }
         
 

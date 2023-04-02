@@ -14,6 +14,7 @@ public class LegoSwitchController : Mechanic
     public List<Vector2Int> gatePos;
     public Texture2D[] topTextures = new Texture2D[7];
     private readonly Sprite[] topSprites = new Sprite[7];
+    [SerializeField] private SpriteRenderer switchRenderer;
 
 
     private void Start()
@@ -22,9 +23,10 @@ public class LegoSwitchController : Mechanic
         Rect rect = new Rect(0, 0, 10, 10);    
         topSprites[type-1] = Sprite.Create(topTextures[type-1], rect, new Vector2(.5f, .5f));
         
-        SpriteRenderer spr = GetComponentInChildren<SpriteRenderer>();
-        spr.sprite = topSprites[type - 1];
-        spr.gameObject.transform.localScale *= 10;
+        SpriteRenderer switchRenderer = GetComponentInChildren<SpriteRenderer>();
+        switchRenderer.sprite = topSprites[type - 1];
+        switchRenderer.gameObject.transform.localScale *= 10;
+        pipFilter.DisablePulse();
 
         state = 0;
 
@@ -45,8 +47,10 @@ public class LegoSwitchController : Mechanic
     if (input == 1 &&  state != 1) {
         foreach (GameObject w in gates) LeanTween.moveLocalY(w, 50, 1).setEase(LeanTweenType.easeInOutQuad);
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
-        foreach(SpriteRenderer s in GetComponentsInChildren<SpriteRenderer>()) {s.sprite = topSprites[6];}
+        switchRenderer.sprite = topSprites[6];
+        pipFilter.Disable();
     }
+
     else if (input == 0 && state != 0) {
         foreach (GameObject w in gates) 
         {
@@ -58,9 +62,8 @@ public class LegoSwitchController : Mechanic
         
         for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
 
-        SpriteRenderer[] spriteRenders = GetComponentsInChildren<SpriteRenderer>();
-        spriteRenders[0].sprite = topSprites[type - 1];
-        if (spriteRenders[1].sprite != null) spriteRenders[1].sprite = pipFilter.GetSprite(pipFilter.pips);
+        switchRenderer.sprite = topSprites[type - 1];
+        pipFilter.Enable();
     }
     state = input;
     }

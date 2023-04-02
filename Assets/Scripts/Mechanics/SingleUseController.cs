@@ -28,6 +28,9 @@ public class SingleUseController : Mechanic
         {
             gameManager.levelData[position.x, position.y] = this.gameObject;
             state = 2;
+            Vector3 localpos = block.transform.localPosition;
+            localpos.y = 15;
+            block.transform.localPosition = localpos;
             LeanTween.moveLocalY(block, 0.5f, 0.5f).setEase(LeanTweenType.easeInOutQuad);
         }
     }
@@ -38,8 +41,8 @@ public class SingleUseController : Mechanic
             gameManager.levelData[position.x, position.y] = null;
 
             LeanTween.cancel(block);
-            Vector3 localpos = block.transform.localPosition; //conversion of the local y position to 1. There could be a better way to do this
-            localpos.y = 15;
+            Vector3 localpos = block.transform.localPosition;
+            localpos.y = -200;
             block.transform.localPosition = localpos;
         }
         

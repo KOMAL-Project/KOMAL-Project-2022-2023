@@ -28,6 +28,7 @@ public class ChargeController : Mechanic
         rend = GetComponentInChildren<MeshRenderer>();
         source = MusicManager.Instance.GetComponents<AudioSource>()[1];
         rend.material = mats[0];
+        pipFilter.EnablePulse();
         state = 0;
         
     }
@@ -49,7 +50,8 @@ public class ChargeController : Mechanic
                 {
                     control.state = 0;
                     control.rend.material = mats[0];
-                    if(control.pipFilter.pips > 0) control.pipFilter.Enable();
+                    control.pipFilter.Enable();
+                    control.pipFilter.EnablePulse();
                     //Debug.Log("AAAA" + _controllers[0]);
                 }
             }
@@ -86,7 +88,8 @@ public class ChargeController : Mechanic
                         {
                             control.rend.material = mats[1];
                             control.state = 2;
-                            control.pipFilter.gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                            pipFilter.Disable();
+                            pipFilter.DisablePulse();
                         }
 
                         break;
@@ -109,6 +112,7 @@ public class ChargeController : Mechanic
         dieControl.currentCharge = this;
         dieControl.chargeDirection = Vector3Int.down;
         pipFilter.Disable();
+        pipFilter.DisablePulse();
     }
 
     /// <summary>
@@ -118,13 +122,19 @@ public class ChargeController : Mechanic
     /// <param name="active"></param>
     public void DeactivateSelf(bool used) 
     {
-        dieControl.PowerDown(true);
-        dieControl.currentCharge = null;
+        if (dieControl.currentCharge = this) 
+        {
+            dieControl.PowerDown(true);
+            dieControl.chargeDirection = Vector3Int.zero;
+            dieControl.currentCharge = null;
+        }
 
         if (used)
         { //unable to be used afterwards
             state = 2;
             rend.material = mats[1];
+            pipFilter.Disable();
+            pipFilter.DisablePulse();
             
         } 
         else 
@@ -132,7 +142,8 @@ public class ChargeController : Mechanic
             state = 0;
             rend.material = mats[0];
             dieControl.chargeDirection = Vector3Int.zero;
-            if (pipFilter.pips > 0) pipFilter.Enable();
+            pipFilter.Enable();
+            pipFilter.EnablePulse();
         }
     }
 
@@ -172,6 +183,9 @@ public class ChargeController : Mechanic
         {
             Debug.Log("CHARGE LOST");
             rend.material = mats[0];
+            pipFilter.Enable();
+            pipFilter.EnablePulse();
+
             if (dieControl.currentCharge == this) 
             {
                 dieControl.PowerDown();
@@ -183,6 +197,8 @@ public class ChargeController : Mechanic
         { // if we are picking up a charge we did not have before
             rend.material = mats[1];
             dieControl.currentCharge = this;
+            pipFilter.Disable();
+            pipFilter.DisablePulse();
             if (state == 2) 
             {
                 Debug.Log("CHARGE REACTIVATED");
@@ -199,6 +215,8 @@ public class ChargeController : Mechanic
             Debug.Log("CHARGE USED UP");
             dieControl.PowerDown();
             rend.material = mats[1];
+            pipFilter.Disable();
+            pipFilter.DisablePulse();
             dieControl.currentCharge = null;
         }
         state = input;
