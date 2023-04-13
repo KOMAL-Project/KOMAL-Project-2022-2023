@@ -48,8 +48,8 @@ public class MainMenuScript : MonoBehaviour
 
     private GameObject MenuLookup(int num) {
         switch (num) {
-            case -3: return aboutMenu;
-            case -2: return tutorialMenu;
+            case -3: return tutorialMenu;
+            case -2: return aboutMenu;
             case -1: return optionsMenu;
             case 0: return startMenu;
             case 1: return levelMenu;
@@ -69,9 +69,16 @@ public class MainMenuScript : MonoBehaviour
             
             float target = (to > currentMenu) ? -Xoffset : Xoffset;
 
-            RectTransform leveltransform = levelMenu.GetComponent<RectTransform>();
-            LeanTween.moveX(leveltransform, leveltransform.localPosition.x + target, animationTime).setEase(easeType);
+            RectTransform levelTransform = levelMenu.GetComponent<RectTransform>();
+            LeanTween.moveX(levelTransform, levelTransform.localPosition.x + target, animationTime).setEase(easeType);
 
+        }
+
+        else if (currentMenu <= -3 && to <= -3) { //for moving between tutorial panels
+            float target = (to > currentMenu) ? Xoffset : -Xoffset;
+            
+            RectTransform tutorialTransform = tutorialMenu.GetComponent<RectTransform>();
+            LeanTween.moveX(tutorialTransform, tutorialTransform.localPosition.x + target, animationTime).setEase(easeType);
         }
         
         else { //for moving between menus
