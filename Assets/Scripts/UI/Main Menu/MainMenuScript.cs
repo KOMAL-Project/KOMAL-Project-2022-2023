@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class MainMenuScript : MonoBehaviour
 {
 
-    [SerializeField] private GameObject startMenu;
-    [SerializeField] private GameObject optionsMenu;
-    [SerializeField] private GameObject levelMenu;
+    [SerializeField] private GameObject aboutMenu, tutorialMenu, optionsMenu, startMenu, levelMenu;
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;
     private float Yoffset;
@@ -50,6 +48,8 @@ public class MainMenuScript : MonoBehaviour
 
     private GameObject MenuLookup(int num) {
         switch (num) {
+            case -3: return aboutMenu;
+            case -2: return tutorialMenu;
             case -1: return optionsMenu;
             case 0: return startMenu;
             case 1: return levelMenu;
@@ -72,9 +72,6 @@ public class MainMenuScript : MonoBehaviour
             RectTransform leveltransform = levelMenu.GetComponent<RectTransform>();
             LeanTween.moveX(leveltransform, leveltransform.localPosition.x + target, animationTime).setEase(easeType);
 
-        }
-        else if (currentMenu <= -1 && to <= -1) { //for moving between options
-            
         }
         
         else { //for moving between menus
