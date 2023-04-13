@@ -144,7 +144,7 @@ public class ActionRecorder : MonoBehaviour
 
         return new States
         {
-            ghostRotation = dieController.lastAction,
+            ghostRotation = dieController.dieRollSideFunction,
             mappedDieLocation = dieController.position,
             rotation = die.transform.rotation,
             sides = dieController.sides,

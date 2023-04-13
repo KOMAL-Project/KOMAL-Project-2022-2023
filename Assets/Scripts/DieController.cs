@@ -8,12 +8,15 @@ public class DieController : MonoBehaviour
     public GameObject cameraObj, dPadObj;
     private DirectionalButtonController dPad;
     private ManageGame gm;
+    public ActionRecorder actionRec;
+    private Animator anim;
+
 
     public Vector3Int chargeDirection;
     public ChargeController currentCharge;
     public GameObject chargeFaceObjAnchor;
     public GameObject chargeFaceObject;
-    public ActionRecorder actionRec;
+
     [HideInInspector] public Action lastAction;
     public Vector2Int position = new Vector2Int();
     public Vector2 winPos;
@@ -21,15 +24,18 @@ public class DieController : MonoBehaviour
     public Texture2D[] ghostTextures = new Texture2D[6];
     public Sprite[] ghosts = new Sprite[6];
 
-
     public bool canControl = true;
     private bool isMoving;
-    private Animator anim;
     
     [SerializeField] List<Material> chargeFaceMaterials;
     [SerializeField] List<Mesh> chargeFaceMeshes;
     
-    private float rollSpeed = 4.5f;
+    //Die rolling global variables
+    private float rollSpeed = 0.3f; //seconds of time for dice to roll
+    private float dieRollStartTime, dieRollCurrentRotation;
+    private Vector3 dieRollAnchor, dieRollAxis, dieRollFinalPosition;
+    private Vector2Int dieRollInternalMoveVector;
+    [HideInInspector] public Action dieRollSideFunction;
     
     public Dictionary<Vector3Int, int> sides = new Dictionary<Vector3Int, int>();
     [SerializeField] private AudioClip diceHit;
@@ -83,6 +89,39 @@ public class DieController : MonoBehaviour
         //Debug.Log(gm.levelData);
 
 
+    }
+
+    private void FixedUpdate() {
+        
+        if (isMoving) //frame independent movement
+        {
+            if (Time.fixedTime < dieRollStartTime + rollSpeed) 
+            {
+                float amount = Time.fixedDeltaTime * 90 / rollSpeed;
+                dieRollCurrentRotation += amount;
+                transform.RotateAround(dieRollAnchor, dieRollAxis, amount);
+            }
+            else 
+            {
+                
+                if (source is not null) 
+                {
+                    source.PlayOneShot(diceHit, 0.7f);
+                }
+
+                transform.RotateAround(dieRollAnchor, dieRollAxis, 90 - dieRollCurrentRotation);
+                transform.position = dieRollFinalPosition;
+
+                position += dieRollInternalMoveVector;
+                WinCheck();
+                
+                dieRollSideFunction();
+                gm.CheckMechanics();
+
+                actionRec.Record();
+                isMoving = false;
+            }
+        }
     }
     /// <summary>
     /// Returns a dictionary of the die's sides when rotated counterclockwise by 90 degrees
@@ -298,12 +337,21 @@ public class DieController : MonoBehaviour
         if (newX > gm.levelData.GetLength(0) || newX < 0 || newY > gm.levelData.GetLength(1) || newY < 0) return;// checking if new move is out of level
         if (gm.levelData[x + (int)directions[index].x, y + (int)directions[index].z]) return;// checking if new move spot is occupied
         
-        var anchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f); // the point around which we are rotating
-        var axis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orthagonal to the plane formed by direction and y axis
+    
+        //variables used in fixed update to do movement
+        dieRollSideFunction = moves[index];
+        dieRollAnchor = transform.position + directions[index] * .5f + new Vector3(0.0f, -0.5f, 0.0f); // the point around which we are rotating
+        dieRollAxis = Vector3.Cross(Vector3.up, directions[index]); // axis is the vector orthagonal to the plane formed by direction and y axis
+        dieRollInternalMoveVector = new Vector2Int((int)directions[index].x, (int)directions[index].z);
+        dieRollFinalPosition = transform.position + directions[index];
+        dieRollCurrentRotation = 0;
 
-        lastAction = moves[index];
+        dieRollStartTime = Time.fixedTime;
+        isMoving = true;
+        
 
-        StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
+
+        //StartCoroutine(Roll(anchor, axis, moves[index], new Vector2Int((int)directions[index].x, (int)directions[index].z)));
     }
     /// <summary>
     /// Returns the indexes of directional buttons that have been pressed
@@ -323,35 +371,6 @@ public class DieController : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles the position and rotation of the die while it is moving between spaces.
-    /// </summary>
-    /// <param name="anchor"></param>
-    /// <param name="axis"></param>
-    /// <param name="moveFunc"></param>
-    /// <param name="moveVec"></param>
-    /// <returns></returns>
-    IEnumerator Roll(Vector3 anchor, Vector3 axis, Action moveFunc, Vector2Int moveVec) {
-        isMoving = true;
-
-        for (int i = 0; i < (90 /rollSpeed); i++) 
-        {
-            transform.RotateAround(anchor, axis, rollSpeed);
-            yield return new WaitForSeconds(0.01f);
-        }
-        if (source is not null) {
-            source.PlayOneShot(diceHit, 0.7f);
-        }   
-        position += moveVec;
-        WinCheck();
-        
-        moveFunc();
-        gm.CheckMechanics();
-
-        actionRec.Record();
-        isMoving = false;
-
-    }
-    /// <summary>
     /// Handles the position and rotation of the die while it is moving between spaces instantly.
     /// </summary>
     /// <param name="anchor"></param>
@@ -362,10 +381,7 @@ public class DieController : MonoBehaviour
         isMoving = true;
 
         transform.RotateAround(anchor, axis, 90);
-        
-        if (source is not null) {
-            source.PlayOneShot(diceHit, 0.7f);
-        }   
+           
         position += moveVec;
         WinCheck();
         
