@@ -11,6 +11,7 @@ TagManager:
   - OverlayDie
   - DieOverlay
   - LevelNumberText
+  - Credits
   layers:
   - Default
   - TransparentFX

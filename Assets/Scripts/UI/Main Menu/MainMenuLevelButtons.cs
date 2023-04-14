@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MainMenuLevelButtons : MonoBehaviour
 {
-    private static Color normal = new Color(0.62f,0.62f,0.62f,1); //grey button, no lightup
+    private static Color normal = new Color(0.8f, 0.8f, 0.8f, 1); //grey button, no lightup
     private static Color completed = new Color(0.9f,0.9f,0.9f,1); //lightup after completion
     private int level;
     private int chapter;
