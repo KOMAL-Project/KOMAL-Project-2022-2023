@@ -2536,9 +2536,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 973722510}
     m_Modifications:
-    - target: {fileID: 2612938485090666277, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+    - target: {fileID: 569335774384022401, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
-      value: -6
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079570594143836689, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7918328011995972114, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Name
@@ -2547,6 +2551,10 @@ PrefabInstance:
     - target: {fileID: 8102884345841598807, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241232283659907379, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: menuDestination
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8405364317638237935, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Pivot.x
@@ -5319,9 +5327,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 973722510}
     m_Modifications:
-    - target: {fileID: 2612938485090666277, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+    - target: {fileID: 569335774384022401, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
-      value: -4
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 3597205352511453383, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
@@ -5330,6 +5338,10 @@ PrefabInstance:
     - target: {fileID: 7918328011995972114, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Name
       value: Tutorial 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241232283659907379, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: menuDestination
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 8405364317638237935, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Pivot.x
@@ -6129,9 +6141,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 973722510}
     m_Modifications:
-    - target: {fileID: 2612938485090666277, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+    - target: {fileID: 569335774384022401, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 3597205352511453383, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
@@ -6140,6 +6152,10 @@ PrefabInstance:
     - target: {fileID: 7918328011995972114, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Name
       value: Tutorial 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241232283659907379, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: menuDestination
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 8405364317638237935, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Pivot.x
@@ -6900,9 +6916,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 973722510}
     m_Modifications:
-    - target: {fileID: 2612938485090666277, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+    - target: {fileID: 569335774384022401, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
-      value: -3
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3597205352511453383, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
@@ -6911,6 +6927,10 @@ PrefabInstance:
     - target: {fileID: 7918328011995972114, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Name
       value: Tutorial 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8241232283659907379, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: menuDestination
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 8405364317638237935, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Pivot.x
@@ -7267,9 +7287,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 973722510}
     m_Modifications:
+    - target: {fileID: 569335774384022401, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: menuDestination
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 3597205352511453383, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: menuDestination
       value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730757634012596387, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7918328011995972114, guid: f4484b842903be64e850a7f611cac2a6, type: 3}
       propertyPath: m_Name

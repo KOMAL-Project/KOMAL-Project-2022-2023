@@ -12,12 +12,13 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private LeanTweenType easeType;
     [SerializeField] private List<GameObject> levelMenus, tutorialMenus;
     private float Xoffset, Yoffset;
-    private int currentMenu, selectedChapter, selectedOptions;
+    private int currentMenu, selectedChapter, selectedTutorial;
 
     private void Start() 
     {
         currentMenu = 0;
         selectedChapter = 1;
+        selectedTutorial = -3;
 
         Yoffset = GetComponent<RectTransform>().rect.y * -2;
         Xoffset = GetComponent<RectTransform>().rect.x * -2;
@@ -104,6 +105,9 @@ public class MainMenuScript : MonoBehaviour
 
         else if (currentMenu <= -3 && to <= -3) 
         { //for moving between tutorial panels
+
+            selectedTutorial = to;
+
             float target = (to > currentMenu) ? Xoffset : -Xoffset;
             
             RectTransform tutorialTransform = tutorialMenu.GetComponent<RectTransform>();
@@ -119,6 +123,10 @@ public class MainMenuScript : MonoBehaviour
             {
                 currentMenu = 1;
             }
+            if (currentMenu <= -3)
+            {
+                currentMenu = -3;
+            }
 
             LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
             LeanTween.moveY(MenuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
@@ -131,8 +139,12 @@ public class MainMenuScript : MonoBehaviour
         { //changes menu to chapter if moving to level menu
             currentMenu = selectedChapter;
         }
-        else 
+        else if (to == -3)
         { //changes current menu to actual menu
+            currentMenu = selectedTutorial;
+        }
+        else
+        {
             currentMenu = to;
         }
         //Debug.Log(currentMenu);
