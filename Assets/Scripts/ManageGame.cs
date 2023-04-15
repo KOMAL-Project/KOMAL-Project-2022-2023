@@ -93,6 +93,7 @@ public class ManageGame : MonoBehaviour
         if (panel == null) yield break;
         // If a panel with a matching ID has been found, set the tutorial panel's image to the image of that panel and display the tutorial panel
         dieController.canControl = false;
+        tutorialPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
         tutorialPanel.GetComponent<Image>().sprite = Sprite.Create(panel.panelImage,
             new Rect(0, 0, 750, 500), Vector2.zero); // Set the panel image to the at
         tutorialPanel.GetComponent<Animator>().Play("GoOnScreen");

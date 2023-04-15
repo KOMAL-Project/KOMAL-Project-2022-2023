@@ -7,29 +7,35 @@ public class MainMenuScript : MonoBehaviour
 {
 
     [SerializeField] private GameObject aboutMenu, tutorialMenu, optionsMenu, startMenu, levelMenu, creditsBg;
-    private Animator credits;
+    [SerializeField] private Animator credits;
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;
-    private float Yoffset;
-    private float Xoffset;
-    private int currentMenu;
-    private int selectedChapter;
-    private int selectedOptions;
-
-
-    private void Awake()
-    {
-        Application.targetFrameRate = 60;
-    }
+    [SerializeField] private List<GameObject> levelMenus, tutorialMenus;
+    private float Xoffset, Yoffset;
+    private int currentMenu, selectedChapter, selectedOptions;
 
     private void Start() 
     {
         currentMenu = 0;
         selectedChapter = 1;
 
-        CanvasScaler cs = GetComponentInParent<CanvasScaler>();
-        Yoffset = cs.referenceResolution.y;
-        Xoffset = cs.referenceResolution.x;
+        Yoffset = GetComponent<RectTransform>().rect.y * -2;
+        Xoffset = GetComponent<RectTransform>().rect.x * -2;
+
+        //offsetting each menu vertically
+        Vector3 below = new Vector3(0, -Yoffset, 0);
+        Vector3 above = new Vector3(0, Yoffset, 0);
+
+        aboutMenu.transform.localPosition = below;
+        tutorialMenu.transform.localPosition = below;
+        optionsMenu.transform.localPosition = below;
+        levelMenu.transform.localPosition = above;
+        startMenu.transform.localPosition = Vector3.zero;    
+        
+        //offsetting level menus and tutorial panels horizontally - hardcoded, can be changed
+        for (int i = 0; i < levelMenus.Count; i++) {levelMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);};
+        for (int i = 0; i < tutorialMenus.Count; i++) {tutorialMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);}
+
 
         LeanTween.moveY(startMenu,0,1.1f).setEase(LeanTweenType.easeOutBack);
         credits = GameObject.FindGameObjectWithTag("Credits").GetComponent<Animator>();
