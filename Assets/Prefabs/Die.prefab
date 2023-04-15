@@ -269,10 +269,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraObj: {fileID: 0}
   dPadObj: {fileID: 0}
+  actionRec: {fileID: 5760006467806241220}
   chargeDirection: {x: 0, y: 0, z: 0}
   currentCharge: {fileID: 0}
   chargeFaceObjAnchor: {fileID: 2170760244556124579}
-  actionRec: {fileID: 5760006467806241220}
+  chargeFaceObject: {fileID: 0}
   position: {x: 0, y: 0}
   winPos: {x: 0, y: 0}
   ghostTextures:
@@ -302,6 +303,7 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: 760033b56754d43429da95453df639a5, type: 3}
   - {fileID: -2432090755550338912, guid: 6bf00b05b8c35bc419fe69e33ec72e75, type: 3}
   diceHit: {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
+  cs: {fileID: 0}
   doc: {fileID: 0}
   chargeType: 0
 --- !u!114 &5760006467806241220
@@ -317,7 +319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   die: {fileID: 0}
+  overlayDie: {fileID: 0}
   dieController: {fileID: 0}
+  doc: {fileID: 0}
 --- !u!1 &3721645712715558103
 GameObject:
   m_ObjectHideFlags: 0
