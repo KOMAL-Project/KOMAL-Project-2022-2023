@@ -74,6 +74,9 @@ public class CameraScript : MonoBehaviour
         isIsometric = true;
         isOverhead = false;
 
+        //determine zoom out size
+        zoomOutSize = 0.6f * Mathf.Max(ManageGame.Instance.width, ManageGame.Instance.length);
+
     }
 
     private void Update()
