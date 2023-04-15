@@ -31,7 +31,7 @@ public class MainMenuScript : MonoBehaviour
         tutorialMenu.transform.localPosition = below;
         optionsMenu.transform.localPosition = below;
         levelMenu.transform.localPosition = above;
-        startMenu.transform.localPosition = Vector3.zero;    
+        startMenu.transform.localPosition = above;    
         
         //offsetting level menus and tutorial panels horizontally - hardcoded, can be changed
         for (int i = 0; i < levelMenus.Count; i++) {levelMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);};
