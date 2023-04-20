@@ -18,6 +18,8 @@ public class ManageGame : MonoBehaviour
 
     public GameObject winSwitchInstance;
 
+    public ColorPalette[] palettes;
+
     public int width, length, levelID, chapterID;
     public string levelIDString;
     // FloorData holds floor tile GameObjects.
