@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class MainMenuLevelButtons : MonoBehaviour
 {
     private static Color normal = new Color(0.8f, 0.8f, 0.8f, 1); //grey button, no lightup
-    private static Color completed = new Color(0.9f,0.9f,0.9f,1); //lightup after completion
     private int level;
     private int chapter;
     void Start()
@@ -31,7 +30,7 @@ public class MainMenuLevelButtons : MonoBehaviour
         button.interactable = true; //button for now will always be usable
 
         if (ManageGame.finishedLevels.Contains(ManageGame.IDsToString(level, chapter))) {
-            GetComponent<Image>().color = completed;
+            transform.GetChild(0).gameObject.SetActive(true);
         }
 
         button.onClick.AddListener(ChangeLevel);
