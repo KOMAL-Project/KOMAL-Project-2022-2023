@@ -58,7 +58,7 @@ public class FlavorText : MonoBehaviour
         {"3-b1", "The Home Stretch" },
         {"3-b2", "Just keep moving" },
         {"3-b3", "Even more a-maze-ing" },
-        {"3-b4", "KOMAL" },
+        {"3-b4", "For Komal" },
 
     };
 }

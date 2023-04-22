@@ -474,11 +474,12 @@ public class GenerateLevel : MonoBehaviour
         // Set Level Number
         levelNumberText = GameObject.FindGameObjectWithTag("LevelNumberText").GetComponent<TMP_Text>();
         // Bonus Level Changes
-        string chapterAftertext = levelIDString[0] == 'b' ? " (Bonus)" : "";
+        string chapterAftertext = levelIDString[0] == 'b' ? "b" : "";
         string levelIDStringTemp = levelIDString[0] == 'b' ? levelIDString[1].ToString() : levelIDString;
         // Put all of the text together
-        string levelText = "Chapter " + chapterID + chapterAftertext + "\nLevel " + levelIDStringTemp;
-        levelNumberText.text = (levelIDString == "12" || levelIDString == "b4") ? levelText + "\n(Final)" : levelText;
+        string levelText = chapterID + "-" + chapterAftertext + levelIDStringTemp;
+        levelNumberText.text = "Level " + levelText + "\n" + gameObject.GetComponent<FlavorText>().flavorText[levelText];
+        levelNumberText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "Level " + levelText + "\n" + gameObject.GetComponent<FlavorText>().flavorText[levelText];
     }
 
     /// <summary>
