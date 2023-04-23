@@ -295,6 +295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Menus
       objectReference: {fileID: 0}
+    - target: {fileID: 6514456485320725648, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7842736421733509320, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -312,6 +316,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7949335679876148524, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8934993282204528360, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -541,6 +549,10 @@ PrefabInstance:
     - target: {fileID: 2201775946093453423, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: m_Name
       value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579957120045967654, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
+      propertyPath: levelImage
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
