@@ -81,7 +81,7 @@ public class CameraScript : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && !(die.getIsMoving() || isMoving))
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
         {
             targetYRotation -= 90;
             ChangeSide(1);
@@ -93,7 +93,7 @@ public class CameraScript : MonoBehaviour
             doc.TurnClockwise();
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && !(die.getIsMoving() || isMoving))
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
         {
             targetYRotation += 90;
             ChangeSide(-1);
@@ -105,7 +105,7 @@ public class CameraScript : MonoBehaviour
             doc.TurnCounterClockwise();
             //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
-        if ((Input.GetKeyDown(overheadKey) || input.overhead) && !(die.getIsMoving() || isMoving) && isIsometric) // Set to overhead view
+        if ((Input.GetKeyDown(overheadKey) || input.overhead) && !(die.getIsMoving() || isMoving) && isIsometric && die.canControl) // Set to overhead view
         {
             targetYRotation -= 30;
             targetXRotation = -90;
@@ -120,7 +120,7 @@ public class CameraScript : MonoBehaviour
             isOverhead = true;
         }
 
-        if ((Input.GetKeyUp(overheadKey) || input.iso) && !(die.getIsMoving() || isMoving) && isOverhead) // Set to isometric view
+        if ((Input.GetKeyUp(overheadKey) || input.iso) && !(die.getIsMoving() || isMoving) && isOverhead && die.canControl) // Set to isometric view
         {
             targetYRotation += 30;
             targetXRotation = -xAngle;

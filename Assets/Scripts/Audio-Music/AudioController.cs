@@ -11,12 +11,12 @@ public class AudioController : MonoBehaviour
     
     void Start() {
         GetComponent<UnityEngine.UI.Slider>().value = volume[audioName];
-        setVolume(volume[audioName]);
+        SetVolume(volume[audioName]);
     }
 
-    public void setVolume(float sliderValue) {
+    public void SetVolume(float sliderValue) {
 
-        float mixerVolume = sliderValue > 0.01 ? Mathf.Log10(sliderValue) * 30 : -80;
+        float mixerVolume = sliderValue > 0.01 ? Mathf.Log10(sliderValue) : -80;
         mixer.SetFloat(audioName + " Volume", mixerVolume);
         volume[audioName] = sliderValue;
     }

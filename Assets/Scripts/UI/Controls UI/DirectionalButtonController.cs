@@ -12,8 +12,7 @@ public class DirectionalButtonController : MonoBehaviour
     public bool overhead, iso, doIso;
 
     [SerializeField] bool showUI;
-    [SerializeField] GameObject dPadObject, overheadButton;
-    CameraScript cs;
+    [SerializeField] GameObject dPadObject;
     // variables needed for touch swiping
     Vector2[] touchStarts;
     private int touchSwipeThreshold = 200, mouseSwipeThreshold = 100;
@@ -40,8 +39,6 @@ public class DirectionalButtonController : MonoBehaviour
         };
 
         touchStarts = new Vector2[11]; // 10 fingers on two hands + 1 to store mouse input
-        cs = Camera.main.gameObject.GetComponentInParent<CameraScript>();
-        overheadButton = dPadObject.transform.parent.GetChild(0).gameObject;
     }
 
     private Vector3 startPosition = Vector3.zero;

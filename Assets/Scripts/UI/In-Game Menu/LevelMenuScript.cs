@@ -66,7 +66,7 @@ public class LevelMenuScript : MonoBehaviour
         // Freeze die motion if pausing, unfreeze if unpausing:
         die.canControl = to == 0;
 
-        Debug.Log(die.canControl + ": SAEFSDF");
+        //Debug.Log(die.canControl + ": SAEFSDF");
 
         //Debug.Log(currentMenu + "  " + to);
 
