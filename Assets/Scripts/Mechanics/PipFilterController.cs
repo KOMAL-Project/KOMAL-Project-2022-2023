@@ -66,10 +66,11 @@ public class PipFilterController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         seq = LeanTween.sequence();
-        seq.append(LeanTween.scale(gameObject, Vector3.one * 10, 0.75f).setEaseInOutQuad());
+        //seq.append(LeanTween.scale(gameObject, Vector3.one * 5, 0.75f).setEaseInOutQuad());
         seq.insert(LeanTween.alpha(gameObject, 0, 0.75f).setEaseInOutQuad());
-        seq.append(LeanTween.scale(gameObject, Vector3.one * 5, 0.75f).setEaseInOutQuad().setDelay(1.2f));
-        seq.insert(LeanTween.alpha(gameObject, 1, 0.75f).setEaseInOutQuad());
+        seq.append(LeanTween.rotateZ(gameObject, 0, 1f));
+        //seq.append(LeanTween.scale(gameObject, Vector3.one * 10, 0.75f).setEaseInOutQuad());
+        seq.append(LeanTween.alpha(gameObject, 1, 0.75f).setEaseInOutQuad());
         seq.append(LeanTween.value(gameObject, transform.position, transform.position, 0f).setOnComplete( () => { //repeats the whole sequence
             StartCoroutine(Pulse());
         }).setDelay(0.05f));
