@@ -28,8 +28,8 @@ public class FlavorText : MonoBehaviour
         {"2-2" , "One Charge, one Card" },
         {"2-3" , "Focus on one at a time" },
         {"2-4" , "Square Charges, squared" },
-        {"2-5" , "Remember you can Undo" },
-        {"2-6" , "Plan your route" },
+        {"2-5" , "Falling blocks" },
+        {"2-6" , "One-Way road" },
         {"2-7" , "Doubly Blocked" },
         {"2-8" , "Cycling Sides" },
         {"2-9" , "Conserve your space" },
@@ -48,7 +48,7 @@ public class FlavorText : MonoBehaviour
         {"3-4" , "A long and spiraling road" },
         {"3-5" , "One-Way Toggles" },
         {"3-6" , "Dance Floor" },
-        {"3-7" , "Switches and Toggles" },
+        {"3-7" , "You can only Toggle once" },
         {"3-8" , "Switches and Charges" },
         {"3-9" , "There and Back Again" },
         {"3-10", "Putting it all together" },
@@ -56,7 +56,7 @@ public class FlavorText : MonoBehaviour
         {"3-12", "Finale - Routing is Key" },
 
         {"3-b1", "The Home Stretch" },
-        {"3-b2", "Do you get the reference?" },
+        {"3-b2", "Power Up!" },
         {"3-b3", "Even more a-maze-ing" },
         {"3-b4", "For Komal" },
 
