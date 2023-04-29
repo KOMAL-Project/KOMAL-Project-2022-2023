@@ -88,8 +88,8 @@ public class ChargeController : Mechanic
                         {
                             control.rend.material = mats[1];
                             control.state = 2;
-                            pipFilter.Disable();
-                            pipFilter.DisablePulse();
+                            control.pipFilter.Disable();
+                            control.pipFilter.DisablePulse();
                         }
 
                         break;
