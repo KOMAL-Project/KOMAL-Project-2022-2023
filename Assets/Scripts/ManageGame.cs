@@ -19,6 +19,7 @@ public class ManageGame : MonoBehaviour
     public GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
+    public bool bonus;
     public string levelIDString;
     // FloorData holds floor tile GameObjects.
     // levelData holds data for whether each tile is obstructed.
@@ -136,7 +137,8 @@ public class ManageGame : MonoBehaviour
     }
 
 
-    public static string IDsToString(int IDLevel, int IDChapter) {
+    public static string IDsToString(int IDLevel, int IDChapter, bool isBonus) {
+        if (isBonus) return ("" + IDLevel + "b-" + IDChapter);
         return ("" + IDLevel + "-" + IDChapter);
     }
 
@@ -146,7 +148,7 @@ public class ManageGame : MonoBehaviour
     public void LevelComplete()
     {
         levelFinishing = true;
-        string levelString = IDsToString(levelID, chapterID);
+        string levelString = IDsToString(levelID, chapterID, bonus);
         if (!finishedLevels.Contains(levelString)) {
             finishedLevels.Add(levelString);
         }

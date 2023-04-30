@@ -26,6 +26,7 @@ public class GenerateLevel : MonoBehaviour
     public GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
+    public bool bonus;
     string levelIDString = "-1";
     public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
@@ -117,6 +118,7 @@ public class GenerateLevel : MonoBehaviour
         mg.levelID = levelID;
         mg.levelIDString = levelIDString;
         mg.chapterID = chapterID;
+        mg.bonus = bonus;
 
         mg.wallTiles = wallTiles;
         mg.singleUseTilesInLevel = singleUseTilesInLevel;
@@ -198,12 +200,14 @@ public class GenerateLevel : MonoBehaviour
 
                 if (levelIDString.Contains("b"))
                 { //different paths if bonus
+                    bonus = true;
                     levelID = int.Parse(levelIDString.Substring(1));
                     levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level " + chapterID + "-b" + levelID);
                     filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level " + chapterID + "-b" + levelID + "p");
                 }
                 else
                 {
+                    bonus = false;
                     levelID = int.Parse(levelIDString);
                     levelImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level " + chapterID + "-" + levelID);
                     filtersImage = Resources.Load<Texture2D>("Chapter " + chapterID + "/Level " + chapterID + "-" + levelID + "p");
