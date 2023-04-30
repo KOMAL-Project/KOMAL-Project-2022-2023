@@ -11,7 +11,6 @@ public class MusicManager : MonoBehaviour
         get {return instance;} 
     }
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance != null && instance != this) {
@@ -36,6 +35,5 @@ public class MusicManager : MonoBehaviour
         sources[0].Play();
     }
 
-    // Update is called once per frame
     
 }

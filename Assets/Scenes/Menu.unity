@@ -484,7 +484,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1339988477}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -492,7 +492,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 121883469}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
-        m_MethodName: setVolume
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2143,7 +2143,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1312863159}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -2151,7 +2151,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 542605965}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
-        m_MethodName: setVolume
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7101,6 +7101,22 @@ PrefabInstance:
     - target: {fileID: 4747744280512615483, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].time
+      value: 0.20498616
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
