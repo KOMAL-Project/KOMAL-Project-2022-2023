@@ -663,20 +663,8 @@ PrefabInstance:
       value: Chapter 1
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4282137660
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799852576434, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2804,6 +2792,12 @@ MonoBehaviour:
   - {fileID: 51986765}
   - {fileID: 1687482475}
   - {fileID: 1399206691}
+  backgroundCam: {fileID: 296673161}
+  mainColor: {r: 0.2901961, g: 0.84705883, b: 0.827451, a: 0}
+  palettes:
+  - {fileID: 11400000, guid: 730fabc929c1cdd45b1159c49b4216f3, type: 2}
+  - {fileID: 11400000, guid: a70b618f85ad5f24ea622f5bf32ae0db, type: 2}
+  - {fileID: 11400000, guid: 3162593e90649fa489c3872892163608, type: 2}
 --- !u!1 &731533890
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,20 +3725,8 @@ PrefabInstance:
       value: Chapter 3
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4282137660
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799389996877, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_IsActive
@@ -7260,20 +7242,8 @@ PrefabInstance:
       value: Chapter 2
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3237929799210346823, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4282137660
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3237929799852576434, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
