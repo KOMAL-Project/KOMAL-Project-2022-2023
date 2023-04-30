@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2094602540448679562, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2172658166726743791, guid: e0516849c0f84d547bd4344281bccf1e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
