@@ -827,6 +827,10 @@ MonoBehaviour:
   - {fileID: 8670220340756326571, guid: ce1e2c475adb6534e828694a52772961, type: 3}
   - {fileID: 6193186430653510028, guid: 040d12be3fcf4cc4197ee51deba4216d, type: 3}
   winSwitchInstance: {fileID: 0}
+  palettes:
+  - {fileID: 11400000, guid: 730fabc929c1cdd45b1159c49b4216f3, type: 2}
+  - {fileID: 11400000, guid: a70b618f85ad5f24ea622f5bf32ae0db, type: 2}
+  - {fileID: 11400000, guid: 3162593e90649fa489c3872892163608, type: 2}
   width: 0
   length: 0
   levelID: 1
@@ -895,6 +899,7 @@ MonoBehaviour:
   levelImage: {fileID: 0}
   filtersImage: {fileID: 0}
   playerStart: 
+  foam: {fileID: 0}
   wallTiles: []
   singleUseTilesInLevel: []
   xBlocksInLevel: []
@@ -1195,7 +1200,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

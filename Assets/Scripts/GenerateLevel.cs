@@ -38,6 +38,7 @@ public class GenerateLevel : MonoBehaviour
     public Mechanic[,] mechanicData;
     public int[] playerStart;
 
+    public Material foam;
        
     Color singleUseColor = new Color32(128, 128, 128, 255);
 
@@ -152,6 +153,7 @@ public class GenerateLevel : MonoBehaviour
                 if (!alternatingFloorTiles)
                 {
                     floorData[i, j] = Instantiate(floorTile, new Vector3(i - width / 2, 0, j - length / 2), new Quaternion(0, 0, 0, 0), floor);
+                    floorData[i, j].GetComponentInChildren<MeshRenderer>().material = foam;
                 }
                 else
                 {
@@ -163,6 +165,7 @@ public class GenerateLevel : MonoBehaviour
                     else temp = floorTiles[3];
 
                     floorData[i, j] = Instantiate(temp, new Vector3(i - width / 2, 0.4f, j - length / 2), new Quaternion(0, 0, 0, 0), floor);
+                    floorData[i, j].GetComponentInChildren<MeshRenderer>().material = foam;
                 }
             }
         }
@@ -242,7 +245,8 @@ public class GenerateLevel : MonoBehaviour
         floorData = new GameObject[width, length];
 
         mg = FindObjectOfType<ManageGame>(); //can change to tags for optimization
-
+        foam = mg.palettes[chapterID - 1].foam;
+        Camera.main.backgroundColor = mg.palettes[chapterID - 1].backgroundColor;
 
         // Prepare the lists of GameObjects
         mechanics = new List<Mechanic>();
