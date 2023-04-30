@@ -11,7 +11,7 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;
     [SerializeField] private List<GameObject> levelMenus, tutorialMenus;
-    private float Xoffset, Yoffset;
+    public static float Xoffset, Yoffset;
     private int currentMenu, selectedChapter, selectedTutorial;
 
     private void Start() 

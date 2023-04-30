@@ -238,4 +238,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad53b9e6daf47a4db30f033fc0e9c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 8300000, guid: be7ff155a340c204281b9a453b1e46af, type: 3}
+  loop: {fileID: 8300000, guid: 8d0106a5d6c4b6e478767c73c5e9e293, type: 3}
+  sources: []

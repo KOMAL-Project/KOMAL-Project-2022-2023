@@ -42,30 +42,45 @@ public class LegoSwitchController : Mechanic
         }
     } 
 
-    public override void SetState(int input) {
-
-    if (input == 1 &&  state != 1) {
-        foreach (GameObject w in gates) LeanTween.moveLocalY(w, 50, 1).setEase(LeanTweenType.easeInOutQuad);
-        for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
-        switchRenderer.sprite = topSprites[6];
-        pipFilter.Disable();
-    }
-
-    else if (input == 0 && state != 0) {
-        foreach (GameObject w in gates) 
+    public override void SetState(int input) 
+    {
+        if (input == 1 &&  state != 1) 
         {
-        LeanTween.cancel(w);
-        Vector3 localpos = w.transform.localPosition; //conversion of the local y position to 1. There could be a better way to do this
-        localpos.y = 1;
-        w.transform.localPosition = localpos;
+            foreach (GameObject w in gates) LeanTween.moveLocalY(w, 50, 1).setEase(LeanTweenType.easeInOutQuad);
+            for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = null;
+            switchRenderer.sprite = topSprites[6];
+            pipFilter.Disable();
+            StartCoroutine(DisableLegoMeshes());
         }
-        
-        for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
 
-        switchRenderer.sprite = topSprites[type - 1];
-        pipFilter.Enable();
+        else if (input == 0 && state != 0) 
+        {
+
+            StopCoroutine(DisableLegoMeshes());
+            foreach (GameObject w in gates) 
+            {
+                LeanTween.cancel(w);
+                Vector3 localpos = w.transform.localPosition; //conversion of the local y position to 1. There could be a better way to do this
+                localpos.y = 1;
+                w.transform.localPosition = localpos;
+                w.GetComponentInChildren<MeshRenderer>().enabled = true;
+            }
+        
+            for (int i = 0; i < gates.Count; i++) gameManager.levelData[gatePos[i].x, gatePos[i].y] = gates[i];
+
+            switchRenderer.sprite = topSprites[type - 1];
+            pipFilter.Enable();
+        }
+        state = input;
     }
-    state = input;
+
+    IEnumerator DisableLegoMeshes()
+    {
+        yield return new WaitForSeconds(.5f);
+        
+        if(state == 1)
+            foreach (GameObject w in gates)
+                w.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 
 

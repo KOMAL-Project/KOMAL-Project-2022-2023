@@ -17,15 +17,19 @@ public class SingleUseController : Mechanic
     {
         state = 0;
         block = transform.GetChild(0).gameObject;
+        GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 
     public override void CheckForActivation() {
 
         Vector2Int playerPosition = dieControl.position;
 
+        // Check if player is on tile
         if (playerPosition == position) state = 1;
+        // Check when player leaves tile
         if (playerPosition != position && state == 1)
         {
+            GetComponentInChildren<MeshRenderer>().enabled = true;
             gameManager.levelData[position.x, position.y] = this.gameObject;
             state = 2;
             Vector3 localpos = block.transform.localPosition;
@@ -35,17 +39,23 @@ public class SingleUseController : Mechanic
         }
     }
 
+    // 0 -- block is in the air and player has not primed it yet
+    // 1 -- player on tile, block is primed to fall once player steps off
+    // 2 -- player has walked off and the block is falling
     public override void SetState(int input) {
         state = input;
-        if (input < 2 && state == 1) {
+        if (input < 2 && state == 1) { // reset the block
             gameManager.levelData[position.x, position.y] = null;
 
             LeanTween.cancel(block);
             Vector3 localpos = block.transform.localPosition;
             localpos.y = -200;
             block.transform.localPosition = localpos;
+            // make block invis again
+            GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         
     }
-   
+
+
 }

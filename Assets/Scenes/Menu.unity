@@ -484,7 +484,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1339988477}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -492,7 +492,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 121883469}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
-        m_MethodName: setVolume
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1347,11 +1347,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cd8f6ade03ec64a9f6ff3540a202d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 3314861445257954820, guid: a50deedcd9af26e46971a8adea75698e, type: 3}
-  rate: 0.15
+  meshes:
+  - {fileID: -2432090755550338912, guid: d9de4a004c87d134b8319dfa60f36c64, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 81fa5e8a80022a3408429a9b0d23ae24, type: 3}
+  - {fileID: -2432090755550338912, guid: 3d7a880fd59771a4cb7e895f6e103085, type: 3}
+  - {fileID: -2432090755550338912, guid: 3d7a880fd59771a4cb7e895f6e103085, type: 3}
+  materials:
+  - {fileID: 2100000, guid: a9ecc7b76b59b784b88a5703caa83f80, type: 2}
+  - {fileID: 2100000, guid: e99ccc1a5d1c673448f6122258644e7e, type: 2}
+  - {fileID: 2100000, guid: eb42f9af5a1742e4180641ae3f8206e7, type: 2}
+  - {fileID: 2100000, guid: 7566efc5e02fe504c9aee087a742f947, type: 2}
+  - {fileID: 2100000, guid: 34178c1302360a346adfdc90218b1a2d, type: 2}
+  - {fileID: 2100000, guid: 144e841ff36648a46a50a5cbf21f4f45, type: 2}
+  - {fileID: 2100000, guid: b374987e35017d241a43e635e395cd65, type: 2}
+  - {fileID: 2100000, guid: 83457847fa2da5744aaa07ce572e89b5, type: 2}
+  - {fileID: 2100000, guid: 5ae22226ffc48a34ab7f642c4dc89255, type: 2}
+  - {fileID: 2100000, guid: 9d517afa64211714ab7d3f0f3016e845, type: 2}
+  rate: 0.3
   spawnDistance: 4
-  spawnWidth: 30
+  spawnWidth: -1
+  fallingPrefab: {fileID: 3314861445257954820, guid: a50deedcd9af26e46971a8adea75698e, type: 3}
 --- !u!224 &371282471 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3237929799030689953, guid: bdfe330de97397a4b8fc187213a704d3, type: 3}
@@ -2122,7 +2143,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1312863159}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -2130,7 +2151,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 542605965}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
-        m_MethodName: setVolume
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5639,7 +5660,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732233318}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -20, z: 0}
+  m_LocalPosition: {x: 0, y: -25, z: 0}
   m_LocalScale: {x: 8, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6283,7 +6304,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4000, y: 1619}
+  m_SizeDelta: {x: 4500, y: 1619}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1842169219
 MonoBehaviour:
@@ -7080,6 +7101,22 @@ PrefabInstance:
     - target: {fileID: 4747744280512615483, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].time
+      value: 0.20498616
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 6669630194818981831, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c8a35bf6590cbe49b52a51625445e7d, type: 3}

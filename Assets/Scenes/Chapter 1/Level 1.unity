@@ -497,6 +497,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Controls
       objectReference: {fileID: 0}
+    - target: {fileID: 7912748776920135033, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_text
+      value: 'Chapter 1
+
+        Level 1-X'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
 --- !u!1001 &1584858772
