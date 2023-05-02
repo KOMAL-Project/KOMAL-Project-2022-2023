@@ -497,6 +497,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Controls
       objectReference: {fileID: 0}
+    - target: {fileID: 2941694208577687815, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7912748776920135033, guid: 1fbec2d88f0d49942a89aeb7f97921c3, type: 3}
       propertyPath: m_text
       value: 'Chapter 1

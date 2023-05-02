@@ -232,8 +232,7 @@ public class GenerateLevel : MonoBehaviour
 
     void Awake()
     {
-        // We set the frame rate here!
-        Application.targetFrameRate = 60;
+        // Framerate is set in ButtonOptions script
         board = transform.GetChild(0).gameObject;
         string path = SceneManager.GetActiveScene().path;
         SetLevelImages(path);
