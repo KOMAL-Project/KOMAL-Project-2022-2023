@@ -423,6 +423,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Menus
       objectReference: {fileID: 0}
+    - target: {fileID: 6384016288214757742, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384016288214757742, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384016288214757742, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6384016288214757742, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 6514456485320725648, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
