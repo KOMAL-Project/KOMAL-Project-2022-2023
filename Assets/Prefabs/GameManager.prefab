@@ -849,6 +849,7 @@ MonoBehaviour:
   xBlockPositionsInLevel: []
   oBlockPositionsInLevel: []
   dieController: {fileID: 0}
+  sourceManager: {fileID: 0}
 --- !u!114 &2579957120045967654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +914,7 @@ MonoBehaviour:
   xBlockPositionsInLevel: []
   oBlockPositionsInLevel: []
   dieController: {fileID: 0}
+  sourceManager: {fileID: 0}
 --- !u!114 &7591154632258663407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,6 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9594661978fddad4194c96e655e2e1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reset: 0
   saveData:
     finishedLevels: []
 --- !u!1 &3570608374385019687

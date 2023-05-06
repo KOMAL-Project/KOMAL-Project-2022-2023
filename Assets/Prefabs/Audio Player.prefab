@@ -344,6 +344,7 @@ MonoBehaviour:
   - Undo
   - Lego Fall
   - Toggle
+  - Card Fall
   soundEffectClips:
   - {fileID: 8300000, guid: 0c95bc82b8fe47641a1fd462cb2a94ad, type: 3}
   - {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
@@ -352,3 +353,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7156bec7a89f9e14da94660eb5eae4ba, type: 3}
   - {fileID: 8300000, guid: 760e27eba08a2c848a8f416da37931f1, type: 3}
   - {fileID: 8300000, guid: b5de25b2ecc716948a28f54545918511, type: 3}
+  - {fileID: 8300000, guid: 861bda463f7515f44aae93658d6b0368, type: 3}

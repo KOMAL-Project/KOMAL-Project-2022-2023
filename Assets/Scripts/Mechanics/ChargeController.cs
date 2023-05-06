@@ -158,13 +158,15 @@ public class ChargeController : Mechanic
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = gates[j];
                 gates[j].GetComponent<Animator>().SetBool("Active", true);
             }
-        } else 
+        } 
+        else 
         {
             for (int j = 0; j < gates.Count; j++)
             {
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = null;
                 gates[j].GetComponent<Animator>().SetBool("Active", false);
             }
+            sourceManager.playSound("Card Fall", 1);
         }
     }
 
