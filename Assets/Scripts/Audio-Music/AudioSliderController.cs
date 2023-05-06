@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioController : MonoBehaviour
+public class AudioSliderController : MonoBehaviour
 {
     public static Dictionary<string, float> volume = new Dictionary<string, float>(){{"Music", 0.3f}, {"SFX", 0.5f}};
     [SerializeField] private string audioName;

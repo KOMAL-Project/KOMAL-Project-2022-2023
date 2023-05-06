@@ -5402,6 +5402,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toggle
       objectReference: {fileID: 0}
+    - target: {fileID: 854519692356322501, guid: 79c18dc94a12a7b42b1efdb2fa60e0c0, type: 3}
+      propertyPath: controlName
+      value: FPS
+      objectReference: {fileID: 0}
     - target: {fileID: 854519692356322503, guid: 79c18dc94a12a7b42b1efdb2fa60e0c0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

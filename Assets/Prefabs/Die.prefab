@@ -322,6 +322,7 @@ MonoBehaviour:
   overlayDie: {fileID: 0}
   dieController: {fileID: 0}
   doc: {fileID: 0}
+  undoSound: {fileID: 8300000, guid: 7156bec7a89f9e14da94660eb5eae4ba, type: 3}
 --- !u!1 &3721645712715558103
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +698,7 @@ Transform:
   m_GameObject: {fileID: 8029556152910324362}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 573887274297608563}

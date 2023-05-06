@@ -35,8 +35,7 @@ public class ButtonOptions : MonoBehaviour
 
         if (controlName == "FPS") 
         {
-            Application.targetFrameRate = toggleValue ? 60 : 30;
-            Debug.Log(toggleValue ? 60 : 30);
+            Application.targetFrameRate = toggleValue ? 30 : 60;
         }
         else if (controlName == "Side") 
         {

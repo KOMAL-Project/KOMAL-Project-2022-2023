@@ -38,8 +38,7 @@ public class DieController : MonoBehaviour
     [HideInInspector] public Action dieRollSideFunction;
     
     public Dictionary<Vector3Int, int> sides = new Dictionary<Vector3Int, int>();
-    [SerializeField] private AudioClip diceHit;
-    private AudioSource source;
+    private AudioSourceManager source;
     public CameraScript cs;
     public DieOverlayController doc;
     public int chargeType;
@@ -58,7 +57,7 @@ public class DieController : MonoBehaviour
         dPad = dPadObj.GetComponent<DirectionalButtonController>();
         chargeFaceObject = chargeFaceObjAnchor.transform.GetChild(0).gameObject;
 
-        source = MusicManager.Instance.GetComponents<AudioSource>()[1];
+        source = AudioSourceManager.Instance;
 
         // Set up sides
         sides.Add(Vector3Int.up, 1);
@@ -103,11 +102,7 @@ public class DieController : MonoBehaviour
             }
             else 
             {
-                
-                if (source is not null) 
-                {
-                    source.PlayOneShot(diceHit, 0.7f);
-                }
+                source.playSound("Dice Move", 1, 0.7f);
 
                 transform.RotateAround(dieRollAnchor, dieRollAxis, 90 - dieRollCurrentRotation);
                 transform.position = dieRollFinalPosition;

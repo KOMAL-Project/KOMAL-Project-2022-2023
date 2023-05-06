@@ -21,12 +21,12 @@ public class ChargeController : Mechanic
     [SerializeField] private AudioClip pickupCharge, loseCharge;
     public Material[] mats = new Material[2];
     private MeshRenderer rend;
-    private AudioSource source;
+    private AudioSourceManager source;
     private void Start()
     {
         
         rend = GetComponentInChildren<MeshRenderer>();
-        source = MusicManager.Instance.GetComponents<AudioSource>()[1];
+        source = AudioSourceManager.Instance;
         rend.material = mats[0];
         pipFilter.EnablePulse();
         state = 0;
@@ -68,9 +68,6 @@ public class ChargeController : Mechanic
             {
                 DeactivateSelf(false);
                 if (pipFilter.pips > 0) pipFilter.Enable();
-                if (source is not null) {
-                    source.PlayOneShot(loseCharge, 1.0f);
-                }
 
             }
             else if (dieControl.currentCharge == this)
@@ -113,6 +110,8 @@ public class ChargeController : Mechanic
         dieControl.chargeDirection = Vector3Int.down;
         pipFilter.Disable();
         pipFilter.DisablePulse();
+        source.playSound("Pickup Charge", 2);
+
     }
 
     /// <summary>
@@ -124,6 +123,7 @@ public class ChargeController : Mechanic
     {
         if (dieControl.currentCharge = this) 
         {
+            source.playSound("Lose Charge", 2);
             dieControl.PowerDown(true);
             dieControl.chargeDirection = Vector3Int.zero;
             dieControl.currentCharge = null;

@@ -7,25 +7,25 @@ public class ButtonScript : MonoBehaviour
     [SerializeField] private string buttonType;
     [SerializeField] private int menuDestination = 0;
     [SerializeField] private AudioClip sound;
-    private AudioSource source;
+    private AudioSourceManager source;
     private MainMenuScript mms;
     private LevelMenuScript lms;
     // Start is called before the first frame update
     void Start()
     {
-        source = GameObject.FindGameObjectWithTag("Audio").GetComponents<AudioSource>()[1];
+        source = AudioSourceManager.Instance;
         mms = GetComponentInParent<MainMenuScript>();
         lms = GetComponentInParent<LevelMenuScript>();
         
         GetComponent<UnityEngine.UI.Button>().onClick.AddListener(click);
     }
 
-    public void playSound() {
-        source.PlayOneShot(sound, 1.0f);
-    }
 
-    public void click() {
-        playSound();
+    public void click() 
+    {
+
+        source.playSound("Button Press", 1, 1f);
+
         if (mms == null) { // in-level menu
             lms.changeMenu(menuDestination);
         }
