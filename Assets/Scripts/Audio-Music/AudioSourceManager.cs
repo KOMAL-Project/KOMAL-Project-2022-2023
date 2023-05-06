@@ -29,21 +29,12 @@ public class AudioSourceManager : MonoBehaviour
 
         sources = GetComponentsInChildren<AudioSource>();
         sources[0].clip = loop;
+        sources[0].Play();
 
-        playMusic();
         transform.parent = null;
         DontDestroyOnLoad(instance);
     }
 
-    /// <summary>
-    /// plays the looping music track
-    /// </summary>
-    void playMusic() {
-        if (sources[0].isPlaying) {
-            return;
-        }
-        sources[0].Play();
-    }
     /// <summary>
     /// Plays a sound on a channel given the clip
     /// </summary>
