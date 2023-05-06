@@ -90,8 +90,7 @@ public class ActionRecorder : MonoBehaviour
     private List<ChargeController> CC; //charge controllers
     private List<LegoSwitchController> LSC; //Lego switch controller
 
-
-    // Start is called before the first frame update
+    private AudioSourceManager source;
     void Start()
     {
         stateStack = new Stack<States>();
@@ -100,6 +99,7 @@ public class ActionRecorder : MonoBehaviour
         die = dieController.transform.gameObject;
         overlayDie = GameObject.FindGameObjectWithTag("OverlayDie");
         doc = dieController.doc;
+        source = AudioSourceManager.Instance;
 
         //sets the change vector for MapToActualPosition()
         Vector3 actual = die.transform.position;
@@ -209,6 +209,8 @@ public class ActionRecorder : MonoBehaviour
         // And now set our current state to the state one step back in time to complete the undo.
         // Since the oneStepBack state is still in the stack we don't need to call Record()
         currentState.UpdateStates(oneStepBackState);
+
+        source.playSound("Undo", 1);
     }
 
     /// <summary>

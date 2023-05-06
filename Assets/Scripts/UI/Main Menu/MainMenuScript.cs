@@ -11,9 +11,11 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;
     [SerializeField] private List<GameObject> levelMenus, tutorialMenus;
-    public static float Xoffset, Yoffset;
+    public static float Xoffset, Yoffset; 
     private int currentMenu, selectedChapter, selectedTutorial;
-
+    [SerializeField] Camera backgroundCam;
+    [SerializeField] Color mainColor = new Color(0.29f, 0.84f, 0.84f, 0f);
+    [SerializeField] ColorPalette[] palettes;
     private void Start() 
     {
         currentMenu = 0;
@@ -42,6 +44,8 @@ public class MainMenuScript : MonoBehaviour
         credits = GameObject.FindGameObjectWithTag("Credits").GetComponent<Animator>();
         creditsBg = GameObject.FindGameObjectWithTag("Credits").transform.parent.GetChild(0).gameObject;
         creditsBg.GetComponent<Image>().enabled = false;
+
+        backgroundCam.backgroundColor = mainColor;
     }
 
 
@@ -53,7 +57,9 @@ public class MainMenuScript : MonoBehaviour
 
     /*
     For menus:
-    options is -1 to -inf
+    tutorials are -3 to -inf
+    about is -2
+    options is -1
     start is 0
     level is 1 to inf
     */
@@ -78,6 +84,8 @@ public class MainMenuScript : MonoBehaviour
     public void ChangeMenu(int to) 
     {
 
+        //Debug.Log("" + currentMenu + " " + to);
+
         // controls the credits in the about menu
         if (to == -2)
         {
@@ -97,9 +105,10 @@ public class MainMenuScript : MonoBehaviour
             
             float target = (to > currentMenu) ? -Xoffset : Xoffset;
 
-
             RectTransform levelTransform = levelMenu.GetComponent<RectTransform>();
             LeanTween.moveX(levelTransform, levelTransform.localPosition.x + target, animationTime).setEase(easeType);
+
+            StartCoroutine(LerpBackgroundColor(palettes[currentMenu - 1].backgroundColor, palettes[to - 1].backgroundColor, animationTime));
 
         }
 
@@ -119,21 +128,26 @@ public class MainMenuScript : MonoBehaviour
 
             float target = (to > currentMenu) ? -Yoffset : Yoffset;
 
-            if (currentMenu > 1) 
+            if (currentMenu >= 1) //going from ANY level menu to main menu
             {
+                StartCoroutine(LerpBackgroundColor(palettes[currentMenu - 1].backgroundColor, mainColor, animationTime));
                 currentMenu = 1;
             }
-            if (currentMenu <= -3)
+            if (currentMenu <= -3) //going from ANY tutorial panel to main menu
             {
                 currentMenu = -3;
+            }
+
+            //special case for main menu -> ANY level menu
+            if (currentMenu == 0 && to >= 1)
+            {
+                StartCoroutine(LerpBackgroundColor(mainColor, palettes[selectedChapter - 1].backgroundColor, animationTime));
             }
 
             LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
             LeanTween.moveY(MenuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
         }
-
-        //Debug.Log(currentMenu + "  " + to + "  " + selectedChapter);
 
         if (to == 1) 
         { //changes menu to chapter if moving to level menu
@@ -147,7 +161,6 @@ public class MainMenuScript : MonoBehaviour
         {
             currentMenu = to;
         }
-        //Debug.Log(currentMenu);
 
         return;
     }
@@ -157,6 +170,17 @@ public class MainMenuScript : MonoBehaviour
         yield return new WaitForSeconds(.6f);
         creditsBg.GetComponent<Image>().enabled = false;
 
+    }
+
+    IEnumerator LerpBackgroundColor(Color toColor, Color fromColor, float duration) 
+    {
+        float start = Time.time;
+        while (start + duration > Time.time) 
+        {
+            backgroundCam.backgroundColor = Color.Lerp(toColor, fromColor, (Time.time - start) / duration);
+            yield return new WaitForSeconds(0.01f);
+        }
+        backgroundCam.backgroundColor = fromColor;
     }
 
     

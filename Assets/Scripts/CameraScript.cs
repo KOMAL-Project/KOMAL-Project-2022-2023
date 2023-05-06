@@ -75,7 +75,7 @@ public class CameraScript : MonoBehaviour
         isOverhead = false;
 
         //determine zoom out size
-        zoomOutSize = 0.6f * Mathf.Max(ManageGame.Instance.width, ManageGame.Instance.length);
+        zoomOutSize = 0.7f * Mathf.Max(ManageGame.Instance.width, ManageGame.Instance.length);
 
     }
 
