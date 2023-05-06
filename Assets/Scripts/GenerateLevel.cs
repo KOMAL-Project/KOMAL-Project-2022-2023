@@ -488,8 +488,8 @@ public class GenerateLevel : MonoBehaviour
         string levelIDStringTemp = levelIDString[0] == 'b' ? levelIDString[1].ToString() : levelIDString;
         // Put all of the text together
         string levelText = chapterID + "-" + chapterAftertext + levelIDStringTemp;
-        levelNumberText.text = "Level " + levelText + "\n" + gameObject.GetComponent<FlavorText>().flavorText[levelText];
-        levelNumberText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "Level " + levelText + "\n" + gameObject.GetComponent<FlavorText>().flavorText[levelText];
+        levelNumberText.text = "Level " + levelText + "\n" + FlavorText.flavorText[levelText];
+        levelNumberText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "Level " + levelText + "\n" + FlavorText.flavorText[levelText];
     }
 
     /// <summary>

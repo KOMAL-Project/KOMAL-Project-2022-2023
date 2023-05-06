@@ -269,12 +269,36 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 806729163941165942, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 806729163941165942, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 806729163941165942, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1386282697648406411, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1386282697648406411, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019826412161805185, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019826412161805185, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2019826412161805185, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2135017420230029079, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
@@ -291,6 +315,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316025219982852280, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378412388326833327, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378412388326833327, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378412388326833327, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3137225616381763882, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
@@ -432,6 +468,18 @@ PrefabInstance:
     - target: {fileID: 6824603653112547693, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6937701856592843547, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6937701856592843547, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6937701856592843547, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7842736421733509320, guid: 687a1af3187c7bf47a3beb56e530a4dc, type: 3}
       propertyPath: m_AnchorMax.x
@@ -611,14 +659,6 @@ PrefabInstance:
       propertyPath: filters
       value: 
       objectReference: {fileID: 2800000, guid: 3a35948211db5234e839522b8a193235, type: 3}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: levelID
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
-      propertyPath: chapterID
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2201775946093453422, guid: bcaa7da33a5d4af439f55408bec78c3b, type: 3}
       propertyPath: levelImage
       value: 
