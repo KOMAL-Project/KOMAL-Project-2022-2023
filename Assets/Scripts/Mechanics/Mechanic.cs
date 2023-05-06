@@ -14,6 +14,7 @@ public abstract class Mechanic : MonoBehaviour
     protected PipFilterController pipFilter;
     protected DieController dieControl;
     protected ManageGame gameManager;
+    protected AudioSourceManager sourceManager;
     public abstract void CheckForActivation(); //overall checking function
     public abstract void SetState(int input); //overall setting state function
 
@@ -33,9 +34,10 @@ public abstract class Mechanic : MonoBehaviour
     /// <param name="pos"></param>
     /// <param name="pipFilterValue"></param>
     /// <param name="theType"></param>
-    public void attachValues(ManageGame mg, DieController dc, Vector2Int pos, int pipFilterValue, int theType) {
+    public void attachValues(ManageGame mg, DieController dc, AudioSourceManager so, Vector2Int pos, int pipFilterValue, int theType) {
         gameManager = mg;
         dieControl = dc;
+        sourceManager = so;
         position = pos;
         pipFilter = GetComponentInChildren<PipFilterController>();
         if (pipFilter) pipFilter.pips = pipFilterValue;

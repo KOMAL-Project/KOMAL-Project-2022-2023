@@ -105,6 +105,7 @@ public class GenerateLevel : MonoBehaviour
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
     public Dictionary<string, GameObject> wallDirections;
     public DieController dieController;
+    public AudioSourceManager sourceManager;
 
     ManageGame mg;
     void UpdateManageGame()
@@ -140,6 +141,7 @@ public class GenerateLevel : MonoBehaviour
 
         mg.winSwitchInstance = winSwitchInstance;
         mg.dieController = dieController;
+        mg.sourceManager = sourceManager;
     }
 
     void GenerateFloorTiles()
@@ -285,6 +287,7 @@ public class GenerateLevel : MonoBehaviour
 
         die = GameObject.FindGameObjectWithTag("Player");
         dieController = die.GetComponentInChildren<DieController>();
+        sourceManager = FindObjectOfType<AudioSourceManager>();
 
         ReadLevel();
         ConnectMechanics();
@@ -334,7 +337,6 @@ public class GenerateLevel : MonoBehaviour
     /// </summary>
     public void ReadLevel()
     {
-        DieController dieControl = die.GetComponentInChildren<DieController>();
         Transform walls = board.transform.Find("Walls");
         Transform legoSwitches = board.transform.Find("Lego Switches");
         Transform legos = board.transform.Find("Legos");
@@ -443,15 +445,15 @@ public class GenerateLevel : MonoBehaviour
                 // Win Switch
                 else if (pixel == new Color(1, 1, 0)) // Color is yellow
                 {
-                    dieControl.winPos = new Vector2Int(i, j);
+                    dieController.winPos = new Vector2Int(i, j);
                     winSwitchInstance = Instantiate(winTile, new Vector3(i - width / 2, .5f, j - length / 2), new Quaternion(0, 0, 0, 0), board.transform);
                 }
                 // Player
                 else if (pixel == Color.green)
                 {
                     //Debug.Log(i + " " + j);
-                    dieControl.position = new Vector2Int(i, j);
-                    dieControl.gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
+                    dieController.position = new Vector2Int(i, j);
+                    dieController.gameObject.transform.position = new Vector3(i - width / 2, 1, j - length / 2);
                 }
 
                 levelData[i,j] = temp;
@@ -461,7 +463,8 @@ public class GenerateLevel : MonoBehaviour
                     //attaches each value if needed
                     mec.attachValues(
                         mg
-                        ,dieControl
+                        ,dieController
+                        ,sourceManager
                         ,new Vector2Int(i, j)
                         ,GetPipFilter(i, j)
                         ,type

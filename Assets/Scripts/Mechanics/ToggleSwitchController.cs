@@ -67,6 +67,7 @@ public class ToggleSwitchController : Mechanic
 
         pipFilter.gameObject.transform.localScale /= 10;
         pipFilter.gameObject.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, .01f);
+
     }
 
     public override void CheckForActivation()
@@ -114,6 +115,9 @@ public class ToggleSwitchController : Mechanic
             s.spr.sprite = newSwitchSprite; 
             s.state = this.state;
         }
+
+        sourceManager.playSound("Toggle", 2);
+
     }
 
     public override void SetState(int input) {

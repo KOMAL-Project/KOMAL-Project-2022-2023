@@ -50,7 +50,8 @@ public class ManageGame : MonoBehaviour
     public List<Vector2Int> xBlockPositionsInLevel, oBlockPositionsInLevel;
 
     //non-game managing variables
-    public DieController dieController; 
+    public DieController dieController;
+    public AudioSourceManager sourceManager; 
     private static ManageGame instance;
     public static ManageGame Instance { //used to get the one instance of manageGame instead of using tags
         get {return instance;}
