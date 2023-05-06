@@ -69,7 +69,7 @@ public class SaveDataManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("Scale"))
         {
-            SliderOptions.sliderControls["Transparency"] = PlayerPrefs.GetFloat("TranTransparency");
+            SliderOptions.sliderControls["Transparency"] = PlayerPrefs.GetFloat("Transparency");
             SliderOptions.sliderControls["Scale"] = PlayerPrefs.GetFloat("Scale");
             AudioSliderController.volume["Music"] = PlayerPrefs.GetFloat("Music");
             AudioSliderController.volume["SFX"] = PlayerPrefs.GetFloat("SFX");
