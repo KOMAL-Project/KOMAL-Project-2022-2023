@@ -142,6 +142,10 @@ public class MainMenuScript : MonoBehaviour
             if (currentMenu == 0 && to >= 1)
             {
                 StartCoroutine(LerpBackgroundColor(mainColor, palettes[selectedChapter - 1].backgroundColor, animationTime));
+            } //special case for leaving options menu
+            else if (currentMenu == -1 && to == 0)
+            {
+                SaveDataManager.setPlayerPrefs();
             }
 
             LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);

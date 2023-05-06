@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class SliderOptions : MonoBehaviour
 {
-    public static Dictionary<string, float> sliderControls = new Dictionary<string, float>(){{"Transparency", 0.7f}, {"Scale", 0.3f}, {"Side", 0f}};
+    public static Dictionary<string, float> sliderControls = new Dictionary<string, float>(){{"Transparency", 0.7f}, {"Scale", 0.3f}};
     [SerializeField] private string controlName;
     private GameObject controller;
     private RectTransform controllerTransform;
     private Image[] imgs;
     
 
-    void Awake()
+    void Start()
     {
         //Debug.Log(gameObject.name + " " + transform.parent.gameObject.name);
         controller = GameObject.FindGameObjectWithTag("D-Pad");

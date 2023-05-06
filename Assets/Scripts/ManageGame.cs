@@ -153,6 +153,7 @@ public class ManageGame : MonoBehaviour
         string levelString = IDsToString(levelID, chapterID, bonus);
         if (!finishedLevels.Contains(levelString)) {
             finishedLevels.Add(levelString);
+            GetComponentInChildren<SaveDataManager>().writeFile();
         }
         winSwitchInstance.GetComponentsInChildren<MeshRenderer>()[1].enabled = true;
         winSwitchInstance.GetComponentInChildren<Animator>().enabled = true;

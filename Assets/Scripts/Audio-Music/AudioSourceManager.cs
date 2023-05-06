@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AudioSourceManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip loop;
-    [SerializeField] private string[] soundEffectNames; //unoptimized version of a dictionary but unity hates dictionaries
+    [SerializeField] private AudioClip loopedAudio;
+    [SerializeField] private string[] soundEffectNames;
     [SerializeField] private AudioClip[] soundEffectClips;
     private Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
     private AudioSource[] sources;
@@ -16,19 +16,22 @@ public class AudioSourceManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance != null && instance != this) {
+        if (instance != null && instance != this) 
+        {
             instance.sources = instance.GetComponentsInChildren<AudioSource>();
             Destroy(this.gameObject);
             return;
         
-        } else {
+        } 
+        else 
+        {
             instance = this;
         }
 
         for (int i = 0; i < soundEffectNames.Length; i++) soundEffects[soundEffectNames[i]] = soundEffectClips[i];
 
         sources = GetComponentsInChildren<AudioSource>();
-        sources[0].clip = loop;
+        sources[0].clip = loopedAudio;
         sources[0].Play();
 
         transform.parent = null;
