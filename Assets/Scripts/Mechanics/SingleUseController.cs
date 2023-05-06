@@ -36,7 +36,8 @@ public class SingleUseController : Mechanic
             localpos.y = 15;
             block.transform.localPosition = localpos;
             LeanTween.moveLocalY(block, 0.5f, 0.5f).setEase(LeanTweenType.easeInOutQuad);
-        }
+            StartCoroutine(delaySound());
+            }
     }
 
     // 0 -- block is in the air and player has not primed it yet
@@ -55,6 +56,12 @@ public class SingleUseController : Mechanic
             GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         
+    }
+
+    public IEnumerator delaySound()
+    {
+        yield return new WaitForSeconds(0.42f);
+        sourceManager.playSound("Block Click", 2);
     }
 
 
