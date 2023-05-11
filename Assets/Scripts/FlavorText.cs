@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlavorText : MonoBehaviour
 {
-    public Dictionary<string, string> flavorText = new Dictionary<string, string>
+    public static Dictionary<string, string> flavorText = new Dictionary<string, string>
     {
         {"1-1" , "Touch the Yellow Panel" },
         {"1-2" , "Simply A-maze-ing" },
@@ -59,6 +59,8 @@ public class FlavorText : MonoBehaviour
         {"3-b2", "The Home Stretch" },
         {"3-b3", "Even more a-maze-ing" },
         {"3-b4", "For Komal" },
+
+        {"1--1", "Secret Level"},
 
     };
 }

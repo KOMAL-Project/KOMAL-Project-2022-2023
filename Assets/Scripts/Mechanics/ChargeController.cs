@@ -21,12 +21,10 @@ public class ChargeController : Mechanic
     [SerializeField] private AudioClip pickupCharge, loseCharge;
     public Material[] mats = new Material[2];
     private MeshRenderer rend;
-    private AudioSourceManager source;
     private void Start()
     {
         
         rend = GetComponentInChildren<MeshRenderer>();
-        source = AudioSourceManager.Instance;
         rend.material = mats[0];
         pipFilter.EnablePulse();
         state = 0;
@@ -110,7 +108,7 @@ public class ChargeController : Mechanic
         dieControl.chargeDirection = Vector3Int.down;
         pipFilter.Disable();
         pipFilter.DisablePulse();
-        source.playSound("Pickup Charge", 2);
+        sourceManager.playSound("Pickup Charge", 2);
 
     }
 
@@ -123,7 +121,7 @@ public class ChargeController : Mechanic
     {
         if (dieControl.currentCharge = this) 
         {
-            source.playSound("Lose Charge", 2);
+            sourceManager.playSound("Lose Charge", 2);
             dieControl.PowerDown(true);
             dieControl.chargeDirection = Vector3Int.zero;
             dieControl.currentCharge = null;
@@ -160,13 +158,15 @@ public class ChargeController : Mechanic
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = gates[j];
                 gates[j].GetComponent<Animator>().SetBool("Active", true);
             }
-        } else 
+        } 
+        else 
         {
             for (int j = 0; j < gates.Count; j++)
             {
                 gameManager.levelData[gatePos[j].x, gatePos[j].y] = null;
                 gates[j].GetComponent<Animator>().SetBool("Active", false);
             }
+            sourceManager.playSound("Card Fall", 1);
         }
     }
 

@@ -38,7 +38,8 @@ public class LegoSwitchController : Mechanic
         {
             SetState(1);
             foreach (LegoSwitchController controller in controllers) if (controller != this) SetState(1);
-   
+            sourceManager.playSound("Block Fall", 2);
+
         }
     } 
 

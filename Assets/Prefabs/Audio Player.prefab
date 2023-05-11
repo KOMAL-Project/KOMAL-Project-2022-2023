@@ -335,16 +335,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad53b9e6daf47a4db30f033fc0e9c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loop: {fileID: 8300000, guid: 8d0106a5d6c4b6e478767c73c5e9e293, type: 3}
+  loopedAudio: {fileID: 8300000, guid: 8d0106a5d6c4b6e478767c73c5e9e293, type: 3}
   soundEffectNames:
   - Button Press
   - Dice Move
   - Lose Charge
   - Pickup Charge
   - Undo
+  - Block Fall
+  - Toggle
+  - Card Fall
+  - Block Click
   soundEffectClips:
   - {fileID: 8300000, guid: 0c95bc82b8fe47641a1fd462cb2a94ad, type: 3}
   - {fileID: 8300000, guid: 6c7fac7d6ceb83449b0dae624a43fb4b, type: 3}
   - {fileID: 8300000, guid: 1d1215047d6461e48b6d2825f513a526, type: 3}
   - {fileID: 8300000, guid: ca435fe9fab980a429175c0be4f7464f, type: 3}
   - {fileID: 8300000, guid: 7156bec7a89f9e14da94660eb5eae4ba, type: 3}
+  - {fileID: 8300000, guid: 944b368107fbdea48ba3480c875c1ca4, type: 3}
+  - {fileID: 8300000, guid: b5de25b2ecc716948a28f54545918511, type: 3}
+  - {fileID: 8300000, guid: 861bda463f7515f44aae93658d6b0368, type: 3}
+  - {fileID: 8300000, guid: d122992719cd74944978c258d6bfb9f6, type: 3}

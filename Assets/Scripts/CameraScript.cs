@@ -24,7 +24,6 @@ public class CameraScript : MonoBehaviour
 
 
     public Material wallMat;
-
     private GameObject cam;
     private Camera viewCam;
 

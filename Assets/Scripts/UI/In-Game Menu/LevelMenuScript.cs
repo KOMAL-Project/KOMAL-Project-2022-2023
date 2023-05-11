@@ -93,6 +93,7 @@ public class LevelMenuScript : MonoBehaviour
             else 
             { //moving from options
                 LeanTween.moveY(options.GetComponent<RectTransform>(), options.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
+                SaveDataManager.setPlayerPrefs();
             }
             
         }
@@ -104,7 +105,5 @@ public class LevelMenuScript : MonoBehaviour
         }
         currentMenu = to;
     }
-
-    
     
 }
