@@ -15,6 +15,7 @@ public class DirectionalButtonController : MonoBehaviour
     [SerializeField] GameObject dPadObject;
     // variables needed for touch swiping
     Vector2[] touchStarts;
+    Vector2 touchDiffStart;
     private int touchSwipeThreshold = 200, mouseSwipeThreshold = 100;
 
 
@@ -36,18 +37,19 @@ public class DirectionalButtonController : MonoBehaviour
             { "clockwise", false },
             { "undo", false },
             { "generic-touch", false },
+            { "goto-overhead", false },
+            { "goto-isometric", false }
         };
 
         touchStarts = new Vector2[11]; // 10 fingers on two hands + 1 to store mouse input
     }
 
-    private Vector3 startPosition = Vector3.zero;
-    private Vector3 endPosition = Vector3.zero;
 
     void Update()
     {
         // Handles touch/mouse input for detecting swipes or taps
-
+        int touchCount = Input.touchCount;
+        Debug.Log(touchCount);
         keys["generic-touch"] = false;
         for (int i = 0; i < Input.touchCount; i++)
         {
@@ -58,6 +60,8 @@ public class DirectionalButtonController : MonoBehaviour
                 touchStarts[i] = t.position;
                 //Debug.Log("Touch Started @ " + t.position.x);
                 //Debug.Log(touchStarts[i].x);
+
+                if(Input.touchCount >= 2) touchDiffStart = touchStarts[touchCount-1] - touchStarts[touchCount-2];
             }
             if (t.phase == TouchPhase.Ended)
             {
@@ -65,6 +69,21 @@ public class DirectionalButtonController : MonoBehaviour
 
                 float deltaX = t.position.x - touchStarts[i].x;
                 
+                if(touchCount >= 2) // pinch/spread detection
+                {
+                    Vector2 touchDiffEnd = Input.GetTouch(touchCount - 1).position - Input.GetTouch(touchCount - 2).position;
+                    
+                    float deltaMag = touchDiffEnd.magnitude - touchDiffStart.magnitude;
+                    Debug.Log(deltaMag + " " + touchSwipeThreshold);
+                    if (Mathf.Abs(deltaMag) > touchSwipeThreshold)
+                    {
+                        if (deltaMag > 0) iso = true;
+                        else overhead = true;
+                        touchStarts[i] = new Vector2();
+                        continue;
+                    }
+                }
+
                 if (Mathf.Abs(deltaX) > touchSwipeThreshold)
                 {
                     //Debug.Log("Touch " + deltaX);
@@ -76,6 +95,8 @@ public class DirectionalButtonController : MonoBehaviour
                 }
                 touchStarts[i] = new Vector2();
             }
+
+            
         }
         // Mouse "touch" Input
         if (Input.GetMouseButtonDown(0))
