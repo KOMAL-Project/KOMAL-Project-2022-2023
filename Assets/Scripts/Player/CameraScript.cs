@@ -45,10 +45,13 @@ public class CameraScript : MonoBehaviour
     public bool isIsometric, isOverhead, isMoving;
     public float xOffsetRotation = 60;
 
+    ManageGame gm;
     DieOverlayController doc;
 
     void Start()
     {
+        gm = ManageGame.Instance;
+
         followPlayer = true;
         defaultPosition = new Vector3(-0.5f, 0, 0);
         targetPosition = new Vector3();
@@ -82,6 +85,7 @@ public class CameraScript : MonoBehaviour
     {
         if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
         {
+            gm.frc.SetFullFPSTime(2);
             targetYRotation -= 90;
             ChangeSide(1);
             Debug.Log("SIDE: " + side);
@@ -94,6 +98,7 @@ public class CameraScript : MonoBehaviour
 
         if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
         {
+            gm.frc.SetFullFPSTime(2);
             targetYRotation += 90;
             ChangeSide(-1);
             Debug.Log("SIDE: " + side);
@@ -106,6 +111,7 @@ public class CameraScript : MonoBehaviour
         }
         if ((Input.GetKeyDown(overheadKey) || input.overhead) && !(die.getIsMoving() || isMoving) && isIsometric && die.canControl) // Set to overhead view
         {
+            gm.frc.SetFullFPSTime(3);
             targetYRotation -= 30;
             targetXRotation = -90;
             if (targetYRotation > 360)
@@ -121,6 +127,7 @@ public class CameraScript : MonoBehaviour
 
         if ((Input.GetKeyUp(overheadKey) || input.iso) && !(die.getIsMoving() || isMoving) && isOverhead && die.canControl) // Set to isometric view
         {
+            gm.frc.SetFullFPSTime(3);
             targetYRotation += 30;
             targetXRotation = -xAngle;
             if (targetYRotation > 360)

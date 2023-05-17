@@ -84,6 +84,7 @@ public class DieController : MonoBehaviour
         {
             HandleMovement();
             if (dPad.keys["undo"]) actionRec.Undo();
+            gm.frc.SetFullFPSTime(1);
         }
         //Debug.Log(gm.levelData);
 
@@ -325,7 +326,8 @@ public class DieController : MonoBehaviour
 
         int index = InputToIndex();
         if (index < 0 || isMoving) return; // check if no button is pressed or if the die is already moving
-        //Debug.Log("Index: " + index);
+        // The following code will only run if an input has been detected.
+        gm.frc.SetFullFPSTime(1);
         index = (index + cs.side) % 4;
         int newX = (int)directions[index].x + x;
         int newY = (int)directions[index].y + y;

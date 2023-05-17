@@ -26,7 +26,8 @@ public class GenerateLevel : MonoBehaviour
     public GameObject winSwitchInstance;
 
     public int width, length, levelID, chapterID;
-    public bool bonus;
+    public bool bonus, containsPipCharges; // used by gamemanager to determine if frc should
+    // lock to fast.
     string levelIDString = "-1";
     public Texture2D levelImage, filtersImage;
     // FloorData holds floor tile GameObjects.
@@ -108,6 +109,9 @@ public class GenerateLevel : MonoBehaviour
     public AudioSourceManager sourceManager;
 
     ManageGame mg;
+    /// <summary>
+    /// update values in ManageGame with values gained from GenerateLevel
+    /// </summary>
     void UpdateManageGame()
     {
         Debug.Log(levelData + " " + floorData);
@@ -121,6 +125,7 @@ public class GenerateLevel : MonoBehaviour
         mg.levelIDString = levelIDString;
         mg.chapterID = chapterID;
         mg.bonus = bonus;
+        mg.containsPipCharges = containsPipCharges;
 
         mg.wallTiles = wallTiles;
         mg.singleUseTilesInLevel = singleUseTilesInLevel;
@@ -407,6 +412,7 @@ public class GenerateLevel : MonoBehaviour
                         mec = temp.GetComponent<ChargeController>();
                         chargeControllers[k].Add((ChargeController) mec);
                         temp = null; //DONT add it to levelData immediately
+                        if (GetPipFilter(i, j) > 0) containsPipCharges = true;
                         break;
                     }
                     // Cards

@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 using UnityEngine;
 using TMPro;
 //using UnityEditor.Build.Player;
 using Unity.Collections;
+using System.Diagnostics.Contracts;
+using Unity.Collections.LowLevel.Unsafe;
 
 //[ExecuteInEditMode]
 public class ManageGame : MonoBehaviour
 {
+
+    // frame rate management
+    public FrameRateController frc;
+    public bool containsPipCharges; // if pip charges are in scene, lock frc to fast.
+
     // Prefab variant things
     public GameObject[] floorTiles = new GameObject[4];
     public GameObject[] pipsWallsPrefabs = new GameObject[6];
@@ -60,9 +68,12 @@ public class ManageGame : MonoBehaviour
     bool tutorialDismissed = false;
     DirectionalButtonController inputManager;
 
+    
     private void Awake()
     {
         instance = this;
+        frc = GetComponent<FrameRateController>();
+        
         levelFinishing = false;
         
         levelData = new GameObject[0,0];
@@ -75,6 +86,8 @@ public class ManageGame : MonoBehaviour
         
         inputManager = dPad.GetComponent<DirectionalButtonController>();
     }
+
+    
 
     /// <summary>
     /// Handles whether or not to display a tutorial panel. Runs once upon level startup.
@@ -107,6 +120,9 @@ public class ManageGame : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ActivateTutorialPanel());
+
+        frc.lockToFast = containsPipCharges;
+        Debug.Log(containsPipCharges + " JOIHD");
     }
 
     private void Update()
