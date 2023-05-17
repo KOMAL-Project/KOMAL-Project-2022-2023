@@ -184,6 +184,7 @@ public class ManageGame : MonoBehaviour
     /// <returns></returns>
     IEnumerator NextLevel()
     {
+        frc.lockToFast = true; // buttery smooth animation for the remaining duration of the level
         // Wait a few seconds for the level ending animation to complete
         yield return new WaitForSecondsRealtime(5);
         // Run the following if we are NOT in the last level in the sequence (12th normal level or 4th bonus level)

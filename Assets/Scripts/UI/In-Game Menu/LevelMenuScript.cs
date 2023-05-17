@@ -15,6 +15,7 @@ public class LevelMenuScript : MonoBehaviour
     [SerializeField] private LeanTweenType easeType;
     private float Yoffset;
     private int currentMenu;
+    ManageGame gm;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class LevelMenuScript : MonoBehaviour
         //Debug.Log(Yoffset);
         Yoffset = GetComponent<CanvasScaler>().referenceResolution.y;
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
+        gm = ManageGame.Instance;
     }
 
     void Update() 
@@ -32,10 +34,13 @@ public class LevelMenuScript : MonoBehaviour
             if (currentMenu == 1) 
             {
                 changeMenu(0);
+                gm.frc.lockToFast = gm.containsPipCharges;
+                gm.frc.SetFullFPSTime(1);
             }
             else 
             {
                 changeMenu(1);
+                gm.frc.lockToFast = true;
             }
         } 
         if (Input.GetKeyDown(KeyCode.R) && !ManageGame.levelFinishing) 
