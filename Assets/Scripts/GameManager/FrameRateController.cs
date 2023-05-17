@@ -17,8 +17,7 @@ public class FrameRateController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.P)) SetFullFPSTime(5);
-        if (showtime > 0 && !lockToFast) showtime -= Time.deltaTime;
+        if (showtime > 0 && !lockToFast) showtime -= Time.deltaTime; // if we are fast and not fast-locked, decrease fast time
         OnDemandRendering.renderFrameInterval = (showtime > 0 || lockToFast)? fastFrameInterval: slowFrameInterval;
     }
     

@@ -69,20 +69,21 @@ public class DirectionalButtonController : MonoBehaviour
 
                 float deltaX = t.position.x - touchStarts[i].x;
                 
-                if(touchCount >= 2) // pinch/spread detection
-                {
-                    Vector2 touchDiffEnd = Input.GetTouch(touchCount - 1).position - Input.GetTouch(touchCount - 2).position;
+                // Multitouch pinch/spread detection
+                //if(touchCount >= 2) // pinch/spread detection
+                //{
+                //    Vector2 touchDiffEnd = Input.GetTouch(touchCount - 1).position - Input.GetTouch(touchCount - 2).position;
                     
-                    float deltaMag = touchDiffEnd.magnitude - touchDiffStart.magnitude;
-                    Debug.Log(deltaMag + " " + touchSwipeThreshold);
-                    if (Mathf.Abs(deltaMag) > touchSwipeThreshold)
-                    {
-                        if (deltaMag > 0) iso = true;
-                        else overhead = true;
-                        touchStarts[i] = new Vector2();
-                        continue;
-                    }
-                }
+                //    float deltaMag = touchDiffEnd.magnitude - touchDiffStart.magnitude;
+                //    Debug.Log(deltaMag + " " + touchSwipeThreshold);
+                //    if (Mathf.Abs(deltaMag) > touchSwipeThreshold)
+                //    {
+                //        if (deltaMag > 0) iso = true;
+                //        else overhead = true;
+                //        touchStarts[i] = new Vector2();
+                //        continue;
+                //    }
+                //}
 
                 if (Mathf.Abs(deltaX) > touchSwipeThreshold)
                 {
