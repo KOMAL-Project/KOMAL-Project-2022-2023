@@ -11,7 +11,7 @@ public class FrameRateController : MonoBehaviour
     float showtime; // for how much longer the fps is uncapped.
     void Start()
     {
-        OnDemandRendering.renderFrameInterval = 10;
+        OnDemandRendering.renderFrameInterval = 100;
         showtime = 3;
     }
 
