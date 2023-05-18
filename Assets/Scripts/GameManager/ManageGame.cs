@@ -99,11 +99,11 @@ public class ManageGame : MonoBehaviour
         TutorialPanel[] panels = Resources.LoadAll<TutorialPanel>("TutorialPanels");
         
         // here we check through all tutorial panels to see if one of their ID's matches this levels ID
-        string tempLevelIDString = chapterID + "-" + levelID;
+        string tempLevelIDString = chapterID + "-" + (bonus ? "b":"") + levelID;
         TutorialPanel panel = null;
         foreach (TutorialPanel p in panels)
         {
-            //Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
+            Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
             if (p.levelID == tempLevelIDString) { panel = p; break; }
         }
 
@@ -122,7 +122,6 @@ public class ManageGame : MonoBehaviour
         StartCoroutine(ActivateTutorialPanel());
 
         frc.lockToFast = containsPipCharges;
-        Debug.Log(containsPipCharges + " JOIHD");
     }
 
     private void Update()
@@ -133,6 +132,7 @@ public class ManageGame : MonoBehaviour
             tutorialPanel.GetComponent<Animator>().SetBool("Onscreen", false);
             dieController.canControl = true;
             tutorialDismissed = true;
+            frc.SetFullFPSTime(1);
         }
     }
 

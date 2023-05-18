@@ -33,12 +33,14 @@ public class LevelMenuScript : MonoBehaviour
         {
             if (currentMenu == 1) 
             {
+                Debug.Log("Out of Menu");
                 changeMenu(0);
                 gm.frc.lockToFast = gm.containsPipCharges;
                 gm.frc.SetFullFPSTime(1);
             }
             else 
             {
+                Debug.Log("Into Menu");
                 changeMenu(1);
                 gm.frc.lockToFast = true;
             }
@@ -70,6 +72,9 @@ public class LevelMenuScript : MonoBehaviour
 
         // Freeze die motion if pausing, unfreeze if unpausing:
         die.canControl = to == 0;
+        // pause frame rate throttle if entering menu.
+        gm.frc.lockToFast = to != 0 ? true: gm.containsPipCharges;
+        gm.frc.SetFullFPSTime(1);
 
         //Debug.Log(die.canControl + ": SAEFSDF");
 

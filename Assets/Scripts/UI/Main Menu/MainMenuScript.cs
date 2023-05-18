@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour
@@ -18,6 +19,8 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] ColorPalette[] palettes;
     private void Start() 
     {
+        OnDemandRendering.renderFrameInterval = 1;
+
         currentMenu = 0;
         selectedChapter = 1;
         selectedTutorial = -3;
