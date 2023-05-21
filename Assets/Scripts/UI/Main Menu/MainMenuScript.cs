@@ -42,8 +42,9 @@ public class MainMenuScript : MonoBehaviour
         for (int i = 0; i < levelMenus.Count; i++) {levelMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);};
         for (int i = 0; i < tutorialMenus.Count; i++) {tutorialMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);}
 
-
-        LeanTween.moveY(startMenu,0,1.1f).setEase(LeanTweenType.easeOutBack);
+        //starting animation
+        ButtonScript.moving = true;
+        LeanTween.moveY(startMenu,0,1.1f).setEase(LeanTweenType.easeOutBack).setOnComplete(() => {ButtonScript.moving = false;});
         credits = GameObject.FindGameObjectWithTag("Credits").GetComponent<Animator>();
         creditsBg = GameObject.FindGameObjectWithTag("Credits").transform.parent.GetChild(0).gameObject;
         creditsBg.GetComponent<Image>().enabled = false;
@@ -86,6 +87,9 @@ public class MainMenuScript : MonoBehaviour
 
     public void ChangeMenu(int to) 
     {
+        //prevents double clicks
+        LTDescr tweenAction;
+        ButtonScript.moving = true;
 
         //Debug.Log("" + currentMenu + " " + to);
 
@@ -109,7 +113,7 @@ public class MainMenuScript : MonoBehaviour
             float target = (to > currentMenu) ? -Xoffset : Xoffset;
 
             RectTransform levelTransform = levelMenu.GetComponent<RectTransform>();
-            LeanTween.moveX(levelTransform, levelTransform.localPosition.x + target, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveX(levelTransform, levelTransform.localPosition.x + target, animationTime).setEase(easeType);
 
             StartCoroutine(LerpBackgroundColor(palettes[currentMenu - 1].backgroundColor, palettes[to - 1].backgroundColor, animationTime));
 
@@ -123,7 +127,7 @@ public class MainMenuScript : MonoBehaviour
             float target = (to > currentMenu) ? Xoffset : -Xoffset;
             
             RectTransform tutorialTransform = tutorialMenu.GetComponent<RectTransform>();
-            LeanTween.moveX(tutorialTransform, tutorialTransform.localPosition.x + target, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveX(tutorialTransform, tutorialTransform.localPosition.x + target, animationTime).setEase(easeType);
         }
         
         else 
@@ -151,7 +155,7 @@ public class MainMenuScript : MonoBehaviour
                 SaveDataManager.setPlayerPrefs();
             }
 
-            LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveY(MenuLookup(currentMenu).GetComponent<RectTransform>(), target, animationTime).setEase(easeType);
             LeanTween.moveY(MenuLookup(to).GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
         }
@@ -168,6 +172,10 @@ public class MainMenuScript : MonoBehaviour
         {
             currentMenu = to;
         }
+
+        if (tweenAction != null) tweenAction.setOnComplete(() => {
+            ButtonScript.moving = false;
+        });
 
         return;
     }

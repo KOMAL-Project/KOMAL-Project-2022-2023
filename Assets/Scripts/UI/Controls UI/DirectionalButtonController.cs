@@ -156,9 +156,10 @@ public class DirectionalButtonController : MonoBehaviour
             else overhead = true;
             dPadObject.GetComponent<Animator>().SetBool("Overhead", !iso);
         }
-        else if (input == "pause")
+        else if (input == "pause" && !ButtonScript.moving)
         {
-            GameObject.FindWithTag("Menu").GetComponentInChildren<LevelMenuScript>().changeMenu(1);
+            //prob could save this obj
+            GameObject.FindWithTag("Menu").GetComponentInChildren<LevelMenuScript>().ChangeMenu(1);
         }
     }
     public void Release(string input)

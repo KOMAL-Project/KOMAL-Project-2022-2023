@@ -103,7 +103,7 @@ public class ManageGame : MonoBehaviour
         TutorialPanel panel = null;
         foreach (TutorialPanel p in panels)
         {
-            Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
+            //Debug.Log(tempLevelIDString + " " + p.levelID + " " + (p.levelID == tempLevelIDString));
             if (p.levelID == tempLevelIDString) { panel = p; break; }
         }
 
