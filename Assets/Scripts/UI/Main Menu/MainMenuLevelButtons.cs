@@ -35,6 +35,7 @@ public class MainMenuLevelButtons : MonoBehaviour
     }
 
     private void ChangeLevel() {
+        ButtonScript.moving = false;
         string levelToLoad = (bonus) ? "b" + level.ToString() : level.ToString();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Scenes/Chapter " + chapter + "/Level " + levelToLoad);
     }

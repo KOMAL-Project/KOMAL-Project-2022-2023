@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class LevelMenuScript : MonoBehaviour
 {
     [SerializeField] private GameObject pause;
     [SerializeField] private GameObject options;
-    //[SerializeField] private GameObject cam;
     private DieController die;
     [SerializeField] private float animationTime;
     [SerializeField] private LeanTweenType easeType;
@@ -29,6 +27,8 @@ public class LevelMenuScript : MonoBehaviour
 
     void Update() 
     {
+        //this is all old stuff from pc game
+        /*
         if ((Input.GetKeyDown(KeyCode.Escape) && !ManageGame.levelFinishing)) 
         {
             if (currentMenu == 1) 
@@ -49,23 +49,25 @@ public class LevelMenuScript : MonoBehaviour
         {
             restartLevel();
         }
+        */
     }
 
     public void restartLevel() 
     {
+        ButtonScript.moving = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void returnToSelector() 
     {
+        ButtonScript.moving = false;
         SceneManager.LoadScene("Menu");
     }
 
-    //menu animations
-    public void changeMenu(int to) 
+    public void ChangeMenu(int to) 
     {
 
-        if (ManageGame.levelFinishing) 
+        if (ManageGame.levelFinishing || to == -1) 
         {
             return;
         }
@@ -76,29 +78,27 @@ public class LevelMenuScript : MonoBehaviour
         gm.frc.lockToFast = to != 0 ? true: gm.containsPipCharges;
         gm.frc.SetFullFPSTime(1);
 
-        //Debug.Log(die.canControl + ": SAEFSDF");
-
         //Debug.Log(currentMenu + "  " + to);
 
         die = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<DieController>();
-        //UniversalAdditionalCameraData camData = cam.GetComponent<Camera>().GetComponent<UniversalAdditionalCameraData>();
 
         float target = (to > currentMenu) ? Yoffset : -Yoffset;
-        //Debug.Log(pause.GetComponent<RectTransform>().localPosition.y);
+
+        LTDescr tweenAction;
+        ButtonScript.moving = true;
 
         if (to == 0) 
         { //moving back to gameplay
             //camData.renderPostProcessing = false;
-            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
         }
         else if (to == 1) 
         { //moving to pause
 
-            LeanTween.moveY(pause.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveY(pause.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
 
             if (currentMenu == 0)
             { //moving from gameplay
-                //camData.renderPostProcessing = false;
             }
             else 
             { //moving from options
@@ -109,10 +109,15 @@ public class LevelMenuScript : MonoBehaviour
         }
         else 
         { //moving to options
-            LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
+            tweenAction = LeanTween.moveY(pause.GetComponent<RectTransform>(), pause.GetComponent<RectTransform>().localPosition.y + target, animationTime).setEase(easeType);
             LeanTween.moveY(options.GetComponent<RectTransform>(), 0, animationTime).setEase(easeType);
             
         }
+
+        tweenAction.setOnComplete(() => {
+            ButtonScript.moving = false;
+            });
+
         currentMenu = to;
     }
     

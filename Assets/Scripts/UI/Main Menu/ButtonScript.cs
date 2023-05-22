@@ -7,6 +7,7 @@ public class ButtonScript : MonoBehaviour
     [SerializeField] private string buttonType;
     [SerializeField] private int menuDestination = 0;
     [SerializeField] private AudioClip sound;
+    public static bool moving;
     private AudioSourceManager source;
     private MainMenuScript mms;
     private LevelMenuScript lms;
@@ -25,9 +26,11 @@ public class ButtonScript : MonoBehaviour
     {
 
         source.playSound("Button Press", 1, 1f);
+        
+        if (moving) return;
 
         if (mms == null) { // in-level menu
-            lms.changeMenu(menuDestination);
+            lms.ChangeMenu(menuDestination);
         }
         else { //main menu
             mms.ChangeMenu(menuDestination);
