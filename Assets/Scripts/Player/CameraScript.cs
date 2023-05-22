@@ -81,9 +81,14 @@ public class CameraScript : MonoBehaviour
 
     }
 
+    public bool CanMoveCamera()
+    {
+        return !(die.getIsMoving() || isMoving) && die.canControl;
+    }
+
     private void Update()
     {
-        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
+        if ((Input.GetKeyDown(rightKey) || input.keys["counterclockwise"]) && CanMoveCamera())
         {
             gm.frc.SetFullFPSTime(2);
             targetYRotation -= 90;
@@ -96,7 +101,7 @@ public class CameraScript : MonoBehaviour
             doc.TurnClockwise();
         }
 
-        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && !(die.getIsMoving() || isMoving) && die.canControl)
+        if ((Input.GetKeyDown(leftKey) || input.keys["clockwise"]) && CanMoveCamera())
         {
             gm.frc.SetFullFPSTime(2);
             targetYRotation += 90;
@@ -109,7 +114,7 @@ public class CameraScript : MonoBehaviour
             doc.TurnCounterClockwise();
             //StartCoroutine(doc.RollOverlay(overlayAxis, 4.5f));
         }
-        if ((Input.GetKeyDown(overheadKey) || input.overhead) && !(die.getIsMoving() || isMoving) && isIsometric && die.canControl) // Set to overhead view
+        if ((Input.GetKeyDown(overheadKey) || input.overhead) && CanMoveCamera() && isIsometric) // Set to overhead view
         {
             gm.frc.SetFullFPSTime(3);
             targetYRotation -= 30;
@@ -125,7 +130,7 @@ public class CameraScript : MonoBehaviour
             isOverhead = true;
         }
 
-        if ((Input.GetKeyUp(overheadKey) || input.iso) && !(die.getIsMoving() || isMoving) && isOverhead && die.canControl) // Set to isometric view
+        if ((Input.GetKeyUp(overheadKey) || input.iso) && CanMoveCamera() && isOverhead) // Set to isometric view
         {
             gm.frc.SetFullFPSTime(3);
             targetYRotation += 30;

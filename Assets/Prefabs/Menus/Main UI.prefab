@@ -1424,6 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f606004a9cb9534ea930e8159f0a7c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 0
   on: {fileID: -1298013373, guid: 4ca8ec199a8fa6048843dc21559d216c, type: 3}
   off: {fileID: -1900279411, guid: 4ca8ec199a8fa6048843dc21559d216c, type: 3}
   pressed: {fileID: 1975633903, guid: 4ca8ec199a8fa6048843dc21559d216c, type: 3}
@@ -1469,7 +1470,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: clockwise
+            m_StringArgument: camera
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &3445141539655665142

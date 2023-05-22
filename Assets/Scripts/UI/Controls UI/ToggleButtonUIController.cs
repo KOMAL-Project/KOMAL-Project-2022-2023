@@ -5,23 +5,28 @@ using UnityEngine;
 
 public class ToggleButtonUIController : MonoBehaviour
 {
-    bool value = false;
-    [SerializeField] Sprite on, off, pressed;
-    Image img;
-
+    public bool value = false, isPressed = false;
+    [SerializeField] public Sprite on, off, pressed;
+    public Image img;
+    DirectionalButtonController dbc;
     private void Start()
     {
+        dbc = transform.parent.gameObject.GetComponent<DirectionalButtonController>();
         img = gameObject.GetComponent<Image>();
     }
 
     public void Press()
     {
-        img.sprite = pressed;
+        isPressed = true;
     }
 
     public void Release()
     {
-        value = !value;
-        img.sprite = value ? on : off;
+        isPressed = false;
+    }
+
+    public void SetImage(bool tValue)
+    {
+        img.sprite = tValue ? on : off;
     }
 }

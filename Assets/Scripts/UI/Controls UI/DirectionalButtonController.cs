@@ -18,6 +18,9 @@ public class DirectionalButtonController : MonoBehaviour
     Vector2 touchDiffStart;
     private int touchSwipeThreshold = 200, mouseSwipeThreshold = 100;
 
+    CameraScript cs;
+    ToggleButtonUIController cameraButton;
+
 
     private void Start()
     {
@@ -42,6 +45,9 @@ public class DirectionalButtonController : MonoBehaviour
         };
 
         touchStarts = new Vector2[11]; // 10 fingers on two hands + 1 to store mouse input
+
+        cs = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+        cameraButton = transform.GetChild(0).GetComponent<ToggleButtonUIController>();
     }
 
 
@@ -133,6 +139,8 @@ public class DirectionalButtonController : MonoBehaviour
         iso = false;
         overhead = false;
         keys["undo"] = false;
+
+        cameraButton.img.sprite = cameraButton.isPressed ? cameraButton.pressed : (!doIso ? cameraButton.on : cameraButton.off);
     }
 
     private IEnumerator UncheckInput(string key, float delay)
@@ -144,17 +152,24 @@ public class DirectionalButtonController : MonoBehaviour
     }
 
     
+    
     public void Press(string input)
     {
         if (keys.ContainsKey(input)) keys[input] = true;
-        
+
         // Have to do a separate thing for toggle button presses
+
         if (input == "camera")
         {
-            doIso = !doIso;
-            if (doIso) iso = true;
-            else overhead = true;
-            dPadObject.GetComponent<Animator>().SetBool("Overhead", !iso);
+            if (cs.CanMoveCamera())
+            {
+                Debug.Log("Switching Iso");
+                doIso = !doIso;
+
+                if (doIso) iso = true;
+                else overhead = true;
+                dPadObject.GetComponent<Animator>().SetBool("Overhead", !iso);
+            }
         }
         else if (input == "pause" && !ButtonScript.moving)
         {
@@ -165,6 +180,8 @@ public class DirectionalButtonController : MonoBehaviour
     public void Release(string input)
     {
         if (keys.ContainsKey(input)) keys[input] = false;
+        Debug.Log("ASFASFA" + doIso);
+        //cameraButton.SetImage(doIso);
     }
 
 }
