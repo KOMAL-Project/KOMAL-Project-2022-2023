@@ -82,8 +82,9 @@ public class DieController : MonoBehaviour
         //Debug.Log(canControl);
         if (canControl && !(isMoving || cs.isMoving))
         {
-            HandleMovement();
+            
             if (dPad.keys["undo"]) actionRec.Undo();
+            else HandleMovement();
             gm.frc.SetFullFPSTime(1);
         }
         //Debug.Log(gm.levelData);
