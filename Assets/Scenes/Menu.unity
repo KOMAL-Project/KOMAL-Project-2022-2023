@@ -2453,7 +2453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2909307812121172747, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: m_text
-      value: Tutorial
+      value: Help
       objectReference: {fileID: 0}
     - target: {fileID: 7005874603968775698, guid: ca5033ff90fdb0d49b5e3aa363ccf8e8, type: 3}
       propertyPath: menuDestination

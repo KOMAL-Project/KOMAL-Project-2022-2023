@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -42,6 +43,9 @@ public class MainMenuScript : MonoBehaviour
         for (int i = 0; i < levelMenus.Count; i++) {levelMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);};
         for (int i = 0; i < tutorialMenus.Count; i++) {tutorialMenus[i].transform.localPosition = new Vector3(Xoffset * i, 0, 0);}
 
+        // place progress text in help section panels
+        AddTutorialPanelProgressText();
+
         //starting animation
         ButtonScript.moving = true;
         LeanTween.moveY(startMenu,0,1.1f).setEase(LeanTweenType.easeOutBack).setOnComplete(() => {ButtonScript.moving = false;});
@@ -52,7 +56,16 @@ public class MainMenuScript : MonoBehaviour
         backgroundCam.backgroundColor = mainColor;
     }
 
-
+    /// <summary>
+    /// adds a "page a of b" text to top of tutorial panel in menu to indicate how many panels there are
+    /// </summary>
+    private void AddTutorialPanelProgressText()
+    {
+        for(int i = 0; i < tutorialMenus.Count; i++)
+        {
+            tutorialMenus[i].transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "Page " + (i+1) + " of " + tutorialMenus.Count;
+        }
+    }
     public void Quit() {
         Debug.Log("Game Quit");
         Application.Quit();
