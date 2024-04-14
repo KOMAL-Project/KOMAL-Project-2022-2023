@@ -1,2 +1,3 @@
 # KOMAL-Project-2022-2023
-Game developed as part of the 2022-2023 KOMAL Project.
+
+Roll With It is a mobile game on Android and iOS devices. Play as a die and roll your way through nearly 50 unique levels!
