@@ -37,7 +37,7 @@ public abstract class Mechanic : MonoBehaviour
     public void attachValues(ManageGame mg, DieController dc, AudioSourceManager so, Vector2Int pos, int pipFilterValue, int theType) {
         gameManager = mg;
         dieControl = dc;
-        sourceManager = so;
+        sourceManager = AudioSourceManager.Instance;
         position = pos;
         pipFilter = GetComponentInChildren<PipFilterController>();
         if (pipFilter) pipFilter.pips = pipFilterValue;
