@@ -23,7 +23,10 @@ public abstract class Mechanic : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     public bool CheckPipFilter() {
-        return pipFilter.MeetsPipRequirement(dieControl.sides[Vector3Int.down]);
+        if (dieControl.sides[Vector3Int.down] <= 6) {
+            return pipFilter.MeetsPipRequirement(dieControl.sides[Vector3Int.down]);
+        }
+        return pipFilter.MeetsPipRequirement(7 - dieControl.sides[Vector3Int.up]);
     }
 
     /// <summary>

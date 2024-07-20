@@ -34,7 +34,7 @@ public class LegoSwitchController : Mechanic
 
     public override void CheckForActivation()
     {
-        if (state == 0 && CheckPipFilter() && position == dieControl.position)
+        if (position == dieControl.position && state == 0 && CheckPipFilter())
         {
             SetState(1);
             foreach (LegoSwitchController controller in controllers) if (controller != this) SetState(1);
