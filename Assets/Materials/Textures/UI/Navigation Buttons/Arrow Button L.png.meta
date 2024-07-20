@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: df7192cbda66d2c449a8fd64bd9ca174
+guid: 9d800e8d4bf3a804fa1d7fdd1ebdd007
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -351,14 +352,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Buttons_3: -1199636089
-      Buttons_2: -1298013373
-      Buttons_4: 1003592944
-      pressed: -1287702000
       Buttons_0: -1900279411
-      Buttons_5: -1462580002
       Buttons_1: 1975633903
+      Buttons_2: -1298013373
+      Buttons_3: -1199636089
+      Buttons_4: 1003592944
+      Buttons_5: -1462580002
       Buttons_8: -125241534
+      pressed: -1287702000
       unpressed: -1566158147
   spritePackingTag: 
   pSDRemoveMatte: 0

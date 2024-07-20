@@ -314,8 +314,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Chapter
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b9fe7e236e9545b468918f614deecec3, type: 2}
-  m_sharedMaterial: {fileID: 1219459790657049087, guid: b9fe7e236e9545b468918f614deecec3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5bba9e21ae1292f4fa494cdb06d0b6fa, type: 2}
+  m_sharedMaterial: {fileID: -2989325278846549617, guid: 5bba9e21ae1292f4fa494cdb06d0b6fa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -483,8 +483,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Challenge Levels
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b9fe7e236e9545b468918f614deecec3, type: 2}
-  m_sharedMaterial: {fileID: 1219459790657049087, guid: b9fe7e236e9545b468918f614deecec3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5bba9e21ae1292f4fa494cdb06d0b6fa, type: 2}
+  m_sharedMaterial: {fileID: -2989325278846549617, guid: 5bba9e21ae1292f4fa494cdb06d0b6fa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
