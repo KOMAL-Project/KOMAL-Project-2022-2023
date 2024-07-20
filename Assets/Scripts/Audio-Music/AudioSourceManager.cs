@@ -7,8 +7,8 @@ public class AudioSourceManager : MonoBehaviour
     [SerializeField] private AudioClip loopedAudio;
     [SerializeField] private string[] soundEffectNames;
     [SerializeField] private AudioClip[] soundEffectClips;
-    private Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
-    private AudioSource[] sources;
+    public static Dictionary<string, AudioClip> soundEffects = new Dictionary<string, AudioClip>();
+    public AudioSource[] sources;
     private static AudioSourceManager instance = null;
     public static AudioSourceManager Instance { 
         get {return instance;} 
@@ -18,7 +18,7 @@ public class AudioSourceManager : MonoBehaviour
     {
         if (instance != null && instance != this) 
         {
-            instance.sources = instance.GetComponentsInChildren<AudioSource>();
+            //instance.sources = instance.GetComponentsInChildren<AudioSource>();
             Destroy(this.gameObject);
             return;
         
@@ -59,6 +59,5 @@ public class AudioSourceManager : MonoBehaviour
     {
         sources[channel].PlayOneShot(soundEffects[name], volumeScale);
     }
-
     
 }
