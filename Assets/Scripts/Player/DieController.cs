@@ -359,10 +359,11 @@ public class DieController : MonoBehaviour
     {
         int i = 0;
         string[] keys = new string[] { "w", "a", "s", "d" };
+        KeyCode[] altkeys = new KeyCode[] { KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
         bool[] btns = new bool[] { dPad.keys["up"], dPad.keys["left"], dPad.keys["down"], dPad.keys["right"] };
         foreach (string k in keys)
         {
-            if (Input.GetKey(k) || btns[i]) return i;
+            if (Input.GetKey(k) || Input.GetKey(altkeys[i])|| btns[i]) return i;
             i++;
         }
         return -1;
